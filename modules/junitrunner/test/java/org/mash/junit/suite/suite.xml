@@ -1,4 +1,4 @@
-<ns1:Suite name="The Suite" xmlns:ns1="http://www.mash.org/schema/V1">
+<ns1:Suite name="The Suite" xmlns:ns1="http://www.testfw.org/schema/V1">
     <Script file="dir1/TestA.xml"/>
     <Script dir="dir2"/>
     <Parallel>
@@ -8,7 +8,7 @@
     <Script name="The Test">
         <Tag>login</Tag>
         <Tag>website</Tag>
-        <Tag>myapp</Tag>
+        <Tag>mercury</Tag>
         <Setup type="org.mash.harness.db.DBSetupHarness">
             <Configuration name="clean">
                 <Value>true</Value>
@@ -20,7 +20,7 @@
             </Parameter>
         </Setup>
         <Run type="org.mash.harness.http.HttpRunHarness">
-            <Configuration name="url" property="my.url"/>
+            <Configuration name="url" property="mercury.url"/>
             <Configuration name="type">
                 <Value>POST</Value>
             </Configuration>
@@ -36,7 +36,7 @@
                 <Value>200</Value>
             </Configuration>
             <Configuration name="title">
-                <Value>My Page Title</Value>
+                <Value>Ensenda:Tracking</Value>
             </Configuration>
             <Configuration name="contains">
                 <Value>Enter your order number</Value>

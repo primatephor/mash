@@ -45,10 +45,10 @@ public class TestJAXBMarshaller extends TestCase
         assertEquals("The Test", script.getName());
         assertEquals("login", script.getTag().get(0));
         assertEquals("website", script.getTag().get(1));
-        assertEquals("mercury", script.getTag().get(2));
+        assertEquals("myapp", script.getTag().get(2));
 
         Setup setup = (Setup) script.getHarnesses().get(0);
-        assertEquals("org.mash.harness.db.DBUnitSetupHarness", setup.getType());
+        assertEquals("org.mash.harness.db.DBSetupHarness", setup.getType());
         Configuration config = setup.getConfiguration().get(0);
         assertEquals("clean", config.getName());
         assertEquals("true", config.getValue());
@@ -77,10 +77,10 @@ public class TestJAXBMarshaller extends TestCase
         assertEquals("The Test", script.getName());
         assertEquals("login", script.getTag().get(0));
         assertEquals("website", script.getTag().get(1));
-        assertEquals("mercury", script.getTag().get(2));
+        assertEquals("myapp", script.getTag().get(2));
 
         Setup setup = (Setup) script.getHarnesses().get(0);
-        assertEquals("org.mash.harness.db.DBUnitSetupHarness", setup.getType());
+        assertEquals("org.mash.harness.db.DBSetupHarness", setup.getType());
         Configuration config = setup.getConfiguration().get(0);
         assertEquals("clean", config.getName());
         assertEquals("true", config.getValue());

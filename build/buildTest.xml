@@ -22,6 +22,12 @@
         <copy failonerror="false" todir="${build.tgt}/${module.dir}testlib">
             <fileset dir="${module.dir}/testlib"/>
         </copy>
+
+        <!-- common test libs -->
+        <mkdir dir="${build.tgt}/testlib"/>
+        <copy failonerror="false" todir="${build.tgt}/testlib">
+            <fileset dir="testlib"/>
+        </copy>
         <property name="db.url" value="${ENV.JDBC_URL}"/>
     </target>
 
@@ -37,6 +43,7 @@
         </path>
         <path id="test.class.path">
             <fileset dir="${build.tgt}" includes="${test.lib.dirs}"/>
+            <fileset dir="${build.tgt}/testlib" includes="*.jar"/>
         </path>
         <path id="modules.testlib.path">
             <fileset dir="${build.tgt}/${module.dir}testlib" includes="*.jar"/>

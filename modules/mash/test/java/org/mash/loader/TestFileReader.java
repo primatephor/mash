@@ -28,8 +28,8 @@ public class TestFileReader extends TestCase
                      "    <Script name=\"The Test\">\n" +
                      "        <Tag>login</Tag>\n" +
                      "        <Tag>website</Tag>\n" +
-                     "        <Tag>mercury</Tag>\n" +
-                     "        <Setup type=\"org.mash.harness.db.DBUnitSetupHarness\">\n" +
+                     "        <Tag>myapp</Tag>\n" +
+                     "        <Setup type=\"org.mash.harness.db.DBSetupHarness\">\n" +
                      "            <Configuration name=\"clean\">\n" +
                      "                <Value>true</Value>\n" +
                      "            </Configuration>\n" +
@@ -40,7 +40,7 @@ public class TestFileReader extends TestCase
                      "            </Parameter>\n" +
                      "        </Setup>\n" +
                      "        <Run type=\"org.mash.harness.http.HttpRunHarness\">\n" +
-                     "            <Configuration name=\"url\" property=\"mercury.url\"/>\n" +
+                     "            <Configuration name=\"url\" property=\"my.url\"/>\n" +
                      "            <Configuration name=\"type\">\n" +
                      "                <Value>POST</Value>\n" +
                      "            </Configuration>\n" +
@@ -56,7 +56,7 @@ public class TestFileReader extends TestCase
                      "                <Value>200</Value>\n" +
                      "            </Configuration>\n" +
                      "            <Configuration name=\"title\">\n" +
-                     "                <Value>Ensenda:Tracking</Value>\n" +
+                     "                <Value>My Page Title</Value>\n" +
                      "            </Configuration>\n" +
                      "            <Configuration name=\"contains\">\n" +
                      "                <Value>Enter your order number</Value>\n" +
