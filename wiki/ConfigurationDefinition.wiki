@@ -8,11 +8,12 @@ Configurations are used by harnesses to define base information that is required
 = Details =
 Configurations accept the following data:
  * Value (just set a value)
+ * Property (system property attribute)
  * Date (see DateDefinition)
- * Response (data from a previous setup)
+ * File(contents from a file)
  * Replace (search and replace information)
 
-Most of these can be used together.  For example, you could use value and replace together, or reponse, replace, and date together.  This allows you to build interesting values by layering the information.  
+Most of these can be used together.  For example, you could use value and replace together, or file, replace, and date together.  This allows you to build interesting values by layering the information.  
 
 The value of the Configuration is calculated in the following order
  * The value is used
