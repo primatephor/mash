@@ -1,0 +1,15 @@
+#summary Description of the Configuration
+
+= Introduction =
+
+Configurations are used by harnesses to define base information that is required for a harness to run.
+
+
+= Details =
+Configurations accept the following data:
+ * Value (just set a value)
+ * Date (see DateDefinition)
+ * Response (data from a previous setup)
+ * Replace (search and replace information)
+
+Most of these can be used together.  For example, you could use value and replace together, or reponse, replace, and date together.  This allows you to build interesting values by layering the information.  
