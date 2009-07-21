@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<project name="Code Build">
+
+    <target name="init">
+        <property name="module.dir" value="${module.dir}"/>
+        <property file="${module.dir}/build.properties"/>
+        <condition property="path.dirs" value="${local.lib.dirs}" else="${lib.dirs}">
+            <isset property="local.lib.dirs"/>
+        </condition>
+
+        <property name="src" value="${module.dir}/src"/>
+        <property name="target" value="${module.dir}/${target.name}"/>
+        <property name="src.out" value="${target}/classes"/>
+        <property name="modulename" value="${module.name}"/>
+
+        <!-- libraries -->
+        <mkdir dir="${build.tgt}/${module.dir}lib"/>
+        <copy failonerror="false" todir="${build.tgt}/${module.dir}lib">
+            <fileset dir="${module.dir}/lib"/>
+        </copy>
+    </target>
+
+    <target name="classpath" depends="init">
+        <echo message="Library paths:${path.dirs}"/>
+        <path id="local.class.path">
+            <fileset dir="${build.tgt}" includes="${path.dirs}"/>
+        </path>
+        <path id="modules.class.path">
+            <fileset dir="${build.tgt}" includes="*.jar"/>
+        </path>
+        <path id="modules.lib.path">
+            <fileset dir="${build.tgt}/${module.dir}lib" includes="*.jar"/>
+        </path>
+    </target>
+
+    <target name="compile" depends="classpath">
+        <delete dir="${src.out}"/>
+        <mkdir dir="${src.out}"/>
+        <javac destdir="${src.out}"
+               fork="yes"
+               memoryinitialsize="200m"
+               memorymaximumsize="200m"
+               debug="${debug}">
+            <src path="${src}/java"/>
+            <classpath>
+                <path refid="local.class.path"/>
+                <path refid="modules.class.path"/>
+                <path refid="modules.lib.path"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="makeJar" depends="compile">
+        <jar jarfile="${target}/${modulename}.jar" baseDir="${target}/classes"/>
+        <copy file="${target}/${modulename}.jar" todir="${build.tgt}"/>
+    </target>
+
+    <target name="makeWar" depends="makeJar">
+        <copy todir="${target}/WebContent">
+            <fileset dir="${src}/WebContent"/>
+        </copy>
+        <copy todir="${target}/WebContent/WEB-INF">
+            <fileset dir="${src}/resources/WEB-INF"/>
+        </copy>
+        <war destfile="${target}/${modulename}.war"
+             baseDir="${target}/WebContent"
+             webxml="${target}/WebContent/WEB-INF/web.xml">
+            <webinf file="${target}/WebContent/conf/jboss-web.xml"/>
+        </war>
+    </target>
+
+    <target name="makeEjb3" depends="makeJar">
+        <jar jarfile="${target}/${modulename}.ejb3" baseDir="${target}/classes"/>
+        <copy file="${target}/${modulename}.ejb3" todir="${build.tgt}"/>
+    </target>
+
+    <target name="makeEar" depends="makeJar">
+        <ear destfile="${target}/${modulename}.ear" appxml="${src}/resources/application.xml">
+            <fileset dir="./${target}" includes="*.jar,*.war"/>
+        </ear>
+        <copy file="${target}/${modulename}.ear" todir="${build.tgt}"/>
+    </target>
+
+    <target name="clean" depends="init">
+        <delete dir="${target}"/>
+        <delete dir="${build.tgt}/${module.dir}lib"/>
+        <delete dir="${build.tgt}/${module.dir}testlib"/>
+        <delete dir="${build.tgt}/report"/>
+        <delete file="${build.tgt}/${modulename}.jar"/>
+        <delete file="${build.tgt}/${modulename}.ear"/>
+        <delete file="${build.tgt}/${modulename}.ejb3"/>
+    </target>
+
+</project>

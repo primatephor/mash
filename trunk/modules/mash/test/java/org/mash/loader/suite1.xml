@@ -1,0 +1,3 @@
+<ns1:Suite name="The first Suite" xmlns:ns1="http://www.testfw.org/schema/V1">
+    <Script dir="dir"/>
+</ns1:Suite>
