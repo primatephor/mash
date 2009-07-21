@@ -18,7 +18,7 @@ public class TestHarnessInvocation extends TestCase
     public void testCallXML() throws Exception
     {
         System.setProperty("db.setup.class", "org.mash.harness.db.DBWorkerTester");
-        DBUnitSetupHarness harness = new DBUnitSetupHarness();
+        DBSetupHarness harness = new DBSetupHarness();
         List<Configuration> configs = new ArrayList<Configuration>();
         configs.add(new Configuration("type", "DELETE"));
         configs.add(new Configuration("url", "bogus.url"));
@@ -40,7 +40,7 @@ public class TestHarnessInvocation extends TestCase
     public void testCallSQL() throws Exception
     {
         System.setProperty("db.setup.class", "org.mash.harness.db.DBWorkerTester");
-        DBUnitSetupHarness harness = new DBUnitSetupHarness();
+        DBSetupHarness harness = new DBSetupHarness();
         List<Configuration> configs = new ArrayList<Configuration>();
         configs.add(new Configuration("type", "DELETE"));
         configs.add(new Configuration("url", "bogus.url"));

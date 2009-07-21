@@ -42,9 +42,9 @@ import java.util.List;
  * @since Jul 7, 2009 5:20:41 PM
  *
  */
-public class DBUnitSetupHarness extends BaseHarness implements SetupHarness
+public class DBSetupHarness extends BaseHarness implements SetupHarness
 {
-    private static final Logger log = Logger.getLogger(DBUnitSetupHarness.class.getName());
+    private static final Logger log = Logger.getLogger(DBSetupHarness.class.getName());
     private static String HARNESS_CONNECTOR = System.getProperty("db.setup.class", "org.mash.harness.db.dbunit.DBUnitWorker");
     private DBWorker util;
     private String url;

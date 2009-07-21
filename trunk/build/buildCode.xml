@@ -19,12 +19,19 @@
         <copy failonerror="false" todir="${build.tgt}/${module.dir}lib">
             <fileset dir="${module.dir}/lib"/>
         </copy>
+
+        <!-- common libraries -->
+        <mkdir dir="${build.tgt}/lib"/>
+        <copy failonerror="false" todir="${build.tgt}/lib">
+            <fileset dir="lib"/>
+        </copy>
     </target>
 
     <target name="classpath" depends="init">
         <echo message="Library paths:${path.dirs}"/>
         <path id="local.class.path">
             <fileset dir="${build.tgt}" includes="${path.dirs}"/>
+            <fileset dir="${build.tgt}/lib" includes="*.jar"/>
         </path>
         <path id="modules.class.path">
             <fileset dir="${build.tgt}" includes="*.jar"/>
