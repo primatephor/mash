@@ -1,0 +1,72 @@
+#summary Description of a Script Definition
+
+= Introduction =
+
+Script definitions define all the work performed by a single script run (or in a test, this would be a single system test).
+
+
+= Details =
+A break down of a sample script:
+{{{
+<ns1:Script name="Base Test" xmlns:ns1="http://www.mash.org/schema/V1">
+}}}
+ * xmlns:ns1="http://www.mash.org/schema/V1" is the version 1 namespace of the config.  There will likely be other versions in the future.
+ * name is the name of this run 
+
+{{{
+    <Tag>login</Tag>
+    <Tag>website</Tag>
+    <Tag>myapp</Tag>
+}}}
+Tags are used to filter which scripts are to be run.  For instance if this were a system test, then running all 'login' tests would invoke this particular script.
+
+{{{
+    <Setup type="org.mash.harness.DBSetupHarness">
+        <Configuration name="clean">
+            <Value>true</Value>
+        </Configuration>
+        <Parameter name="loadfile" file="db_load.xml">
+            <Replace search="VARIABLE">
+                <Value>sometext</Value>
+            </Replace>
+        </Parameter>
+    </Setup>
+    <Run type="org.mash.harness.HttpRunHarness" name="login">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="type">
+            <Value>POST</Value>
+        </Configuration>
+        <Parameter name="username">
+            <Value>testuser</Value>
+        </Parameter>
+        <Parameter name="password">
+            <Value>pass</Value>
+        </Parameter>
+    </Run>
+    <Verify type="org.mash.harness.HttpVerifyHarness">
+        <Configuration name="status">
+            <Value>200</Value>
+        </Configuration>
+        <Configuration name="title">
+            <Value>My Page Title</Value>
+        </Configuration>
+        <Configuration name="contains">
+            <Value>Enter your order number</Value>
+        </Configuration>
+        <Parameter name="do_search">
+            <Value>1</Value>
+        </Parameter>
+    </Verify>
+    <Run type="org.mash.harness.HttpRunHarness">
+        <Configuration name="url" property="my.url">
+            <Value>/index.html</Value>
+        </Configuration>
+        <Configuration name="type">
+            <Value>GET</Value>
+        </Configuration>
+        <Parameter name="session">
+            <Response name="login">session</Response>
+        </Parameter>
+    </Run>
+</ns1:Script>
+}}}
