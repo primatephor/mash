@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+
+<project name="Tests" default="test">
+
+    <target name="init">
+        <property name="module.dir" value="${module.dir}"/>
+        <property file="${module.dir}/build.properties"/>
+        <property name="target" value="${module.dir}/${target.name}"/>
+        <property name="source.dir" value="${module.dir}/src"/>
+        <property name="test.java.dir" value="${module.dir}/test"/>
+        <property name="source.out.dir" value="${target}/classes"/>
+        <property name="test.out.dir" value="${target}/testclasses"/>
+        <property name="report.out.dir" value="${target}/report"/>
+        <condition property="path.dirs" value="${local.lib.dirs}" else="${lib.dirs}">
+            <isset property="local.lib.dirs"/>
+        </condition>
+
+        <property name="modulename" value="${module.name}"/>
+
+        <!-- libraries -->
+        <mkdir dir="${build.tgt}/${module.dir}testlib"/>
+        <copy failonerror="false" todir="${build.tgt}/${module.dir}testlib">
+            <fileset dir="${module.dir}/testlib"/>
+        </copy>
+        <property name="db.url" value="${ENV.JDBC_URL}"/>
+    </target>
+
+    <target name="classpath" depends="init">
+        <path id="local.class.path">
+            <fileset dir="${build.tgt}" includes="${path.dirs}"/>
+        </path>
+        <path id="modules.class.path">
+            <fileset dir="${build.tgt}" includes="*.jar"/>
+        </path>
+        <path id="modules.lib.path">
+            <fileset dir="${build.tgt}/${module.dir}lib" includes="*.jar"/>
+        </path>
+        <path id="test.class.path">
+            <fileset dir="${build.tgt}" includes="${test.lib.dirs}"/>
+        </path>
+        <path id="modules.testlib.path">
+            <fileset dir="${build.tgt}/${module.dir}testlib" includes="*.jar"/>
+        </path>
+    </target>
+
+    <!--
+    Compile the test classes, and run the junit tests
+    -->
+    <target name="test" depends="classpath">
+        <delete dir="${test.out.dir}"/>
+        <mkdir dir="${test.out.dir}"/>
+        <delete dir="/${report.out.dir}"/>
+        <mkdir dir="${report.out.dir}"/>
+
+        <javac destdir="${test.out.dir}"
+               fork="yes"
+               debug="${debug}">
+            <src path="${test.java.dir}"/>
+            <classpath>
+                <path refid="local.class.path"/>
+                <path refid="modules.class.path"/>
+                <path refid="modules.lib.path"/>
+                <path refid="test.class.path"/>
+                <path refid="modules.testlib.path"/>
+            </classpath>
+        </javac>
+        <copy todir="${test.out.dir}">
+            <fileset dir="${test.java.dir}/java">
+                <exclude name="**/*.java"/>
+                <include name="**/*.sql"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.log"/>
+                <include name="**/*.csv"/>
+                <include name="**/*.txt"/>
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+
+        <copy failonerror="false"
+              todir="${test.out.dir}">
+            <fileset dir="${source.dir}/WebContent">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+
+        <copy failonerror="false"
+              todir="${test.out.dir}">
+            <fileset dir="${source.dir}/resources">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+        <copy failonerror="false"
+              todir="${test.out.dir}">
+            <fileset dir="${test.java.dir}/resources">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+        <copy failonerror="false"
+              todir="${test.out.dir}">
+            <fileset dir="${source.dir}/resources/WEB-INF">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+        <junit maxmemory="512M" failureProperty="test.failure">
+            <sysproperty key="log4j.configuration" value="build/build.log4j.properties"/>
+            <classpath>
+                <path refid="local.class.path"/>
+                <path refid="modules.class.path"/>
+                <path refid="modules.lib.path"/>
+                <path refid="test.class.path"/>
+                <path refid="modules.testlib.path"/>
+                <dirset dir="${test.out.dir}"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${report.out.dir}">
+                <fileset dir="${test.out.dir}">
+                    <include name="**/Test*.class"/>
+                    <exclude name="**/*$*.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <!--
+        Move and parse the test results into a junit report
+        -->
+        <junitreport todir="${report.out.dir}">
+            <fileset dir="${report.out.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${report.out.dir}/html"/>
+        </junitreport>
+
+        <mkdir dir="${build.tgt}/report"/>
+        <copy failonerror="false"
+              todir="${build.tgt}/report">
+            <fileset dir="${report.out.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+        </copy>
+        <fail message="test failed" if="test.failure"/>
+    </target>
+</project>
