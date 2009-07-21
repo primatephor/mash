@@ -1,0 +1,19 @@
+#summary Description of the SetupHarness interface
+
+= Introduction =
+
+The SetupHarness is used to prepare a script for running.  Multiple setup harness invocations are possible with each script.
+
+
+= Details =
+
+The setup harness interface is simple:
+
+ * void setup() throws Exception
+
+As with all other harnesses, it accepts 
+ * Configurations (see ConfigurationDefinition)
+ * Parameters (see ParameterDefinition)
+ * has a list off errors (see HarnessError)
+
+Extending the supplied base harness will provide most of this functionality, and the developer only needs to implement the setup() method.
