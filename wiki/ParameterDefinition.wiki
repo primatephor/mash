@@ -1,0 +1,25 @@
+#summary Description of the Parameter
+
+= Introduction =
+
+Parameters are used by harnesses to pass along information used in the harness run.
+
+
+= Details =
+Parameters accept the following data:
+ * Value (just set a value)
+ * Property (system property attribute)
+ * Date (see DateDefinition)
+ * Response (data from a previous setup)
+ * File (file contents)
+ * Replace (search and replace information)
+
+Most of these can be used together.  For example, you could use value and replace together, or reponse, replace, and date together.  This allows you to build interesting values by layering the information.  
+
+The value of the Configuration is calculated in the following order
+ * The value is used
+ * The system property is used.  If a value is specified, it is appended after the system property.
+ * The DateDefinition is used, any previous value is overridden
+ * The response from a previous run is used, any previous value is overridden
+ * The file contents are used, any previous value is overridden
+ * The content ReplaceDefinition is run
