@@ -1,6 +1,6 @@
 Distribution:
 
-/docs: javadocs for both the core and harness frameworks
+/javadocs: javadocs for both the core and harness frameworks
 
 /mashlib: dependent libraries needed for running core mash
 /junitrunnerlib: dependent libraries needed for running Junit runner
