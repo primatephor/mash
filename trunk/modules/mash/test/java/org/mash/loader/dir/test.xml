@@ -1,0 +1,23 @@
+<ns1:Script name="The Test" xmlns:ns1="http://www.testfw.org/schema/V1">
+    <Tag>login</Tag>
+    <Tag>website</Tag>
+    <Tag>mercury</Tag>
+    <Setup type="org.mash.harness.db.DBUnitSetupHarness">
+        <Configuration name="clean">true</Configuration>
+        <Parameter name="loadfile" file="db_load.xml">
+            <Replace search="$variable$">sometext</Replace>
+        </Parameter>
+    </Setup>
+    <Run type="org.mash.harness.http.HttpRunHarness">
+        <Configuration name="url" property="mercury.url"/>
+        <Configuration name="type">POST</Configuration>
+        <Parameter name="username">testuser</Parameter>
+        <Parameter name="password">pass</Parameter>
+    </Run>
+    <Verify type="org.mash.harness.http.HttpVerifyHarness">
+        <Configuration name="status">200</Configuration>
+        <Configuration name="title">Ensenda:Tracking</Configuration>
+        <Configuration name="contains">Enter your order number</Configuration>
+        <Parameter name="do_search">1</Parameter>
+    </Verify>
+</ns1:Script>

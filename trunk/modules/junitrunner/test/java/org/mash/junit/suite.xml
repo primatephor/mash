@@ -1,0 +1,4 @@
+<ns1:Suite name="The Suite" xmlns:ns1="http://www.testfw.org/schema/V1">
+    <Script file="baseRun.xml"/>
+    <Script dir="suite"/>
+</ns1:Suite>
