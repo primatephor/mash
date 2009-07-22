@@ -7,7 +7,7 @@ The VerifyHarness verifies the state of invoked runs and setups.
 
 = Details =
 
-The run harness interface:
+The verify harness interface:
 
  * {{{void verify(RunHarness run, List<SetupHarness> setup)}}}
 
