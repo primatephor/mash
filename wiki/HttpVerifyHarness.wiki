@@ -1,0 +1,15 @@
+#summary HttpVerifyHarness implementation
+
+= Introduction =
+
+Extends the functionality of the StandardVerifyHarness, and also checks for ancillary http specific content.
+
+
+= Configuration =
+Configurations are:
+ * 'title' = the title of the page
+ * 'status' = the integer status code of the response
+ * 'contains' = a list of string values that the page should contain, for checking varied content
+
+= Paramteter =
+see StandardVerifyHarness
