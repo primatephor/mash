@@ -15,7 +15,7 @@ A description of a suite:
 
 {{{
     <Script file="baseRun.xml"/>
-)))
+}}}
  * Define a specific Script file to be run
 
 {{{
