@@ -6,7 +6,7 @@ This is the list of supplied harnesses
 
 
 = Setup =
- * DBSetupHarness (uses dbunit, runs sql)
+ * DbSetupHarness (uses dbunit, runs sql)
 
 = Run =
  * HttpRunHarness (invokes http requests)
