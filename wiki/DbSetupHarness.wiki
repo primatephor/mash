@@ -5,9 +5,7 @@
 The {{{DBSetupHarness}}} is used to work with flat xml (like dbunit) or sql to load a database.  
 
 
-= Details =
-If a specified file parameter ends with 'sql', then the sql is executed against the database.  If the file parameter ends with 'xml', then dbunit is used to insert the flat file data into the db.
-
+= Configuration =
 Configuration parameters:
  * 'url' = url of the database used by dbunit.  see dbunit docs on {{{JdbcDatabaseTester}}}
  * 'user' = user to log into the db
@@ -21,3 +19,6 @@ Configuration parameters:
   ** REFRESH (insert new rows into db, update existing)
   ** TRUNCATE (truncate tables)
   ** UPDATE (update rows defined in xml)
+
+= Parameter =
+If a specified file parameter ends with 'sql', then the sql is executed against the database.  If the file parameter ends with 'xml', then dbunit is used to insert the flat file data into the db.
