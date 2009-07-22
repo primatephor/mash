@@ -6,14 +6,17 @@
 This is the list of supplied harnesses
 
 
-= Setup =
- * DbSetupHarness (uses dbunit, runs sql)
+= DB =
+ * {{{DBHarness.jar}}}
+  * DbSetupHarness (uses dbunit, runs sql)
 
-= Run =
- * HttpRunHarness (invokes http requests)
+= Http =
+ * {{{HttpHarness.jar}}}
+  * HttpRunHarness (invokes http requests)
+  * HttpVerifyHarness
 
-= Verify =
- * StandardVerifyHarness
- * HttpVerifyHarness
+= Core =
+ * {{{mash.jar}}}
+  * StandardVerifyHarness
 
 = Teardown =
