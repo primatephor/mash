@@ -1,4 +1,5 @@
 #summary The current list of harnesses
+#labels Featured
 
 = Introduction =
 
