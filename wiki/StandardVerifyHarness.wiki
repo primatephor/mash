@@ -1,0 +1,9 @@
+#summary StandardVerifyHarness implementation
+
+= Introduction =
+
+The simple parameter name/value comparison of a run response
+
+
+= Parameter =
+Parameters are iterated over and their values are compared to the values of the run response implementation of the previous run harness.  Anything not matching is reported as an error and added to the error list.
