@@ -1,0 +1,18 @@
+#summary The current list of harnesses
+
+= Introduction =
+
+This is the list of supplied harnesses
+
+
+= Setup =
+ * DBSetupHarness (uses dbunit, runs sql)
+
+= Run =
+ * HttpRunHarness (invokes http requests)
+
+= Verify =
+ * StandardVerifyHarness
+ * HttpVerifyHarness
+
+= Teardown =
