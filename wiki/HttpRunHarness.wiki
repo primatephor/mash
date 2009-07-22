@@ -1,0 +1,14 @@
+#summary HttpRunHarness implementation
+
+= Introduction =
+
+Invoke an http request (currently only POST and GET are supported) against a web resource.  
+
+= Configuration =
+Configuration values:
+ * 'url' = url of the resource
+ * 'type' = POST or GET
+ * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
+
+= Parameter =
+Parameters are any form or query string values to be passed along with the web request.  
