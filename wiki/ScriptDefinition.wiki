@@ -34,7 +34,7 @@ A break down of a sample script:
             <Value>true</Value>
         </Configuration>
 }}}
- * Configurations are passed to harnesses as to be used during initialization.  In this instance, the DBSetupHarness will run a dbunit cleaning when loading a specified file.  See the DBSetupHarness for more information on valid configurations and parameters.
+ * Configurations are passed to harnesses as to be used during initialization.  In this instance, the DbSetupHarness will run a dbunit cleaning when loading a specified file.  See the DBSetupHarness for more information on valid configurations and parameters.
  * See ConfigurationDefinition
 
 {{{
