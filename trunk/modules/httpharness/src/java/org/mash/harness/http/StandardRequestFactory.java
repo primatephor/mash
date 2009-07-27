@@ -11,13 +11,15 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 /**
+ * Builds the standard POST, GET, PUT, DELETE Httpunit WebRequest object.  Will marshall any parameters submitted.
+ *
  * @author: teastlack
  * @since: Jul 26, 2009
  */
 public class StandardRequestFactory implements WebRequestFactory
 {
-    private static String BODY = "body";
-    private static String CONTENT_TYPE = "content_type";
+    public static String BODY = "body";
+    public static String CONTENT_TYPE = "content_type";
 
     public WebRequest createRequest(String methodType,
                                     String url,
@@ -55,7 +57,8 @@ public class StandardRequestFactory implements WebRequestFactory
             }
             if (Method.DELETE.equals(method))
             {
-                result = new GetMethodWebRequest(url){
+                result = new GetMethodWebRequest(url)
+                {
                     public String getMethod()
                     {
                         return "DELETE";
@@ -73,13 +76,16 @@ public class StandardRequestFactory implements WebRequestFactory
         Set<String> keys = contents.keySet();
         for (String key : keys)
         {
-            request.setParameter(key, contents.get(key));
+            if (!BODY.equals(key) && !CONTENT_TYPE.equals(key))
+            {
+                request.setParameter(key, contents.get(key));
+            }
         }
     }
 
     private String getContentType(Map<String, String> contents)
     {
-        String result = "text/xml";
+        String result = "text/html";
         if (contents.get(CONTENT_TYPE) != null)
         {
             result = contents.get(CONTENT_TYPE);

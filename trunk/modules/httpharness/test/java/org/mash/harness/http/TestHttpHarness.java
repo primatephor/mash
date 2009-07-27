@@ -9,7 +9,6 @@ import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Verify;
 import org.mash.junit.StandardTestCase;
-import org.mash.harness.http.StandardRequestFactory;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
