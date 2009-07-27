@@ -8,7 +8,7 @@
     <Script name="The Test">
         <Tag>login</Tag>
         <Tag>website</Tag>
-        <Tag>mercury</Tag>
+        <Tag>myapp</Tag>
         <Setup type="org.mash.harness.db.DBSetupHarness">
             <Configuration name="clean">
                 <Value>true</Value>
@@ -20,7 +20,7 @@
             </Parameter>
         </Setup>
         <Run type="org.mash.harness.http.HttpRunHarness">
-            <Configuration name="url" property="mercury.url"/>
+            <Configuration name="url" property="my.url"/>
             <Configuration name="type">
                 <Value>POST</Value>
             </Configuration>

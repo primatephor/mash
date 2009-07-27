@@ -25,8 +25,8 @@ public class TestParameterBuilder extends TestCase
                           "    <Setup type=\"org.mash.harness.DBSetupHarness\">\n" +
                           "        <Configuration name=\"type\">DELETE</Configuration>\n" +
                           "        <Configuration name=\"url\" property=\"jdbc.url\"/>\n" +
-                          "        <Configuration name=\"user\">mercury</Configuration>\n" +
-                          "        <Configuration name=\"password\">PAS5W0RD</Configuration>\n" +
+                          "        <Configuration name=\"user\">mydbuser</Configuration>\n" +
+                          "        <Configuration name=\"password\">dbpass</Configuration>\n" +
                           "        <Configuration name=\"driver\">net.sourceforge.jtds.jdbc.Driver</Configuration>\n" +
                           "        <Parameter name=\"loadfile\">\n" +
                           "<Value>replace {accepted.date} and {another.date} and {accepted.date} again</Value>" +

@@ -39,7 +39,7 @@
         </Parameter>
     </Verify>
     <Run type="org.mash.harness.HttpRunHarness">
-        <Configuration name="url" property="mercury.url">
+        <Configuration name="url" property="my.url">
             <Value>/index.html</Value>
         </Configuration>
         <Configuration name="type">
