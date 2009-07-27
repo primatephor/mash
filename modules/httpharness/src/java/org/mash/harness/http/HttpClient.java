@@ -11,18 +11,27 @@ import java.util.Map;
  * @author: teastlack
  * @since: Jul 4, 2009
  */
-public abstract class HttpClient
+public class HttpClient
 {
     private static final Logger LOG = Logger.getLogger(HttpClient.class.getName());
 
     private WebConversation webConversation;
     private WebRequest webRequest;
     private WebResponse webResponse;
+    private WebRequestFactory factory;
+    private String methodType;
+
+    protected HttpClient(WebRequestFactory factory, String methodType)
+    {
+        this.factory = factory;
+        this.methodType = methodType;
+    }
 
     public void submit(String uri, Map<String, String> contents)
     {
         webConversation = WebConversationHolder.getInstance();
-        webRequest = createWebRequest(uri, contents);
+        webRequest = factory.createRequest(methodType, uri, contents);
+
         try
         {
             webResponse = webConversation.getResponse(webRequest);
@@ -32,16 +41,6 @@ public abstract class HttpClient
             LOG.error("Error sending via HttpUnit: " + e, e);
         }
     }
-
-    /**
-     * Build the web request for the particular method
-     *
-     * @param uri      to post to
-     * @param contents map of parameters
-     * @return the created and populated web request
-     */
-    protected abstract WebRequest createWebRequest(String uri, Map<String, String> contents);
-
 
     public WebConversation getWebConversation()
     {
