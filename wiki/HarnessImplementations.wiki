@@ -15,6 +15,11 @@ This is the list of supplied harnesses
   * HttpRunHarness (invokes http requests)
   * HttpVerifyHarness
 
+= REST =
+ * {{{HttpHarness.jar}}}
+  * RestRunHarness (invokes http requests in a restful manner)
+  * RestResponse (for running xpath queries)
+
 = Core =
  * {{{mash.jar}}}
   * StandardVerifyHarness
