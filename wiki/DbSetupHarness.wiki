@@ -26,7 +26,7 @@ If a specified file parameter ends with 'sql', then the sql is executed against 
 = Sample Usage =
 {{{
     <Setup type="org.mash.harness.db.DBSetupHarness">
-        <Configuration name="clean_insert"><Value>true</Value></Configuration>
+        <Configuration name="type"><Value>clean_insert</Value></Configuration>
         <Parameter name="loadfile" file="db_load.xml">
             <Replace search="VARIABLE">
                 <Value>sometext</Value>
@@ -36,4 +36,3 @@ If a specified file parameter ends with 'sql', then the sql is executed against 
 }}}
 
 Here the db_load.xml is loaded, and every instance of 'VARIABLE' is replaced with 'sometext'.  Then the data is loaded (first by removing the specified rows in the xml) per the DBUnit rules.  This DOES use DBUnit to run the load and only works with flat xml data sets.  This will also just run sql.
-
