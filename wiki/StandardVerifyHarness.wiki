@@ -10,3 +10,21 @@ Configurations are:
 
 = Parameter =
 Parameters are iterated over and their values are compared to the values of the run response implementation of the previous run harness.  Anything not matching is reported as an error and added to the error list.
+
+= Sample Usage =
+{{{
+        <Run type="org.mash.harness.http.HttpRunHarness" name="login">
+            <Configuration name="url" property="my.url"/>
+            <Configuration name="type">POST</Configuration>
+            <Parameter name="username">testuser</Parameter>
+            <Parameter name="password">pass</Parameter>
+        </Run>
+        <Verify type="org.mash.harness.StandardVerifyHarness">
+            <Configuration name="contains">some text</Configuration>
+            <Configuration name="contains">Another set of text</Configuration>
+            <Parameter name="username">testuser</Parameter>
+        </Verify>
+}}}
+
+Here the verify looks at the response from the HttpRunHarness named 'login'.  It just checks that the username is returned in the response, and that the response page contains the text 'some text' and 'Another set of text'
+
