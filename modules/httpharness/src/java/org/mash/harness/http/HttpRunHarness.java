@@ -7,11 +7,12 @@ import org.mash.harness.BaseHarness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
-import org.mash.harness.http.StandardRequestFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.meterware.httpunit.WebResponse;
 
 /**
  * Configurations:
@@ -26,7 +27,7 @@ import java.util.Map;
  * <ul>
  * <li> 'body' will be the streamed input.  If present, the request won't add this as a part of the parameter list, but
  * will instead submit this an an input stream </li>
- * <li> 'content_type' is the type of body.  This isn't required, default is 'text/xml' </li>
+ * <li> 'content_type' is the type of body.  This isn't required, default is 'text/html' </li>
  * </ul>
  *
  * @author: teastlack
@@ -38,8 +39,8 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private String url;
     private String type;
     private String clean;
-    private HttpClient client;
-    private HttpResponse response;
+    protected HttpClient client;
+    protected RunResponse response;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
@@ -62,11 +63,21 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         }
     }
 
+    protected WebResponse getWebResponse()
+    {
+        WebResponse result = null;
+        if (client != null)
+        {
+            result = client.getWebResponse();
+        }
+        return result;
+    }
+
     public RunResponse getResponse()
     {
         if (response == null)
         {
-            response = new HttpResponse(client.getWebResponse());
+            response = new HttpResponse(getWebResponse());
         }
         return response;
     }
