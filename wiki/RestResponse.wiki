@@ -19,11 +19,11 @@ The RestResponse differs from the standard response in that the calls for retrie
 Here the HttpVerifyHarness is used to validate a resource status.  The parameter is named very differently here, as an XPath expression.  This particular path works for the following xml returned by this resource:
 {{{
 <SomeEntity>
-      <Firstname>first</Firstname>
-      <Lastname>last</Lastname>
+      <Firstname>Joe</Firstname>
+      <Lastname>Somebody</Lastname>
       <Address>
-            <Street1>delStreet1</Street1>
-            <Street2>delStreet2</Street2>
+            <Street1>Street1</Street1>
+            <Street2>Street2</Street2>
       </Address>
 </SomeEntity>
 }}}
