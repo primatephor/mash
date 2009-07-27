@@ -1,0 +1,29 @@
+<ns1:Script name="Sample Setup" xmlns:ns1="http://www.mash.org/schema/V1">
+    <Setup type="org.mash.harness.DBSetupHarness">
+        <Configuration name="type">
+            <Value>DELETE</Value>
+        </Configuration>
+        <Configuration name="url" property="jdbc.url"/>
+        <Configuration name="user">
+            <Value>user</Value>
+        </Configuration>
+        <Configuration name="password">
+            <Value>pass</Value>
+        </Configuration>
+        <Configuration name="driver">
+            <Value>net.sourceforge.jtds.jdbc.Driver</Value>
+        </Configuration>
+        <Parameter name="loadfile" file="../db_clean.xml"/>
+        <Parameter name="loadfile" file="sample_data/db_load.sql">
+            <Replace search="{accepted.date}">
+                <Date format="yyyy-MM-dd kk:mm:ss.S" dayOffset="-6"/>
+            </Replace>
+            <Replace search="{delivery.date}">
+                <Date format="yyyy-MM-dd kk:mm:ss.S" dayOffset="-5"/>
+            </Replace>
+            <Replace search="{transit.date}">
+                <Date format="yyyy-MM-dd kk:mm:ss.S" dayOffset="-4"/>
+            </Replace>
+        </Parameter>
+    </Setup>
+</ns1:Script>
