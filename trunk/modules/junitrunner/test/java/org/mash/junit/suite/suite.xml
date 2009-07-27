@@ -36,7 +36,7 @@
                 <Value>200</Value>
             </Configuration>
             <Configuration name="title">
-                <Value>Ensenda:Tracking</Value>
+                <Value>My Page Title</Value>
             </Configuration>
             <Configuration name="contains">
                 <Value>Enter your order number</Value>

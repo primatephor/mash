@@ -23,7 +23,7 @@
         </Run>
         <Verify type="org.mash.harness.http.HttpVerifyHarness">
             <Configuration name="status">200</Configuration>
-            <Configuration name="title">Ensenda:Tracking</Configuration>
+            <Configuration name="title">My Page Title</Configuration>
             <Configuration name="contains">Enter your order number</Configuration>
             <Parameter name="do_search">1</Parameter>
         </Verify>
