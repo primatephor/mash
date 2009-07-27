@@ -1,0 +1,27 @@
+#summary RestRunHarness
+
+= Introduction =
+
+Invoke a restful http request (POST, GET, PUT, and DELETE are supported) against a web resource.  Based on the HttpRunHarness.
+
+= Configuration =
+Configuration values:
+ * 'url' = url of the resource
+ * 'type' = POST or GET
+ * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
+
+= Parameter =
+Parameters are any form or query string values to be passed along with the web request, as well as the special values:
+ * 'body' = Resource body to be submitted
+ * 'content_type' = optional type of content to submit (default is text/xml)
+
+= Sample Usage =
+{{{
+    <Run type="org.mash.harness.http.RestRunHarness">
+        <Configuration name="url"><Value>http://my.test.system/resource</Value></Configuration>
+        <Configuration name="type"><Value>POST</Value></Configuration>
+        <Parameter name="body" file="some_submission.xml"/>
+    </Run>
+}}}
+
+The file 'some_submission.xml' is an xml as specified by the resource at the url 'http://my.test.system/resource'.  This will perform a POST (update) of the data to the url.
