@@ -18,7 +18,7 @@ public class TestStandardTestCase extends TestCase
 {
     public void testBaseRun() throws Throwable
     {
-        System.setProperty("mercury.url", "MyURL");
+        System.setProperty("my.url", "MyURL");
         System.setProperty("system.test.runner", "org.mash.junit.MyScriptRunner");
 
         Suite suite = new SuiteLoader().loadSuite("org/mash/junit/suite.xml");

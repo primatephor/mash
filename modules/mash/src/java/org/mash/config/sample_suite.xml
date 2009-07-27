@@ -8,7 +8,7 @@
     <Script name="The Test">
         <Tag>login</Tag>
         <Tag>website</Tag>
-        <Tag>mercury</Tag>
+        <Tag>myapp</Tag>
         <Setup type="org.mash.harness.db.DBSetupHarness">
             <Configuration name="clean">true</Configuration>
             <Parameter name="loadfile" file="db_load.xml">
@@ -16,7 +16,7 @@
             </Parameter>
         </Setup>
         <Run type="org.mash.harness.http.HttpRunHarness" name="login">
-            <Configuration name="url" property="mercury.url"/>
+            <Configuration name="url" property="my.url"/>
             <Configuration name="type">POST</Configuration>
             <Parameter name="username">testuser</Parameter>
             <Parameter name="password">pass</Parameter>
@@ -28,7 +28,7 @@
             <Parameter name="do_search">1</Parameter>
         </Verify>
         <Run type="org.mash.harness.http.HttpRunHarness">
-            <Configuration name="url" property="mercury.url">/index.html</Configuration>
+            <Configuration name="url" property="my.url">/index.html</Configuration>
             <Configuration name="type">GET</Configuration>
             <ResponseParameter name="session">login</ResponseParameter>
         </Run>
