@@ -7,16 +7,27 @@ import org.mash.harness.BaseHarness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.harness.http.StandardRequestFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Configurations: - 'clean' will create a new web conversation - 'url' is the url to submit to - 'type' is the type of
- * web request ('POST' or 'GET')
+ * Configurations:
+ * <ul>
+ * <li> 'clean' will create a new web conversation </li>
+ * <li> 'url' is the url to submit to </li>
+ * <li> 'type' is the type of web request ('POST' or 'GET')</li>
+ * </ul>
  * <p/>
- * Parameters are applied to the request type, and the request is invoked.
+ * <p/>
+ * Parameters are applied to the request type, and the request is invoked.  There are special parameters:
+ * <ul>
+ * <li> 'body' will be the streamed input.  If present, the request won't add this as a part of the parameter list, but
+ * will instead submit this an an input stream </li>
+ * <li> 'content_type' is the type of body.  This isn't required, default is 'text/xml' </li>
+ * </ul>
  *
  * @author: teastlack
  * @since: Jul 5, 2009
@@ -37,6 +48,8 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         {
             WebConversationHolder.reset();
         }
+
+        client = getClient(type);
 
         if (client != null)
         {
@@ -76,6 +89,16 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
                 clean = config.getValue();
             }
         }
-        client = Method.valueOf(type).getClient();
+    }
+
+    /**
+     * Override this to create your on harness to extract the appropriate client type
+     *
+     * @param clientType (POST, PUT, DELETE, GET)
+     * @return HttpClient
+     */
+    protected HttpClient getClient(String clientType)
+    {
+        return new HttpClient(new StandardRequestFactory(), clientType);
     }
 }

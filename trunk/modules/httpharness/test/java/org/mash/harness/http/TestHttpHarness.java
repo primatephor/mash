@@ -9,6 +9,7 @@ import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Verify;
 import org.mash.junit.StandardTestCase;
+import org.mash.harness.http.StandardRequestFactory;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class TestHttpHarness extends TestCase
 {
     public void testGet() throws SAXException
     {
-        HttpClient client = Method.GET.getClient();
+        HttpClient client = new HttpClient(new StandardRequestFactory(), "GET");
 
         //http://www.google.com/search
         Map<String, String> params = new HashMap<String, String>();
@@ -37,7 +38,7 @@ public class TestHttpHarness extends TestCase
 
         client.submit("http://www.google.com/search", params);
         WebResponse response = client.getWebResponse();
-        assertEquals("System%2BTest%24 - Google Search", response.getTitle());
+        assertEquals("System Test - Google Search", response.getTitle());
     }
 
     public void testRunAndVerify() throws Throwable
@@ -64,13 +65,13 @@ public class TestHttpHarness extends TestCase
 
         //verify page
         configs = new ArrayList<Configuration>();
-        configs.add(new Configuration("title", "System%2BTest%24 - Google Search"));
+        configs.add(new Configuration("title", "System Test - Google Search"));
         configs.add(new Configuration("status", "200"));
         configs.add(new Configuration("contains", "http://news.google.com/news"));
         configs.add(new Configuration("contains", "http://www.google.com/products"));
         params = new ArrayList<Parameter>();
         //<input type=hidden name=client value="firefox-a">
-        params.add(new Parameter("client", "firefox-a%24"));
+        params.add(new Parameter("client", "firefox-a"));
         Verify verifyHarness = new Verify();
         verifyHarness.getParameter().addAll(params);
         verifyHarness.getConfiguration().addAll(configs);
@@ -101,13 +102,13 @@ public class TestHttpHarness extends TestCase
 
         //verify page
         configs = new ArrayList<Configuration>();
-        configs.add(new Configuration("title", "System%2BTest%24 - Google Search"));
+        configs.add(new Configuration("title", "System Test - Google Search"));
         configs.add(new Configuration("status", "200"));
         configs.add(new Configuration("contains", "http://news.google.com/news"));
         configs.add(new Configuration("contains", "http://www.google.com/product"));
         params = new ArrayList<Parameter>();
         //<input type=hidden name=client value="firefox-a">
-        params.add(new Parameter("client", "firefox-a%24"));
+        params.add(new Parameter("client", "firefox-a"));
         verifyHarness = new Verify();
         verifyHarness.getParameter().addAll(params);
         verifyHarness.getConfiguration().addAll(configs);
