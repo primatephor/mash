@@ -17,7 +17,7 @@ Parameters are any form or query string values to be passed along with the web r
 
 = Sample Usage =
 {{{
-    <Run type="org.mash.harness.http.RestRunHarness">
+    <Run type="org.mash.harness.rest.RestRunHarness">
         <Configuration name="url"><Value>http://my.test.system/resource</Value></Configuration>
         <Configuration name="type"><Value>POST</Value></Configuration>
         <Parameter name="body" file="some_submission.xml"/>
