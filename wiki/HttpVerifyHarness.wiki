@@ -13,3 +13,21 @@ Configurations are:
 
 = Paramteter =
 see StandardVerifyHarness
+
+= Sample Usage =
+{{{
+    <Run type="org.mash.harness.HttpRunHarness" name="login">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="type"><Value>POST</Value></Configuration>
+        <Parameter name="username"><Value>testuser</Value></Parameter>
+        <Parameter name="password"><Value>pass</Value></Parameter>
+    </Run>
+    <Verify type="org.mash.harness.http.HttpVerifyHarness">
+        <Configuration name="status"><Value>200</Value></Configuration>
+        <Configuration name="title"><Value>My Page Title</Value></Configuration>
+        <Configuration name="contains"><Value>Enter your order number</Value></Configuration>
+        <Parameter name="do_search"><Value>1</Value></Parameter>
+    </Verify>
+}}}
+
+Here the login run is performed, and the response is verified that the title is 'My Page Title', the status is '200', and there contains text 'Enter your order number'.  Also, the parameter 'do_search' is returned, and the verify will explicitly check that.
