@@ -22,3 +22,18 @@ Configuration parameters:
 
 = Parameter =
 If a specified file parameter ends with 'sql', then the sql is executed against the database.  If the file parameter ends with 'xml', then dbunit is used to insert the flat file data into the db.
+
+= Sample Usage =
+{{{
+    <Setup type="org.mash.harness.db.DBSetupHarness">
+        <Configuration name="clean_insert"><Value>true</Value></Configuration>
+        <Parameter name="loadfile" file="db_load.xml">
+            <Replace search="VARIABLE">
+                <Value>sometext</Value>
+            </Replace>
+        </Parameter>
+    </Setup>
+}}}
+
+Here the db_load.xml is loaded, and every instance of 'VARIABLE' is replaced with 'sometext'.  Then the data is loaded (first by removing the specified rows in the xml) per the DBUnit rules.  This DOES use DBUnit to run the load and only works with flat xml data sets.  This will also just run sql.
+
