@@ -3,18 +3,21 @@ package org.mash.harness.rest;
 import org.mash.harness.RunResponse;
 import org.xml.sax.InputSource;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Node;
 
 import java.util.Collection;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import com.meterware.httpunit.WebResponse;
+import com.sun.org.apache.xml.internal.dtm.ref.DTMNodeList;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathConstants;
 
 /**
  * The rest response retrieves values from the response differently than the standard http response in that the name is
@@ -50,7 +53,7 @@ public class RestResponse implements RunResponse
             }
             catch (XPathExpressionException e)
             {
-                LOG.error("Problem evaluating xpath:", e);
+                LOG.error("Problem evaluating xpath", e);
             }
         }
 
@@ -59,7 +62,31 @@ public class RestResponse implements RunResponse
 
     public Collection<String> getValues(String name)
     {
-        return Arrays.asList(getValue(name));
+        Collection<String> results = new ArrayList<String>();
+        String response = getString();
+        if (response != null)
+        {
+            InputSource inputSource = new InputSource();
+            try
+            {
+                XPath xpath = XPathFactory.newInstance().newXPath();
+                inputSource.setByteStream(new ByteArrayInputStream(response.getBytes()));
+                DTMNodeList nodeSet = (DTMNodeList) xpath.evaluate(name, inputSource, XPathConstants.NODESET);
+                if (nodeSet != null)
+                {
+                    for (int i = 0; i < nodeSet.getLength(); i++)
+                    {
+                        Node node = nodeSet.item(i);
+                        results.add(node.getTextContent());
+                    }
+                }
+            }
+            catch (XPathExpressionException e)
+            {
+                LOG.error("Problem evaluating xpath", e);
+            }
+        }
+        return results;
     }
 
     public String getString()
