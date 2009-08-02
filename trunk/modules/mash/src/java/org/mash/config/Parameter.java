@@ -13,7 +13,7 @@ import java.util.List;
         "date",
         "response",
         "replace"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Parameter extends BaseParameter implements Replaceable
 {
     @XmlElement(name = "Replace")

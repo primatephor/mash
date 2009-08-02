@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Response", propOrder = {
         "value"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Response
 {
 

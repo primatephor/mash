@@ -23,9 +23,9 @@ import java.util.List;
 @XmlType(name = "Script", propOrder = {
         "tag",
         "harnesses"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 
-@XmlRootElement(name = "Script", namespace = "http://www.mash.org/schema/V1")
+@XmlRootElement(name = "Script", namespace = "http://code.google.com/p/mash/schema/V1")
 public class Script implements ScriptDefinition
 {
 

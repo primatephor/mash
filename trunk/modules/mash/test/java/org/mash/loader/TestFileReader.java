@@ -18,7 +18,7 @@ public class TestFileReader extends TestCase
     {
         TextFileReader reader = new TextFileReader();
         String contents = reader.getContents("org/mash/junit/suite/suite.xml");
-        assertEquals("<ns1:Suite name=\"The Suite\" xmlns:ns1=\"http://www.mash.org/schema/V1\">\n" +
+        assertEquals("<ns1:Suite name=\"The Suite\" xmlns:ns1=\"http://code.google.com/p/mash/schema/V1\">\n" +
                      "    <Script file=\"dir1/TestA.xml\"/>\n" +
                      "    <Script dir=\"dir2\"/>\n" +
                      "    <Parallel>\n" +

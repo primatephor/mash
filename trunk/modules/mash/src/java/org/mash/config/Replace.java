@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
         "value",
         "date",
         "response"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Replace extends BaseParameter
 {
     @XmlAttribute

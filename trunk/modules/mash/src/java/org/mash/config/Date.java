@@ -12,15 +12,13 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 /**
- *
  * @author teastlack
  * @since Jul 9, 2009 10:59:40 AM
- *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "Date", propOrder = {
         "value"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Date
 {
     @XmlValue
