@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Setup", propOrder = {
         "configuration",
         "parameter"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Setup extends HarnessDefinition
 {
 }

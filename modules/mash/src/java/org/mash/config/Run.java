@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Run", propOrder = {
         "configuration",
         "parameter"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Run extends HarnessDefinition
 {
 }

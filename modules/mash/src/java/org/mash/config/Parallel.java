@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Parallel", propOrder = {
         "script"
-        }, namespace = "http://www.mash.org/schema/V1")
+        }, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Parallel
 {
 
