@@ -118,21 +118,21 @@ public class StandardScriptRunner implements ScriptRunner
 
     private List<HarnessError> runTeardown(TeardownHarness harness)
     {
-        log.info("Running teardown '" + harness.getDefinition().getName() + "'");
+        logMsg("teardown", harness);
         harness.teardown(setupHarnesses);
         return harness.getErrors();
     }
 
     private List<HarnessError> runVerifyHarness(VerifyHarness harness)
     {
-        log.info("Running verify '" + harness.getDefinition().getName() + "'");
+        logMsg("verify", harness);
         harness.verify(lastRun, setupHarnesses);
         return harness.getErrors();
     }
 
     private List<HarnessError> runRunHarness(RunHarness harness)
     {
-        log.info("Running run '" + harness.getDefinition().getName() + "'");
+        logMsg("run", harness);
         lastRun = harness;
         lastRun.run(previousRun, setupHarnesses);
         previousRun.add(lastRun);
@@ -141,8 +141,18 @@ public class StandardScriptRunner implements ScriptRunner
 
     protected List<HarnessError> runSetupHarness(SetupHarness harness) throws Exception
     {
-        log.info("Running setup '" + harness.getDefinition().getName() + "'");
+        logMsg("setup", harness);
         harness.setup();
         return harness.getErrors();
+    }
+
+    private void logMsg(String harnessType, Harness harness)
+    {
+        String harnessName = harness.getClass().getName();
+        if (harness.getDefinition().getName() != null)
+        {
+            harnessName = harness.getDefinition().getName();
+        }
+        log.info("Running " + harnessType + " '" + harnessName + "'");
     }
 }

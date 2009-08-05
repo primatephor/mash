@@ -22,14 +22,14 @@ import java.util.List;
  */
 public class HttpVerifyHarness extends StandardVerifyHarness
 {
-    private static final Logger log = Logger.getLogger(HttpResponse.class);
+    private static final Logger log = Logger.getLogger(HttpVerifyHarness.class);
 
     private String title;
     private String status;
 
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
-        log.debug("Verifying");
+        log.debug("Verifying Http");
         if (run.getResponse() instanceof HttpResponse)
         {
             try
@@ -37,6 +37,7 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                 HttpResponse response = (HttpResponse) run.getResponse();
                 if (title != null)
                 {
+                    log.debug("Verifying title is " + title);
                     String expectedTitle = response.getWebResponse().getTitle();
                     if (!title.equals(expectedTitle))
                     {
@@ -47,12 +48,21 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                 }
                 if (status != null)
                 {
-                    int expectedStatus = response.getWebResponse().getResponseCode();
-                    if (Integer.valueOf(status) != expectedStatus)
+                    log.debug("Verifying status is " + status);
+                    if (response.getWebResponse() != null)
                     {
-                        getErrors().add(new HarnessError(this.getName(),
-                                                         "Expected status '" + status +
-                                                         "' doesn't equal actual '" + expectedStatus + "'"));
+                        int expectedStatus = response.getWebResponse().getResponseCode();
+                        if (Integer.valueOf(status) != expectedStatus)
+                        {
+                            getErrors().add(new HarnessError(this.getName(),
+                                                             "Expected status '" + status +
+                                                             "' doesn't equal actual '" + expectedStatus + "'"));
+                        }
+                    }
+                    else
+                    {
+                        getErrors().add(new HarnessError(this.getName(), "Expected status '" + status +
+                                                                         "' invalid, no response!"));
                     }
                 }
             }
@@ -62,6 +72,10 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                 getErrors().add(new HarnessError(this.getName(),
                                                  "Problem retrieving data from web response:" + e.getMessage()));
             }
+        }
+        else
+        {
+            log.warn("Not verifying response, not an HttpResponse");
         }
 
         super.verify(run, setup);

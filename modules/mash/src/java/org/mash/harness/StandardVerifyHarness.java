@@ -1,11 +1,11 @@
 package org.mash.harness;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Parameter;
 import org.mash.config.Configuration;
+import org.mash.config.Parameter;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Verify each parameter name/value pair exists within the given response.
@@ -24,7 +24,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
-        log.debug("Verifying");
+        log.debug("Verifying parameters");
         RunResponse response = run.getResponse();
         for (Parameter parameter : parameters)
         {
@@ -57,6 +57,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         {
             if ("contains".equals(config.getName()))
             {
+                log.debug("looking for '" + config.getValue() + "' in text");
                 getContainment().add(config.getValue());
             }
         }
