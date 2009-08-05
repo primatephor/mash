@@ -1,5 +1,6 @@
 package org.mash.harness.http;
 
+import com.meterware.httpunit.WebResponse;
 import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
@@ -12,14 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.meterware.httpunit.WebResponse;
-
 /**
  * Configurations:
  * <ul>
  * <li> 'clean' will create a new web conversation </li>
  * <li> 'url' is the url to submit to </li>
  * <li> 'type' is the type of web request ('POST' or 'GET')</li>
+ * <li> 'content_type' is the type of body.  This isn't required, default is 'text/html' </li>
  * </ul>
  * <p/>
  * <p/>
@@ -27,7 +27,6 @@ import com.meterware.httpunit.WebResponse;
  * <ul>
  * <li> 'body' will be the streamed input.  If present, the request won't add this as a part of the parameter list, but
  * will instead submit this an an input stream </li>
- * <li> 'content_type' is the type of body.  This isn't required, default is 'text/html' </li>
  * </ul>
  *
  * @author: teastlack
@@ -38,13 +37,14 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());
     private String url;
     private String type;
+    private String contentType;
     private String clean;
     protected HttpClient client;
     protected RunResponse response;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
-        log.debug("Running");
+        log.debug("Running Http Invocation");
         if (clean != null && Boolean.valueOf(clean))
         {
             WebConversationHolder.reset();
@@ -58,6 +58,11 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             for (Parameter parameter : getParameters())
             {
                 params.put(parameter.getName(), parameter.getValue());
+            }
+
+            if (contentType != null)
+            {
+                params.put(StandardRequestFactory.CONTENT_TYPE, contentType);
             }
             client.submit(url, params);
         }
@@ -98,6 +103,10 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             if ("clean".equals(config.getName()))
             {
                 clean = config.getValue();
+            }
+            if ("content_type".equals(config.getName()))
+            {
+                contentType = config.getValue();
             }
         }
     }

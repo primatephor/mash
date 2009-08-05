@@ -1,14 +1,15 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.WebRequest;
-import com.meterware.httpunit.PostMethodWebRequest;
 import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.PostMethodWebRequest;
 import com.meterware.httpunit.PutMethodWebRequest;
+import com.meterware.httpunit.WebRequest;
+import org.apache.log4j.Logger;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
 
 /**
  * Builds the standard POST, GET, PUT, DELETE Httpunit WebRequest object.  Will marshall any parameters submitted.
@@ -18,6 +19,7 @@ import java.io.ByteArrayInputStream;
  */
 public class StandardRequestFactory implements WebRequestFactory
 {
+    private static final Logger log = Logger.getLogger(StandardRequestFactory.class.getName());
     public static String BODY = "body";
     public static String CONTENT_TYPE = "content_type";
 
@@ -26,11 +28,10 @@ public class StandardRequestFactory implements WebRequestFactory
                                     Map<String, String> contents)
     {
         WebRequest result = null;
-
         InputStream body = getInputStream(contents);
         String contentType = getContentType(contents);
-
         Method method = Method.valueOf(methodType);
+
         if (method != null)
         {
             if (Method.POST.equals(method))
@@ -65,7 +66,6 @@ public class StandardRequestFactory implements WebRequestFactory
                     }
                 };
             }
-
             populateRequestParameters(contents, result);
         }
         return result;
@@ -78,6 +78,7 @@ public class StandardRequestFactory implements WebRequestFactory
         {
             if (!BODY.equals(key) && !CONTENT_TYPE.equals(key))
             {
+                log.debug("Adding parameter '" + key + "' as:" + contents.get(key));
                 request.setParameter(key, contents.get(key));
             }
         }

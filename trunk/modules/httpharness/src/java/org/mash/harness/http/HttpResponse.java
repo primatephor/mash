@@ -66,7 +66,10 @@ public class HttpResponse implements RunResponse
         String result = "";
         try
         {
-            result = webResponse.getText();
+            if (webResponse != null)
+            {
+                result = webResponse.getText();
+            }
         }
         catch (IOException e)
         {
