@@ -30,7 +30,11 @@ public class StandardRequestFactory implements WebRequestFactory
         WebRequest result = null;
         InputStream body = getInputStream(contents);
         String contentType = getContentType(contents);
-        Method method = Method.valueOf(methodType);
+        Method method = Method.GET;
+        if (methodType != null)
+        {
+            method = Method.valueOf(methodType.toUpperCase());
+        }
 
         if (method != null)
         {
