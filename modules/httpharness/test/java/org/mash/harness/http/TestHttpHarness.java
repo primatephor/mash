@@ -24,7 +24,7 @@ public class TestHttpHarness extends TestCase
 {
     public void testGet() throws SAXException
     {
-        HttpClient client = new HttpClient(new StandardRequestFactory(), "GET");
+        HttpClient client = new HttpClient(new StandardRequestFactory(), "get");
 
         //http://www.google.com/search
         Map<String, String> params = new HashMap<String, String>();
