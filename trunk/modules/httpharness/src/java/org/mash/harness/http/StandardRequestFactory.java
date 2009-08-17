@@ -46,7 +46,7 @@ public class StandardRequestFactory implements WebRequestFactory
                 }
                 else
                 {
-                    result = new PostMethodWebRequest(url, true);
+                    result = new PostMethodWebRequest(url, false);
                 }
             }
             if (Method.PUT.equals(method))
