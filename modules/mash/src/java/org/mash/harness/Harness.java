@@ -45,10 +45,15 @@ public interface Harness
 
     /**
      * Supply the test harness definitions for use by the defined harness
+     * @return original definition of the harness
      */
     HarnessDefinition getDefinition();
 
-    void setDefinition(HarnessDefinition harnessDefinitionDefinition);
+    /**
+     * Processes need to have this definition, so you must store it if implementing a harness
+     * @param harnessDefinition for retrieval later
+     */
+    void setDefinition(HarnessDefinition harnessDefinition);
 
     /**
      * Each test has a set of potential errors.  These errors are used by the test runner (e.g. junit) to determine how
@@ -57,4 +62,8 @@ public interface Harness
      * @return list of errors
      */
     List<HarnessError> getErrors();
+
+    List<Configuration> getConfiguration();
+
+    List<Parameter> getParameters();
 }
