@@ -2,12 +2,12 @@ package org.mash.harness.http;
 
 import com.meterware.httpunit.WebResponse;
 import org.apache.log4j.Logger;
-import org.mash.config.Configuration;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,30 +87,6 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         return response;
     }
 
-    public void setConfiguration(List<Configuration> configuration)
-    {
-        super.setConfiguration(configuration);
-        for (Configuration config : configuration)
-        {
-            if ("url".equals(config.getName()))
-            {
-                url = config.getValue();
-            }
-            if ("type".equals(config.getName()))
-            {
-                type = config.getValue();
-            }
-            if ("clean".equals(config.getName()))
-            {
-                clean = config.getValue();
-            }
-            if ("content_type".equals(config.getName()))
-            {
-                contentType = config.getValue();
-            }
-        }
-    }
-
     /**
      * Override this to create your on harness to extract the appropriate client type
      *
@@ -120,5 +96,29 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     protected HttpClient getClient(String clientType)
     {
         return new HttpClient(new StandardRequestFactory(), clientType);
+    }
+
+    @HarnessConfiguration(name = "url")
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+    @HarnessConfiguration(name = "type")
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    @HarnessConfiguration(name = "content_type")
+    public void setContentType(String contentType)
+    {
+        this.contentType = contentType;
+    }
+
+    @HarnessConfiguration(name = "clean")
+    public void setClean(String clean)
+    {
+        this.clean = clean;
     }
 }

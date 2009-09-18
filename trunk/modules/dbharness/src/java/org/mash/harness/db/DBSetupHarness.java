@@ -1,12 +1,10 @@
 package org.mash.harness.db;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Configuration;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.SetupHarness;
-
-import java.util.List;
+import org.mash.loader.HarnessConfiguration;
 
 /**
  * Files run may be either DBUnit type flat xml data sets or raw sql.
@@ -88,32 +86,37 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
         return util;
     }
 
-    public void setConfiguration(List<Configuration> configs)
+    @HarnessConfiguration(name = "url")
+    public void setUrl(String url)
     {
-        super.setConfiguration(configs);
-        for (Configuration config : configs)
+        this.url = url;
+    }
+
+    @HarnessConfiguration(name = "user")
+    public void setUser(String user)
+    {
+        this.user = user;
+    }
+
+    @HarnessConfiguration(name = "password")
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    @HarnessConfiguration(name = "driver")
+    public void setDriver(String driver)
+    {
+        this.driver = driver;
+    }
+
+    @HarnessConfiguration(name = "type")
+    public void setType(String type)
+    {
+        if (type != null)
         {
-            if ("url".equals(config.getName()))
-            {
-                url = config.getValue();
-            }
-            if ("user".equals(config.getName()))
-            {
-                user = config.getValue();
-            }
-            if ("password".equals(config.getName()))
-            {
-                password = config.getValue();
-            }
-            if ("driver".equals(config.getName()))
-            {
-                driver = config.getValue();
-            }
-            if ("type".equals(config.getName()) &&
-                config.getValue() != null)
-            {
-                type = config.getValue().toUpperCase();
-            }
+            type = type.toUpperCase();
         }
+        this.type = type;
     }
 }

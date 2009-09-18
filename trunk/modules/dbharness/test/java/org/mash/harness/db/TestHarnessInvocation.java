@@ -1,7 +1,6 @@
 package org.mash.harness.db;
 
 import junit.framework.TestCase;
-import org.mash.config.Configuration;
 import org.mash.config.Parameter;
 
 import java.util.ArrayList;
@@ -19,13 +18,11 @@ public class TestHarnessInvocation extends TestCase
     {
         System.setProperty("db.setup.class", "org.mash.harness.db.DBWorkerTester");
         DBSetupHarness harness = new DBSetupHarness();
-        List<Configuration> configs = new ArrayList<Configuration>();
-        configs.add(new Configuration("type", "DELETE"));
-        configs.add(new Configuration("url", "bogus.url"));
-        configs.add(new Configuration("user", "bogus.user"));
-        configs.add(new Configuration("password", "bogus.pass"));
-        configs.add(new Configuration("driver", "bogus.driver"));
-        harness.setConfiguration(configs);
+        harness.setType("DELETE");
+        harness.setUrl("bogus.url");
+        harness.setUser("bogus.user");
+        harness.setPassword("bogus.pass");
+        harness.setDriver("bogus.driver");
         List<Parameter> params = new ArrayList<Parameter>();
         params.add(new Parameter("loadfile", null, "org/mash/harness/db/sample_clean.xml"));
         harness.setParameters(params);
@@ -41,13 +38,11 @@ public class TestHarnessInvocation extends TestCase
     {
         System.setProperty("db.setup.class", "org.mash.harness.db.DBWorkerTester");
         DBSetupHarness harness = new DBSetupHarness();
-        List<Configuration> configs = new ArrayList<Configuration>();
-        configs.add(new Configuration("type", "DELETE"));
-        configs.add(new Configuration("url", "bogus.url"));
-        configs.add(new Configuration("user", "bogus.user"));
-        configs.add(new Configuration("password", "bogus.pass"));
-        configs.add(new Configuration("driver", "bogus.driver"));
-        harness.setConfiguration(configs);
+        harness.setType("DELETE");
+        harness.setUrl("bogus.url");
+        harness.setUser("bogus.user");
+        harness.setPassword("bogus.pass");
+        harness.setDriver("bogus.driver");
         List<Parameter> params = new ArrayList<Parameter>();
         params.add(new Parameter("loadfile", null, "org/mash/harness/db/sample_clean.sql"));
         harness.setParameters(params);

@@ -8,6 +8,7 @@ import org.mash.harness.HttpRunHarness;
 import org.mash.harness.HttpVerifyHarness;
 import org.mash.loader.ScriptLoaderProxy;
 import org.mash.loader.SuiteLoader;
+import org.mash.loader.harnesssetup.AnnotatedHarness;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class TestStandardTestCase extends TestCase
         theCase.runTest();
         List<Harness> harnesses = ((MyScriptRunner) theCase.getHarnessRunner()).getHarnesses();
 
-        DBSetupHarness dbSetupHarness = (DBSetupHarness) harnesses.get(0);
+        DBSetupHarness dbSetupHarness = (DBSetupHarness) ((AnnotatedHarness) harnesses.get(0)).getWrap();
         assertEquals(Boolean.TRUE, dbSetupHarness.setupCalled);
         assertEquals("clean", dbSetupHarness.getConfiguration().get(0).getName());
         assertEquals("loadfile", dbSetupHarness.getParameters().get(0).getName());
@@ -34,15 +35,15 @@ public class TestStandardTestCase extends TestCase
                      "    Here's the variable: sometext\n" +
                      "</DataSet>", dbSetupHarness.getParameters().get(0).getValue().trim());
 
-        HttpRunHarness httpRunHarness = (HttpRunHarness) harnesses.get(1);
+        HttpRunHarness httpRunHarness = (HttpRunHarness) ((AnnotatedHarness) harnesses.get(1)).getWrap();
         assertEquals(Boolean.TRUE, httpRunHarness.runCalled);
         assertEquals("url", httpRunHarness.getConfigs().get(0).getName());
 
-        HttpVerifyHarness httpVerifyHarness = (HttpVerifyHarness) harnesses.get(2);
+        HttpVerifyHarness httpVerifyHarness = (HttpVerifyHarness) ((AnnotatedHarness) harnesses.get(2)).getWrap();
         assertEquals(Boolean.TRUE, httpVerifyHarness.verifyCalled);
         assertEquals("status", httpVerifyHarness.getConfigs().get(0).getName());
 
-        httpRunHarness = (HttpRunHarness) harnesses.get(3);
+        httpRunHarness = (HttpRunHarness) ((AnnotatedHarness) harnesses.get(3)).getWrap();
         assertEquals(Boolean.TRUE, httpRunHarness.runCalled);
         assertEquals("url", httpRunHarness.getConfigs().get(0).getName());
         assertEquals("session", httpRunHarness.getParams().get(0).getName());

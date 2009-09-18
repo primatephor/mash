@@ -1,11 +1,11 @@
 package org.mash.harness.http;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Configuration;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.StandardVerifyHarness;
+import org.mash.loader.HarnessConfiguration;
 
 import java.util.List;
 
@@ -81,20 +81,15 @@ public class HttpVerifyHarness extends StandardVerifyHarness
         super.verify(run, setup);
     }
 
-    public void setConfiguration(List<Configuration> configuration)
+    @HarnessConfiguration(name = "title")
+    public void setTitle(String title)
     {
-        super.setConfiguration(configuration);
-        for (Configuration config : configuration)
-        {
-            if ("title".equals(config.getName()))
-            {
-                title = config.getValue();
-            }
-            if ("status".equals(config.getName()))
-            {
-                status = config.getValue();
-            }
-        }
+        this.title = title;
     }
 
+    @HarnessConfiguration(name = "status")
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
 }
