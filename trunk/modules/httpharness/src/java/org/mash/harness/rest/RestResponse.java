@@ -1,23 +1,13 @@
 package org.mash.harness.rest;
 
-import org.mash.harness.RunResponse;
-import org.xml.sax.InputSource;
-import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
-
-import java.util.Collection;
-import java.util.ArrayList;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 import com.meterware.httpunit.WebResponse;
-import com.sun.org.apache.xml.internal.dtm.ref.DTMNodeList;
+import org.apache.log4j.Logger;
+import org.mash.harness.RunResponse;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathConstants;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * The rest response retrieves values from the response differently than the standard http response in that the name is
@@ -30,10 +20,12 @@ public class RestResponse implements RunResponse
 {
     private static final Logger LOG = Logger.getLogger(RestResponse.class.getName());
     private WebResponse webResponse;
+    private XmlAccessor accessor;
 
     public RestResponse(WebResponse webResponse)
     {
         this.webResponse = webResponse;
+        this.accessor = new XmlAccessor();
     }
 
     public String getValue(String expression)
@@ -43,47 +35,26 @@ public class RestResponse implements RunResponse
 
         if (response != null)
         {
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            InputSource inputSource = new InputSource();
-            try
+            String[] result = accessor.getPath(response, expression);
+            if (result != null && result.length > 0)
             {
-                inputSource.setByteStream(new ByteArrayInputStream(response.getBytes()));
-                XPathExpression xPathExpression = xPath.compile(expression);
-                evaluation = xPathExpression.evaluate(inputSource);
-            }
-            catch (XPathExpressionException e)
-            {
-                LOG.error("Problem evaluating xpath", e);
+                evaluation = result[0];
             }
         }
 
         return evaluation;
     }
 
-    public Collection<String> getValues(String name)
+    public Collection<String> getValues(String expression)
     {
         Collection<String> results = new ArrayList<String>();
         String response = getString();
         if (response != null)
         {
-            InputSource inputSource = new InputSource();
-            try
+            String[] result = accessor.getPath(response, expression);
+            if (result != null)
             {
-                XPath xpath = XPathFactory.newInstance().newXPath();
-                inputSource.setByteStream(new ByteArrayInputStream(response.getBytes()));
-                DTMNodeList nodeSet = (DTMNodeList) xpath.evaluate(name, inputSource, XPathConstants.NODESET);
-                if (nodeSet != null)
-                {
-                    for (int i = 0; i < nodeSet.getLength(); i++)
-                    {
-                        Node node = nodeSet.item(i);
-                        results.add(node.getTextContent());
-                    }
-                }
-            }
-            catch (XPathExpressionException e)
-            {
-                LOG.error("Problem evaluating xpath", e);
+                results.addAll(Arrays.asList(result));
             }
         }
         return results;
