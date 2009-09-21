@@ -67,7 +67,12 @@ public class ScriptDefinitionLoader
      */
     public ScriptDefinition pullFile(String filename, Suite suite) throws FileReaderException, SuiteMarshallerException
     {
-        ScriptLoaderProxy proxy = new ScriptLoaderProxy(filename, suite);
+        return pullFile(filename, suite.getPath());
+    }
+
+    public ScriptDefinition pullFile(String filename, File suitePath) throws FileReaderException, SuiteMarshallerException
+    {
+        ScriptLoaderProxy proxy = new ScriptLoaderProxy(filename, suitePath);
         if (proxy.isValidTestFile())
         {
             return proxy;

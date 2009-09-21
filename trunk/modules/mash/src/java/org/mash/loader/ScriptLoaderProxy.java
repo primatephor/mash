@@ -28,13 +28,13 @@ public class ScriptLoaderProxy implements ScriptDefinition
     private Script script;
     private List<String> tags;
     private Boolean validTestFile = true;
-    private Suite suite;
     private File path;
+    private File suitePath;
 
-    public ScriptLoaderProxy(String filename, Suite suite)
+    public ScriptLoaderProxy(String filename, File suitePath)
     {
         this.filename = filename;
-        this.suite = suite;
+        this.suitePath = suitePath;
         Script temp = loadTest(this.filename);
         if (temp != null)
         {
@@ -46,6 +46,11 @@ public class ScriptLoaderProxy implements ScriptDefinition
         {
             this.validTestFile = false;
         }
+    }
+
+    public ScriptLoaderProxy(String filename, Suite suite)
+    {
+        this(filename, suite.getPath());
     }
 
     public List<String> getTag()
@@ -106,7 +111,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
             try
             {
                 FileLoader loader = new FileLoader();
-                path = loader.findFile(filename, suite.getPath());
+                path = loader.findFile(filename, suitePath);
                 TextFileReader reader = new TextFileReader();
                 String contents = reader.getContents(path);
                 JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();

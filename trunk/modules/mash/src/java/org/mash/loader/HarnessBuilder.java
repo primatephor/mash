@@ -1,6 +1,7 @@
 package org.mash.loader;
 
 import org.mash.config.HarnessDefinition;
+import org.mash.config.ScriptDefinition;
 import org.mash.harness.Harness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
@@ -9,17 +10,26 @@ import org.mash.harness.TeardownHarness;
 import org.mash.harness.VerifyHarness;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
+import java.io.File;
 import java.util.List;
 
 /**
  * Building a harness entails actually creating an instance of that harness, and applying the configurations to those
  * harnesses.
  * <p/>
+ *
  * @author: teastlack
  * @since: Jul 4, 2009
  */
 public class HarnessBuilder
 {
+    private ScriptDefinitionLoader scriptDefinitionLoader;
+
+    public HarnessBuilder()
+    {
+        scriptDefinitionLoader = new ScriptDefinitionLoader();
+    }
+
     public Harness buildHarness(HarnessDefinition harnessDefinition) throws HarnessException
     {
         String classname = harnessDefinition.getType();
@@ -50,6 +60,22 @@ public class HarnessBuilder
             throw new HarnessException("Problem building harness", e);
         }
         return harness;
+    }
+
+    public ScriptDefinition buildScriptDefinition(ScriptDefinition scriptDefinition, File currentPath) throws HarnessException
+    {
+        //only works with file definitions, don't run whole directories
+        String filename = scriptDefinition.getFile();
+        ScriptDefinition fileDef;
+        try
+        {
+            fileDef = scriptDefinitionLoader.pullFile(filename, currentPath);
+        }
+        catch (Exception e)
+        {
+            throw new HarnessException("Unable to load script at " + filename, e);
+        }
+        return fileDef;
     }
 
     private class SetupAnnotatedHarness extends AnnotatedHarness implements SetupHarness
