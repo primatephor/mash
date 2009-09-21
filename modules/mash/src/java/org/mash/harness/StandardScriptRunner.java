@@ -29,7 +29,7 @@ public class StandardScriptRunner implements ScriptRunner
 {
     private static final Logger log = Logger.getLogger(StandardScriptRunner.class.getName());
 
-    protected List<Harness> harnesses;
+    protected List harnesses;
     private List<SetupHarness> setupHarnesses;
 
     private RunHarness lastRun;
@@ -42,9 +42,9 @@ public class StandardScriptRunner implements ScriptRunner
      * @return harnesses to be run
      * @throws Exception upon error
      */
-    protected List<Harness> buildHarnesses(ScriptDefinition definition) throws Exception
+    protected List buildHarnesses(ScriptDefinition definition) throws Exception
     {
-        List<Harness> results = new ArrayList<Harness>();
+        List results = new ArrayList();
         HarnessBuilder builder = new HarnessBuilder();
         if (definition.getHarnesses() != null)
         {
@@ -63,6 +63,13 @@ public class StandardScriptRunner implements ScriptRunner
                     {
                         setupHarnesses.add((SetupHarness) toAdd);
                     }
+                }
+
+                if (current instanceof ScriptDefinition)
+                {
+                    ScriptDefinition scriptDefinition = (ScriptDefinition) current;
+                    ScriptDefinition toAdd = builder.buildScriptDefinition(scriptDefinition, definition.getPath());
+                    results.add(toAdd);
                 }
             }
         }
@@ -85,26 +92,40 @@ public class StandardScriptRunner implements ScriptRunner
         {
             log.debug("Running test");
             ParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
-            for (Harness harness : this.harnesses)
+            for (Object toRun : this.harnesses)
             {
-                List<Parameter> params = parameterBuilder.applyParameters(previousRun, definition, harness.getDefinition());
-                harness.setParameters(params);
                 List<HarnessError> errors = Collections.emptyList();
-                if (harness instanceof SetupHarness)
+                if (toRun instanceof Harness)
                 {
-                    errors = runSetupHarness((SetupHarness) harness);
+                    Harness harness = (Harness) toRun;
+                    List<Parameter> params = parameterBuilder.applyParameters(previousRun, definition, harness.getDefinition());
+                    harness.setParameters(params);
+                    if (harness instanceof SetupHarness)
+                    {
+                        errors = runSetupHarness((SetupHarness) harness);
+                    }
+                    if (harness instanceof RunHarness)
+                    {
+                        errors = runRunHarness((RunHarness) harness);
+                    }
+                    if (harness instanceof VerifyHarness)
+                    {
+                        errors = runVerifyHarness((VerifyHarness) harness);
+                    }
+                    if (harness instanceof TeardownHarness)
+                    {
+                        errors = runTeardown((TeardownHarness) harness);
+                    }
                 }
-                if (harness instanceof RunHarness)
+
+                if (toRun instanceof ScriptDefinition)
                 {
-                    errors = runRunHarness((RunHarness) harness);
-                }
-                if (harness instanceof VerifyHarness)
-                {
-                    errors = runVerifyHarness((VerifyHarness) harness);
-                }
-                if (harness instanceof TeardownHarness)
-                {
-                    errors = runTeardown((TeardownHarness) harness);
+                    ScriptDefinition subDefinition = (ScriptDefinition) toRun;
+                    ScriptRunner runner = RunnerFactory.getInstance().buildRunner();
+                    if (runner != null)
+                    {
+                        errors = runner.run(subDefinition);
+                    }
                 }
 
                 if (errors != null && errors.size() > 0)

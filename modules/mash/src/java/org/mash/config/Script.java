@@ -30,6 +30,7 @@ public class Script implements ScriptDefinition
 {
 
     @XmlElements({
+        @XmlElement(name = "Script", type = Script.class),
         @XmlElement(name = "Setup", type = Setup.class),
         @XmlElement(name = "Run", type = Run.class),
         @XmlElement(name = "Verify", type = Verify.class),
