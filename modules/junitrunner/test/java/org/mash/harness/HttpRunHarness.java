@@ -81,5 +81,10 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         {
             return "THIS IS A TEST";
         }
+
+        public Collection<String> getValues()
+        {
+            return testResponse.values();
+        }
     }
 }
