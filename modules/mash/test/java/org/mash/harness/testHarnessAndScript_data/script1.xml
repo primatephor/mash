@@ -1,12 +1,9 @@
 <ns1:Script name="The Subscript Test" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
-    <Setup type="org.mash.harness.db.DBSetupHarness">
+    <Setup type="org.mash.harness.DBSetupHarness">
         <Configuration name="clean">true</Configuration>
-        <Parameter name="loadfile" file="db_load.xml">
-            <Replace search="$variable$">sometext</Replace>
-        </Parameter>
     </Setup>
     <Script file="script2.xml"/>
-    <Run type="org.mash.harness.http.HttpRunHarness">
+    <Run type="org.mash.harness.HttpRunHarness">
         <Configuration name="url" property="my.url"/>
         <Configuration name="type">POST</Configuration>
         <Parameter name="username">testuser</Parameter>

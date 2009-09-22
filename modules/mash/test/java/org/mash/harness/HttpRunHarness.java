@@ -17,6 +17,11 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private List<Parameter> params;
     public Boolean runCalled = false;
     Map<String, String> testResponse = new HashMap<String, String>();
+    public static int callCount = 0;
+
+    public HttpRunHarness()
+    {
+    }
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
@@ -28,6 +33,12 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             this.testResponse.put("session", "login_session");
         }
         this.testResponse.put("someparam", "somevalue");
+        callCount++;
+    }
+
+    public static void reset()
+    {
+        callCount = 0;
     }
 
     public RunResponse getResponse()

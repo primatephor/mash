@@ -66,16 +66,20 @@ public class HarnessBuilder
     {
         //only works with file definitions, don't run whole directories
         String filename = scriptDefinition.getFile();
-        ScriptDefinition fileDef;
+        ScriptDefinition result;
         try
         {
-            fileDef = scriptDefinitionLoader.pullFile(filename, currentPath);
+            result = scriptDefinitionLoader.pullFile(filename, currentPath);
+            if (result == null)
+            {
+                result = scriptDefinition;
+            }
         }
         catch (Exception e)
         {
             throw new HarnessException("Unable to load script at " + filename, e);
         }
-        return fileDef;
+        return result;
     }
 
     private class SetupAnnotatedHarness extends AnnotatedHarness implements SetupHarness

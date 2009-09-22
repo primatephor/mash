@@ -28,6 +28,37 @@ public class ScriptDefinitionLoader
     }
 
     /**
+     * Load the subscripts of this script definition.
+     *
+     * @param scriptDefinition to check for referenced scripts in
+     * @param basePath         of the suite (or whereever the base has been run)
+     * @return list of definitions
+     * @throws FileReaderException      when unable to read a file
+     * @throws SuiteMarshallerException when unable to marshal file
+     */
+    public List<ScriptDefinition> pullSubDefinitions(ScriptDefinition scriptDefinition, File basePath) throws SuiteMarshallerException, FileReaderException
+    {
+        List<ScriptDefinition> result = new ArrayList<ScriptDefinition>();
+        String filename = scriptDefinition.getFile();
+        ScriptDefinition fileDef = pullFile(filename, basePath);
+        if (fileDef != null)
+        {
+            result.add(fileDef);
+        }
+        //load the directory of tests
+        String dirname = scriptDefinition.getDir();
+        if (dirname != null)
+        {
+            List<ScriptDefinition> scripts = pullDir(dirname, basePath);
+            for (ScriptDefinition script : scripts)
+            {
+                result.add(script);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Pull all the definitions within a directory
      *
      * @param directory to retrieve tests from
@@ -38,15 +69,20 @@ public class ScriptDefinitionLoader
      */
     public List<ScriptDefinition> pullDir(String directory, Suite suite) throws FileReaderException, SuiteMarshallerException
     {
+        return pullDir(directory, suite.getPath());
+    }
+
+    public List<ScriptDefinition> pullDir(String directory, File basePath) throws FileReaderException, SuiteMarshallerException
+    {
         List<ScriptDefinition> scripts = new ArrayList<ScriptDefinition>();
         if (directory != null)
         {
-            File dir = fileLoader.findFile(directory, suite.getPath());
+            File dir = fileLoader.findFile(directory, basePath);
             log.info("Loading files from directory " + dir.getAbsolutePath());
             File[] files = dir.listFiles();
             for (File file : files)
             {
-                ScriptDefinition pulled = pullFile(file.getAbsolutePath(), suite);
+                ScriptDefinition pulled = pullFile(file.getAbsolutePath(), basePath);
                 if (pulled != null)
                 {
                     scripts.add(pulled);
