@@ -1,6 +1,7 @@
 package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
@@ -10,7 +11,6 @@ import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,27 +29,64 @@ public class FtpRunHarness extends BaseHarness implements RunHarness
 
     //params
     private FTPOperations operation;
-    private String file;
+    private String ftpParams;
+
+    private RunResponse response;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
         FTPClient client = new FTPClient();
         try
         {
+            int reply;
             client.connect(url);
+            log.info("Connected to " + url + ".");
+
+            // After connection attempt, you should check the reply code to verify success.
+            reply = client.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply))
+            {
+                client.disconnect();
+                log.error("FTP connection refused");
+                this.getErrors().add(new HarnessError(this.getClass().getName(), "FTP connection refused"));
+            }
             client.login(user, password);
+            if (operation != null)
+            {
+                FTPOperation runOp = operation.getOperation();
+                if (runOp != null)
+                {
+                    response = runOp.operate(client, ftpParams);
+                }
+            }
+
+            client.logout();
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             log.error("Unexpected error connecting to ftp server", e);
             this.getErrors().add(new HarnessError(this.getClass().getName(),
                                                   "Unexpected error connecting to ftp server", e.getMessage()));
         }
+        finally
+        {
+            if (client.isConnected())
+            {
+                try
+                {
+                    client.disconnect();
+                }
+                catch (Exception ioe)
+                {
+                    log.error("Unexpected error closing connection to ftp server", ioe);
+                }
+            }
+        }
     }
 
     public RunResponse getResponse()
     {
-        throw new UnsupportedOperationException("Method getResponse not yet implemented");
+        return response;
     }
 
     @HarnessConfiguration(name = "url")
@@ -77,9 +114,9 @@ public class FtpRunHarness extends BaseHarness implements RunHarness
         this.operation = FTPOperations.valueOf(op);
     }
 
-    @HarnessParameter(name = "file")
-    public void setFile(String file)
+    @HarnessParameter(name = "ftpParams")
+    public void setFtpParams(String ftpParams)
     {
-        this.file = file;
+        this.ftpParams = ftpParams;
     }
 }

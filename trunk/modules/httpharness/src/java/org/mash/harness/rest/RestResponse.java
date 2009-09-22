@@ -60,6 +60,11 @@ public class RestResponse implements RunResponse
         return results;
     }
 
+    public Collection<String> getValues()
+    {
+        return Arrays.asList(getString());
+    }
+
     public String getString()
     {
         String response = null;

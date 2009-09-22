@@ -61,6 +61,24 @@ public class HttpResponse implements RunResponse
         return results;
     }
 
+    public Collection<String> getValues()
+    {
+        Collection<String> results = Collections.emptyList();
+        try
+        {
+            String[] elements = webResponse.getElementNames();
+            for (String element : elements)
+            {
+                results.addAll(getValues(element));
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Problem retrieving elements", e);
+        }
+        return results;
+    }
+
     public String getString()
     {
         String result = "";

@@ -20,6 +20,10 @@ public class BaseHarness implements Harness
 
     public List<Configuration> getConfiguration()
     {
+        if (configuration == null)
+        {
+            configuration = new ArrayList<Configuration>();
+        }
         return configuration;
     }
 
@@ -30,6 +34,10 @@ public class BaseHarness implements Harness
 
     public List<Parameter> getParameters()
     {
+        if (parameters == null)
+        {
+            parameters = new ArrayList<Parameter>();
+        }
         return parameters;
     }
 

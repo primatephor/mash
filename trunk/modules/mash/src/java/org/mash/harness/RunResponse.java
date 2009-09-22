@@ -34,6 +34,16 @@ public interface RunResponse
     Collection<String> getValues(String name);
 
     /**
+     * Retrieve all values with the supplied name
+     * <p/>
+     * This obviously changes depending on implementation.  For example, a web response would have list of values,
+     * whereas an XML response would have a single response equivalent to the getString() method
+     *
+     * @return list of all values with this name
+     */
+    Collection<String> getValues();
+
+    /**
      * Return the response as a string. For a web response, this would probably be the HTML, for an XML response, the
      * XML.
      *
