@@ -90,24 +90,13 @@ public class JunitTestBuilder
             }
             else
             {
-                //load the file
-                String filename = scriptDefinition.getFile();
-                ScriptDefinition fileDef = scriptDefinitionLoader.pullFile(filename, theSuite);
-                if (fileDef != null)
-                {
-                    result.add(testCaseFactory.createTestCase(fileDef));
-                }
                 //load the directory of tests
-                String dirname = scriptDefinition.getDir();
-                if (dirname != null)
+                List<ScriptDefinition> scripts = scriptDefinitionLoader.pullSubDefinitions(scriptDefinition, theSuite.getPath());
+                for (ScriptDefinition script : scripts)
                 {
-                    List<ScriptDefinition> scripts = scriptDefinitionLoader.pullDir(dirname, theSuite);
-                    for (ScriptDefinition script : scripts)
+                    if (checktags(script, tags))
                     {
-                        if (checktags(script, tags))
-                        {
-                            result.add(testCaseFactory.createTestCase(script));
-                        }
+                        result.add(testCaseFactory.createTestCase(script));
                     }
                 }
             }
@@ -124,7 +113,7 @@ public class JunitTestBuilder
      * Check to see if the test definition contains the tags specified.  Used to determine if we can add as a test.
      *
      * @param script definition to check
-     * @param tags to check against
+     * @param tags   to check against
      * @return true if definition should be added, false otherwise
      */
     protected boolean checktags(ScriptDefinition script, List<String> tags)

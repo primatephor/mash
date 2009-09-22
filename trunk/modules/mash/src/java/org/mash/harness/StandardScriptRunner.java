@@ -8,6 +8,7 @@ import org.mash.config.ScriptDefinition;
 import org.mash.loader.ConfigurationBuilder;
 import org.mash.loader.HarnessBuilder;
 import org.mash.loader.ParameterBuilder;
+import org.mash.loader.ScriptDefinitionLoader;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 
@@ -87,6 +88,7 @@ public class StandardScriptRunner implements ScriptRunner
     public List<HarnessError> run(ScriptDefinition definition) throws Exception
     {
         this.harnesses = buildHarnesses(definition);
+        ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
 
         if (this.harnesses != null)
         {
@@ -120,11 +122,20 @@ public class StandardScriptRunner implements ScriptRunner
 
                 if (toRun instanceof ScriptDefinition)
                 {
-                    ScriptDefinition subDefinition = (ScriptDefinition) toRun;
-                    ScriptRunner runner = RunnerFactory.getInstance().buildRunner();
-                    if (runner != null)
+                    List<ScriptDefinition> scripts = loader.pullSubDefinitions((ScriptDefinition) toRun,
+                                                                               definition.getPath());
+                    for (ScriptDefinition subDefinition : scripts)
                     {
-                        errors = runner.run(subDefinition);
+                        ScriptRunner runner = RunnerFactory.getInstance().buildRunner();
+                        if (runner != null)
+                        {
+                            errors = runner.run(subDefinition);
+                        }
+
+                        if (errors != null && errors.size() > 0)
+                        {
+                            break;
+                        }
                     }
                 }
 
@@ -179,5 +190,10 @@ public class StandardScriptRunner implements ScriptRunner
             harnessName = harness.getDefinition().getName();
         }
         log.info("Running " + harnessType + " '" + harnessName + "'");
+    }
+
+    public List getHarnesses()
+    {
+        return harnesses;
     }
 }
