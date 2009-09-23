@@ -45,8 +45,18 @@ A break down of a sample script:
         </Parameter>
 }}}
  * By specifying a file attribute for the parameter, this file will get loaded and it's contents are passed to the harness with the name 'loadfile' above.  
- * The replace tag will search the specified text (in this instance, the file contents) and perform a regular expression search and replace.  In this case, every instance of VARIABLE is replaced with the string 'sometext'
-
+ * The replace tag will search the specified text (in this instance, the file contents) and perform a regular expression search and replace.  In this case, every instance of VARIABLE is replaced with the string 'sometext'.  
+ * You CAN do a replace on a {{{<Value>}}} string, which is a good way to insert data from previous runs.  For example:  
+{{{
+        <Parameter name="someParam">
+            <Value>this text has VARIABLE</Value>
+            <Replace search="VARIABLE">
+                <Value>sometext</Value>
+            </Replace>
+        </Parameter>
+}}}
+ * Now the text will get replaced to {{{this text has sometext}}}
+ * Common usage of this case is replacing user id's in a URL, or changing properties.
 
 {{{
     </Setup>
