@@ -12,8 +12,25 @@ import java.io.File;
  */
 public class FileRefResponse extends OGNLResponse
 {
+    private File theFile;
+
     public FileRefResponse(File file)
     {
         super(file);
+        theFile = file;
+    }
+
+    public String getValue(String name)
+    {
+        String result;
+        if ("length".equalsIgnoreCase(name))
+        {
+            result = String.valueOf(theFile.length());
+        }
+        else
+        {
+            result = super.getValue(name);
+        }
+        return result;
     }
 }
