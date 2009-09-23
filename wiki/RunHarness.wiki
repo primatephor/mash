@@ -4,6 +4,7 @@
 
 The RunHarness is used to run the script. 
 
+See DevelopingHarnesses for information on harness development
 
 = Details =
 
