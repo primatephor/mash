@@ -39,6 +39,10 @@
             <property name="module.dir" value="dbharness"/>
             <target name="makeJar"/>
         </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="ftpharness"/>
+            <target name="makeJar"/>
+        </ant>
     </target>
 
     <target name="build" depends="compile"/>
@@ -58,6 +62,9 @@
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
             <property name="module.dir" value="dbharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="ftpharness"/>
         </ant>
     </target>
 
@@ -81,6 +88,10 @@
             <property name="module.dir" value="dbharness"/>
             <target name="clean"/>
         </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="ftpharness"/>
+            <target name="clean"/>
+        </ant>
         <delete dir="${build.tgt}"/>
     </target>
 
@@ -90,32 +101,19 @@
 
     <target name="docs" depends="init,build">
         <path id="local.class.path">
-            <fileset dir="${build.tgt}"
-                     includes="*.jar,mashlib/*.jar,dbharnesslib/*.jar,httpharnesslib/*.jar,junitrunnerlib/*.jar"/>
+            <fileset dir="${build.tgt}" includes="*.jar,mashlib/*.jar,dbharnesslib/*.jar,httpharnesslib/*.jar,junitrunnerlib/*.jar"/>
         </path>
         <delete dir="${build.tgt}/javadocs"/>
-        <javadoc packagenames="org.mash.*"
-                 classpathref="local.class.path"
-                 destdir="${build.tgt}/javadocs"
-                 Windowtitle="Mash Framework Classes">
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Mash Framework Classes">
             <sourcepath path="mash/src/java"/>
         </javadoc>
-        <javadoc packagenames="org.mash.*"
-                 classpathref="local.class.path"
-                 destdir="${build.tgt}/javadocs"
-                 Windowtitle="DB Harness Classes">
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="DB Harness Classes">
             <sourcepath path="dbharness/src/java"/>
         </javadoc>
-        <javadoc packagenames="org.mash.*"
-                 classpathref="local.class.path"
-                 destdir="${build.tgt}/javadocs"
-                 Windowtitle="HTTP Harness Classes">
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="HTTP Harness Classes">
             <sourcepath path="httpharness/src/java"/>
         </javadoc>
-        <javadoc packagenames="org.mash.*"
-                 classpathref="local.class.path"
-                 destdir="${build.tgt}/javadocs"
-                 Windowtitle="JUnit Runner Classes">
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="JUnit Runner Classes">
             <sourcepath path="junitrunner/src/java"/>
         </javadoc>
 

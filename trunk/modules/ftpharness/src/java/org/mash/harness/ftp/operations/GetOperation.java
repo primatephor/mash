@@ -54,6 +54,7 @@ public class GetOperation implements FTPOperation
                 {
                     out.write(buf, 0, len);
                 }
+                out.flush();
                 out.close();
                 result = new FileRefResponse(output);
             }

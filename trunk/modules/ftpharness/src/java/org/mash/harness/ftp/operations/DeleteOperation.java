@@ -14,6 +14,7 @@ public class DeleteOperation implements FTPOperation
 {
     public RunResponse operate(FTPClient client, String ftpParams) throws Exception
     {
-        throw new UnsupportedOperationException("Method operate not yet implemented");
+        client.deleteFile(ftpParams);
+        return new ListOperation().operate(client, ftpParams);
     }
 }
