@@ -1,11 +1,9 @@
-#Basics of Developing a Harness
-
 = Introduction =
 
 Each harness has it's own specific interface to implement (setup, run, verify, teardown).  However there are common themes for developing a harness that simplify the plumbing.
 
 
-= BaseHarness =
+= {{{BaseHarness}}} =
 
 Extending the {{{BaseHarness}}} implements many of the methods in the {{{Harness}}} interface.  It is advised to use this class to simplify your harness, however if there is special functionality you need you can implement these methods on your own.
 
