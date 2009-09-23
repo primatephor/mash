@@ -10,6 +10,12 @@ This is the list of supplied harnesses
  * {{{DBHarness.jar}}}
   * DbSetupHarness (uses dbunit, runs sql)
 
+= Ftp =
+ * {{{FtpHarness.jar}}}
+  * FtpRunHarness (invokes ftp requests)
+   * get, put, list, delete
+  * FTPVerifyListHarness
+
 = Http =
  * {{{HttpHarness.jar}}}
   * HttpRunHarness (invokes http requests)
