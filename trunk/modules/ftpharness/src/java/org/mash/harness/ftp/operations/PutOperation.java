@@ -1,10 +1,12 @@
 package org.mash.harness.ftp.operations;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.mash.config.HarnessDefinition;
 import org.mash.file.FileLoader;
 import org.mash.harness.RunResponse;
 import org.mash.harness.ftp.FTPOperation;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,10 +20,15 @@ public class PutOperation implements FTPOperation
 {
     private FileLoader loader = new FileLoader();
     private String fileName;
+    private File path;
 
-    public PutOperation(String fileName)
+    public PutOperation(String fileName, HarnessDefinition definition)
     {
         this.fileName = fileName;
+        if (definition != null && definition.getScriptDefinition() != null)
+        {
+            this.path = definition.getScriptDefinition().getPath();
+        }
     }
 
     public RunResponse operate(FTPClient client, String ftpParams) throws Exception
@@ -32,7 +39,7 @@ public class PutOperation implements FTPOperation
         {
             try
             {
-                fileStream = loader.findStream(fileName);
+                fileStream = loader.findStream(fileName, path);
                 client.storeFile(ftpParams, fileStream);
             }
             finally

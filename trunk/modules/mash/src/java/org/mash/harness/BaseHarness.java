@@ -127,4 +127,9 @@ public class BaseHarness implements Harness
         }
         return harnessErrors;
     }
+
+    public Boolean hasErrors()
+    {
+        return getErrors().size() > 0;
+    }
 }

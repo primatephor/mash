@@ -1,8 +1,8 @@
 package org.mash.harness;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Configuration;
 import org.mash.config.Parameter;
+import org.mash.loader.HarnessConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,17 +50,11 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         }
     }
 
-    public void setConfiguration(List<Configuration> configuration)
+    @HarnessConfiguration(name = "contains")
+    public void setContainment(String text)
     {
-        super.setConfiguration(configuration);
-        for (Configuration config : configuration)
-        {
-            if ("contains".equals(config.getName()))
-            {
-                log.debug("looking for '" + config.getValue() + "' in text");
-                getContainment().add(config.getValue());
-            }
-        }
+        log.debug("looking for '" + text + "' in text");
+        getContainment().add(text);
     }
 
     public List<String> getContainment()
