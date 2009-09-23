@@ -4,6 +4,7 @@
 
 The SetupHarness is used to prepare a script for running.  Multiple setup harness invocations are possible with each script.
 
+See DevelopingHarnesses for information on harness development
 
 = Details =
 
