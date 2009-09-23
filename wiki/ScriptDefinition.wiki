@@ -14,21 +14,32 @@ A break down of a sample script:
  * xmlns:ns1="http://www.mash.org/schema/V1" is the version 1 namespace of the config.  There will likely be other versions in the future.
  * name is the name of this run 
 
-
+= Tags =
+Tags are used to filter which scripts are to be run.
 {{{
     <Tag>login</Tag>
     <Tag>website</Tag>
     <Tag>myapp</Tag>
 }}}
- * Tags are used to filter which scripts are to be run.  For instance if this were a system test, then running all 'login' tests would invoke this particular script.
+ * If this were a system test, then running all 'login' tests would invoke this particular script.
 
+= Scripts =
+You can run other scripts from within a script.
+{{{
+    <Script file="BaseTest.xml"/>
+    <Script dir="some_directory"/>
+}}}
+ * Here a specified test {{{BaseTest.xml}}}
+ * Or you can run an entire directory of scripts
 
+= Setup =
 {{{
     <Setup type="org.mash.harness.DBSetupHarness">
 }}}
  * This specifies an implementation of a SetupHarness, and the class specified by the type  attribute will be loaded to run this harness.  
 
-
+= Configuration =
+Configurations are parameters that are required for a harness to be setup properly.  
 {{{
         <Configuration name="clean">
             <Value>true</Value>
@@ -37,6 +48,8 @@ A break down of a sample script:
  * Configurations are passed to harnesses as to be used during initialization.  In this instance, the DbSetupHarness will run a dbunit cleaning when loading a specified file.  See the DBSetupHarness for more information on valid configurations and parameters.
  * See ConfigurationDefinition
 
+= Parameters =
+Parameters are variables used by the harness that will dictate how / what is run.
 {{{
         <Parameter name="loadfile" file="db_load.xml">
             <Replace search="VARIABLE">
@@ -58,6 +71,8 @@ A break down of a sample script:
  * Now the text will get replaced to {{{this text has sometext}}}
  * Common usage of this case is replacing user id's in a URL, or changing properties.
 
+= Run =
+Runs perform the core desired action.
 {{{
     </Setup>
     <Run type="org.mash.harness.HttpRunHarness" name="login">
@@ -79,7 +94,8 @@ A break down of a sample script:
  * The second configuration here is the 'type' of http request (post, get, etc).  See HttpRunHarness for more information.
  * Parameters passed for this harness are dependent on the the valid parameters for a particular page invocation.
 
-
+= Verify =
+Verify harnesses look at the previous run and perform some validation.  The {{{StandardVerifyHarness}}} is a common way of associating parameter names to values, and should fit for quite a few run harnesses.  
 {{{
     <Verify type="org.mash.harness.HttpVerifyHarness">
         <Configuration name="status">
@@ -98,7 +114,8 @@ A break down of a sample script:
 }}}
  * The HttpVerifyHarness will validate a web page response.  See HttpVerifyResponse for more information.
 
-
+= Another Run =
+Multiple runs produce more interesting script behavior.
 {{{
     <Run type="org.mash.harness.HttpRunHarness">
         <Configuration name="url" property="my.url">
