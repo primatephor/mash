@@ -11,23 +11,38 @@ Configuration values:
  * 'password' = password of user
 
 = Parameter =
-Parameters are any form or query string values to be passed along with the web request.  Optional values:
- * 'body' = Resource body to be submitted
- * 'content_type' = optional type of content to submit (default is text/xml)
+Parameters for ftping:
+ * 'operation' = GET, PUT, LS, DELETE
+ * 'ftp_params' = Any string to be applied to the corresponding ftp command.  For a put/get, it'd be filename, for a LS or DELETE, a path.
+ * 'transfer_mode' = BINARY or ASCII
+ * 'file_path' = for PUT, file to send.  for GET, where to save a file to.  You don't need to save a file for GET though, you can verify it's contents instead (just don't supply a 'file_path' for GET)
 
 = Sample Usage =
 {{{
-    <Run type="org.mash.harness.http.HttpRunHarness" name="login">
+    <Run type="org.mash.harness.ftp.FtpRunHarness">
         <Configuration name="url" property="my.url"/>
-        <Configuration name="type"><Value>POST</Value></Configuration>
-        <Parameter name="username"><Value>testuser</Value></Parameter>
-        <Parameter name="password"><Value>pass</Value></Parameter>
+        <Configuration name="user"><Value>theuser</Value></Configuration>
+        <Configuration name="password"><Value>password</Value></Configuration>
+        <Parameter name="operation"><Value>GET</Value></Parameter>
+        <Parameter name="ftp_params"><Value>file.txt</Value></Parameter>
     </Run>
-    <Run type="org.mash.harness.http.HttpRunHarness">
-        <Configuration name="url" property="my.url"><Value>/index.html</Value></Configuration>
-        <Configuration name="type"><Value>GET</Value></Configuration>
-        <Parameter name="session"><Response name="login">session</Response></Parameter>
+    <Run type="org.mash.harness.ftp.StandardVerifyHarness">
+        <Configuration name="contains"><Value>some file content</Value></Configuration>
     </Run>
 }}}
 
-Here a login is performed in the first call, then the second call goes to the {{{/index.html}}} page (with the 'my.url' system property) with a parameter 'session' (retrieved from the 'login' run).
+Here a file named 'file.txt' is downloaded by user 'theuser'.  It's contents are then verified to contain 'some file content'.
+
+To retrieve the file with a get and save it locally:
+{{{
+    <Run type="org.mash.harness.ftp.FtpRunHarness">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="user"><Value>theuser</Value></Configuration>
+        <Configuration name="password"><Value>password</Value></Configuration>
+        <Parameter name="operation"><Value>GET</Value></Parameter>
+        <Parameter name="ftp_params"><Value>file.txt</Value></Parameter>
+        <Parameter name="file_path"><Value>/tmp/my_local_file.txt</Value></Parameter>
+    </Run>
+}}}
+
+Here the file is retrieved as before, but now it's saved to a file in /tmp called 'my_local_file.txt'.
