@@ -43,12 +43,12 @@ public class TestFtpVerifyListResponse extends TestCase
         files[1].setName("file2");
         ListRunResponse response = new ListRunResponse(files);
 
-        FtpVerifyListResponse verify = new FtpVerifyListResponse();
+        FTPVerifyListResponse verify = new FTPVerifyListResponse();
         verify.setFileName("file3");
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
         assertEquals("File 'file3' Not Found", verify.getErrors().get(0).getValue());
 
-        verify = new FtpVerifyListResponse();
+        verify = new FTPVerifyListResponse();
         verify.setFileName("file1");
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
         assertEquals(0, verify.getErrors().size());
@@ -66,13 +66,13 @@ public class TestFtpVerifyListResponse extends TestCase
         files[1].setSize(2000);
         ListRunResponse response = new ListRunResponse(files);
 
-        FtpVerifyListResponse verify = new FtpVerifyListResponse();
+        FTPVerifyListResponse verify = new FTPVerifyListResponse();
         verify.setFileName("file1");
         verify.setFileSize("200");
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
         assertEquals("File size is '1000' but expected '200'", verify.getErrors().get(0).getValue());
 
-        verify = new FtpVerifyListResponse();
+        verify = new FTPVerifyListResponse();
         verify.setFileName("file2");
         verify.setFileSize("2000");
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());

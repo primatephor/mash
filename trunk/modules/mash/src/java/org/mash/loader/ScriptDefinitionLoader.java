@@ -3,6 +3,8 @@ package org.mash.loader;
 import org.apache.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
+import org.mash.file.FileLoader;
+import org.mash.file.FileReaderException;
 
 import java.io.File;
 import java.util.ArrayList;

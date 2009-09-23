@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
+import org.mash.file.FileLoader;
+import org.mash.file.TextFileReader;
 
 import java.io.File;
 import java.util.List;

@@ -1,6 +1,8 @@
 package org.mash.loader;
 
 import junit.framework.TestCase;
+import org.mash.file.FileReaderException;
+import org.mash.file.TextFileReader;
 
 /**
  * User: teastlack Date: Jul 1, 2009 Time: 11:32:31 AM

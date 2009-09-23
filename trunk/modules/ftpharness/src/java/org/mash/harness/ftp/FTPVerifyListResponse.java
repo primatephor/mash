@@ -18,7 +18,7 @@ import java.util.List;
  * @since Sep 22, 2009 12:02:24 PM
  *
  */
-public class FtpVerifyListResponse extends BaseHarness implements VerifyHarness
+public class FTPVerifyListResponse extends BaseHarness implements VerifyHarness
 {
     private String fileName;
     private String fileSize;

@@ -41,4 +41,9 @@ public class Parameter extends BaseParameter implements Replaceable
         }
         return this.replace;
     }
+
+    public String toString()
+    {
+        return name + ":" + value;
+    }
 }

@@ -94,7 +94,7 @@ public class TestDate extends TestCase
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setZone("EST");
-        assertEquals("2009/07/09 16:06:40", configDate.asFormat());
+        assertEquals("2009/07/09 15:06:40", configDate.asFormat());
         configDate.setZone("PST");
         assertEquals("2009/07/09 13:06:40", configDate.asFormat());
     }
