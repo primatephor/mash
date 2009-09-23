@@ -4,6 +4,7 @@
 
 The VerifyHarness verifies the state of invoked runs and setups.
 
+See DevelopingHarnesses for information on harness development
 
 = Details =
 
