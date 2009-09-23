@@ -12,7 +12,7 @@ import org.mash.harness.ftp.ListRunResponse;
  * @since Sep 22, 2009 11:57:50 AM
  *
  */
-public class ListFTPOperation implements FTPOperation
+public class ListOperation implements FTPOperation
 {
     public RunResponse operate(FTPClient client, String ftpParams) throws Exception
     {

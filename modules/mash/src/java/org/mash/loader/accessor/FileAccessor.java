@@ -1,9 +1,9 @@
 package org.mash.loader.accessor;
 
 import org.mash.config.BaseParameter;
+import org.mash.file.FileLoader;
+import org.mash.file.TextFileReader;
 import org.mash.loader.ContentAccessor;
-import org.mash.loader.FileLoader;
-import org.mash.loader.TextFileReader;
 
 import java.io.File;
 

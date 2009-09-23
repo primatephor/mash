@@ -1,6 +1,7 @@
 package org.mash.loader;
 
 import org.mash.config.Suite;
+import org.mash.file.TextFileReader;
 
 import java.io.File;
 

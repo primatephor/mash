@@ -10,10 +10,10 @@ import org.mash.config.Script;
 import org.mash.config.Setup;
 import org.mash.config.Suite;
 import org.mash.config.Verify;
-import org.mash.loader.FileReaderException;
+import org.mash.file.FileReaderException;
+import org.mash.file.TextFileReader;
 import org.mash.loader.JAXBSuiteMarshaller;
 import org.mash.loader.SuiteMarshallerException;
-import org.mash.loader.TextFileReader;
 
 
 /**
