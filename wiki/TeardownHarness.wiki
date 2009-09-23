@@ -4,6 +4,7 @@
 
 The TeardownHarness should clean up anything left open or invalid during the run process.
 
+See DevelopingHarnesses for information on harness development
 
 = Details =
 
