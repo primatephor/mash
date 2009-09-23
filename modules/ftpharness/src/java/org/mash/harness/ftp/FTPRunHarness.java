@@ -71,45 +71,32 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
         FTPClient client = new FTPClient();
         try
         {
-            int reply;
+            log.info("Attempting connect to " + url + ".");
             client.connect(url);
-            client.setFileType(transferMode);
-            log.info("Connected to " + url + ".");
+            int reply = client.getReplyCode();
+            log.info("Connection status: " + reply);
 
             // After connection attempt, you should check the reply code to verify success.
-            reply = client.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply))
             {
                 client.disconnect();
                 log.error("FTP connection refused");
                 this.getErrors().add(new HarnessError(this.getClass().getName(), "FTP connection refused"));
             }
-            client.login(user, password);
-            if (operation != null)
-            {
-                if (FTPOperations.LS.equals(operation))
-                {
-                    response = new ListOperation().operate(client, ftpParams);
-                }
-                else if (FTPOperations.GET.equals(operation))
-                {
-                    response = new GetOperation(fileName).operate(client, ftpParams);
-                }
-                else if (FTPOperations.PUT.equals(operation))
-                {
-                    response = new PutOperation(fileName).operate(client, ftpParams);
-                }
-                else if (FTPOperations.DELETE.equals(operation))
-                {
-                    response = new DeleteOperation().operate(client, ftpParams);
-                }
-            }
-            else
-            {
-                this.getErrors().add(new HarnessError(this.getClass().getName(), "No Operation Specified!"));
-            }
 
-            client.logout();
+            if (!hasErrors())
+            {
+                if (!client.login(user, password))
+                {
+                    this.getErrors().add(new HarnessError(this.getClass().getName(), "Unable to login with user " + user));
+                }
+                else
+                {
+                    client.setFileType(transferMode);
+                    runOperation(client, operation);
+                }
+                client.logout();
+            }
         }
         catch (Exception e)
         {
@@ -130,6 +117,34 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
                     log.error("Unexpected error closing connection to ftp server", ioe);
                 }
             }
+        }
+    }
+
+    private void runOperation(FTPClient client, FTPOperations operation)
+            throws Exception
+    {
+        if (operation != null)
+        {
+            if (FTPOperations.LS.equals(operation))
+            {
+                response = new ListOperation().operate(client, ftpParams);
+            }
+            else if (FTPOperations.GET.equals(operation))
+            {
+                response = new GetOperation(fileName).operate(client, ftpParams);
+            }
+            else if (FTPOperations.PUT.equals(operation))
+            {
+                response = new PutOperation(fileName, getDefinition()).operate(client, ftpParams);
+            }
+            else if (FTPOperations.DELETE.equals(operation))
+            {
+                response = new DeleteOperation().operate(client, ftpParams);
+            }
+        }
+        else
+        {
+            this.getErrors().add(new HarnessError(this.getClass().getName(), "No Operation Specified!"));
         }
     }
 

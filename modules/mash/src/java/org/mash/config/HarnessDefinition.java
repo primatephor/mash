@@ -17,6 +17,9 @@ public class HarnessDefinition
     protected String type;
     @XmlAttribute
     protected String name;
+    //not part of xml
+    @XmlTransient
+    private ScriptDefinition scriptDefinition;
 
     public List<Configuration> getConfiguration()
     {
@@ -54,5 +57,15 @@ public class HarnessDefinition
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public ScriptDefinition getScriptDefinition()
+    {
+        return scriptDefinition;
+    }
+
+    public void setScriptDefinition(ScriptDefinition scriptDefinition)
+    {
+        this.scriptDefinition = scriptDefinition;
     }
 }

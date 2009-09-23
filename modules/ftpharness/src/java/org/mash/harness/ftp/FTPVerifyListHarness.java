@@ -1,6 +1,7 @@
 package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPFile;
+import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
@@ -18,8 +19,9 @@ import java.util.List;
  * @since Sep 22, 2009 12:02:24 PM
  *
  */
-public class FTPVerifyListResponse extends BaseHarness implements VerifyHarness
+public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
 {
+    private static final Logger log = Logger.getLogger(FTPVerifyListHarness.class.getName());
     private String fileName;
     private String fileSize;
 
@@ -38,6 +40,7 @@ public class FTPVerifyListResponse extends BaseHarness implements VerifyHarness
                 FTPFile file = listResponse.getFiles().get(fileName);
                 if (file != null)
                 {
+                    log.info("Found " + file.getName());
                     if (fileSize != null && fileSize.length() > 0)
                     {
                         Long expected = new Long(fileSize);
@@ -58,7 +61,7 @@ public class FTPVerifyListResponse extends BaseHarness implements VerifyHarness
         }
     }
 
-    @HarnessConfiguration(name = "fileName")
+    @HarnessConfiguration(name = "file_name")
     public void setFileName(String fileName)
     {
         this.fileName = fileName;

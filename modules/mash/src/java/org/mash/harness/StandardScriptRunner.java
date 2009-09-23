@@ -55,6 +55,7 @@ public class StandardScriptRunner implements ScriptRunner
                 if (current instanceof HarnessDefinition)
                 {
                     HarnessDefinition harnessDefinition = (HarnessDefinition) current;
+                    harnessDefinition.setScriptDefinition(definition);
                     Harness toAdd = builder.buildHarness(harnessDefinition);
                     ConfigurationBuilder configurationBuilder = new CalculatingConfigBuilder();
                     List<Configuration> configs = configurationBuilder.applyConfiguration(definition, toAdd);
