@@ -43,6 +43,10 @@
             <property name="module.dir" value="ftpharness"/>
             <target name="makeJar"/>
         </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="utilityharness"/>
+            <target name="makeJar"/>
+        </ant>
     </target>
 
     <target name="build" depends="compile"/>
@@ -65,6 +69,9 @@
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
             <property name="module.dir" value="ftpharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="utilityharness"/>
         </ant>
     </target>
 
@@ -92,6 +99,10 @@
             <property name="module.dir" value="ftpharness"/>
             <target name="clean"/>
         </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="utilityharness"/>
+            <target name="clean"/>
+        </ant>
         <delete dir="${build.tgt}"/>
     </target>
 
@@ -115,6 +126,12 @@
         </javadoc>
         <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="JUnit Runner Classes">
             <sourcepath path="junitrunner/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="FTP Harness Classes">
+            <sourcepath path="ftpharness/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Utility Harness Classes">
+            <sourcepath path="utilityharness/src/java"/>
         </javadoc>
 
     </target>
