@@ -29,10 +29,10 @@ public class DBUnitWorker implements DBWorker
     {
         if (this.databaseTester == null)
         {
-            log.debug("Instantiating DB info [driver='" + connector.getDriver() +
-                      "', url='" + connector.getUrl() +
-                      "', user='" + connector.getUser() +
-                      "', pass='" + connector.getPassword() + "']");
+            log.info("Instantiating DB info [driver='" + connector.getDriver() +
+                     "', url='" + connector.getUrl() +
+                     "', user='" + connector.getUser() +
+                     "', pass='" + connector.getPassword() + "']");
             this.databaseTester = new JdbcDatabaseTester(connector.getDriver(),
                                                          connector.getUrl(),
                                                          connector.getUser(),
@@ -57,7 +57,7 @@ public class DBUnitWorker implements DBWorker
             {
                 conn = getConnection(connector).getConnection();
                 stmt = conn.createStatement();
-                log.info("Exectuting " + sql);
+                log.debug("Exectuting " + sql);
                 stmt.execute(sql);
             }
             finally

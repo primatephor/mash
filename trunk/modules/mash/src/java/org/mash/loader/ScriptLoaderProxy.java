@@ -115,14 +115,21 @@ public class ScriptLoaderProxy implements ScriptDefinition
                 FileLoader loader = new FileLoader();
                 path = loader.findFile(filename, suitePath);
                 TextFileReader reader = new TextFileReader();
-                String contents = reader.getContents(path);
-                JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();
-                result = (Script) marshaller.unmarshal(contents);
-                result.setPath(path);
+                if (!path.isDirectory())
+                {
+                    String contents = reader.getContents(path);
+                    JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();
+                    result = (Script) marshaller.unmarshal(contents);
+                    result.setPath(path);
+                }
+                else
+                {
+                    log.debug("File '" + filename + "' with path " + path + " is a directory");
+                }
             }
             catch (Exception e)
             {
-                log.debug("Invalid Test! Unexpected error loading test instance:" + e.getMessage());
+                log.error("Problem loading test! Unexpected error loading file '" + filename + "' ", e);
                 this.validTestFile = false;
             }
         }
