@@ -33,4 +33,9 @@ public class FileRefResponse extends OGNLResponse
         }
         return result;
     }
+
+    public File getTheFile()
+    {
+        return theFile;
+    }
 }

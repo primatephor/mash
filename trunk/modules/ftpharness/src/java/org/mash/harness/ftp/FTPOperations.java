@@ -11,5 +11,6 @@ public enum FTPOperations
     PUT,
     GET,
     DELETE,
-    LS
+    LS,
+    RAW
 }

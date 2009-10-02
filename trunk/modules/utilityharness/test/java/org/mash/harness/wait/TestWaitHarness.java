@@ -14,12 +14,12 @@ public class TestWaitHarness extends TestCase
 {
     public void testSimpleWait()
     {
-        WaitRunHarness wait = new WaitRunHarness();
-        wait.setWaitTime("1000");
+        TimedWaitRunHarness timedWait = new TimedWaitRunHarness();
+        timedWait.setWaitTime("1000");
         Date start = new Date();
-        wait.run(null, null);
+        timedWait.run(null, null);
         Date end = new Date();
         assertTrue("End is not 1000ms after start", (end.getTime() - start.getTime()) >= 1000);
-        assertEquals("1000", wait.getResponse().getString());
+        assertEquals("1000", timedWait.getResponse().getString());
     }
 }

@@ -17,7 +17,7 @@ public class TestGetOperation extends TestCase
 {
     public void testGetFile() throws Exception
     {
-        BogusFTPClient client = new BogusFTPClient();
+        BogusFTPFileClient client = new BogusFTPFileClient();
         client.setPath("org/mash/harness/ftp/operations_data/somedata.txt");
         GetOperation operation = new GetOperation();
         RunResponse response = operation.operate(client, "unnecessary");
@@ -26,7 +26,7 @@ public class TestGetOperation extends TestCase
 
     public void testGetFileRef() throws Exception
     {
-        BogusFTPClient client = new BogusFTPClient();
+        BogusFTPFileClient client = new BogusFTPFileClient();
         client.setPath("org/mash/harness/ftp/operations_data/somedata.txt");
         GetOperation operation = new GetOperation("/tmp/output_somedata.txt");
         RunResponse response = operation.operate(client, "unnecessary");

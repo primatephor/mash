@@ -15,10 +15,10 @@ import java.util.List;
  * @since Sep 28, 2009 11:34:45 AM
  *
  */
-public class WaitRunHarness extends BaseHarness implements RunHarness
+public class TimedWaitRunHarness extends BaseHarness implements RunHarness
 {
     private Long waitTime;
-    private WaitRunResponse response;
+    private TimedResponse response;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
@@ -47,7 +47,7 @@ public class WaitRunHarness extends BaseHarness implements RunHarness
     {
         if (response == null)
         {
-            response = new WaitRunResponse(waitTime);
+            response = new TimedResponse(waitTime);
         }
         return response;
     }

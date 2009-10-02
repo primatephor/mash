@@ -13,7 +13,7 @@ import java.io.InputStream;
  * @since Sep 22, 2009 5:23:59 PM
  *
  */
-public class BogusFTPClient extends FTPClient
+public class BogusFTPFileClient extends FTPClient
 {
     private String path;
     private FileLoader loader = new FileLoader();
