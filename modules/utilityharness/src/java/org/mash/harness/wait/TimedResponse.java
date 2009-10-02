@@ -11,11 +11,11 @@ import java.util.Collection;
  * @since Sep 28, 2009 12:17:46 PM
  *
  */
-public class WaitRunResponse implements RunResponse
+public class TimedResponse implements RunResponse
 {
     private Long waitTime;
 
-    public WaitRunResponse(Long waitTime)
+    public TimedResponse(Long waitTime)
     {
         this.waitTime = waitTime;
     }

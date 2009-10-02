@@ -1,14 +1,17 @@
 package org.mash.harness.rest;
 
-import org.mash.harness.http.HttpRunHarness;
-import org.mash.harness.http.StandardRequestFactory;
-import org.mash.harness.http.Method;
-import org.mash.harness.RunResponse;
-import org.mash.harness.RunHarness;
-import org.mash.harness.SetupHarness;
-import org.mash.config.Parameter;
+import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
+import org.mash.config.Parameter;
+import org.mash.harness.RunHarness;
+import org.mash.harness.RunResponse;
+import org.mash.harness.SetupHarness;
+import org.mash.harness.XmlResponse;
+import org.mash.harness.http.HttpRunHarness;
+import org.mash.harness.http.Method;
+import org.mash.harness.http.StandardRequestFactory;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,6 +35,7 @@ import java.util.List;
  */
 public class RestRunHarness extends HttpRunHarness
 {
+    private static final Logger log = Logger.getLogger(RestRunHarness.class.getName());
     public static String DEFAULT_CONTENT_TYPE = "text/xml";
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
@@ -53,7 +57,20 @@ public class RestRunHarness extends HttpRunHarness
     {
         if (response == null)
         {
-            response = new RestResponse(getWebResponse());
+            String responseString = null;
+            try
+            {
+                if (getWebResponse() != null)
+                {
+                    responseString = getWebResponse().getText();
+                }
+            }
+            catch (IOException e)
+            {
+                log.error("Problem retrieving reponse from web request", e);
+            }
+
+            response = new XmlResponse(responseString);
         }
         return response;
     }

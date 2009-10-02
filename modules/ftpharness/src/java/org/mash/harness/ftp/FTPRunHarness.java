@@ -13,6 +13,7 @@ import org.mash.harness.ftp.operations.DeleteOperation;
 import org.mash.harness.ftp.operations.GetOperation;
 import org.mash.harness.ftp.operations.ListOperation;
 import org.mash.harness.ftp.operations.PutOperation;
+import org.mash.harness.ftp.operations.RawOperation;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
@@ -140,6 +141,10 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
             else if (FTPOperations.DELETE.equals(operation))
             {
                 response = new DeleteOperation().operate(client, ftpParams);
+            }
+            else if (FTPOperations.RAW.equals(operation))
+            {
+                response = new RawOperation().operate(client, ftpParams);
             }
         }
         else
