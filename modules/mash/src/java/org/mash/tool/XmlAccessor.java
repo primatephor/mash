@@ -37,7 +37,6 @@ public class XmlAccessor
         {
             ByteArrayInputStream inputStream = null;
             xml = removeNamespaces(xml);
-            log.info("Stripped:" + xml);
             try
             {
                 DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -68,6 +67,7 @@ public class XmlAccessor
         {
             try
             {
+                log.debug("Searching for " + path);
                 XPathFactory xpFactory = XPathFactory.newInstance();
                 XPath xpath = xpFactory.newXPath();
                 XPathExpression expression = xpath.compile(path);

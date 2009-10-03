@@ -1,6 +1,6 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.WebRequest;
+import com.gargoylesoftware.htmlunit.WebRequestSettings;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface WebRequestFactory
 {
-    WebRequest createRequest(String methodType,
-                                    String url,
-                                    Map<String, String> contents);
+    WebRequestSettings createRequest(String methodType,
+                                     String url,
+                                     Map<String, String> contents);
 }

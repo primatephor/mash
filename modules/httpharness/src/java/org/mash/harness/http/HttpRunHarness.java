@@ -1,6 +1,6 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.WebResponse;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
@@ -19,7 +19,6 @@ import java.util.Map;
  * <li> 'clean' will create a new web conversation </li>
  * <li> 'url' is the url to submit to </li>
  * <li> 'type' is the type of web request ('POST' or 'GET')</li>
- * <li> 'content_type' is the type of body.  This isn't required, default is 'text/html' </li>
  * </ul>
  * <p/>
  * <p/>
@@ -37,7 +36,6 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());
     private String url;
     private String type;
-    private String contentType;
     private String clean;
     protected HttpClient client;
     protected RunResponse response;
@@ -60,17 +58,13 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
                 params.put(parameter.getName(), parameter.getValue());
             }
 
-            if (contentType != null)
-            {
-                params.put(StandardRequestFactory.CONTENT_TYPE, contentType);
-            }
             client.submit(url, params);
         }
     }
 
-    protected WebResponse getWebResponse()
+    protected HtmlPage getHtmlPage()
     {
-        WebResponse result = null;
+        HtmlPage result = null;
         if (client != null)
         {
             result = client.getWebResponse();
@@ -82,7 +76,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     {
         if (response == null)
         {
-            response = new HttpResponse(getWebResponse());
+            response = new HttpResponse(getHtmlPage());
         }
         return response;
     }
@@ -108,12 +102,6 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     public void setType(String type)
     {
         this.type = type;
-    }
-
-    @HarnessConfiguration(name = "content_type")
-    public void setContentType(String contentType)
-    {
-        this.contentType = contentType;
     }
 
     @HarnessConfiguration(name = "clean")
