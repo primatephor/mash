@@ -1,14 +1,17 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.HTMLElement;
-import com.meterware.httpunit.WebResponse;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
+import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
@@ -19,9 +22,9 @@ import java.util.Collections;
 public class HttpResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(HttpResponse.class);
-    private WebResponse webResponse;
+    private HtmlPage webResponse;
 
-    public HttpResponse(WebResponse webResponse)
+    public HttpResponse(HtmlPage webResponse)
     {
         this.webResponse = webResponse;
     }
@@ -39,24 +42,47 @@ public class HttpResponse implements RunResponse
 
     public Collection<String> getValues(String name)
     {
-        Collection<String> results = Collections.emptyList();
+        Collection<String> results = new ArrayList<String>();
         try
         {
-            HTMLElement[] elements = webResponse.getElementsWithName(name);
-            results = new ArrayList<String>();
-            for (HTMLElement element : elements)
-            {
-                String text = element.getText();
-                if (text == null || text.length() == 0)
-                {
-                    text = element.getNode().getAttributes().getNamedItem("value").getNodeValue();
-                }
-                results.add(text);
-            }
+            results.addAll(retrieveElements(name));
+            results.addAll(retrieveFormElements(name));
         }
         catch (Exception e)
         {
             log.error("Problem retrieving elements with name " + name, e);
+        }
+        return results;
+    }
+
+    private Collection<String> retrieveFormElements(String name)
+            throws SAXException
+    {
+        Collection<String> results = new ArrayList<String>();
+        for (HtmlForm htmlForm : webResponse.getForms())
+        {
+            List<HtmlInput> input = htmlForm.getInputsByName(name);
+            if (input != null && input.size() > 0)
+            {
+                log.debug("param text:" + input.get(0).asText());
+                results.add(input.get(0).asText());
+            }
+        }
+        return results;
+    }
+
+    private Collection<String> retrieveElements(String name)
+            throws SAXException
+    {
+        List<HtmlElement> elements = webResponse.getElementsByName(name);
+        Collection<String> results = new ArrayList<String>();
+        for (HtmlElement element : elements)
+        {
+            String text = element.asText();
+            if (text != null)
+            {
+                results.add(text);
+            }
         }
         return results;
     }
@@ -66,10 +92,10 @@ public class HttpResponse implements RunResponse
         Collection<String> results = Collections.emptyList();
         try
         {
-            String[] elements = webResponse.getElementNames();
-            for (String element : elements)
+            Iterable<HtmlElement> elements = webResponse.getAllHtmlChildElements();
+            for (HtmlElement element : elements)
             {
-                results.addAll(getValues(element));
+                results.addAll(getValues(element.getNodeName()));
             }
         }
         catch (Exception e)
@@ -82,21 +108,14 @@ public class HttpResponse implements RunResponse
     public String getString()
     {
         String result = "";
-        try
+        if (webResponse != null)
         {
-            if (webResponse != null)
-            {
-                result = webResponse.getText();
-            }
-        }
-        catch (IOException e)
-        {
-            log.error("Unexpected error retrieving response text", e);
+            result = webResponse.getTextContent();
         }
         return result;
     }
 
-    public WebResponse getWebResponse()
+    public HtmlPage getWebResponse()
     {
         return webResponse;
     }

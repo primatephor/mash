@@ -1,6 +1,5 @@
 package org.mash.harness.rest;
 
-import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
 import org.mash.harness.RunHarness;
@@ -11,7 +10,6 @@ import org.mash.harness.http.HttpRunHarness;
 import org.mash.harness.http.Method;
 import org.mash.harness.http.StandardRequestFactory;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,7 +33,6 @@ import java.util.List;
  */
 public class RestRunHarness extends HttpRunHarness
 {
-    private static final Logger log = Logger.getLogger(RestRunHarness.class.getName());
     public static String DEFAULT_CONTENT_TYPE = "text/xml";
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
@@ -58,41 +55,13 @@ public class RestRunHarness extends HttpRunHarness
         if (response == null)
         {
             String responseString = null;
-            try
+            if (getHtmlPage() != null)
             {
-                if (getWebResponse() != null)
-                {
-                    responseString = getWebResponse().getText();
-                }
+                responseString = getHtmlPage().getTextContent();
             }
-            catch (IOException e)
-            {
-                log.error("Problem retrieving reponse from web request", e);
-            }
-
             response = new XmlResponse(responseString);
         }
         return response;
-    }
-
-    public void setParameters(List<Parameter> parameters)
-    {
-        Boolean contentTypePresent = false;
-        for (Parameter parameter : parameters)
-        {
-            if (StandardRequestFactory.CONTENT_TYPE.equals(parameter.getName()))
-            {
-                contentTypePresent = true;
-                break;
-            }
-        }
-
-        if (!contentTypePresent)
-        {
-            parameters.add(new Parameter(StandardRequestFactory.CONTENT_TYPE, "text/xml"));
-        }
-
-        super.setParameters(parameters);
     }
 
     /**

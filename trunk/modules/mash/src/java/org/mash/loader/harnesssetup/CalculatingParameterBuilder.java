@@ -66,6 +66,10 @@ public class CalculatingParameterBuilder implements ParameterBuilder
         {
             log.info("Calculating parameter " + parameter.getName());
             String contents = chain.access(parameter);
+            if (contents == null)
+            {
+                log.warn("Parameter '" + parameter.getName() + "' has no content!");
+            }
             Parameter toAdd = new Parameter();
             toAdd.setName(parameter.getName());
             toAdd.setFile(parameter.getFile());

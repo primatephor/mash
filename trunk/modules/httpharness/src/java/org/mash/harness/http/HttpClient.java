@@ -1,8 +1,8 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebRequest;
-import com.meterware.httpunit.WebResponse;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebRequestSettings;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -15,9 +15,9 @@ public class HttpClient
 {
     private static final Logger LOG = Logger.getLogger(HttpClient.class.getName());
 
-    private WebConversation webConversation;
-    private WebRequest webRequest;
-    private WebResponse webResponse;
+    private WebClient client;
+    private WebRequestSettings webRequest;
+    private HtmlPage webResponse;
     private WebRequestFactory factory;
     private String methodType;
 
@@ -29,12 +29,13 @@ public class HttpClient
 
     public void submit(String uri, Map<String, String> contents)
     {
-        webConversation = WebConversationHolder.getInstance();
+        client = WebConversationHolder.getInstance();
+        client.setJavaScriptEnabled(false);
         webRequest = factory.createRequest(methodType, uri, contents);
 
         try
         {
-            webResponse = webConversation.getResponse(webRequest);
+            webResponse = client.getPage(webRequest);
         }
         catch (Exception e)
         {
@@ -42,17 +43,17 @@ public class HttpClient
         }
     }
 
-    public WebConversation getWebConversation()
+    public WebClient getClient()
     {
-        return webConversation;
+        return client;
     }
 
-    public WebRequest getWebRequest()
+    public WebRequestSettings getWebRequestSettings()
     {
         return webRequest;
     }
 
-    public WebResponse getWebResponse()
+    public HtmlPage getWebResponse()
     {
         return webResponse;
     }

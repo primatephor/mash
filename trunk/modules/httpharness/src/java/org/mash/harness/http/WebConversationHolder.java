@@ -1,12 +1,12 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.WebConversation;
+import com.gargoylesoftware.htmlunit.WebClient;
 
 public class WebConversationHolder
 {
-    private static WebConversation ourInstance = new WebConversation();
+    private static WebClient ourInstance = new WebClient();
 
-    public static WebConversation getInstance()
+    public static WebClient getInstance()
     {
         return ourInstance;
     }
@@ -17,6 +17,6 @@ public class WebConversationHolder
 
     public static synchronized void reset()
     {
-        ourInstance = new WebConversation();
+        ourInstance = new WebClient();
     }
 }

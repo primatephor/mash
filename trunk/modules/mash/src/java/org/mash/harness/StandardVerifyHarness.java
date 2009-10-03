@@ -29,13 +29,19 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         verifyParameters(response);
 
         String responseText = response.getString();
-        for (String s : getContainment())
+        if (responseText != null)
         {
-            if (!responseText.contains(s))
+            for (String s : getContainment())
             {
-                getErrors().add(new HarnessError(this.getName(),
-                                                 "Not present in response:" + s));
+                if (!responseText.contains(s))
+                {
+                    getErrors().add(new HarnessError(this.getName(), "Not present in response:" + s));
+                }
             }
+        }
+        else
+        {
+            getErrors().add(new HarnessError(this.getName(), "No response!"));
         }
     }
 

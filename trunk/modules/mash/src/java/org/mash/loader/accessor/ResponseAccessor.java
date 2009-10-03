@@ -1,5 +1,6 @@
 package org.mash.loader.accessor;
 
+import org.apache.log4j.Logger;
 import org.mash.config.BaseParameter;
 import org.mash.config.Response;
 import org.mash.harness.RunHarness;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class ResponseAccessor implements ContentAccessor
 {
+    private static final Logger log = Logger.getLogger(ResponseAccessor.class.getName());
     private List<RunHarness> previousRun;
 
     public ResponseAccessor(List<RunHarness> previousRun)
@@ -41,7 +43,18 @@ public class ResponseAccessor implements ContentAccessor
             RunHarness run = getRun(response.getName(), previousRun);
             if (run != null)
             {
-                result = run.getResponse().getValue(response.getValue());
+                if (run.getResponse() != null)
+                {
+                    result = run.getResponse().getValue(response.getValue());
+                }
+                else
+                {
+                    log.error("Response from run '" + response.getName() + "' is null!");
+                }
+            }
+            else
+            {
+                log.warn("Could not find a run with name '" + response.getName() + "'");
             }
         }
         return result;

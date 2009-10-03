@@ -1,13 +1,14 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.GetMethodWebRequest;
-import com.meterware.httpunit.PostMethodWebRequest;
-import com.meterware.httpunit.PutMethodWebRequest;
-import com.meterware.httpunit.WebRequest;
+import com.gargoylesoftware.htmlunit.HttpMethod;
+import com.gargoylesoftware.htmlunit.WebRequestSettings;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.log4j.Logger;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,15 +22,18 @@ public class StandardRequestFactory implements WebRequestFactory
 {
     private static final Logger log = Logger.getLogger(StandardRequestFactory.class.getName());
     public static String BODY = "body";
-    public static String CONTENT_TYPE = "content_type";
 
-    public WebRequest createRequest(String methodType,
-                                    String url,
-                                    Map<String, String> contents)
+    public WebRequestSettings createRequest(String methodType,
+                                            String url,
+                                            Map<String, String> contents)
     {
-        WebRequest result = null;
-        InputStream body = getInputStream(contents);
-        String contentType = getContentType(contents);
+        WebRequestSettings settings = null;
+        String body = null;
+        if (contents.get(BODY) != null)
+        {
+            body = contents.get(BODY);
+        }
+
         Method method = Method.GET;
         if (methodType != null)
         {
@@ -38,74 +42,40 @@ public class StandardRequestFactory implements WebRequestFactory
 
         if (method != null)
         {
-            if (Method.POST.equals(method))
+            try
             {
+                URL theUrl = new URI(url).toURL();
+                HttpMethod httpMethod = method.getMethod();
+                settings = new WebRequestSettings(theUrl, httpMethod);
                 if (body != null)
                 {
-                    result = new PostMethodWebRequest(url, body, contentType);
+                    settings.setRequestBody(body);
                 }
-                else
-                {
-                    result = new PostMethodWebRequest(url, false);
-                }
+                populateRequestParameters(contents, settings);
             }
-            if (Method.PUT.equals(method))
+            catch (Exception e)
             {
-                if (body != null)
-                {
-                    result = new PutMethodWebRequest(url, body, contentType);
-                }
+                log.error("Unexpected error creating method to send page data", e);
             }
-            if (Method.GET.equals(method))
-            {
-                result = new GetMethodWebRequest(url);
-            }
-            if (Method.DELETE.equals(method))
-            {
-                result = new GetMethodWebRequest(url)
-                {
-                    public String getMethod()
-                    {
-                        return "DELETE";
-                    }
-                };
-            }
-            populateRequestParameters(contents, result);
         }
-        return result;
+        return settings;
     }
 
-    protected void populateRequestParameters(Map<String, String> contents, WebRequest request)
+    protected void populateRequestParameters(Map<String, String> contents, WebRequestSettings request)
     {
         Set<String> keys = contents.keySet();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
         for (String key : keys)
         {
-            if (!BODY.equals(key) && !CONTENT_TYPE.equals(key))
+            if (!BODY.equals(key))
             {
                 log.debug("Adding parameter '" + key + "' as:" + contents.get(key));
-                request.setParameter(key, contents.get(key));
+                NameValuePair pair = new NameValuePair();
+                pair.setName(key);
+                pair.setValue(contents.get(key));
+                params.add(pair);
             }
         }
+        request.setRequestParameters(params);
     }
-
-    private String getContentType(Map<String, String> contents)
-    {
-        String result = "text/html";
-        if (contents.get(CONTENT_TYPE) != null)
-        {
-            result = contents.get(CONTENT_TYPE);
-        }
-        return result;
-    }
-
-    private InputStream getInputStream(Map<String, String> contents)
-    {
-        InputStream result = null;
-        if (contents.get(BODY) != null)
-        {
-            result = new ByteArrayInputStream(contents.get(BODY).getBytes());
-        }
-        return result;
-    }
-
 }
