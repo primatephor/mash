@@ -38,7 +38,7 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                 if (title != null)
                 {
                     log.debug("Verifying title is " + title);
-                    String expectedTitle = response.getWebResponse().getTitleText();
+                    String expectedTitle = response.getWebPage().getTitleText();
                     if (!title.equals(expectedTitle))
                     {
                         getErrors().add(new HarnessError(this.getName(),
@@ -49,9 +49,9 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                 if (status != null)
                 {
                     log.debug("Verifying status is " + status);
-                    if (response.getWebResponse() != null)
+                    if (response.getWebPage() != null)
                     {
-                        int expectedStatus = response.getWebResponse().getWebResponse().getStatusCode();
+                        int expectedStatus = response.getWebPage().getWebResponse().getStatusCode();
                         if (Integer.valueOf(status) != expectedStatus)
                         {
                             getErrors().add(new HarnessError(this.getName(),
@@ -78,7 +78,10 @@ public class HttpVerifyHarness extends StandardVerifyHarness
             log.warn("Not verifying response, not an HttpResponse");
         }
 
-        super.verify(run, setup);
+        if (!hasErrors())
+        {
+            super.verify(run, setup);
+        }
     }
 
     @HarnessConfiguration(name = "title")

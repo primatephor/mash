@@ -1,8 +1,6 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
@@ -11,7 +9,6 @@ import org.xml.sax.SAXException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
@@ -22,11 +19,11 @@ import java.util.List;
 public class HttpResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(HttpResponse.class);
-    private HtmlPage webResponse;
+    private HtmlPage webPage;
 
-    public HttpResponse(HtmlPage webResponse)
+    public HttpResponse(HtmlPage webPage)
     {
-        this.webResponse = webResponse;
+        this.webPage = webPage;
     }
 
     public String getValue(String name)
@@ -46,7 +43,6 @@ public class HttpResponse implements RunResponse
         try
         {
             results.addAll(retrieveElements(name));
-            results.addAll(retrieveFormElements(name));
         }
         catch (Exception e)
         {
@@ -55,33 +51,34 @@ public class HttpResponse implements RunResponse
         return results;
     }
 
-    private Collection<String> retrieveFormElements(String name)
-            throws SAXException
-    {
-        Collection<String> results = new ArrayList<String>();
-        for (HtmlForm htmlForm : webResponse.getForms())
-        {
-            List<HtmlInput> input = htmlForm.getInputsByName(name);
-            if (input != null && input.size() > 0)
-            {
-                log.debug("param text:" + input.get(0).asText());
-                results.add(input.get(0).asText());
-            }
-        }
-        return results;
-    }
-
     private Collection<String> retrieveElements(String name)
             throws SAXException
     {
-        List<HtmlElement> elements = webResponse.getElementsByName(name);
         Collection<String> results = new ArrayList<String>();
-        for (HtmlElement element : elements)
+        Iterable<HtmlElement> iters = webPage.getAllHtmlChildElements();
+        for (HtmlElement iter : iters)
         {
-            String text = element.asText();
-            if (text != null)
+            String elementName = iter.getAttribute("name");
+            if (elementName != null && elementName.equals(name))
             {
-                results.add(text);
+                log.debug("Found element node :" + elementName +
+                          " with value " + iter.getAttribute("value"));
+                if (iter.getAttribute("value") != null)
+                {
+                    log.debug("SETTING " + elementName + " to attr " + iter.getAttribute("value"));
+                    results.add(iter.getAttribute("value"));
+                }
+                else if (iter.getNodeValue() != null &&
+                         iter.getNodeValue().length() > 0)
+                {
+                    log.debug("SETTING " + elementName + " to val " + iter.getNodeValue());
+                    results.add(iter.getNodeValue());
+                }
+                else
+                {
+                    log.warn("Unable to determing the value of node " + iter.getAttribute("name"));
+                }
+                break;
             }
         }
         return results;
@@ -92,7 +89,7 @@ public class HttpResponse implements RunResponse
         Collection<String> results = Collections.emptyList();
         try
         {
-            Iterable<HtmlElement> elements = webResponse.getAllHtmlChildElements();
+            Iterable<HtmlElement> elements = webPage.getAllHtmlChildElements();
             for (HtmlElement element : elements)
             {
                 results.addAll(getValues(element.getNodeName()));
@@ -108,15 +105,19 @@ public class HttpResponse implements RunResponse
     public String getString()
     {
         String result = "";
-        if (webResponse != null)
+        if (webPage != null)
         {
-            result = webResponse.getTextContent();
+            result = webPage.getWebResponse().getContentAsString();
+        }
+        else
+        {
+            log.warn("Web page is null, unable to parse any content!");
         }
         return result;
     }
 
-    public HtmlPage getWebResponse()
+    public HtmlPage getWebPage()
     {
-        return webResponse;
+        return webPage;
     }
 }

@@ -72,7 +72,7 @@ public class StandardRequestFactory implements WebRequestFactory
         {
             if (!BODY.equals(key))
             {
-                log.debug("Adding parameter '" + key + "' as:" + contents.get(key));
+                log.info("Adding parameter '" + key + "' as:" + contents.get(key));
                 NameValuePair pair = new NameValuePair();
                 pair.setName(key);
                 pair.setValue(contents.get(key));
