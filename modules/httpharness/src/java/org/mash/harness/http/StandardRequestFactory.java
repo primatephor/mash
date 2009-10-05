@@ -51,7 +51,10 @@ public class StandardRequestFactory implements WebRequestFactory
                 {
                     settings.setRequestBody(body);
                 }
-                populateRequestParameters(contents, settings);
+                else
+                {
+                    populateRequestParameters(contents, settings);
+                }
             }
             catch (Exception e)
             {
@@ -76,6 +79,10 @@ public class StandardRequestFactory implements WebRequestFactory
                 params.add(pair);
             }
         }
-        request.setRequestParameters(params);
+
+        if (params.size() > 0)
+        {
+            request.setRequestParameters(params);
+        }
     }
 }
