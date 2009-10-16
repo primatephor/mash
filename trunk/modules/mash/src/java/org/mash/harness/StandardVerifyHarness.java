@@ -21,6 +21,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 {
     private static final Logger log = Logger.getLogger(StandardVerifyHarness.class.getName());
     private List<String> containment;
+    private Boolean ignoreSpaces = false;
 
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
@@ -52,7 +53,13 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
             String responseValue = response.getValue(parameter.getName());
             if (parameter.getValue() != null)
             {
-                if (!parameter.getValue().equals(responseValue))
+                String checkValue = parameter.getValue();
+                if (ignoreSpaces && responseValue != null)
+                {
+                    responseValue = responseValue.replaceAll("\\s+", "");
+                    checkValue = checkValue.replaceAll("\\s+", "");
+                }
+                if (!checkValue.equals(responseValue))
                 {
                     getErrors().add(new HarnessError(getName(), "Expected '" + parameter.getValue() +
                                                                 "' does not equal '" + responseValue + "'"));
@@ -66,6 +73,12 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
     {
         log.debug("looking for '" + text + "' in text");
         getContainment().add(text);
+    }
+
+    @HarnessConfiguration(name = "ignore_space")
+    public void setIgnoreSpaces(String ignore)
+    {
+        this.ignoreSpaces = Boolean.valueOf(ignore);
     }
 
     public List<String> getContainment()
