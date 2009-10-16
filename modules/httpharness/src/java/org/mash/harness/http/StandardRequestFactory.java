@@ -58,7 +58,7 @@ public class StandardRequestFactory implements WebRequestFactory
             }
             catch (Exception e)
             {
-                log.error("Unexpected error creating method to send page data", e);
+                log.error("Unexpected error creating method to send page data to " + url, e);
             }
         }
         return settings;

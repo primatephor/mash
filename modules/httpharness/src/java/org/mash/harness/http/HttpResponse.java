@@ -59,24 +59,32 @@ public class HttpResponse implements RunResponse
         for (HtmlElement iter : iters)
         {
             String elementName = iter.getAttribute("name");
+            if (elementName == null || elementName.length() == 0)
+            {
+                elementName = iter.getAttribute("id");
+            }
+
             if (elementName != null && elementName.equals(name))
             {
-                log.debug("Found element node :" + elementName +
-                          " with value " + iter.getAttribute("value"));
-                if (iter.getAttribute("value") != null)
+                log.debug("Found element node :" + elementName);
+                String value = iter.getAttribute("value");
+                if (value == null || value.length() == 0)
                 {
-                    log.debug("SETTING " + elementName + " to attr " + iter.getAttribute("value"));
-                    results.add(iter.getAttribute("value"));
+                    value = iter.getNodeValue();
                 }
-                else if (iter.getNodeValue() != null &&
-                         iter.getNodeValue().length() > 0)
+                if (value == null || value.length() == 0)
                 {
-                    log.debug("SETTING " + elementName + " to val " + iter.getNodeValue());
-                    results.add(iter.getNodeValue());
+                    value = iter.getTextContent();
+                }
+
+                if (value != null && value.length() > 0)
+                {
+                    log.debug("SETTING '" + elementName + "' to value:" + value);
+                    results.add(value);
                 }
                 else
                 {
-                    log.warn("Unable to determing the value of node " + iter.getAttribute("name"));
+                    log.warn("Unable to determing the value of node " + elementName);
                 }
                 break;
             }
