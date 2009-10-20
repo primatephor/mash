@@ -1,5 +1,6 @@
 package org.mash.harness.http;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
@@ -10,6 +11,8 @@ import org.mash.loader.HarnessConfiguration;
 import java.util.List;
 
 /**
+ * Containment is overridden to allow for escaped characters.  That way we can verify things like '<', etc.
+ *
  * Verify parameters returned from the web resource using the standard parameter matching.  Additional configurations
  * allow you to verify:
  * <ul>
@@ -82,6 +85,14 @@ public class HttpVerifyHarness extends StandardVerifyHarness
         {
             super.verify(run, setup);
         }
+    }
+
+    @HarnessConfiguration(name = "contains")
+    public void setContainment(String text)
+    {
+        text = StringEscapeUtils.unescapeHtml(text);
+        log.debug("Unescaped:" + text);
+        super.setContainment(text);
     }
 
     @HarnessConfiguration(name = "title")
