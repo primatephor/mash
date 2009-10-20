@@ -59,7 +59,6 @@ public class DBUnitWorker implements DBWorker
                 stmt = conn.createStatement();
                 log.debug("Exectuting " + sql);
                 stmt.execute(sql);
-                conn.commit();
             }
             finally
             {
