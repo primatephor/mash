@@ -82,12 +82,19 @@ public class ScriptDefinitionLoader
             File dir = fileLoader.findFile(directory, basePath);
             log.info("Loading files from directory " + dir.getAbsolutePath());
             File[] files = dir.listFiles();
-            for (File file : files)
+            if (files == null)
             {
-                ScriptDefinition pulled = pullFile(file.getAbsolutePath(), basePath);
-                if (pulled != null)
+                throw new IllegalArgumentException("No files under directory " + dir.getAbsolutePath());
+            }
+            else
+            {
+                for (File file : files)
                 {
-                    scripts.add(pulled);
+                    ScriptDefinition pulled = pullFile(file.getAbsolutePath(), basePath);
+                    if (pulled != null)
+                    {
+                        scripts.add(pulled);
+                    }
                 }
             }
         }

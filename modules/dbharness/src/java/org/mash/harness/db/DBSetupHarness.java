@@ -3,6 +3,7 @@ package org.mash.harness.db;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessError;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
 
@@ -62,17 +63,25 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
 
         for (Parameter parameter : getParameters())
         {
-            if (parameter.getFile() != null)
+            try
             {
-                log.info("Running db setup file " + parameter.getFile());
-                if (parameter.getFile().endsWith(".sql"))
+                if (parameter.getFile() != null)
                 {
-                    util.execute(connector, parameter.getValue());
+                    log.info("Running db setup file " + parameter.getFile());
+                    if (parameter.getFile().endsWith(".sql"))
+                    {
+                        util.execute(connector, parameter.getValue());
+                    }
+                    else if (parameter.getFile().endsWith(".xml"))
+                    {
+                        util.updateRows(connector, type, parameter.getValue());
+                    }
                 }
-                else if (parameter.getFile().endsWith(".xml"))
-                {
-                    util.updateRows(connector, type, parameter.getValue());
-                }
+            }
+            catch (Exception e)
+            {
+                log.error("Unexpected error executing db actions", e);
+                getErrors().add(new HarnessError(this.getName(), "Unexpected error executing db actions", e.getMessage()));
             }
         }
     }
