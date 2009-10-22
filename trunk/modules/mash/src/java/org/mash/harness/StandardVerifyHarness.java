@@ -59,10 +59,25 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                     responseValue = responseValue.replaceAll("\\s+", "");
                     checkValue = checkValue.replaceAll("\\s+", "");
                 }
-                if (!checkValue.equals(responseValue))
+
+                if (checkValue != null && checkValue.length() > 0)
                 {
-                    getErrors().add(new HarnessError(getName(), "Expected '" + parameter.getValue() +
-                                                                "' does not equal '" + responseValue + "'"));
+                    //if is not null or blank, then response must be equal
+                    if (!checkValue.equals(responseValue))
+                    {
+                        getErrors().add(new HarnessError(getName(), "Expected " + parameter.getName() + " '" +
+                                                                    parameter.getValue() +
+                                                                    "' does not equal '" + responseValue + "'"));
+                    }
+                }
+                else
+                {
+                    //if check is null or blank, then response must be null or blank
+                    if (responseValue != null && responseValue.length() > 0)
+                    {
+                        getErrors().add(new HarnessError(getName(), "Expected " + parameter.getName() +
+                                                                    " to be empty, was '" + responseValue + "'"));
+                    }
                 }
             }
         }
