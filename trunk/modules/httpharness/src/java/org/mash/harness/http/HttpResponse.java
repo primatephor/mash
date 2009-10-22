@@ -84,7 +84,7 @@ public class HttpResponse implements RunResponse
                 }
                 else
                 {
-                    log.warn("Unable to determing the value of node " + elementName);
+                    log.warn("Unable to determine the value of node " + elementName);
                 }
                 break;
             }
