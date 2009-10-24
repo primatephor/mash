@@ -90,10 +90,17 @@ public class ScriptDefinitionLoader
             {
                 for (File file : files)
                 {
-                    ScriptDefinition pulled = pullFile(file.getAbsolutePath(), basePath);
-                    if (pulled != null)
+                    if (file.getAbsolutePath().toLowerCase().endsWith(".xml"))
                     {
-                        scripts.add(pulled);
+                        ScriptDefinition pulled = pullFile(file.getAbsolutePath(), basePath);
+                        if (pulled != null)
+                        {
+                            scripts.add(pulled);
+                        }
+                    }
+                    else
+                    {
+                        log.info("Unknown file type:" + file.getAbsolutePath());
                     }
                 }
             }
