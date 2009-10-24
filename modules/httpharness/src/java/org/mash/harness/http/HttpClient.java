@@ -39,7 +39,7 @@ public class HttpClient
         }
         catch (Exception e)
         {
-            LOG.error("Error sending via HttpUnit: " + e, e);
+            LOG.error("Error sending via HttpUnit to uri:" + uri, e);
         }
     }
 
