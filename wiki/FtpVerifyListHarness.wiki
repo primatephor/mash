@@ -13,7 +13,7 @@ Configuration values:
 
 = Sample Usage =
 {{{
-    <Run type="org.mash.harness.ftp. FTPRunHarness">
+    <Run type="org.mash.harness.ftp.FTPRunHarness">
         <Configuration name="url" property="my.url"/>
         <Configuration name="user"><Value>theuser</Value></Configuration>
         <Configuration name="password"><Value>password</Value></Configuration>
