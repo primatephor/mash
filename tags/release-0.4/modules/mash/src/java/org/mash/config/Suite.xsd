@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://www.mash.org/schema/V1" xmlns:tns="http://www.mash.org/schema/V1"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="Script" type="tns:Script"/>
+
+    <xs:element name="Suite">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="Parallel" type="tns:Parallel"/>
+                    <xs:element name="Script" type="tns:Script"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Parallel">
+        <xs:sequence>
+            <xs:element name="Script" type="tns:Script" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Script">
+        <xs:sequence>
+            <xs:element name="Tag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="Setup" type="tns:Setup"/>
+                <xs:element name="Run" type="tns:Run"/>
+                <xs:element name="Verify" type="tns:Verify"/>
+                <xs:element name="Teardown" type="tns:Teardown"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="file" type="xs:string"/>
+        <xs:attribute name="dir" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Setup">
+        <xs:sequence>
+            <xs:element name="Configuration" type="tns:Configuration" maxOccurs="unbounded"/>
+            <xs:element name="Parameter" type="tns:Parameter" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Configuration">
+        <xs:sequence>
+            <xs:element name="Value" type="xs:string" minOccurs="0"/>
+            <xs:element name="Date" type="tns:Date" minOccurs="0"/>
+            <xs:element name="Response" type="tns:Response" minOccurs="0"/>
+            <xs:element name="Replace" type="tns:Replace" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="property" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="file" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Date">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="zone" type="xs:string"/>
+                <xs:attribute name="yearOffset" type="xs:int"/>
+                <xs:attribute name="monthOffset" type="xs:int"/>
+                <xs:attribute name="dayOffset" type="xs:int"/>
+                <xs:attribute name="hourOffset" type="xs:int"/>
+                <xs:attribute name="minOffset" type="xs:int"/>
+                <xs:attribute name="secOffset" type="xs:int"/>
+                <xs:attribute name="format" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="Response">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="name" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="Replace">
+        <xs:sequence>
+            <xs:element name="Value" type="xs:string" minOccurs="0"/>
+            <xs:element name="Date" type="tns:Date" minOccurs="0"/>
+            <xs:element name="Response" type="tns:Response" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="property" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="file" type="xs:string"/>
+        <xs:attribute name="search" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Parameter">
+        <xs:sequence>
+            <xs:element name="Value" type="xs:string" minOccurs="0"/>
+            <xs:element name="Date" type="tns:Date" minOccurs="0"/>
+            <xs:element name="Response" type="tns:Response" minOccurs="0"/>
+            <xs:element name="Replace" type="tns:Replace" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="property" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="file" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Run">
+        <xs:sequence>
+            <xs:element name="Configuration" type="tns:Configuration" maxOccurs="unbounded"/>
+            <xs:element name="Parameter" type="tns:Parameter" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Verify">
+        <xs:sequence>
+            <xs:element name="Configuration" type="tns:Configuration" maxOccurs="unbounded"/>
+            <xs:element name="Parameter" type="tns:Parameter" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Teardown">
+        <xs:sequence>
+            <xs:element name="Configuration" type="tns:Configuration" maxOccurs="unbounded"/>
+            <xs:element name="Parameter" type="tns:Parameter" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+</xs:schema>
+
