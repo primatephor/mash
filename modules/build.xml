@@ -112,7 +112,7 @@
 
     <target name="docs" depends="init,build">
         <path id="local.class.path">
-            <fileset dir="${build.tgt}" includes="*.jar,mashlib/*.jar,dbharnesslib/*.jar,httpharnesslib/*.jar,junitrunnerlib/*.jar"/>
+            <fileset dir="${build.tgt}" includes="*.jar,mashlib/*.jar,dbharnesslib/*.jar,httpharnesslib/*.jar,junitrunnerlib/*.jar,ftpharnesslib/*.jar,utilityharnesslib/*.jar"/>
         </path>
         <delete dir="${build.tgt}/javadocs"/>
         <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Mash Framework Classes">
