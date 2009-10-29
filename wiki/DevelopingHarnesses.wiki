@@ -29,9 +29,9 @@ Parameters are configured just like configurations, so you may either parse the 
 Example:
 {{{
    @HarnessParameter(name="port")
-   public void setPort(String port)
+   public void setRequestPort(String requestPort)
    {
-      this.port = Integer.valueOf(port);
+      this.port = Integer.valueOf(requestPort);
    }
 }}}
 Now your harness will accept a {{{<Parameter>}}} element with the name 'port'
