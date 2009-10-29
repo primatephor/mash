@@ -10,7 +10,28 @@ Extending the {{{BaseHarness}}} implements many of the methods in the {{{Harness
 = Configuration = 
 There are two ways of getting configurations into your harness.  One is to parse the {{{Configuration}}} list manually and selectively apply them to your harness.  
 
-Another (simpler) way of getting configuration data is to use the {{{@HarnessConfiguration}}} annotation.  Add this annotation to the method you want invoked with the appropriate {{{<Configuration>}}} element.  The 'name' parameter on the {{{@HarnessConfiguration}}} annotation is the name of the {{{<Configuration>}}} element.
+Another (simpler) way of getting configuration data is to use the {{{@HarnessConfiguration}}} annotation.  Add this annotation to the method you want invoked with the appropriate {{{<Configuration>}}} element.  The 'name' parameter on the {{{@HarnessConfiguration}}} annotation is the name of the {{{<Configuration>}}} element.  
+
+Example:
+{{{
+   @HarnessConfiguration(name="url")
+   public void setUrl(String url)
+   {
+      this.url = url;
+   }
+}}}
+Now your harness will accept a {{{<Configuration>}}} element with the name 'url'
+
 
 = Parameter =
 Parameters are configured just like configurations, so you may either parse the parameter list or use the {{{@HarnessParameter}}} annotation.  Again, with the {{{@HarnessParameter}}} the 'name' parameter is the name of the {{{<Parameter>}}} element.
+
+Example:
+{{{
+   @HarnessParameter(name="port")
+   public void setPort(String port)
+   {
+      this.port = Integer.valueOf(port);
+   }
+}}}
+Now your harness will accept a {{{<Parameter>}}} element with the name 'port'
