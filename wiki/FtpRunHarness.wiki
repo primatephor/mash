@@ -19,7 +19,7 @@ Parameters for ftping:
 
 = Sample Usage =
 {{{
-    <Run type="org.mash.harness.ftp.FtpRunHarness">
+    <Run type="org.mash.harness.ftp.FTPRunHarness">
         <Configuration name="url" property="my.url"/>
         <Configuration name="user"><Value>theuser</Value></Configuration>
         <Configuration name="password"><Value>password</Value></Configuration>
@@ -35,7 +35,7 @@ Here a file named 'file.txt' is downloaded by user 'theuser'.  It's contents are
 
 To retrieve the file with a get and save it locally:
 {{{
-    <Run type="org.mash.harness.ftp.FtpRunHarness">
+    <Run type="org.mash.harness.ftp. FTPRunHarness">
         <Configuration name="url" property="my.url"/>
         <Configuration name="user"><Value>theuser</Value></Configuration>
         <Configuration name="password"><Value>password</Value></Configuration>
