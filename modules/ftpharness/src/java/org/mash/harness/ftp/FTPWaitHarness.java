@@ -63,7 +63,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
         boolean isComplete = false;
         while (current < timeoutMillis && !isComplete)
         {
-            log.info("Polling remote path " + path);
+            log.info("Polling remote path '" + path + "'");
             run.run(previous, setups);
             isComplete = isDoneWaiting(run.getResponse());
             if (!isComplete)
