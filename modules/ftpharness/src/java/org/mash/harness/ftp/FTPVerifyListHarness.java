@@ -14,6 +14,17 @@ import org.mash.loader.HarnessParameter;
 import java.util.List;
 
 /**
+ * Verify a small set of data against a file on the server
+ *
+ * Configurations:
+ * <ul>
+ * <li> 'file_name' to look for </li>
+ * </ul>
+ *
+ * Parameters:
+ * <ul>
+ * <li> 'size' of file to check </li>
+ * </ul>
  *
  * @author teastlack
  * @since Sep 22, 2009 12:02:24 PM
