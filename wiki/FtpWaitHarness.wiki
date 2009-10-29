@@ -1,0 +1,41 @@
+#summary FTPWaitHarness implementation
+
+= Introduction =
+
+Invoke an ftp LS request looking for files to be dumped onto specified path.  Default polling is every 5 seconds for 60 seconds.
+
+= Configuration =
+Configuration values:
+ * 'url' = url of the resource
+ * 'user' = user to login as
+ * 'password' = password of user
+
+= Parameter =
+Parameters for ftping:
+ * 'path' = for listing what file or directory is there
+
+= Sample Usage =
+{{{
+    <Run type="org.mash.harness.ftp.FTPWaitHarness">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="user"><Value>theuser</Value></Configuration>
+        <Configuration name="password"><Value>password</Value></Configuration>
+        <Parameter name="path"><Value>mydirectory</Value></Parameter>
+    </Run>
+}}}
+
+Here the wait harness polls the directory using the default settings (every 5 seconds for 60 seconds)
+
+To change the path to a file, and change the default polling settings:
+{{{
+    <Run type="org.mash.harness.ftp.FTPWaitHarness">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="user"><Value>theuser</Value></Configuration>
+        <Configuration name="password"><Value>password</Value></Configuration>
+        <Configuration name="polltime"><Value>2</Value></Configuration>
+        <Configuration name="timeout"><Value>30</Value></Configuration>
+        <Parameter name="path"><Value>mydirectory/somefile.xml</Value></Parameter>
+    </Run>
+}}}
+
+Here we check to see if a specific file is present, and poll every 2 seconds for 30 seconds.
