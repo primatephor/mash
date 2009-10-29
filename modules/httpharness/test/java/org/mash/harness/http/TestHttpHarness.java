@@ -1,6 +1,6 @@
 package org.mash.harness.http;
 
-import com.meterware.httpunit.WebResponse;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import junit.framework.TestCase;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
@@ -36,8 +36,8 @@ public class TestHttpHarness extends TestCase
         params.put("client", "firefox-a");
 
         client.submit("http://www.google.com/search", params);
-        WebResponse response = client.getWebResponse();
-        assertEquals("System Test - Google Search", response.getTitle());
+        HtmlPage response = client.getWebResponse();
+        assertEquals("System Test - Google Search", response.getTitleText());
     }
 
     public void testRunAndVerify() throws Throwable

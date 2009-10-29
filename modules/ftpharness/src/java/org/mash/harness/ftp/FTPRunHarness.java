@@ -69,7 +69,7 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
-        FTPClient client = new FTPClient();
+        FTPClient client = buildClient();
         try
         {
             log.info("Attempting connect to " + url + ".");
@@ -119,6 +119,11 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
                 }
             }
         }
+    }
+
+    protected FTPClient buildClient()
+    {
+        return new FTPClient();
     }
 
     private void runOperation(FTPClient client, FTPOperations operation)
