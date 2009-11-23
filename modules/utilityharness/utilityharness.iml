@@ -11,7 +11,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mash" />
-    <orderEntry type="library" name="mashlibs" level="application" />
+    <orderEntry type="library" name="mashlib" level="application" />
     <orderEntryProperties />
   </component>
 </module>

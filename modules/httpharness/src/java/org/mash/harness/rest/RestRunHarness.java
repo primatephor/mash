@@ -5,12 +5,14 @@ import org.mash.config.Parameter;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
-import org.mash.harness.XmlResponse;
 import org.mash.harness.http.HttpRunHarness;
 import org.mash.harness.http.Method;
 import org.mash.harness.http.StandardRequestFactory;
+import org.apache.log4j.Logger;
 
 import java.util.List;
+
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
  * Configurations:
@@ -33,7 +35,9 @@ import java.util.List;
  */
 public class RestRunHarness extends HttpRunHarness
 {
+    private static final Logger LOG = Logger.getLogger(RestRunHarness.class.getName());
     public static String DEFAULT_CONTENT_TYPE = "text/xml";
+    private RunResponse xmlResponse;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
@@ -52,16 +56,20 @@ public class RestRunHarness extends HttpRunHarness
 
     public RunResponse getResponse()
     {
-        if (response == null)
+        if (xmlResponse == null)
         {
-            String responseString = null;
-            if (getHtmlPage() != null)
+            if (getSgmlPage() != null)
             {
-                responseString = getHtmlPage().getTextContent();
+                LOG.debug("Pulling sgml response");
+                XmlPage xmlPage = (XmlPage) getSgmlPage();
+                xmlResponse = new RestResponse(xmlPage);
+                if(LOG.isDebugEnabled())
+                {
+                    LOG.debug("RESPONSE:"+xmlResponse.getString());
+                }
             }
-            response = new XmlResponse(responseString);
         }
-        return response;
+        return xmlResponse;
     }
 
     /**

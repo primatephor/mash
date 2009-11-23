@@ -10,6 +10,8 @@ import org.mash.loader.HarnessConfiguration;
 
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 /**
  * Containment is overridden to allow for escaped characters.  That way we can verify things like '<', etc.
  *
@@ -40,8 +42,9 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                 HttpResponse response = (HttpResponse) run.getResponse();
                 if (title != null)
                 {
+                    HtmlPage pageResponse = (HtmlPage) response.getWebPage();
                     log.debug("Verifying title is " + title);
-                    String expectedTitle = response.getWebPage().getTitleText();
+                    String expectedTitle = pageResponse.getTitleText();
                     if (!title.equals(expectedTitle))
                     {
                         getErrors().add(new HarnessError(this.getName(),

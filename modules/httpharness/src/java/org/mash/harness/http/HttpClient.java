@@ -2,7 +2,7 @@ package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequestSettings;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.SgmlPage;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class HttpClient
 
     private WebClient client;
     private WebRequestSettings webRequest;
-    private HtmlPage webResponse;
+    private SgmlPage webResponse;
     private WebRequestFactory factory;
     private String methodType;
 
@@ -36,6 +36,7 @@ public class HttpClient
         try
         {
             webResponse = client.getPage(webRequest);
+            LOG.debug("Received response");
         }
         catch (Exception e)
         {
@@ -53,7 +54,7 @@ public class HttpClient
         return webRequest;
     }
 
-    public HtmlPage getWebResponse()
+    public SgmlPage getWebResponse()
     {
         return webResponse;
     }
