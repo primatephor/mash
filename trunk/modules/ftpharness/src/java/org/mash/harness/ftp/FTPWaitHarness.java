@@ -71,8 +71,8 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
                 long timeToWait = pollMillis;
                 if (current + pollMillis > timeoutMillis)
                 {
-                    //end at timeout then
-                    timeToWait = current + pollMillis - timeoutMillis;
+                    //end at timeout then, plus a little slop
+                    timeToWait = current + pollMillis - timeoutMillis +500;
                 }
 
                 try

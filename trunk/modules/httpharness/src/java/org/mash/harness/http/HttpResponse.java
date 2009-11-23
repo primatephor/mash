@@ -1,7 +1,7 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.SgmlPage;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
 import org.xml.sax.SAXException;
@@ -19,9 +19,9 @@ import java.util.Collections;
 public class HttpResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(HttpResponse.class);
-    private HtmlPage webPage;
+    private SgmlPage webPage;
 
-    public HttpResponse(HtmlPage webPage)
+    public HttpResponse(SgmlPage webPage)
     {
         this.webPage = webPage;
     }
@@ -124,7 +124,7 @@ public class HttpResponse implements RunResponse
         return result;
     }
 
-    public HtmlPage getWebPage()
+    public SgmlPage getWebPage()
     {
         return webPage;
     }

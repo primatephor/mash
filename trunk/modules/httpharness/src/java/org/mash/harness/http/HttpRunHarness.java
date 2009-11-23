@@ -1,6 +1,7 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.SgmlPage;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
@@ -62,21 +63,28 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         }
     }
 
-    protected HtmlPage getHtmlPage()
+    protected SgmlPage getSgmlPage()
     {
-        HtmlPage result = null;
+        SgmlPage result = null;
         if (client != null)
         {
             result = client.getWebResponse();
+        }
+        else
+        {
+            log.warn("Client is null!");
         }
         return result;
     }
 
     public RunResponse getResponse()
     {
-        if (response == null)
+        SgmlPage result = getSgmlPage();
+        if (response == null &&
+            result != null &&
+            result instanceof HtmlPage)
         {
-            response = new HttpResponse(getHtmlPage());
+            response = new HttpResponse((HtmlPage) result);
         }
         return response;
     }

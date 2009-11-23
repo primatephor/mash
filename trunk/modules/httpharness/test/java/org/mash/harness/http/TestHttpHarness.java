@@ -36,7 +36,7 @@ public class TestHttpHarness extends TestCase
         params.put("client", "firefox-a");
 
         client.submit("http://www.google.com/search", params);
-        HtmlPage response = client.getWebResponse();
+        HtmlPage response = (HtmlPage) client.getWebResponse();
         assertEquals("System Test - Google Search", response.getTitleText());
     }
 

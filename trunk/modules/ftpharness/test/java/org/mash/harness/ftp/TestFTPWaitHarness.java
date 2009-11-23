@@ -37,9 +37,9 @@ public class TestFTPWaitHarness extends TestCase
         long end = new Date().getTime();
         long difference = end - start;
         //more than 10 seconds, 1st poll has no wait and increases count
-        assertTrue("not enough time has passeed", difference > 10000);
+        assertTrue("not enough time has passeed:"+difference, difference > 10000);
         //less than 15 seconds
-        assertTrue("too much time has passeed", difference < 15000);
+        assertTrue("too much time has passeed:"+difference, difference < 15000);
     }
 
     public void testTimeout()
@@ -61,9 +61,9 @@ public class TestFTPWaitHarness extends TestCase
         long end = new Date().getTime();
         long difference = end - start;
         //more than 10 seconds, 1st poll has no wait and increases count
-        assertTrue("not enough time has passeed", difference > 30000);
+        assertTrue("not enough time has passeed:"+difference, difference > 29500);
         //less than 15 seconds
-        assertTrue("too much time has passeed", difference < 35000);
+        assertTrue("too much time has passeed:"+difference, difference < 35000);
         assertEquals(1, wait.getErrors().size());
         assertEquals("Timed out before found theFile", wait.getErrors().get(0).getValue());
     }
