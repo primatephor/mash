@@ -1,8 +1,27 @@
 <?xml version="1.0"?>
-
 <project name="Code Build">
+    <path id="modules.lib.path">
+        <fileset dir="${build.tgt}" includes="*.jar"/>
+    </path>
 
-    <target name="init">
+    <target name="checklib">
+        <available file="${module.dir}/lib" type="dir" property="lib.present"/>
+    </target>
+
+    <target name="libsetup" depends="checklib" if="lib.present">
+        <echo message="Files present, creating new lib"/>
+        <!-- libraries -->
+        <mkdir dir="${build.tgt}/${module.dir}lib"/>
+        <copy failonerror="false" todir="${build.tgt}/${module.dir}lib">
+            <fileset dir="${module.dir}/lib"/>
+        </copy>
+        <!-- change it -->
+        <path id="modules.lib.path">
+            <fileset dir="${build.tgt}/${module.dir}lib" includes="*.jar"/>
+        </path>
+    </target>
+
+    <target name="init" depends="libsetup">
         <property name="module.dir" value="${module.dir}"/>
         <property file="${module.dir}/build.properties"/>
         <condition property="path.dirs" value="${local.lib.dirs}" else="${lib.dirs}">
@@ -14,30 +33,18 @@
         <property name="src.out" value="${target}/classes"/>
         <property name="modulename" value="${module.name}"/>
 
-        <!-- libraries -->
-        <mkdir dir="${build.tgt}/${module.dir}lib"/>
-        <copy failonerror="false" todir="${build.tgt}/${module.dir}lib">
-            <fileset dir="${module.dir}/lib"/>
-        </copy>
-
-        <!-- common libraries -->
-        <mkdir dir="${build.tgt}/lib"/>
-        <copy failonerror="false" todir="${build.tgt}/lib">
-            <fileset dir="lib"/>
-        </copy>
+        <!-- modules -->
+        <property name="modules.lib.dir" value="${build.tgt}/${build.module.dir}"/>
     </target>
 
     <target name="classpath" depends="init">
         <echo message="Library paths:${path.dirs}"/>
         <path id="local.class.path">
             <fileset dir="${build.tgt}" includes="${path.dirs}"/>
-            <fileset dir="${build.tgt}/lib" includes="*.jar"/>
+            <!--<fileset dir="${build.tgt}/lib" includes="*.jar"/>-->
         </path>
         <path id="modules.class.path">
             <fileset dir="${build.tgt}" includes="*.jar"/>
-        </path>
-        <path id="modules.lib.path">
-            <fileset dir="${build.tgt}/${module.dir}lib" includes="*.jar"/>
         </path>
     </target>
 
@@ -59,6 +66,9 @@
     </target>
 
     <target name="makeJar" depends="compile">
+        <copy failonerror="false" todir="${target}/classes">
+            <fileset dir="${src}/resources"/>
+        </copy>
         <jar jarfile="${target}/${modulename}.jar" baseDir="${target}/classes"/>
         <copy file="${target}/${modulename}.jar" todir="${build.tgt}"/>
     </target>
