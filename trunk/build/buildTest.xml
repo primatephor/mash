@@ -1,8 +1,27 @@
 <?xml version="1.0"?>
 
 <project name="Tests" default="test">
+    <path id="modules.lib.path">
+        <fileset dir="${build.tgt}" includes="*.jar"/>
+    </path>
 
-    <target name="init">
+    <target name="checklib">
+        <available file="${module.dir}/lib" type="dir" property="lib.present"/>
+    </target>
+
+    <target name="libsetup" depends="checklib" if="lib.present">
+        <echo message="Files present, creating new lib"/>
+        <!-- libraries -->
+        <mkdir dir="${build.tgt}/${module.dir}lib"/>
+        <copy failonerror="false" todir="${build.tgt}/${module.dir}lib">
+            <fileset dir="${module.dir}/lib"/>
+        </copy>
+        <!-- change it -->
+        <path id="modules.lib.path">
+            <fileset dir="${build.tgt}/${module.dir}lib" includes="*.jar"/>
+        </path>
+    </target>
+    <target name="init" depends="libsetup">
         <property name="module.dir" value="${module.dir}"/>
         <property file="${module.dir}/build.properties"/>
         <property name="target" value="${module.dir}/${target.name}"/>
@@ -15,13 +34,8 @@
             <isset property="local.lib.dirs"/>
         </condition>
 
+        <property name="modules.lib.dir" value="${build.tgt}/${build.module.dir}"/>
         <property name="modulename" value="${module.name}"/>
-
-        <!-- libraries -->
-        <mkdir dir="${build.tgt}/${module.dir}testlib"/>
-        <copy failonerror="false" todir="${build.tgt}/${module.dir}testlib">
-            <fileset dir="${module.dir}/testlib"/>
-        </copy>
 
         <!-- common test libs -->
         <mkdir dir="${build.tgt}/testlib"/>
@@ -38,15 +52,9 @@
         <path id="modules.class.path">
             <fileset dir="${build.tgt}" includes="*.jar"/>
         </path>
-        <path id="modules.lib.path">
-            <fileset dir="${build.tgt}/${module.dir}lib" includes="*.jar"/>
-        </path>
         <path id="test.class.path">
             <fileset dir="${build.tgt}" includes="${test.lib.dirs}"/>
             <fileset dir="${build.tgt}/testlib" includes="*.jar"/>
-        </path>
-        <path id="modules.testlib.path">
-            <fileset dir="${build.tgt}/${module.dir}testlib" includes="*.jar"/>
         </path>
     </target>
 
@@ -68,7 +76,6 @@
                 <path refid="modules.class.path"/>
                 <path refid="modules.lib.path"/>
                 <path refid="test.class.path"/>
-                <path refid="modules.testlib.path"/>
             </classpath>
         </javac>
         <copy todir="${test.out.dir}">
@@ -118,7 +125,6 @@
                 <path refid="modules.class.path"/>
                 <path refid="modules.lib.path"/>
                 <path refid="test.class.path"/>
-                <path refid="modules.testlib.path"/>
                 <dirset dir="${test.out.dir}"/>
             </classpath>
             <formatter type="xml"/>
