@@ -1,6 +1,7 @@
 package org.mash.harness.db.dbunit;
 
 import org.dbunit.operation.DatabaseOperation;
+import org.apache.log4j.Logger;
 
 /**
  * User: teastlack Date: Jul 7, 2009 Time: 6:09:15 PM
@@ -15,6 +16,7 @@ public enum DBOperation
     TRUNCATE(DatabaseOperation.TRUNCATE_TABLE),
     UPDATE(DatabaseOperation.UPDATE);
 
+    private static final Logger LOG = Logger.getLogger(DBOperation.class.getName());
     private DatabaseOperation operation;
 
     DBOperation(DatabaseOperation operation)
@@ -25,5 +27,24 @@ public enum DBOperation
     public DatabaseOperation getOperation()
     {
         return operation;
+    }
+
+    public static DBOperation find(String operationName)
+    {
+        LOG.info("Looking for operation '" + operationName +"'");
+        DBOperation result = null;
+        if (operationName != null &&
+            operationName.length() > 0)
+        {
+            try
+            {
+                result = DBOperation.valueOf(operationName.toUpperCase());
+            }
+            catch (IllegalArgumentException e)
+            {
+                LOG.error("Problem setting db operation", e);
+            }
+        }
+        return result;
     }
 }
