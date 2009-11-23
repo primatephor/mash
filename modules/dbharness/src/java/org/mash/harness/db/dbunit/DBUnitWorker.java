@@ -76,7 +76,7 @@ public class DBUnitWorker implements DBWorker
 
     public void updateRows(DBConnector connector, String theOperation, String content) throws Exception
     {
-        DBOperation operation = DBOperation.valueOf(theOperation);
+        DBOperation operation = DBOperation.find(theOperation);
         IDatabaseConnection connection = getConnection(connector);
         try
         {

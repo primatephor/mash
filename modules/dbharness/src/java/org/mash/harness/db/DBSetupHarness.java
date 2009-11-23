@@ -39,7 +39,6 @@ import org.mash.loader.HarnessConfiguration;
  *
  * @author teastlack
  * @since Jul 7, 2009 5:20:41 PM
- *
  */
 public class DBSetupHarness extends BaseHarness implements SetupHarness
 {
@@ -124,8 +123,7 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
     {
         if (type != null)
         {
-            type = type.toUpperCase();
+            this.type = type.toUpperCase();
         }
-        this.type = type;
     }
 }
