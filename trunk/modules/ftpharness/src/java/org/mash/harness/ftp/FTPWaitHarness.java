@@ -28,6 +28,7 @@ import java.util.List;
  * Parameters:
  * <ul>
  * <li> 'path' of file or directory to check </li>
+ * <li> 'size' number of files to wait for, default is 1 </li>
  * </ul>
  *
  * @author teastlack
@@ -46,6 +47,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
     private String password;
     private String url;
     private String path;
+    private Integer size = 1;
 
     private FTPRunHarness run;
 
@@ -72,7 +74,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
                 if (current + pollMillis > timeoutMillis)
                 {
                     //end at timeout then, plus a little slop
-                    timeToWait = current + pollMillis - timeoutMillis +500;
+                    timeToWait = current + pollMillis - timeoutMillis + 500;
                 }
 
                 try
@@ -102,7 +104,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
     {
         ListRunResponse listResponse = (ListRunResponse) response;
         boolean result = false;
-        if (listResponse.getFiles().size() > 0)
+        if (listResponse.getFiles().size() >= size)
         {
             result = true;
         }
@@ -153,5 +155,11 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
     public void setPath(String path)
     {
         this.path = path;
+    }
+
+    @HarnessParameter(name = "size")
+    public void setSize(String size)
+    {
+        this.size = Integer.valueOf(size);
     }
 }
