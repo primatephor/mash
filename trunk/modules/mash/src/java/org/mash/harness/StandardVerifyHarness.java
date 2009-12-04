@@ -73,8 +73,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                     //if is not null or blank, then response must be equal
                     if (!checkValue.equals(responseValue))
                     {
-                        getErrors().add(new HarnessError(getName(), "Expected '" + parameter.getName() +
-                                                                    "' does not equal '" + responseValue + "'"));
+                        addError(parameter.getName(), checkValue, responseValue);
                     }
                 }
                 else
@@ -82,12 +81,18 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                     //if check is null or blank, then response must be null or blank
                     if (responseValue != null && responseValue.length() > 0)
                     {
-                        getErrors().add(new HarnessError(getName(), "Expected " + parameter.getName() +
-                                                                    " to be empty, was '" + responseValue + "'"));
+                        addError(parameter.getName(), null, responseValue);
                     }
                 }
             }
         }
+    }
+
+    private void addError(String parameterName, String expected, String actual)
+    {
+        getErrors().add(new HarnessError(getName(), "Parameter " + parameterName +
+                                                    " Expected:'" + expected +
+                                                    "' but was '" + actual + "'"));
     }
 
     @HarnessConfiguration(name = "contains")

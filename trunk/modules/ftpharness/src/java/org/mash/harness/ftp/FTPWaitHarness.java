@@ -104,6 +104,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
     {
         ListRunResponse listResponse = (ListRunResponse) response;
         boolean result = false;
+        log.info("Found "+listResponse.getFiles().size()+ " files, waiting for "+ size);
         if (listResponse.getFiles().size() >= size)
         {
             result = true;
