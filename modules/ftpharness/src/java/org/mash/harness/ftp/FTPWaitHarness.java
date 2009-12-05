@@ -21,8 +21,8 @@ import java.util.List;
  * <li> 'url' is the url to submit to </li>
  * <li> 'user' is the user to connect with</li>
  * <li> 'password' is the user's password </li>
- * <li> 'timeout' optional time in milliseconds to stop polling </li>
- * <li> 'polltime' optional time in milliseconds to poll remote server</li>
+ * <li> 'timeout' optional time in milliseconds to stop polling (default timeout = 1 minute) </li>
+ * <li> 'polltime' optional time in milliseconds to poll remote server (default poll time is 5 seconds) </li>
  * </ul>
  *
  * Parameters:
@@ -49,7 +49,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
     private String path;
     private Integer size = 1;
 
-    private FTPRunHarness run;
+    private ListHarness run;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
@@ -57,15 +57,13 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
         run.setUrl(url);
         run.setPassword(password);
         run.setUser(user);
-        run.setFtpParams(path);
-        run.setOperation(FTPOperations.LS.name());
+        run.setPath(path);
 
         long start = new Date().getTime();
         long current = 0l;
         boolean isComplete = false;
         while (current < timeoutMillis && !isComplete)
         {
-            log.info("Polling remote path '" + path + "'");
             run.run(previous, setups);
             isComplete = isDoneWaiting(run.getResponse());
             if (!isComplete)
@@ -79,6 +77,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
 
                 try
                 {
+                    log.info("didn't find what I wanted, waiting "+timeToWait);
                     Thread.sleep(timeToWait);
                 }
                 catch (InterruptedException e)
@@ -95,19 +94,26 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
         }
     }
 
-    protected FTPRunHarness buildRunHarness()
+    protected ListHarness buildRunHarness()
     {
-        return new FTPRunHarness();
+        return new ListHarness();
     }
 
     private boolean isDoneWaiting(RunResponse response)
     {
-        ListRunResponse listResponse = (ListRunResponse) response;
         boolean result = false;
-        log.info("Found "+listResponse.getFiles().size()+ " files, waiting for "+ size);
-        if (listResponse.getFiles().size() >= size)
+        ListRunResponse listResponse = (ListRunResponse) response;
+        if (listResponse != null)
         {
-            result = true;
+            log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
+            if (listResponse.getFiles().size() >= size)
+            {
+                result = true;
+            }
+        }
+        else
+        {
+            log.debug("No response found in list");
         }
         return result;
     }

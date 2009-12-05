@@ -10,6 +10,10 @@ import org.mash.loader.HarnessConfiguration;
 import java.util.List;
 
 /**
+ * Configurations:
+ * <ul>
+ * <li>wait_time: Time in milliseconds to sleep</li>
+ * </ul>
  *
  * @author teastlack
  * @since Sep 28, 2009 11:34:45 AM

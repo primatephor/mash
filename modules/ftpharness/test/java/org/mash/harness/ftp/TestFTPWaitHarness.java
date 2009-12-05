@@ -70,13 +70,13 @@ public class TestFTPWaitHarness extends TestCase
 
     private class MyFTPWaitHarness extends FTPWaitHarness
     {
-        protected FTPRunHarness buildRunHarness()
+        protected ListHarness buildRunHarness()
         {
             return new MyFTPRunHarness();
         }
     }
 
-    private class MyFTPRunHarness extends FTPRunHarness
+    private class MyFTPRunHarness extends ListHarness
     {
         protected FTPClient buildClient()
         {
