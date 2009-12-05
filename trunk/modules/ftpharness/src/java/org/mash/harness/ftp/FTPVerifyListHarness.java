@@ -8,7 +8,6 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.VerifyHarness;
-import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
 import java.util.List;
@@ -18,12 +17,13 @@ import java.util.List;
  *
  * Configurations:
  * <ul>
- * <li> 'file_name' to look for </li>
  * </ul>
  *
  * Parameters:
  * <ul>
- * <li> 'size' of file to check </li>
+ * <li> 'file_name' to look for </li>
+ * <li> 'file_size' of file to check (must be used with file_name) </li>
+ * <li> 'list_size' # of files expected </li>
  * </ul>
  *
  * @author teastlack
@@ -35,25 +35,26 @@ public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
     private static final Logger log = Logger.getLogger(FTPVerifyListHarness.class.getName());
     private String fileName;
     private String fileSize;
+    private Integer listSize;
 
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
-        if (fileName == null || fileName.length() == 0)
+        RunResponse response = run.getResponse();
+        if (fileName != null)
         {
-            getErrors().add(new HarnessError(this.getClass().getName(), "No filename specified"));
-        }
-        else
-        {
-            RunResponse response = run.getResponse();
-            if (response instanceof ListRunResponse)
+            if (fileSize == null)
             {
-                ListRunResponse listResponse = (ListRunResponse) response;
-                FTPFile file = listResponse.getFiles().get(fileName);
-                if (file != null)
+                getErrors().add(new HarnessError(this.getClass().getName(), "No file size specified while checking size"));
+            }
+            else
+            {
+                if (response instanceof ListRunResponse)
                 {
-                    log.info("Found " + file.getName());
-                    if (fileSize != null && fileSize.length() > 0)
+                    ListRunResponse listResponse = (ListRunResponse) response;
+                    FTPFile file = listResponse.getFiles().get(fileName);
+                    if (file != null)
                     {
+                        log.info("Found " + file.getName());
                         Long expected = new Long(fileSize);
                         if (expected != file.getSize())
                         {
@@ -63,24 +64,48 @@ public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
                                                                                         expected + "'"));
                         }
                     }
+                    else
+                    {
+                        getErrors().add(new HarnessError(this.getClass().getName(), "File '" + fileName + "' Not Found"));
+                    }
                 }
-                else
+            }
+        }
+
+        if (listSize != null)
+        {
+            if (response instanceof ListRunResponse)
+            {
+                ListRunResponse listResponse = (ListRunResponse) response;
+                int actualSize = listResponse.getFiles().size();
+                if(actualSize != listSize)
                 {
-                    getErrors().add(new HarnessError(this.getClass().getName(), "File '" + fileName + "' Not Found"));
+                    getErrors().add(new HarnessError(this.getClass().getName(), "Expected number of files:"+listSize +
+                                                                                " doesn't equal actual number:"+actualSize));
                 }
+            }
+            else
+            {
+                getErrors().add(new HarnessError(this.getClass().getName(), "The response is not a list operation response"));
             }
         }
     }
 
-    @HarnessConfiguration(name = "file_name")
+    @HarnessParameter(name = "file_name")
     public void setFileName(String fileName)
     {
         this.fileName = fileName;
     }
 
-    @HarnessParameter(name = "size")
+    @HarnessParameter(name = "file_size")
     public void setFileSize(String fileSize)
     {
         this.fileSize = fileSize;
+    }
+
+    @HarnessParameter(name = "list_size")
+    public void setListSize(String listSize)
+    {
+        this.listSize = Integer.valueOf(listSize);
     }
 }

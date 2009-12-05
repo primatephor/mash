@@ -31,7 +31,7 @@ public class TestFtpVerifyListResponse extends TestCase
         param = new Parameter("file3", "file3");
         verify.getParameters().add(param);
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
-        assertEquals("Expected 'file3' does not equal 'null'", verify.getErrors().get(0).getValue());
+        assertEquals("Parameter file3 Expected:'file3' but was 'null'", verify.getErrors().get(0).getValue());
     }
 
     public void testPresentList()
@@ -46,10 +46,16 @@ public class TestFtpVerifyListResponse extends TestCase
         FTPVerifyListHarness verify = new FTPVerifyListHarness();
         verify.setFileName("file3");
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        assertEquals("No file size specified while checking size", verify.getErrors().get(0).getValue());
+
+        verify.setFileSize("1000");
+        verify.getErrors().clear();
+        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
         assertEquals("File 'file3' Not Found", verify.getErrors().get(0).getValue());
 
         verify = new FTPVerifyListHarness();
         verify.setFileName("file1");
+        verify.setFileSize("0");
         verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
         assertEquals(0, verify.getErrors().size());
     }

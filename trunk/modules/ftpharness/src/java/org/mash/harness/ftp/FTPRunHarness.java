@@ -1,6 +1,5 @@
 package org.mash.harness.ftp;
 
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
@@ -9,18 +8,13 @@ import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
-import org.mash.harness.ftp.operations.DeleteOperation;
-import org.mash.harness.ftp.operations.GetOperation;
-import org.mash.harness.ftp.operations.ListOperation;
-import org.mash.harness.ftp.operations.PutOperation;
-import org.mash.harness.ftp.operations.RawOperation;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
 import java.util.List;
 
 /**
- * Perform basic FTP operations on a server.
+ * Perform generic FTP operations on a server, based on whatever parameters are passed via the ftp_params param.
  *
  * Configurations:
  * <ul>
@@ -32,19 +26,7 @@ import java.util.List;
  * <p/>
  * Parameters are applied to the request, and the request is invoked.  There are special parameters:
  * <ul>
- * <li> 'operation' to perform on the server </li>
- * <ul>
- * <li> 'GET' retrieve a file from server </li>
- * <li> 'PUT' puts a file on server </li>
- * <li> 'LS' lists files on server</li>
- * </ul>
  * <li> 'ftp_params' parameters to apply to the operation </li>
- * <li> 'file_path' is the path for get and put operations to retrieve the file or save it to</li>
- * <li> 'transfer_mode' Mode of transfer to perform, default is ASCII </li>
- * <ul>
- * <li> 'BINARY' </li>
- * <li> 'ASCII'</li>
- * </ul>
  * </ul>
  *
  * @author teastlack
@@ -60,10 +42,7 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
     private String password;
 
     //params
-    private FTPOperations operation;
     private String ftpParams;
-    private String fileName;
-    private int transferMode = FTP.ASCII_FILE_TYPE;
 
     private RunResponse response;
 
@@ -93,8 +72,7 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
                 }
                 else
                 {
-                    client.setFileType(transferMode);
-                    runOperation(client, operation);
+                    response = runOperation(client);
                 }
                 client.logout();
             }
@@ -121,41 +99,34 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
         }
     }
 
+    protected RunResponse runOperation(FTPClient client) throws OperationException
+    {
+        RunResponse result = null;
+        try
+        {
+            if (ftpParams != null)
+            {
+                String command = ftpParams;
+                String args = null;
+                if (command.indexOf(" ") > 0)
+                {
+                    command = command.substring(0, command.indexOf(" "));
+                    args = ftpParams.substring(ftpParams.indexOf(" ") + 1);
+                }
+                client.sendCommand(command, args);
+                result = new RawResponse(client.getReplyStrings());
+            }
+        }
+        catch (Exception e)
+        {
+            throw new OperationException("Problem running command remotely", e);
+        }
+        return result;
+    }
+
     protected FTPClient buildClient()
     {
         return new FTPClient();
-    }
-
-    private void runOperation(FTPClient client, FTPOperations operation)
-            throws Exception
-    {
-        if (operation != null)
-        {
-            if (FTPOperations.LS.equals(operation))
-            {
-                response = new ListOperation().operate(client, ftpParams);
-            }
-            else if (FTPOperations.GET.equals(operation))
-            {
-                response = new GetOperation(fileName).operate(client, ftpParams);
-            }
-            else if (FTPOperations.PUT.equals(operation))
-            {
-                response = new PutOperation(fileName, getDefinition()).operate(client, ftpParams);
-            }
-            else if (FTPOperations.DELETE.equals(operation))
-            {
-                response = new DeleteOperation().operate(client, ftpParams);
-            }
-            else if (FTPOperations.RAW.equals(operation))
-            {
-                response = new RawOperation().operate(client, ftpParams);
-            }
-        }
-        else
-        {
-            this.getErrors().add(new HarnessError(this.getClass().getName(), "No Operation Specified!"));
-        }
     }
 
     public RunResponse getResponse()
@@ -181,31 +152,10 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
         this.password = password;
     }
 
-    @HarnessParameter(name = "operation")
-    public void setOperation(String op)
-    {
-        op = op.toUpperCase();
-        this.operation = FTPOperations.valueOf(op);
-    }
-
     @HarnessParameter(name = "ftp_params")
     public void setFtpParams(String ftpParams)
     {
         this.ftpParams = ftpParams;
     }
 
-    @HarnessParameter(name = "transfer_mode")
-    public void setTransferMode(String mode)
-    {
-        if ("BINARY".equalsIgnoreCase(mode))
-        {
-            this.transferMode = FTP.BINARY_FILE_TYPE;
-        }
-    }
-
-    @HarnessParameter(name = "file_path")
-    public void setFileName(String fileName)
-    {
-        this.fileName = fileName;
-    }
 }

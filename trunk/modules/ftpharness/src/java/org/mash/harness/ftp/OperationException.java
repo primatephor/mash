@@ -1,4 +1,4 @@
-package org.mash.harness.ftp.operations;
+package org.mash.harness.ftp;
 
 /**
  *

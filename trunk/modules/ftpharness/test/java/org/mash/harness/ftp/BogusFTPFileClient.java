@@ -48,4 +48,10 @@ public class BogusFTPFileClient extends FTPClient
     {
         this.path = path;
     }
+
+    public boolean setFileType(int i) throws IOException
+    {
+        //yay
+        return true;
+    }
 }
