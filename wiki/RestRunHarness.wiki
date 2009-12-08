@@ -7,7 +7,7 @@ Invoke a restful http request (CREATE, READ, UPDATE, and DELETE are supported) a
 = Configuration =
 Configuration values:
  * 'url' = url of the resource
- * 'type' = CREATE, READ, UPDATE, DELETE
+ * 'verb' = CREATE, READ, UPDATE, DELETE
  * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
 
 = Parameter =
@@ -19,7 +19,7 @@ Parameters are any form or query string values to be passed along with the web r
 {{{
     <Run type="org.mash.harness.rest.RestRunHarness">
         <Configuration name="url"><Value>http://my.test.system/resource</Value></Configuration>
-        <Configuration name="type"><Value>POST</Value></Configuration>
+        <Configuration name="verb"><Value>UPDATE</Value></Configuration>
         <Parameter name="body" file="some_submission.xml"/>
     </Run>
 }}}
