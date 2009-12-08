@@ -2,12 +2,12 @@
 
 = Introduction =
 
-Invoke a restful http request (POST, GET, PUT, and DELETE are supported) against a web resource.  Based on the HttpRunHarness.
+Invoke a restful http request (CREATE, READ, UPDATE, and DELETE are supported) against a web resource.  Based on the HttpRunHarness.
 
 = Configuration =
 Configuration values:
  * 'url' = url of the resource
- * 'type' = POST or GET
+ * 'type' = CREATE, READ, UPDATE, DELETE
  * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
 
 = Parameter =
