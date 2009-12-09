@@ -1,13 +1,13 @@
 package org.mash.harness.rest;
 
 import junit.framework.TestCase;
-import org.mash.harness.XmlResponse;
-import org.mash.harness.StandardVerifyHarness;
-import org.mash.harness.RunHarness;
-import org.mash.harness.BaseHarness;
-import org.mash.harness.SetupHarness;
-import org.mash.harness.RunResponse;
 import org.mash.config.Parameter;
+import org.mash.harness.BaseHarness;
+import org.mash.harness.RunHarness;
+import org.mash.harness.RunResponse;
+import org.mash.harness.SetupHarness;
+import org.mash.harness.StandardVerifyHarness;
+import org.mash.harness.XmlResponse;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -62,7 +62,7 @@ public class TestRestResponse extends TestCase
         assertEquals("delStreet3", responseIter.next());
     }
 
-    public void testProblem() throws MalformedURLException
+    public void testWhiteSpace() throws MalformedURLException
     {
         String response = "<ns4:Status xmlns:ns5=\"http://www.bitvault.com/schema/V1/definition\" xmlns:ns4=\"http://www.bitvault.com/schema/V1/status\" xmlns:ns3=\"http://www.bitvault.com/schema/V1/party\" xmlns:ns2=\"http://www.bitvault.com/schema/V1/init\">\n" +
                           "  <Current>\n" +

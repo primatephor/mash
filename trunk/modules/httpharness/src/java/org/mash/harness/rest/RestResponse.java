@@ -1,11 +1,11 @@
 package org.mash.harness.rest;
 
-import org.mash.harness.http.HttpResponse;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import org.mash.harness.XmlResponse;
+import org.mash.harness.http.HttpResponse;
 
-import java.util.Collection;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author: teastlack
@@ -13,22 +13,22 @@ import java.util.List;
  */
 public class RestResponse extends HttpResponse
 {
-    private XmlPage page;
+    private XmlResponse response;
 
     public RestResponse(XmlPage page)
     {
         super(page);
-        this.page = page;
+        response = new XmlResponse(page.asXml());
     }
 
     public String getValue(String expression)
     {
-        return page.getFirstByXPath(expression);
+        return response.getValue(expression);
     }
 
     public Collection<String> getValues(String expression)
     {
-        return (List<String>)page.getByXPath(expression); 
+        return response.getValues(expression);
     }
 
     public Collection<String> getValues()
@@ -38,7 +38,7 @@ public class RestResponse extends HttpResponse
 
     public String getString()
     {
-        return page.asXml();
+        return response.getString();
     }
 
 }
