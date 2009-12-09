@@ -2,10 +2,17 @@ package org.mash.harness.rest;
 
 import junit.framework.TestCase;
 import org.mash.harness.XmlResponse;
+import org.mash.harness.StandardVerifyHarness;
+import org.mash.harness.RunHarness;
+import org.mash.harness.BaseHarness;
+import org.mash.harness.SetupHarness;
+import org.mash.harness.RunResponse;
+import org.mash.config.Parameter;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author: teastlack
@@ -54,4 +61,50 @@ public class TestRestResponse extends TestCase
         assertEquals("delStreet1", responseIter.next());
         assertEquals("delStreet3", responseIter.next());
     }
+
+    public void testProblem() throws MalformedURLException
+    {
+        String response = "<ns4:Status xmlns:ns5=\"http://www.bitvault.com/schema/V1/definition\" xmlns:ns4=\"http://www.bitvault.com/schema/V1/status\" xmlns:ns3=\"http://www.bitvault.com/schema/V1/party\" xmlns:ns2=\"http://www.bitvault.com/schema/V1/init\">\n" +
+                          "  <Current>\n" +
+                          "    success\n" +
+                          "  </Current>\n" +
+                          "  <Date>\n" +
+                          "    2009-12-08-08:00\n" +
+                          "  </Date>\n" +
+                          "  <Test>\n" +
+                          "    haven't loaded this\n" +
+                          "  </Test>\n" +
+                          "</ns4:Status>";
+        XmlResponse xmlResponse = new XmlResponse(response);
+
+        StandardVerifyHarness verifyHarness = new StandardVerifyHarness();
+        verifyHarness.getParameters().add(new Parameter("/Status/Current", "success"));
+        verifyHarness.getParameters().add(new Parameter("/Status/Test", "haven't loaded this"));
+
+        RunHarness harness = new MyRunHarness(xmlResponse);
+        verifyHarness.verify(harness, null);
+
+        assertEquals(0, verifyHarness.getErrors().size());
+    }
+
+    private class MyRunHarness extends BaseHarness implements RunHarness
+    {
+        private RunResponse response;
+
+        private MyRunHarness(RunResponse response)
+        {
+            this.response = response;
+        }
+
+        public void run(List<RunHarness> previous, List<SetupHarness> setups)
+        {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        public RunResponse getResponse()
+        {
+            return response;
+        }
+    }
+
 }
