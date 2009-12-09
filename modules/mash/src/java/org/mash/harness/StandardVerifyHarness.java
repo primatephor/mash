@@ -10,9 +10,17 @@ import java.util.List;
 /**
  * Verify each parameter name/value pair exists within the given response.
  * <p/>
- * Setup information about containment is evaluated.  Multiple 'contains' configurations can be supplied, and the result
- * will be checked for each to ensure that it contains the value specified.  This is not a parameter as there may be a
+ * Setup information about containment is evaluated.
+ *
+ * Multiple 'contains' configurations can be supplied, and the result will be checked for each
+ * to ensure that it contains the value specified.  This is not a parameter as there may be a
  * parameter named 'contains' and as a configuration the harness can control that.
+ *
+ * Configurations:
+ * <ul>
+ * <li> 'contains' will look for any value supplied in this config in the response </li>
+ * <li> 'validate_spaces' any spaces that come back can be validated too</li>
+ * </ul>
  *
  * @author: teastlack
  * @since: Jul 5, 2009
@@ -21,7 +29,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 {
     private static final Logger log = Logger.getLogger(StandardVerifyHarness.class.getName());
     private List<String> containment;
-    private Boolean ignoreSpaces = false;
+    private Boolean validateSpaces = true;
 
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
@@ -62,7 +70,9 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
             if (parameter.getValue() != null)
             {
                 String checkValue = parameter.getValue();
-                if (ignoreSpaces && responseValue != null)
+                log.debug("Checking that '" + parameter.getName() +
+                          "' equals '" + parameter.getValue() + "'");
+                if (validateSpaces && responseValue != null)
                 {
                     responseValue = responseValue.replaceAll("\\s+", "");
                     checkValue = checkValue.replaceAll("\\s+", "");
@@ -102,10 +112,10 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         getContainment().add(text);
     }
 
-    @HarnessConfiguration(name = "ignore_space")
-    public void setIgnoreSpaces(String ignore)
+    @HarnessConfiguration(name = "validate_spaces")
+    public void setValidateSpaces(String ignore)
     {
-        this.ignoreSpaces = Boolean.valueOf(ignore);
+        this.validateSpaces = Boolean.valueOf(ignore);
     }
 
     public List<String> getContainment()
