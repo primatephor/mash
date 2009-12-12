@@ -49,4 +49,14 @@ public class DBConnector
     {
         this.driver = driver;
     }
+
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("URL:").append(url);
+        buffer.append(", Driver:").append(driver);
+        buffer.append(", User:").append(user);
+        buffer.append(", Pass:").append(password);
+        return buffer.toString();
+    }
 }

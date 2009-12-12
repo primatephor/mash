@@ -31,7 +31,7 @@ public enum DBOperation
 
     public static DBOperation find(String operationName)
     {
-        LOG.info("Looking for operation '" + operationName +"'");
+        LOG.debug("Looking for operation '" + operationName + "'");
         DBOperation result = null;
         if (operationName != null &&
             operationName.length() > 0)
@@ -39,6 +39,7 @@ public enum DBOperation
             try
             {
                 result = DBOperation.valueOf(operationName.toUpperCase());
+                LOG.debug("Found " + result.name());
             }
             catch (IllegalArgumentException e)
             {

@@ -17,7 +17,7 @@ import java.sql.Statement;
 
 /**
  * The worker wraps the DBUnit interface, allowing for the flat file XML to be translated by DBUnit.
- *
+ * <p/>
  * User: teastlack Date: Jul 7, 2009 Time: 5:32:08 PM
  */
 public class DBUnitWorker implements DBWorker
@@ -80,11 +80,13 @@ public class DBUnitWorker implements DBWorker
         IDatabaseConnection connection = getConnection(connector);
         try
         {
-            log.info("Runing operation " + operation.name());
+            log.info("Runing operation " + operation.name() + " on " + connector.toString());
+            log.debug("Using content:\n" + content);
             operation.getOperation().execute(connection, getDataSet(content));
         }
         finally
         {
+            connection.getConnection().close();
             connection.close();
         }
     }
