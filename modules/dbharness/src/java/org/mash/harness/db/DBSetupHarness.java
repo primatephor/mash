@@ -22,7 +22,7 @@ import org.mash.loader.HarnessConfiguration;
  * Valid types (when file is .xml, default is INSERT):
  * <ul>
  * <li>CLEAN_INSERT (delete and re insert the rows defined by the XML)</li>
- * <li>DELETE (only delete the rows defined by the XML)</li>
+ * <li>DELETE (only delete the rows defined by the XML)  WATCH OUT! This won't take XML and delete everything!</li>
  * <li>DELETE_ALL (delete all rows defined by tables in XML)</li>
  * <li>INSERT (Insert data defined in the xml)</li>
  * <li>REFRESH (insert new rows in db, update existing rows defined in XML)</li>

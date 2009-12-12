@@ -6,6 +6,7 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -17,10 +18,10 @@ import java.util.List;
  *
  * @author teastlack
  * @since Sep 28, 2009 11:34:45 AM
- *
  */
 public class TimedWaitRunHarness extends BaseHarness implements RunHarness
 {
+    private static final Logger LOG = Logger.getLogger(TimedWaitRunHarness.class.getName());
     private Long waitTime;
     private TimedResponse response;
 
@@ -30,6 +31,7 @@ public class TimedWaitRunHarness extends BaseHarness implements RunHarness
         {
             try
             {
+                LOG.info("Waiting " + waitTime + " ms");
                 Thread.sleep(waitTime);
             }
             catch (InterruptedException e)
