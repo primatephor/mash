@@ -35,6 +35,7 @@ public class HttpClient
 
         try
         {
+            client.setThrowExceptionOnFailingStatusCode(false);
             webResponse = client.getPage(webRequest);
             LOG.debug("Received response");
         }
