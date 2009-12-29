@@ -19,7 +19,7 @@ import java.util.List;
  * Configurations:
  * <ul>
  * <li> 'contains' will look for any value supplied in this config in the response </li>
- * <li> 'validate_spaces' any spaces that come back can be validated too</li>
+ * <li> 'validate_spaces' any spaces that come back can be validated too (default is false)</li>
  * </ul>
  *
  * @author: teastlack
@@ -29,7 +29,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 {
     private static final Logger log = Logger.getLogger(StandardVerifyHarness.class.getName());
     private List<String> containment;
-    private Boolean validateSpaces = true;
+    private Boolean validateSpaces = false;
 
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
@@ -72,7 +72,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                 String checkValue = parameter.getValue();
                 log.debug("Checking that '" + parameter.getName() +
                           "' equals '" + parameter.getValue() + "'");
-                if (validateSpaces && responseValue != null)
+                if (!validateSpaces && responseValue != null)
                 {
                     responseValue = responseValue.replaceAll("\\s+", "");
                     checkValue = checkValue.replaceAll("\\s+", "");
