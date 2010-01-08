@@ -16,6 +16,19 @@ public class HarnessError
         this.description = description;
     }
 
+    public HarnessError(String harnessName, String value, Exception e)
+    {
+        this.harnessName = harnessName;
+        this.value = value;
+        this.description = e.getMessage();
+        if ((this.description == null ||
+            this.description.trim().length() == 0) &&
+            e.getCause() != null)
+        {
+            this.description = e.getCause().getMessage();
+        }
+    }
+
     public HarnessError(String harnessName, String value)
     {
         this.harnessName = harnessName;

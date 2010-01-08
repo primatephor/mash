@@ -9,7 +9,6 @@ import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Verify;
 import org.mash.junit.StandardTestCase;
-import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,7 @@ import java.util.Map;
  */
 public class TestHttpHarness extends TestCase
 {
-    public void testGet() throws SAXException
+    public void testGet() throws Exception
     {
         HttpClient client = new HttpClient(new StandardRequestFactory(), "get");
 
@@ -118,4 +117,43 @@ public class TestHttpHarness extends TestCase
         StandardTestCase standardTestCase = new StandardTestCase(definition);
         standardTestCase.runBare();
     }
+
+    public void testRunAndError() throws Exception
+    {
+        ScriptDefinition definition = new Script();
+
+        //call first page
+        List<Configuration> configs = new ArrayList<Configuration>();
+        configs.add(new Configuration("url", "/search"));
+        configs.add(new Configuration("type", "GET"));
+        List<Parameter> params = new ArrayList<Parameter>();
+        params.add(new Parameter("q", "System Test"));
+        params.add(new Parameter("ie", "utf-8"));
+        params.add(new Parameter("oe", "utf-8"));
+        params.add(new Parameter("aq", "t"));
+        params.add(new Parameter("rls", "org.mozilla:en-US:official"));
+        params.add(new Parameter("client", "firefox-a"));
+        Run runHarness = new Run();
+        runHarness.getParameter().addAll(params);
+        runHarness.getConfiguration().addAll(configs);
+        runHarness.setName("search1");
+        runHarness.setType("org.mash.harness.http.HttpRunHarness");
+        definition.getHarnesses().add(runHarness);
+
+        StandardTestCase standardTestCase = new StandardTestCase(definition);
+
+        boolean expectedError = false;
+        try
+        {
+            standardTestCase.runBare();
+        }
+        catch (Throwable throwable)
+        {
+            assertEquals("Errors found during verification\n" +
+                         "Harness:search1, Error:Unexpected error sending to /search", throwable.getMessage().trim());
+            expectedError = true;
+        }
+        assertTrue("No expected error found!", expectedError);
+    }
+
 }
