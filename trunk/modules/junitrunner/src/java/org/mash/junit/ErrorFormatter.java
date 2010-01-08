@@ -12,10 +12,10 @@ public class ErrorFormatter
     public String format(List<HarnessError> harnessErrors)
     {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("Errors found during verification:");
+        buffer.append("Errors found during verification\n");
         for (HarnessError error : harnessErrors)
         {
-            buffer.append(error.getHarnessName()).append(":").append(error.getValue());
+            buffer.append("Harness:").append(error.getHarnessName()).append(", Error:").append(error.getValue());
             if (error.getDescription() != null)
             {
                 buffer.append(" ").append(error.getDescription());

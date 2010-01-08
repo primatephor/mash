@@ -8,6 +8,7 @@ import org.mash.harness.BaseHarness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 
 import java.util.HashMap;
@@ -59,7 +60,15 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
                 params.put(parameter.getName(), parameter.getValue());
             }
 
-            client.submit(url, params);
+            try
+            {
+                client.submit(url, params);
+            }
+            catch (Exception e)
+            {
+                log.error("Unexpected error sending to " + url, e);
+                this.getErrors().add(new HarnessError(this.getName(), "Unexpected error sending to " + url, e));
+            }
         }
     }
 
@@ -84,7 +93,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             result != null &&
             result instanceof HtmlPage)
         {
-            response = new HttpResponse((HtmlPage) result);
+            response = new HttpResponse(result);
         }
         return response;
     }
