@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /**
  * DB results analyze the result set of the db invocation.  This only works with supplied column names.
@@ -36,13 +39,25 @@ public class DBResult implements RunResponse
                 {
                     name = results.getMetaData().getColumnName(i);
                     Object value = results.getObject(i);
+                    //this exists because I tested this on a flakey db driver, sometimes worked...
+                    if (value == null)
+                    {
+                        log.debug("No value, checking stream");
+                        InputStream input = results.getAsciiStream(i);
+                        if (input != null)
+                        {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                            value = reader.readLine();
+                            input.close();
+                        }
+                    }
                     if (value != null)
                     {
                         log.debug("Adding " + name + " to result as " + value);
                         resultSetData.put(name, value.toString());
                     }
                 }
-                catch (SQLException e)
+                catch (Exception e)
                 {
                     log.error("Unexpected error adding " + name, e);
                 }
