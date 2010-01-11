@@ -81,6 +81,7 @@ public class DBRunHarness extends BaseHarness implements RunHarness
                 log.warn("No results found!");
             }
             result = new DBResult(results);
+            results.close();
         }
         catch (SQLException e)
         {
