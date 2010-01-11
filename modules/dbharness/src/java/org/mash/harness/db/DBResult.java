@@ -31,10 +31,21 @@ public class DBResult implements RunResponse
             int size = results.getMetaData().getColumnCount();
             for (int i = 1; i <= size; i++)
             {
-                String name = results.getMetaData().getColumnName(i);
-                String value = results.getString(i);
-                log.debug("Adding " + name + " to result as " + value);
-                resultSetData.put(name, value);
+                String name = "";
+                try
+                {
+                    name = results.getMetaData().getColumnName(i);
+                    Object value = results.getObject(i);
+                    if (value != null)
+                    {
+                        log.debug("Adding " + name + " to result as " + value);
+                        resultSetData.put(name, value.toString());
+                    }
+                }
+                catch (SQLException e)
+                {
+                    log.error("Unexpected error adding " + name, e);
+                }
             }
         }
         catch (SQLException e)
