@@ -22,6 +22,9 @@ Parameters are any form or query string values to be passed along with the web r
         <Configuration name="verb"><Value>UPDATE</Value></Configuration>
         <Parameter name="body" file="some_submission.xml"/>
     </Run>
+    <Verify type="org.mash.harness.StandardVerifyHarness">
+        <Parameter name="/User/Name/LastName"><Value>squarepants</Value></Parameter>        
+    </Verify>
 }}}
 
-The file 'some_submission.xml' is an xml as specified by the resource at the url 'http://my.test.system/resource'.  This will perform a POST (update) of the data to the url.
+The file 'some_submission.xml' is an xml as specified by the resource at the url 'http://my.test.system/resource'.  This will perform a POST (update) of the data to the url.  The response is verified to contain the last name in the appropriate element.
