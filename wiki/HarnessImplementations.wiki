@@ -16,6 +16,7 @@ This is the list of supplied harnesses
   * [FtpRunHarness FTPRunHarness] (invokes ftp requests)
   * GetHarness (gets a file)
   * ListHarness (lists files)
+  * PutHarness (puts a file on a server)
   * FtpVerifyListHarness
   * FtpWaitHarness (wait for a file to be there)
    * check path (file or directory) and wait until it exists
