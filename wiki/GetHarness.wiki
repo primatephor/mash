@@ -19,8 +19,9 @@ These parameters should be grouped:
  * 'file_name' = path and name of the file to get.  If used, 'path' will be ignored.
 
  * 'output_file' = path and filename to store retrieved file to.
- * 'transfer_mode' = mode of transfer to perform, default is ASCII
-
+ * 'transfer_mode' = mode of transfer to perform, default is ASCII. Values:
+  * BINARY
+  * ASCII
 
 To retrieve the file with a get and save it locally:
 {{{
@@ -29,6 +30,15 @@ To retrieve the file with a get and save it locally:
         <Configuration name="user"><Value>theuser</Value></Configuration>
         <Configuration name="password"><Value>password</Value></Configuration>
         <Parameter name="file_name"><Value>file.txt</Value></Parameter>
+        <Parameter name="output_file"><Value>/tmp/my_local_file.txt</Value></Parameter>
+    </Run>
+
+    <Run type="org.mash.harness.ftp.GetHarness" name="second_get">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="user"><Value>theuser</Value></Configuration>
+        <Configuration name="password"><Value>password</Value></Configuration>
+        <Parameter name="path"><Value>path/to/file</Value></Parameter>
+        <Parameter name="file_index"><Value>0</Value></Parameter>
         <Parameter name="output_file"><Value>/tmp/my_local_file.txt</Value></Parameter>
     </Run>
 }}}
