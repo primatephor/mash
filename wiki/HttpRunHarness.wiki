@@ -11,9 +11,7 @@ Configuration values:
  * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
 
 = Parameter =
-Parameters are any form or query string values to be passed along with the web request.  Optional values:
- * 'body' = Resource body to be submitted
- * 'content_type' = optional type of content to submit (default is text/xml)
+ * 'body' = Resource body to be submitted as input stream.  very optional, probably won't use it regularly.  
 
 = Sample Usage =
 {{{
