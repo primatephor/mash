@@ -17,7 +17,7 @@ These parameters should be grouped:
 
 To put a file:
 {{{
-    <Run type="org.mash.harness.ftp.GetHarness" name="first_get">
+    <Run type="org.mash.harness.ftp.PutHarness" name="first_put">
         <Configuration name="url" property="my.url"/>
         <Configuration name="user"><Value>theuser</Value></Configuration>
         <Configuration name="password"><Value>password</Value></Configuration>
