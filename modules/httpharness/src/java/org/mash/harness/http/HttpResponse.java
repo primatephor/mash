@@ -2,7 +2,7 @@ package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.SgmlPage;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
@@ -77,10 +77,11 @@ public class HttpResponse implements RunResponse
         List<?> paths = webPage.getByXPath(name);
         for (Object path : paths)
         {
-            if (path instanceof DomElement)
+            if (path instanceof DomNode)
             {
-                DomElement element = (DomElement) path;
-                results.add(element.asText());
+                DomNode node = (DomNode) path;
+                log.debug("Found " + node.asText());
+                results.add(node.asText());
             }
         }
     }
