@@ -19,7 +19,7 @@ This is the list of supplied harnesses
   * PutHarness (puts a file on a server)
   * DeleteHarness (removes a directory or file)
   * FtpVerifyListHarness
-  * FtpWaitHarness (wait for a file to be there)
+  * [FtpWaitHarness FTPWaitHarness] (wait for a file to be there)
    * check path (file or directory) and wait until it exists
 
 = Http =
@@ -35,5 +35,9 @@ This is the list of supplied harnesses
 = Core =
  * {{{mash.jar}}}
   * StandardVerifyHarness
+
+= Utilities =
+ * {{{UtilityHarness.jar}}}
+  * TimedWaitRunHarness
 
 = Teardown =
