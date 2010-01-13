@@ -118,6 +118,48 @@ public class TestHttpHarness extends TestCase
         standardTestCase.runBare();
     }
 
+        public void testXPath() throws Throwable
+    {
+        ScriptDefinition definition = new Script();
+
+        //call first page
+        List<Configuration> configs = new ArrayList<Configuration>();
+        configs.add(new Configuration("url", "http://www.google.com/search"));
+        configs.add(new Configuration("type", "GET"));
+        List<Parameter> params = new ArrayList<Parameter>();
+        params.add(new Parameter("q", "System Test"));
+        params.add(new Parameter("ie", "utf-8"));
+        params.add(new Parameter("oe", "utf-8"));
+        params.add(new Parameter("aq", "t"));
+        params.add(new Parameter("rls", "org.mozilla:en-US:official"));
+        params.add(new Parameter("client", "firefox-a"));
+        Run runHarness = new Run();
+        runHarness.getParameter().addAll(params);
+        runHarness.getConfiguration().addAll(configs);
+        runHarness.setName("search1");
+        runHarness.setType("org.mash.harness.http.HttpRunHarness");
+        definition.getHarnesses().add(runHarness);
+
+        //verify page
+        configs = new ArrayList<Configuration>();
+        configs.add(new Configuration("title", "System Test - Google Search"));
+        configs.add(new Configuration("status", "200"));
+        configs.add(new Configuration("contains", "http://news.google.com/news"));
+        configs.add(new Configuration("contains", "http://www.google.com/products"));
+        params = new ArrayList<Parameter>();
+        //<input type=hidden name=client value="firefox-a">
+        params.add(new Parameter("//title[1]", "System Test - Google Search"));
+        Verify verifyHarness = new Verify();
+        verifyHarness.getParameter().addAll(params);
+        verifyHarness.getConfiguration().addAll(configs);
+        verifyHarness.setName("the First Verify");
+        verifyHarness.setType("org.mash.harness.http.HttpVerifyHarness");
+        definition.getHarnesses().add(verifyHarness);
+
+        StandardTestCase standardTestCase = new StandardTestCase(definition);
+        standardTestCase.runBare();
+    }
+
     public void testRunAndError() throws Exception
     {
         ScriptDefinition definition = new Script();

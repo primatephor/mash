@@ -2,7 +2,7 @@ package org.mash.harness.rest;
 
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import org.mash.harness.XmlResponse;
-import org.mash.harness.http.HttpResponse;
+import org.mash.harness.RunResponse;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,13 +11,12 @@ import java.util.Collection;
  * @author: teastlack
  * @since: Nov 22, 2009
  */
-public class RestResponse extends HttpResponse
+public class RestResponse implements RunResponse
 {
     private XmlResponse response;
 
     public RestResponse(XmlPage page)
     {
-        super(page);
         response = new XmlResponse(page.asXml());
     }
 

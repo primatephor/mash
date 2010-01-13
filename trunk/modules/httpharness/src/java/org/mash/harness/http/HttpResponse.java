@@ -1,6 +1,8 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.SgmlPage;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
@@ -9,6 +11,7 @@ import org.xml.sax.SAXException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
@@ -19,9 +22,9 @@ import java.util.Collections;
 public class HttpResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(HttpResponse.class);
-    private SgmlPage webPage;
+    private HtmlPage webPage;
 
-    public HttpResponse(SgmlPage webPage)
+    public HttpResponse(HtmlPage webPage)
     {
         this.webPage = webPage;
     }
@@ -55,9 +58,39 @@ public class HttpResponse implements RunResponse
             throws SAXException
     {
         Collection<String> results = new ArrayList<String>();
+        retrieveByElementName(name, results);
+
+        if (results.size() == 0)
+        {
+            retrieveByXpath(name, results);
+        }
+
+        if (results.size() == 0)
+        {
+            log.warn("Unable to determine the value of node " + name);
+        }
+        return results;
+    }
+
+    private void retrieveByXpath(String name, Collection<String> results)
+    {
+        List<?> paths = webPage.getByXPath(name);
+        for (Object path : paths)
+        {
+            if (path instanceof DomElement)
+            {
+                DomElement element = (DomElement) path;
+                results.add(element.asText());
+            }
+        }
+    }
+
+    private void retrieveByElementName(String name, Collection<String> results)
+    {
         Iterable<HtmlElement> iters = webPage.getAllHtmlChildElements();
         for (HtmlElement iter : iters)
         {
+            String value = null;
             String elementName = iter.getAttribute("name");
             if (elementName == null || elementName.length() == 0)
             {
@@ -67,7 +100,7 @@ public class HttpResponse implements RunResponse
             if (elementName != null && elementName.equals(name))
             {
                 log.debug("Found element node :" + elementName);
-                String value = iter.getAttribute("value");
+                value = iter.getAttribute("value");
                 if (value == null || value.length() == 0)
                 {
                     value = iter.getNodeValue();
@@ -76,20 +109,13 @@ public class HttpResponse implements RunResponse
                 {
                     value = iter.getTextContent();
                 }
-
-                if (value != null && value.length() > 0)
-                {
-                    log.debug("SETTING '" + elementName + "' to value:" + value);
-                    results.add(value);
-                }
-                else
-                {
-                    log.warn("Unable to determine the value of node " + elementName);
-                }
-                break;
+            }
+            if (value != null && value.length() > 0)
+            {
+                log.debug("SETTING '" + elementName + "' to value:" + value);
+                results.add(value);
             }
         }
-        return results;
     }
 
     public Collection<String> getValues()
