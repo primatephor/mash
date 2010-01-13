@@ -13,6 +13,7 @@ Configuration values:
 = Parameter =
 Parameters for ftping:
  * 'path' = for listing what file or directory is there
+ * 'size' = number of files to wait for, default is 1
 
 = Sample Usage =
 {{{
@@ -21,10 +22,11 @@ Parameters for ftping:
         <Configuration name="user"><Value>theuser</Value></Configuration>
         <Configuration name="password"><Value>password</Value></Configuration>
         <Parameter name="path"><Value>mydirectory</Value></Parameter>
+        <Parameter name="size"><Value>3</Value></Parameter>
     </Run>
 }}}
 
-Here the wait harness polls the directory using the default settings (every 5 seconds for 60 seconds)
+Here the wait harness polls the directory using the default settings (every 5 seconds for 60 seconds), until there are 3 files present.
 
 To change the path to a file, and change the default polling settings:
 {{{
