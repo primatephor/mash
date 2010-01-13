@@ -1,4 +1,4 @@
-#summary GetHarness implementation
+#summary PutHarness implementation
 
 = Introduction =
 
