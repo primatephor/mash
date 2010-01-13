@@ -27,7 +27,7 @@ import java.util.Map;
  * Parameters are applied to the request type, and the request is invoked.  There are special parameters:
  * <ul>
  * <li> 'body' will be the streamed input.  If present, the request won't add this as a part of the parameter list, but
- * will instead submit this an an input stream </li>
+ * will instead submit this as an input stream </li>
  * </ul>
  *
  * @author: teastlack
