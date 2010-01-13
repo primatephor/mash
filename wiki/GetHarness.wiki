@@ -39,8 +39,10 @@ To retrieve the file with a get and save it locally:
         <Configuration name="password"><Value>password</Value></Configuration>
         <Parameter name="path"><Value>path/to/file</Value></Parameter>
         <Parameter name="file_index"><Value>0</Value></Parameter>
-        <Parameter name="output_file"><Value>/tmp/my_local_file.txt</Value></Parameter>
+        <Parameter name="output_file"><Value>/tmp/my_local_file2.txt</Value></Parameter>
     </Run>
 }}}
 
 The 'first_get' retrieves file 'file.txt', and it's saved to a file in /tmp called 'my_local_file.txt'.
+
+The 'second_get' retrieves the first file by data in the directory 'path/to/file'.
