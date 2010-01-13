@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The {{{DBRunHarness}}} really just runs a "select * from table where column_name=column_value".  When combined with a standard verify harness, you can turn the table to a name / value pair and verify a row.
+The {{{DBRunHarness}}} really just runs a "select `*` from table where column_name=column_value".  When combined with a standard verify harness, you can turn the table to a name / value pair and verify a row.
 
 
 = Configuration =
@@ -31,9 +31,14 @@ Configuration parameters:
             <Value>last_name</Value>
         </Parameter>
         <Parameter name="column_value">
-            <Value>squarepants</Value>
+            <Value>'squarepants'</Value>
         </Parameter>
     </Setup>
+
+    <Verify type="org.mash.harness.StandardVerifyHarness" name="verify_data">
+        <Parameter name="last_name"><Value>squarepants</Value></Parameter>
+        <Parameter name="first_name"><Value>bob</Value></Parameter>
+    </Verify>
 }}}
 
-Here the db_load.xml is loaded, and every instance of 'VARIABLE' is replaced with 'sometext'.  Then the data is loaded (first by removing the specified rows in the xml) per the DBUnit rules.  This DOES use DBUnit to run the load and only works with flat xml data sets.  This will also just run sql.
+Here the select run is: select `*` from my_table where last_name = 'squarepants'.  The verify just takes the mapped results and does a name/value check.
