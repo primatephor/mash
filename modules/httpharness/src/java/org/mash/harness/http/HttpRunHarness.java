@@ -93,7 +93,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             result != null &&
             result instanceof HtmlPage)
         {
-            response = new HttpResponse(result);
+            response = new HttpResponse((HtmlPage) result);
         }
         return response;
     }
