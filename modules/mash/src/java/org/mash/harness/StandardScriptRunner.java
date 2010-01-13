@@ -34,7 +34,7 @@ public class StandardScriptRunner implements ScriptRunner
     private List<SetupHarness> setupHarnesses;
 
     private RunHarness lastRun;
-    private List<RunHarness> previousRun = new ArrayList<RunHarness>();
+    private List<RunHarness> previousRuns;
 
     /**
      * Construct the harnesses to be run from the list of definitions here.
@@ -49,7 +49,6 @@ public class StandardScriptRunner implements ScriptRunner
         HarnessBuilder builder = new HarnessBuilder();
         if (definition.getHarnesses() != null)
         {
-            setupHarnesses = new ArrayList<SetupHarness>();
             for (Object current : definition.getHarnesses())
             {
                 if (current instanceof HarnessDefinition)
@@ -63,7 +62,7 @@ public class StandardScriptRunner implements ScriptRunner
                     results.add(toAdd);
                     if (toAdd instanceof SetupHarness)
                     {
-                        setupHarnesses.add((SetupHarness) toAdd);
+                        getSetupHarnesses().add((SetupHarness) toAdd);
                     }
                 }
 
@@ -101,7 +100,7 @@ public class StandardScriptRunner implements ScriptRunner
                 if (toRun instanceof Harness)
                 {
                     Harness harness = (Harness) toRun;
-                    List<Parameter> params = parameterBuilder.applyParameters(previousRun, definition, harness.getDefinition());
+                    List<Parameter> params = parameterBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
                     harness.setParameters(params);
                     if (harness instanceof SetupHarness)
                     {
@@ -131,11 +130,16 @@ public class StandardScriptRunner implements ScriptRunner
                         if (runner != null)
                         {
                             errors = runner.run(subDefinition);
-                        }
-
-                        if (errors != null && errors.size() > 0)
-                        {
-                            break;
+                            if (errors != null && errors.size() > 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                this.getPreviousRuns().addAll(runner.getPreviousRuns());
+                                this.lastRun = runner.getLastRun();
+                                this.getSetupHarnesses().addAll(runner.getSetupHarnesses());
+                            }
                         }
                     }
                 }
@@ -156,14 +160,14 @@ public class StandardScriptRunner implements ScriptRunner
     protected List<HarnessError> runTeardown(TeardownHarness harness)
     {
         logMsg("teardown", harness);
-        harness.teardown(setupHarnesses);
+        harness.teardown(getSetupHarnesses());
         return harness.getErrors();
     }
 
     protected List<HarnessError> runVerifyHarness(VerifyHarness harness)
     {
         logMsg("verify", harness);
-        harness.verify(lastRun, setupHarnesses);
+        harness.verify(getLastRun(), getSetupHarnesses());
         return harness.getErrors();
     }
 
@@ -171,8 +175,8 @@ public class StandardScriptRunner implements ScriptRunner
     {
         logMsg("run", harness);
         lastRun = harness;
-        lastRun.run(previousRun, setupHarnesses);
-        previousRun.add(lastRun);
+        lastRun.run(getPreviousRuns(), getSetupHarnesses());
+        previousRuns.add(getLastRun());
         return harness.getErrors();
     }
 
@@ -196,5 +200,28 @@ public class StandardScriptRunner implements ScriptRunner
     public List getHarnesses()
     {
         return harnesses;
+    }
+
+    public List<RunHarness> getPreviousRuns()
+    {
+        if (previousRuns == null)
+        {
+            previousRuns = new ArrayList<RunHarness>();
+        }
+        return previousRuns;
+    }
+
+    public List<SetupHarness> getSetupHarnesses()
+    {
+        if (setupHarnesses == null)
+        {
+            setupHarnesses = new ArrayList<SetupHarness>();
+        }
+        return setupHarnesses;
+    }
+
+    public RunHarness getLastRun()
+    {
+        return lastRun;
     }
 }
