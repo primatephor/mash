@@ -26,8 +26,24 @@ If a specified file parameter ends with 'sql', then the sql is executed against 
 = Sample Usage =
 {{{
     <Setup type="org.mash.harness.db.DBSetupHarness">
+        <Configuration name="url" property="jdbc.url"/>
+        <Configuration name="user" property="jdbc.user"/>
+        <Configuration name="password" property="jdbc.pass"/>
+        <Configuration name="driver" property="jdbc.driver"/>
         <Configuration name="type"><Value>clean_insert</Value></Configuration>
-        <Parameter name="loadfile" file="db_load.xml">
+        <Parameter name="loadfile" file="data/db_load.xml">
+            <Replace search="VARIABLE">
+                <Value>sometext</Value>
+            </Replace>
+        </Parameter>
+    </Setup>
+
+    <Setup type="org.mash.harness.db.DBSetupHarness">
+        <Configuration name="url" property="jdbc.url"/>
+        <Configuration name="user" property="jdbc.user"/>
+        <Configuration name="password" property="jdbc.pass"/>
+        <Configuration name="driver" property="jdbc.driver"/>
+        <Parameter name="loadfile" file="data/another_load.sql">
             <Replace search="VARIABLE">
                 <Value>sometext</Value>
             </Replace>
@@ -35,4 +51,6 @@ If a specified file parameter ends with 'sql', then the sql is executed against 
     </Setup>
 }}}
 
-Here the db_load.xml is loaded, and every instance of 'VARIABLE' is replaced with 'sometext'.  Then the data is loaded (first by removing the specified rows in the xml) per the DBUnit rules.  This DOES use DBUnit to run the load and only works with flat xml data sets.  This will also just run sql.
+Here the db_load.xml is loaded, and every instance of 'VARIABLE' is replaced with 'sometext'.  Then the data is loaded (first by removing the specified rows in the xml) per the DBUnit rules.  This DOES use DBUnit to run the load and only works with flat xml data sets.  
+
+The second call runs an sql file, and replaces every instance of 'VARIABLE' in that script first.
