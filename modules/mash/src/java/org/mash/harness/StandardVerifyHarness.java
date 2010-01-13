@@ -66,12 +66,11 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
     {
         for (Parameter parameter : parameters)
         {
+            log.debug("Checking that '" + parameter.getName() + "' equals '" + parameter.getValue() + "'");
             String responseValue = response.getValue(parameter.getName());
             if (parameter.getValue() != null)
             {
                 String checkValue = parameter.getValue();
-                log.debug("Checking that '" + parameter.getName() +
-                          "' equals '" + parameter.getValue() + "'");
                 if (!validateSpaces && responseValue != null)
                 {
                     responseValue = responseValue.replaceAll("\\s+", "");
