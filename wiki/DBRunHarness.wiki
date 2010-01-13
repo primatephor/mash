@@ -1,0 +1,39 @@
+#summary DBRunHarness information
+
+= Introduction =
+
+The {{{DBRunHarness}}} really just runs a "select * from table where column_name=column_value".  When combined with a standard verify harness, you can turn the table to a name / value pair and verify a row.
+
+
+= Configuration =
+Configuration parameters:
+ * 'url' = url of the database used by dbunit.  see dbunit docs on {{{JdbcDatabaseTester}}}
+ * 'user' = user to log into the db
+ * 'password' = user's password
+ * 'driver' = jdbc driver class
+
+= Parameter =
+ * 'table_name' = name of the table to run a select on
+ * 'column_name' = column to perform "where" on
+ * 'column_value' = value of the "where"
+
+= Sample Usage =
+{{{
+    <Setup type="org.mash.harness.db.DBRunHarness">
+        <Configuration name="url" property="jdbc.url"/>
+        <Configuration name="user" property="jdbc.user"/>
+        <Configuration name="password" property="jdbc.pass"/>
+        <Configuration name="driver" property="jdbc.driver"/>
+        <Parameter name="table_name">
+            <Value>my_table</Value>
+        </Parameter>
+        <Parameter name="column_name">
+            <Value>last_name</Value>
+        </Parameter>
+        <Parameter name="column_value">
+            <Value>squarepants</Value>
+        </Parameter>
+    </Setup>
+}}}
+
+Here the db_load.xml is loaded, and every instance of 'VARIABLE' is replaced with 'sometext'.  Then the data is loaded (first by removing the specified rows in the xml) per the DBUnit rules.  This DOES use DBUnit to run the load and only works with flat xml data sets.  This will also just run sql.
