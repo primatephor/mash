@@ -13,8 +13,8 @@ This is the list of supplied harnesses
 
 = Ftp =
  * {{{FtpHarness.jar}}}
-  * FtpRunHarness (invokes ftp requests)
-   * get, put, list, delete
+  * [FtpRunHarness FTPRunHarness] (invokes ftp requests)
+  * GetHarness (gets a file)
   * FtpVerifyListHarness
   * FtpWaitHarness (wait for a file to be there)
    * check path (file or directory) and wait until it exists
