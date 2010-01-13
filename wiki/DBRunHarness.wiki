@@ -7,7 +7,7 @@ The {{{DBRunHarness}}} really just runs a "select `*` from table where column_na
 
 = Configuration =
 Configuration parameters:
- * 'url' = url of the database used by dbunit.  see dbunit docs on {{{JdbcDatabaseTester}}}
+ * 'url' = url of the database 
  * 'user' = user to log into the db
  * 'password' = user's password
  * 'driver' = jdbc driver class
