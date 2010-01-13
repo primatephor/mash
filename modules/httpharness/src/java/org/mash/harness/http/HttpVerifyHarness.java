@@ -22,6 +22,15 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * <li> 'status' (response code)</li>
  * </ul>
  *
+ * Parameters names to search for could be:
+ * <ul>
+ * <li> html 'id' attribute name </li>
+ * <li> html 'name' attribute name </li>
+ * <li> xpath expression to parse html </li>
+ * </ul>
+ * So when names or ids of elements are present, this will use those.  If nothing is found, then an xpath
+ * expression is run on the html using the parameter name.
+ *
  * @author: teastlack
  * @since: Jul 5, 2009
  */
