@@ -8,7 +8,8 @@ This is the list of supplied harnesses
 
 = DB =
  * {{{DBHarness.jar}}}
-  * DbSetupHarness (uses dbunit, runs sql)
+  * [DBSetupHarness] (uses dbunit, runs sql)
+  * [DBRunHarness] (runs a 'select *' on a table)
 
 = Ftp =
  * {{{FtpHarness.jar}}}
