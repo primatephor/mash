@@ -64,3 +64,5 @@ To invoke with Ant, here's a sample ant project:
 }}}
 
 Now any continuous integration software can run this system test, using the {{{src/SystemTest.xml}}} SuiteDefinition to invoke all the Scripts as a system test.
+
+To specify which tagged scripts to run, invoke Ant with a comma separated list of tags and the runner will filter based on that.  For instance: "ant -Dtags=user,web" would invoke all tests containing {{{<Tag>user</Tag>}}} and {{{<Tag>web</Tag>}}}.
