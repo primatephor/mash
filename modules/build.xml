@@ -32,6 +32,10 @@
             <target name="makeJar"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="utilityharness"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
             <property name="module.dir" value="httpharness"/>
             <target name="makeJar"/>
         </ant>
@@ -44,7 +48,7 @@
             <target name="makeJar"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
-            <property name="module.dir" value="utilityharness"/>
+            <property name="module.dir" value="messageharness"/>
             <target name="makeJar"/>
         </ant>
     </target>
@@ -62,6 +66,9 @@
             <property name="module.dir" value="junitrunner"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="utilityharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
             <property name="module.dir" value="httpharness"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
@@ -71,7 +78,7 @@
             <property name="module.dir" value="ftpharness"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
-            <property name="module.dir" value="utilityharness"/>
+            <property name="module.dir" value="messageharness"/>
         </ant>
     </target>
 
@@ -88,6 +95,10 @@
             <target name="clean"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="utilityharness"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
             <property name="module.dir" value="httpharness"/>
             <target name="clean"/>
         </ant>
@@ -100,7 +111,7 @@
             <target name="clean"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
-            <property name="module.dir" value="utilityharness"/>
+            <property name="module.dir" value="messageharness"/>
             <target name="clean"/>
         </ant>
         <delete dir="${build.tgt}"/>
