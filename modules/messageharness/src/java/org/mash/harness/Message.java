@@ -2,6 +2,7 @@ package org.mash.harness;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.io.Serializable;
 
 /**
  *
@@ -11,15 +12,15 @@ import java.util.HashMap;
  */
 public class Message
 {
-    private String body;
+    private Serializable body;
     private Map<String,String> properties;
 
-    public String getBody()
+    public Serializable getBody()
     {
         return body;
     }
 
-    public void setBody(String body)
+    public void setBody(Serializable body)
     {
         this.body = body;
     }
