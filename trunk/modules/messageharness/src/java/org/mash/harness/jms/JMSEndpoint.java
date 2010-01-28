@@ -1,7 +1,6 @@
 package org.mash.harness.jms;
 
 import org.apache.log4j.Logger;
-import org.mash.harness.Message;
 import org.mash.harness.SendException;
 
 import javax.naming.NamingException;
@@ -13,6 +12,7 @@ import javax.jms.JMSException;
 import javax.jms.Queue;
 import javax.jms.ConnectionFactory;
 import javax.jms.MessageConsumer;
+import javax.jms.Message;
 
 /**
  *
@@ -28,14 +28,9 @@ public class JMSEndpoint
     private ConnectionFactory connectionFactory;
     private Queue queue;
     private Connection connection = null;
+    private Session session;
 
     private long timeout = 5000l;
-    private JMSMessageConverter converter;
-
-    public JMSEndpoint(JMSMessageConverter converter)
-    {
-        this.converter = converter;
-    }
 
     public JMSEndpoint(String providerUrl, String queueName) throws SendException
     {
@@ -60,11 +55,10 @@ public class JMSEndpoint
         try
         {
             log.debug("Creating JMS connection");
-            session = establishSession();
-            javax.jms.Message msg = converter.from(message, session);
+            session = getSession();
             MessageProducer sender = session.createProducer(queue);
             log.debug("Sending message to JMS channel");
-            sender.send(msg);
+            sender.send(message);
         }
         catch (JMSException e)
         {
@@ -84,11 +78,10 @@ public class JMSEndpoint
         try
         {
             log.debug("Creating JMS connection");
-            session = establishSession();
+            session = getSession();
             MessageConsumer consumer = session.createConsumer(queue);
             connection.start();
-            javax.jms.Message jmsMessage = consumer.receive(timeout);
-            result = converter.to(jmsMessage);
+            result = consumer.receive(timeout);
         }
         catch (JMSException e)
         {
@@ -134,24 +127,26 @@ public class JMSEndpoint
         }
     }
 
-    private Session establishSession() throws SendException
+    public Session getSession() throws SendException
     {
-        Session result;
-        try
+        if (session == null ||
+            connection == null)
         {
-            if (connection != null)
+            try
             {
-                close(connection);
+                if (connection != null)
+                {
+                    close(connection);
+                }
+                connection = connectionFactory.createConnection();
+                session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             }
-            connection = connectionFactory.createConnection();
-            result = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            catch (JMSException e)
+            {
+                throw new SendException("Unexpected error sending JMS message", e);
+            }
         }
-        catch (JMSException e)
-        {
-            throw new SendException("Unexpected error sending JMS message", e);
-        }
-
-        return result;
+        return session;
     }
 
     public void addToEnvironment(String name, String value)
@@ -174,15 +169,5 @@ public class JMSEndpoint
     public void setTimeout(long timeout)
     {
         this.timeout = timeout;
-    }
-
-    public JMSMessageConverter getConverter()
-    {
-        return converter;
-    }
-
-    public void setConverter(JMSMessageConverter converter)
-    {
-        this.converter = converter;
     }
 }
