@@ -58,7 +58,6 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         else
         {
             getErrors().add(new HarnessError(this.getName(), "No response!"));
-
         }
     }
 
