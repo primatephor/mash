@@ -3,14 +3,10 @@ package org.mash.harness.jms;
 import org.apache.log4j.Logger;
 import org.mash.harness.SendException;
 
-import javax.naming.NamingException;
-import javax.naming.InitialContext;
 import javax.jms.Connection;
 import javax.jms.Session;
 import javax.jms.MessageProducer;
 import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.ConnectionFactory;
 import javax.jms.MessageConsumer;
 import javax.jms.Message;
 
@@ -23,30 +19,17 @@ import javax.jms.Message;
 public class JMSEndpoint
 {
     private static final Logger log = Logger.getLogger(JMSEndpoint.class.getName());
-
-    private InitialContext initialContext;
-    private ConnectionFactory connectionFactory;
-    private Queue queue;
-    private Connection connection = null;
-    private Session session;
-
+    private ConnectionData connectionData;
     private long timeout = 5000l;
 
     public JMSEndpoint(String providerUrl, String queueName) throws SendException
     {
-        System.setProperty("java.naming.factory.initial", "org.jnp.interfaces.NamingContextFactory");
-        System.setProperty("java.naming.provider.url", providerUrl);
-        try
-        {
-            initialContext = new InitialContext();
-            connectionFactory = (ConnectionFactory) initialContext.lookup("/ConnectionFactory");
-            log.debug("Creating connection for queue " + queueName);
-            queue = (Queue) initialContext.lookup(queueName);
-        }
-        catch (NamingException e)
-        {
-            throw new SendException("Unexpected error looking up JMS context", e);
-        }
+        connectionData = new ConnectionData(providerUrl, queueName);
+    }
+
+    public JMSEndpoint(ConnectionData connectionData)
+    {
+        this.connectionData = connectionData;
     }
 
     public void send(Message message) throws SendException
@@ -55,8 +38,8 @@ public class JMSEndpoint
         try
         {
             log.debug("Creating JMS connection");
-            session = getSession();
-            MessageProducer sender = session.createProducer(queue);
+            session = connectionData.getSession();
+            MessageProducer sender = session.createProducer(connectionData.getQueue());
             log.debug("Sending message to JMS channel");
             sender.send(message);
         }
@@ -67,7 +50,7 @@ public class JMSEndpoint
         finally
         {
             close(session);
-            close(connection);
+            close(connectionData.getConnection());
         }
     }
 
@@ -78,9 +61,9 @@ public class JMSEndpoint
         try
         {
             log.debug("Creating JMS connection");
-            session = getSession();
-            MessageConsumer consumer = session.createConsumer(queue);
-            connection.start();
+            session = connectionData.getSession();
+            MessageConsumer consumer = session.createConsumer(connectionData.getQueue());
+            connectionData.getConnection().start();
             result = consumer.receive(timeout);
         }
         catch (JMSException e)
@@ -90,7 +73,7 @@ public class JMSEndpoint
         finally
         {
             close(session);
-            close(connection);
+            close(connectionData.getConnection());
         }
         return result;
     }
@@ -127,33 +110,11 @@ public class JMSEndpoint
         }
     }
 
-    public Session getSession() throws SendException
-    {
-        if (session == null ||
-            connection == null)
-        {
-            try
-            {
-                if (connection != null)
-                {
-                    close(connection);
-                }
-                connection = connectionFactory.createConnection();
-                session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            }
-            catch (JMSException e)
-            {
-                throw new SendException("Unexpected error sending JMS message", e);
-            }
-        }
-        return session;
-    }
-
     public void addToEnvironment(String name, String value)
     {
         try
         {
-            initialContext.addToEnvironment(name, value);
+            connectionData.addToEnvironment(name, value);
         }
         catch (Exception e)
         {
