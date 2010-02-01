@@ -62,31 +62,34 @@ public abstract class JMSBaseHarness extends BaseHarness implements RunHarness
             getErrors().add(new HarnessError(this.getName(), "No queue name supplied"));
         }
 
-        JMSEndpointAdapter endpoint = buildAdapter(providerUrl, queueName);
-        if (ActionType.SEND.equals(action))
+        if (getErrors().size() == 0)
         {
-            log.info("Sending to JMS queue " + queueName);
-            try
+            JMSEndpointAdapter endpoint = buildAdapter(providerUrl, queueName);
+            if (ActionType.SEND.equals(action))
             {
-                message = buildMessage();
-                message.getProperties().putAll(properties);
-                endpoint.send(message);
+                log.info("Sending to JMS queue " + queueName);
+                try
+                {
+                    message = buildMessage();
+                    message.getProperties().putAll(properties);
+                    endpoint.send(message);
+                }
+                catch (SendException e)
+                {
+                    getErrors().add(new HarnessError(this.getName(), "Problem sending message", e));
+                }
             }
-            catch (SendException e)
+            else if (ActionType.RECEIVE.equals(action))
             {
-                getErrors().add(new HarnessError(this.getName(), "Problem sending message", e));
-            }
-        }
-        else if (ActionType.RECEIVE.equals(action))
-        {
-            log.info("Reading from JMS queue " + queueName);
-            try
-            {
-                message = endpoint.read();
-            }
-            catch (SendException e)
-            {
-                getErrors().add(new HarnessError(this.getName(), "Problem reading message", e));
+                log.info("Reading from JMS queue " + queueName);
+                try
+                {
+                    message = endpoint.read();
+                }
+                catch (SendException e)
+                {
+                    getErrors().add(new HarnessError(this.getName(), "Problem reading message", e));
+                }
             }
         }
     }
