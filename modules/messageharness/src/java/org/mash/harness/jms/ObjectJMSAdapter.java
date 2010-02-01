@@ -44,7 +44,7 @@ public class ObjectJMSAdapter extends JMSEndpointAdapter
         ObjectMessage jmsMsg;
         try
         {
-            jmsMsg = getEndpoint().getSession().createObjectMessage(message.getBody());
+            jmsMsg = getEndpoint().getConnectionData().getSession().createObjectMessage(message.getBody());
         }
         catch (JMSException e)
         {

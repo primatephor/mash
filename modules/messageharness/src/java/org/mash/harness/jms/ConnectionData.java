@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.naming.Context;
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
 import javax.jms.Connection;
@@ -21,7 +22,7 @@ public class ConnectionData
 {
     private static final Logger log = Logger.getLogger(ConnectionData.class.getName());
 
-    private InitialContext initialContext;
+    private Context initialContext;
     private ConnectionFactory connectionFactory;
     private Queue queue;
     private Connection connection = null;
@@ -43,9 +44,9 @@ public class ConnectionData
     }
 
     //for testing
-    public ConnectionData(InitialContext initialContext, String queueName) throws SendException
+    public ConnectionData(Context context, String queueName) throws SendException
     {
-        this.initialContext = initialContext;
+        this.initialContext = context;
         try
         {
             init(queueName);
