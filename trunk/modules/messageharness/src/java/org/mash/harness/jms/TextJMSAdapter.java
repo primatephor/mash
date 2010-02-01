@@ -45,7 +45,7 @@ public class TextJMSAdapter extends JMSEndpointAdapter
         TextMessage textMessage;
         try
         {
-            textMessage = getEndpoint().getSession().createTextMessage(String.valueOf(message.getBody()));
+            textMessage = getEndpoint().getConnectionData().getSession().createTextMessage(String.valueOf(message.getBody()));
         }
         catch (JMSException e)
         {

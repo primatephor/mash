@@ -1,5 +1,7 @@
 package org.mash.harness.jms;
 
+import org.jboss.mq.SpyTextMessage;
+
 import javax.jms.Session;
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
@@ -28,6 +30,29 @@ import java.io.Serializable;
  */
 public class ConfigSession implements Session
 {
+    MessageProducer sender;
+    MessageConsumer consumer;
+
+    public ConfigSession(MessageProducer sender)
+    {
+        this.sender = sender;
+    }
+
+    public ConfigSession(MessageConsumer consumer)
+    {
+        this.consumer = consumer;
+    }
+
+    public MessageProducer getSender()
+    {
+        return sender;
+    }
+
+    public MessageConsumer getConsumer()
+    {
+        return consumer;
+    }
+
     public BytesMessage createBytesMessage() throws JMSException
     {
         throw new UnsupportedOperationException("Method createBytesMessage not yet implemented");
@@ -60,12 +85,14 @@ public class ConfigSession implements Session
 
     public TextMessage createTextMessage() throws JMSException
     {
-        throw new UnsupportedOperationException("Method createTextMessage not yet implemented");
+        return new SpyTextMessage();
     }
 
     public TextMessage createTextMessage(String s) throws JMSException
     {
-        throw new UnsupportedOperationException("Method createTextMessage not yet implemented");
+        SpyTextMessage msg = new SpyTextMessage();
+        msg.setText(s);
+        return msg;
     }
 
     public boolean getTransacted() throws JMSException
@@ -80,17 +107,14 @@ public class ConfigSession implements Session
 
     public void commit() throws JMSException
     {
-        throw new UnsupportedOperationException("Method commit not yet implemented");
     }
 
     public void rollback() throws JMSException
     {
-        throw new UnsupportedOperationException("Method rollback not yet implemented");
     }
 
     public void close() throws JMSException
     {
-        throw new UnsupportedOperationException("Method close not yet implemented");
     }
 
     public void recover() throws JMSException
@@ -115,22 +139,22 @@ public class ConfigSession implements Session
 
     public MessageProducer createProducer(Destination destination) throws JMSException
     {
-        throw new UnsupportedOperationException("Method createProducer not yet implemented");
+        return sender;
     }
 
     public MessageConsumer createConsumer(Destination destination) throws JMSException
     {
-        throw new UnsupportedOperationException("Method createConsumer not yet implemented");
+        return consumer;
     }
 
     public MessageConsumer createConsumer(Destination destination, String s) throws JMSException
     {
-        throw new UnsupportedOperationException("Method createConsumer not yet implemented");
+        return consumer;
     }
 
     public MessageConsumer createConsumer(Destination destination, String s, boolean b) throws JMSException
     {
-        throw new UnsupportedOperationException("Method createConsumer not yet implemented");
+        return consumer;
     }
 
     public Queue createQueue(String s) throws JMSException

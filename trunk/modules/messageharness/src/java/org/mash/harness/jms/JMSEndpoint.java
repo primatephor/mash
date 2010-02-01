@@ -63,6 +63,7 @@ public class JMSEndpoint
             log.debug("Creating JMS connection");
             session = connectionData.getSession();
             MessageConsumer consumer = session.createConsumer(connectionData.getQueue());
+            log.debug("Reading from queue");
             connectionData.getConnection().start();
             result = consumer.receive(timeout);
         }
@@ -130,5 +131,10 @@ public class JMSEndpoint
     public void setTimeout(long timeout)
     {
         this.timeout = timeout;
+    }
+
+    public ConnectionData getConnectionData()
+    {
+        return connectionData;
     }
 }

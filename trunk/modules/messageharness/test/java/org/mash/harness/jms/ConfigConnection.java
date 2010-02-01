@@ -57,17 +57,14 @@ public class ConfigConnection implements Connection
 
     public void start() throws JMSException
     {
-        throw new UnsupportedOperationException("Method start not yet implemented");
     }
 
     public void stop() throws JMSException
     {
-        throw new UnsupportedOperationException("Method stop not yet implemented");
     }
 
     public void close() throws JMSException
     {
-        throw new UnsupportedOperationException("Method close not yet implemented");
     }
 
     public ConnectionConsumer createConnectionConsumer(Destination destination, String s, ServerSessionPool serverSessionPool, int i) throws JMSException

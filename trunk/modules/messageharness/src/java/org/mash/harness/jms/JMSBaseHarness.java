@@ -119,9 +119,9 @@ public abstract class JMSBaseHarness extends BaseHarness implements RunHarness
         {
             this.action = ActionType.SEND;
         }
-        else if (ActionType.SEND.name().equalsIgnoreCase(action))
+        else if (ActionType.RECEIVE.name().equalsIgnoreCase(action))
         {
-            this.action = ActionType.SEND;
+            this.action = ActionType.RECEIVE;
         }
         else
         {

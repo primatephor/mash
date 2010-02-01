@@ -94,4 +94,8 @@ public abstract class JMSEndpointAdapter
         return endpoint;
     }
 
+    public void setEndpoint(JMSEndpoint endpoint)
+    {
+        this.endpoint = endpoint;
+    }
 }
