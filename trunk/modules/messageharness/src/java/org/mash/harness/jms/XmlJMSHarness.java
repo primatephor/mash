@@ -25,7 +25,12 @@ public class XmlJMSHarness extends TextJMSHarness
 {
     public RunResponse getResponse()
     {
-        return new MessagePropertyResponse(new XmlResponse(String.valueOf(getMessage().getBody())),
-                                           getMessage().getProperties());
+        RunResponse result = null;
+        if (getMessage() != null)
+        {
+            return new MessagePropertyResponse(new XmlResponse(String.valueOf(getMessage().getBody())),
+                                               getMessage().getProperties());
+        }
+        return result;
     }
 }
