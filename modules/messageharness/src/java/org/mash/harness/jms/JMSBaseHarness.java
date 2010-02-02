@@ -53,17 +53,26 @@ public abstract class JMSBaseHarness extends BaseHarness implements RunHarness
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
-        if (providerUrl == null)
+        log.info("Connection provider:" + providerUrl + ", Queue:" + queueName);
+        if (getErrors().size() == 0)
         {
-            getErrors().add(new HarnessError(this.getName(), "No provider url supplied"));
-        }
-        if (queueName == null)
-        {
-            getErrors().add(new HarnessError(this.getName(), "No queue name supplied"));
+            if (providerUrl == null)
+            {
+                getErrors().add(new HarnessError(this.getName(), "No provider url supplied"));
+            }
+            if (queueName == null)
+            {
+                getErrors().add(new HarnessError(this.getName(), "No queue name supplied"));
+            }
+            if (action == null)
+            {
+                getErrors().add(new HarnessError(this.getName(), "Action not set!"));
+            }
         }
 
         if (getErrors().size() == 0)
         {
+            log.info("Running action " + action);
             JMSEndpointAdapter endpoint = buildAdapter(providerUrl, queueName);
             if (ActionType.SEND.equals(action))
             {
@@ -76,6 +85,7 @@ public abstract class JMSBaseHarness extends BaseHarness implements RunHarness
                 }
                 catch (SendException e)
                 {
+                    log.error("Problem sending message", e);
                     getErrors().add(new HarnessError(this.getName(), "Problem sending message", e));
                 }
             }
@@ -88,9 +98,14 @@ public abstract class JMSBaseHarness extends BaseHarness implements RunHarness
                 }
                 catch (SendException e)
                 {
+                    log.error("Problem reading message", e);
                     getErrors().add(new HarnessError(this.getName(), "Problem reading message", e));
                 }
             }
+        }
+        else
+        {
+            log.info("There were errors, not processing send / receive");
         }
     }
 

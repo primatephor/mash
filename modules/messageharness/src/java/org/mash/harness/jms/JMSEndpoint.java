@@ -20,7 +20,7 @@ public class JMSEndpoint
 {
     private static final Logger log = Logger.getLogger(JMSEndpoint.class.getName());
     private ConnectionData connectionData;
-    private long timeout = 5000l;
+    private long timeout = 10000l;
 
     public JMSEndpoint(String providerUrl, String queueName) throws SendException
     {

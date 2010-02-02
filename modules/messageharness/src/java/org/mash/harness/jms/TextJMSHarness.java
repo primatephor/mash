@@ -41,8 +41,13 @@ public class TextJMSHarness extends JMSBaseHarness
 
     public RunResponse getResponse()
     {
-        return new MessagePropertyResponse(new StringResponse(String.valueOf(getMessage().getBody())),
-                                           getMessage().getProperties());
+        RunResponse result = null;
+        if (getMessage() != null)
+        {
+            return new MessagePropertyResponse(new StringResponse(String.valueOf(getMessage().getBody())),
+                                               getMessage().getProperties());
+        }
+        return result;
     }
 
     @HarnessParameter(name = "message")
