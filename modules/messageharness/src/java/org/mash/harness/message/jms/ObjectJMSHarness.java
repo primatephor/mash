@@ -17,6 +17,9 @@ import org.mash.loader.HarnessConfiguration;
  * Parameters:
  * <ul>
  * <li> 'action' RECEIVE (send is currently unavailable) </li>
+ * <li> 'property' is a little complex, since it's a name/value pair and needs to be parsed.  The format is
+ * 'name'='value', so a value to a parameter would look like:
+ * <code><Parameter name="property"><Value>myprop=somevalue</Value></Parameter></code>
  * </ul>
  *
  * @author teastlack
