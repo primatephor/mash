@@ -32,6 +32,13 @@ This is the list of supplied harnesses
   * RestRunHarness (invokes http requests in a restful manner)
   * RestResponse (for running xpath queries)
 
+= Messaging =
+ * {{{MessageHarness.jar}}}
+  * XmlJMSHarness (send and receive xml files on JMS queue)
+  * TextJMSHarness (send and receive text files on JMS queue)
+  * ObjectJMSHarness (receive Java objects from JMS queue)
+  * JMSSetupHarness (clean a queue)
+
 = Core =
  * {{{mash.jar}}}
   * StandardVerifyHarness
