@@ -95,6 +95,10 @@ public abstract class JMSBaseHarness extends BaseHarness implements RunHarness
                 try
                 {
                     message = endpoint.read();
+                    if (message != null)
+                    {
+                        log.debug("Pulled message:" + String.valueOf(getMessage().getBody()));
+                    }
                 }
                 catch (SendException e)
                 {
