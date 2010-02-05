@@ -22,6 +22,7 @@ To send a message:
         <Configuration name="queue"><Value>queue/MyQueue</Value></Configuration>
         <Configuration name="action"><Value>SEND</Value></Configuration>
         <Parameter name="message" file="data/toSend.xml"/>
+        <Parameter name="property"><Value>name=value</Value></Parameter>
     </Run>
 }}}
 
@@ -36,7 +37,8 @@ To receive a message:
     </Run>
     <Verify type="org.mash.harness.StandardVerifyHarness">
         <Parameter name="/Response/Status"><Value>SUCCESS</Value></Parameter>
+        <Parameter name="property"><Value>name=value</Value></Parameter>
     </Verify>
 }}}
 
-This will pick the first message off the queue, and use XPath to verify that it's status is 'SUCCESS'
+This will pick the first message off the queue, and use XPath to verify that it's status is 'SUCCESS' and there's a property on the message named 'name' with a value 'value'
