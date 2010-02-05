@@ -6,6 +6,16 @@ import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 
 /**
+ * Configurations:
+ * <ul>
+ * <li> 'provider_url' is the url of the jms connection provider </li>
+ * <li> 'queue' is the queue name</li>
+ * </ul>
+ * <p/>
+ * Parameters:
+ * <ul>
+ * <li> 'action' CLEAN </li>
+ * </ul>
  *
  * @author teastlack
  * @since Feb 1, 2010 7:18:26 PM
