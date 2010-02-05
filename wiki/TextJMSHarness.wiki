@@ -21,11 +21,12 @@ To send a message:
         <Configuration name="url"><Value>jnp://some.server.com:1099</Value></Configuration>
         <Configuration name="queue"><Value>queue/MyQueue</Value></Configuration>
         <Configuration name="action"><Value>SEND</Value></Configuration>
-        <Parameter name="message" file="data/toSend.xml"/>
+        <Parameter name="message" file="data/toSend.txt"/>
+        <Parameter name="property"><Value>name=value</Value></Parameter>
     </Run>
 }}}
 
-Sending the xml in 'data/toSend.xml' to the jms queue (as a text message) on the server 'some.server.com:1099'.  
+Sending the xml in 'data/toSend.txt' to the jms queue (a text message) on the server 'some.server.com:1099'.  
 
 To receive a message:
 {{{
@@ -35,8 +36,9 @@ To receive a message:
         <Configuration name="action"><Value>RECEIVE</Value></Configuration>
     </Run>
     <Verify type="org.mash.harness.StandardVerifyHarness">
-        <Parameter name="/Response/Status"><Value>SUCCESS</Value></Parameter>
+        <Configuration name="contains"><Value>some text in the file</Value></Configuration>
+        <Parameter name="name"><Value>value</Value></Parameter>
     </Verify>
 }}}
 
-This will pick the first message off the queue, and use XPath to verify that it's status is 'SUCCESS'
+This will pick the first message off the queue, and verify it has the property 'name' and contains the text 'some text in the file'
