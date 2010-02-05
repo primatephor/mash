@@ -34,10 +34,10 @@ This is the list of supplied harnesses
 
 = Messaging =
  * {{{MessageHarness.jar}}}
-  * XmlJMSHarness (send and receive xml files on JMS queue)
-  * TextJMSHarness (send and receive text files on JMS queue)
-  * ObjectJMSHarness (receive Java objects from JMS queue)
-  * JMSSetupHarness (clean a queue)
+  * [XmlJMSHarness] (send and receive xml files on JMS queue)
+  * [TextJMSHarness] (send and receive text files on JMS queue)
+  * [ObjectJMSHarness] (receive Java objects from JMS queue)
+  * [JMSSetupHarness] (clean a queue)
 
 = Core =
  * {{{mash.jar}}}
