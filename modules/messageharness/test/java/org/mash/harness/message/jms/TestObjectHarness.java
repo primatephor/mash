@@ -1,35 +1,31 @@
-package org.mash.harness.jms;
+package org.mash.harness.message.jms;
 
 import junit.framework.TestCase;
 
 import javax.naming.NamingException;
 import javax.jms.JMSException;
-import javax.jms.TextMessage;
 
-import org.mash.harness.SendException;
-import org.jboss.mq.SpyTextMessage;
+import org.mash.harness.message.SendException;
+import org.jboss.mq.SpyObjectMessage;
+
+import java.io.Serializable;
 
 /**
  *
  * @author teastlack
- * @since Jan 29, 2010 3:39:07 PM
+ * @since Feb 1, 2010 10:33:39 AM
  *
  */
-public class TestXmlHarness extends TestCase
+public class TestObjectHarness extends TestCase
 {
     public void testSend() throws NamingException, SendException, JMSException
     {
-        String message = "<base>" +
-                         "  <child>data1</child>" +
-                         "  <child2>data2</child2>" +
-                         "</base>";
         String queueName = "theQueue";
         ConfigInitialContext context = new ConfigInitialContext();
         ConfigSession session = new ConfigSession(new ConfigProducer());
         context.addData("/ConnectionFactory", new ConfigConnectionFactory(new ConfigConnection(session)));
         context.addData(queueName, new ConfigQueue(queueName));
-        MyHarness harness = new MyHarness(new ConnectionData(context, queueName));
-        harness.setMessage(message);
+        MyJMSHarness harness = new MyJMSHarness(new ConnectionData(context, queueName));
         harness.setProperties("prop1=value1");
         harness.setProperties("prop2=value2");
         harness.setAction("SEND");
@@ -37,23 +33,17 @@ public class TestXmlHarness extends TestCase
         harness.setQueueName(queueName);
 
         harness.run(null, null);
-        ConfigProducer prod = (ConfigProducer) session.getSender();
-        assertEquals("value1", prod.getMessage().getStringProperty("prop1"));
-        assertEquals("value2", prod.getMessage().getStringProperty("prop2"));
 
-        TextMessage msg = (TextMessage) prod.getMessage();
-        assertEquals("<base>  <child>data1</child>  <child2>data2</child2></base>", msg.getText());
-
+        //should have failed, as send is invalid for object messages right now
+        assertEquals(1, harness.getErrors().size());
+        assertEquals("Invalid action type:SEND", harness.getErrors().get(0).getValue());
     }
 
     public void testReceive() throws NamingException, SendException, JMSException
     {
-        String message = "<base>" +
-                         "  <child>data1</child>" +
-                         "  <child2>data2</child2>" +
-                         "</base>";
-        SpyTextMessage msg = new SpyTextMessage();
-        msg.setText(message);
+        Serializable message = new MyObjectMessage("child","data1");
+        SpyObjectMessage msg = new SpyObjectMessage();
+        msg.setObject(message);
         msg.setStringProperty("prop1", "value1");
         msg.setStringProperty("prop2", "value2");
 
@@ -62,10 +52,7 @@ public class TestXmlHarness extends TestCase
         ConfigSession session = new ConfigSession(new ConfigConsumer(msg));
         context.addData("/ConnectionFactory", new ConfigConnectionFactory(new ConfigConnection(session)));
         context.addData(queueName, new ConfigQueue(queueName));
-        MyHarness harness = new MyHarness(new ConnectionData(context, queueName));
-        harness.setMessage(message);
-        harness.setProperties("prop1=value1");
-        harness.setProperties("prop2=value2");
+        MyJMSHarness harness = new MyJMSHarness(new ConnectionData(context, queueName));
         harness.setAction("RECEIVE");
         harness.setProviderUrl("theUrl");
         harness.setQueueName(queueName);
@@ -73,25 +60,25 @@ public class TestXmlHarness extends TestCase
         harness.run(null, null);
         assertEquals("value1", harness.getResponse().getValue("prop1"));
         assertEquals("value2", harness.getResponse().getValue("prop2"));
-        assertEquals("<base>  <child>data1</child>  <child2>data2</child2></base>", harness.getResponse().getString());
-
-        assertEquals("data1", harness.getResponse().getValue("/base/child"));
+        assertEquals("child", harness.getResponse().getValue("name"));
+        assertEquals("data1", harness.getResponse().getValue("value"));
     }
 
-    private class MyHarness extends XmlJMSHarness
+    private class MyJMSHarness extends ObjectJMSHarness
     {
         private ConnectionData connectionData;
 
-        private MyHarness(ConnectionData connectionData)
+        private MyJMSHarness(ConnectionData connectionData)
         {
             this.connectionData = connectionData;
         }
 
-        public JMSEndpointAdapter buildAdapter(String providerUrl, String queueName)
+        public JMSEndpointAdapter buildEndpoint()
         {
-            JMSEndpointAdapter adapter = super.buildAdapter(providerUrl, queueName);
+            JMSEndpointAdapter adapter = super.buildEndpoint();
             adapter.setEndpoint(new JMSEndpoint(connectionData));
             return adapter;
         }
     }
 }
+

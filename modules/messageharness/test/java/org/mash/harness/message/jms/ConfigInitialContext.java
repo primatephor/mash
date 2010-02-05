@@ -1,6 +1,5 @@
-package org.mash.harness.jms;
+package org.mash.harness.message.jms;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.naming.Context;
 import javax.naming.Name;

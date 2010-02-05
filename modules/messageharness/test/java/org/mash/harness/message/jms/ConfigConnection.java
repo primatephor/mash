@@ -1,4 +1,4 @@
-package org.mash.harness.jms;
+package org.mash.harness.message.jms;
 
 import javax.jms.Connection;
 import javax.jms.Session;
