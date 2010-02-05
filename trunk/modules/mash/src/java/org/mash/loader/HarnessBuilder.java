@@ -57,7 +57,7 @@ public class HarnessBuilder
         }
         catch (Exception e)
         {
-            throw new HarnessException("Problem building harness", e);
+            throw new HarnessException("Problem building harness '" + classname + "':" + e.getMessage(), e);
         }
         return harness;
     }
