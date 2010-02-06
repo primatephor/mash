@@ -37,7 +37,7 @@ To receive a message:
     </Run>
     <Verify type="org.mash.harness.StandardVerifyHarness">
         <Parameter name="/Response/Status"><Value>SUCCESS</Value></Parameter>
-        <Parameter name="property"><Value>name=value</Value></Parameter>
+        <Parameter name="name"><Value>value</Value></Parameter>
     </Verify>
 }}}
 
