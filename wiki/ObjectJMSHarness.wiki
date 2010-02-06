@@ -20,10 +20,11 @@ To receive a message:
         <Configuration name="url"><Value>jnp://some.server.com:1099</Value></Configuration>
         <Configuration name="queue"><Value>queue/MyQueue</Value></Configuration>
         <Configuration name="action"><Value>RECEIVE</Value></Configuration>
+        <Parameter name="property"><Value>name=value</Value></Parameter>
     </Run>
     <Verify type="org.mash.harness.StandardVerifyHarness">
         <Parameter name="user.address.street"><Value>the street addr</Value></Parameter>
-        <Parameter name="property"><Value>name=value</Value></Parameter>
+        <Parameter name="name"><Value>value</Value></Parameter>
     </Verify>
 }}}
 
