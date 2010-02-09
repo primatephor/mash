@@ -45,3 +45,25 @@ This is a file load:
     <Parameter name="sql" file="test_01_data/db_load.sql"/>
 }}}
 retrieves the text from directory 'test_01_data/db_load.sql' and puts it into parameter named 'sql'
+
+Here is a date:
+{{{
+    <Parameter name="dateString"><Date dayOffset="-6"/></Parameter>
+}}}
+This retrieves the current date and subtracts 6 days from it.  
+See DateDefinition for more information
+
+Here is a complex replacement with dates:
+{{{
+   <Parameter name="myString">
+       <Value>replace {accepted.date} and {another.date} and {accepted.date} again</Value>
+       <Replace search="{accepted.date}">
+           <Date format="yyyy-MM-dd kk:mm:ss.S" dayOffset="-6"/>
+       </Replace>
+       <Replace search="{another.date}">
+           <Date format="yyyy-MM-dd kk:mm:ss.S" dayOffset="-5"/>
+       </Replace>
+    </Parameter>
+}}}
+This replaces values in the defined string value with dates of a specified format.  The first date is 6 days ago and the second is 5 days ago.
+
