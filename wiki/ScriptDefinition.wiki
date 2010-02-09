@@ -70,7 +70,7 @@ Parameters are variables used by the harness that will dictate how / what is run
 }}}
  * Now the text will get replaced to {{{this text has sometext}}}
  * Common usage of this case is replacing user id's in a URL, or changing properties.
- * See ParameterConfiguration
+ * See ParameterDefinition
 
 = Run =
 Runs perform the core desired action.
