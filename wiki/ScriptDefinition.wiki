@@ -11,7 +11,7 @@ A break down of a sample script:
 {{{
 <ns1:Script name="Base Test" xmlns:ns1="http://www.mash.org/schema/V1">
 }}}
- * xmlns:ns1="http://www.mash.org/schema/V1" is the version 1 namespace of the config.  There will likely be other versions in the future.
+ * {{{xmlns:ns1="http://www.mash.org/schema/V1"}}} is the version 1 namespace of the config.  There will likely be other versions in the future.
  * name is the name of this run 
 
 = Tags =
