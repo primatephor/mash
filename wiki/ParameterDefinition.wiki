@@ -33,26 +33,26 @@ This is a basic parameter:
     <Parameter name="status"><Value>FAILURE</Value></Parameter>
 }}}
 it is setting a parameter 'status' to 'FAILURE'
-
+----
 This configuration uses a system property:
 {{{
     <Configuration name="provider_url" property="my.provider.url"/>
 }}}
 uses environment variable named 'my.provider.url' to set the value of 'provider_url'
-
+----
 This is a file load:
 {{{
     <Parameter name="sql" file="test_01_data/db_load.sql"/>
 }}}
 retrieves the text from directory 'test_01_data/db_load.sql' and puts it into parameter named 'sql'
-
+----
 Here is a date:
 {{{
     <Parameter name="dateString"><Date dayOffset="-6"/></Parameter>
 }}}
 This retrieves the current date and subtracts 6 days from it.  
 See DateDefinition for more information
-
+----
 Here is a complex replacement with dates:
 {{{
    <Parameter name="myString">
@@ -66,4 +66,11 @@ Here is a complex replacement with dates:
     </Parameter>
 }}}
 This replaces values in the defined string value with dates of a specified format.  The first date is 6 days ago and the second is 5 days ago.
-
+----
+Here is a parameter using a response:
+{{{
+    <Parameter name="first_name">
+       <Response name="get_user">/User/Contact/FirstName</Response>
+    </Parameter>
+}}}
+This response references a previously run harness with the name 'get_user', it happened to return XML so we use xpath to retrieve from that xml the 'first_name' value.  If this were an http response, we'd just put in the parameter named on the page.
