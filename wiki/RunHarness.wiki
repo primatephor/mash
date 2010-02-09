@@ -14,7 +14,7 @@ The run harness interface:
  * {{{RunResponse getResponse()}}}
 
 As with all other harnesses, it accepts 
- * Configurations (see ConfigurationDefinition)
+ * Configurations (see ParameterDefinition)
  * Parameters (see ParameterDefinition)
  * has a list off errors (see HarnessError)
 
