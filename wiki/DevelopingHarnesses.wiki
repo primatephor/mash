@@ -2,6 +2,12 @@
 
 Each harness has it's own specific interface to implement (setup, run, verify, teardown).  However there are common themes for developing a harness that simplify the plumbing.
 
+Harnesses must implement one of the interfaces:
+* SetupHarness
+* RunHarness
+* VerifyHarness
+* TeardownHarness
+
 
 = {{{BaseHarness}}} =
 
