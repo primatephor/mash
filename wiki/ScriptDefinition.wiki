@@ -21,7 +21,7 @@ Tags are used to filter which scripts are to be run.
     <Tag>website</Tag>
     <Tag>myapp</Tag>
 }}}
- * If this were a system test, then running all 'login' tests would invoke this particular script.
+ * If this were being run as a system test and 'login' was passed as a parameter, then this particular script would be run as part of that tagged selection.
 
 = Scripts =
 You can run other scripts from within a script.
@@ -70,6 +70,7 @@ Parameters are variables used by the harness that will dictate how / what is run
 }}}
  * Now the text will get replaced to {{{this text has sometext}}}
  * Common usage of this case is replacing user id's in a URL, or changing properties.
+ * See ParameterConfiguration
 
 = Run =
 Runs perform the core desired action.
