@@ -46,7 +46,7 @@ Configurations are parameters that are required for a harness to be setup proper
         </Configuration>
 }}}
  * Configurations are passed to harnesses as to be used during initialization.  In this instance, the DbSetupHarness will run a dbunit cleaning when loading a specified file.  See the DBSetupHarness for more information on valid configurations and parameters.
- * See ConfigurationDefinition
+ * See ParameterDefinition
 
 = Parameters =
 Parameters are variables used by the harness that will dictate how / what is run.
