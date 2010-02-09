@@ -1,8 +1,10 @@
-#summary Description of the Parameter
+#summary Description of the Parameter and Configuration
 
 = Introduction =
 
-Parameters are used by harnesses to pass along information used in the harness run.
+Parameters are used by harnesses to pass along information used in the harness run.  Configurations are used by harnesses to pass along information specific to the functioning of a harness.  Functionally these are identical.
+
+A good example of the difference between a Configuration and a Parameter is considering an ftp url versus am ftp file to get.  The url to connect to is a Configuration, whereas the file to get is a Parameter.
 
 
 = Details =
@@ -16,10 +18,14 @@ Parameters accept the following data:
 
 Most of these can be used together.  For example, you could use value and replace together, or reponse, replace, and date together.  This allows you to build interesting values by layering the information.  
 
-The value of the Parameter is calculated in the following order
+Parameter values are calculated based on some precedence, since they may be layered (you could make a parameter some file contents and replace certain values with a date).  The value of the Parameter is calculated in the following order
  * The value is used
  * The system property is used.  If a value is specified, it is appended after the system property.
  * The DateDefinition is used, any previous value is overridden
  * The response from a previous run is used, any previous value is overridden
  * The file contents are used, any previous value is overridden
  * The content ReplaceDefinition is run
+
+Some examples of Parameters / Configurations:
+{{{
+}}}
