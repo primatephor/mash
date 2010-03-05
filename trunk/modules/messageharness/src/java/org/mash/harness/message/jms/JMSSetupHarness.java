@@ -38,15 +38,15 @@ public class JMSSetupHarness extends BaseHarness implements SetupHarness
         {
             if (providerUrl == null)
             {
-                getErrors().add(new HarnessError(this.getName(), "No provider url supplied"));
+                getErrors().add(new HarnessError(this, "Configuration", "No provider url supplied"));
             }
             if (queueName == null)
             {
-                getErrors().add(new HarnessError(this.getName(), "No queue name supplied"));
+                getErrors().add(new HarnessError(this, "Configuration", "No queue name supplied"));
             }
             if (action == null)
             {
-                getErrors().add(new HarnessError(this.getName(), "Action not set!"));
+                getErrors().add(new HarnessError(this, "Configuration", "Action not set!"));
             }
         }
 
@@ -87,7 +87,7 @@ public class JMSSetupHarness extends BaseHarness implements SetupHarness
         }
         else
         {
-            getErrors().add(new HarnessError(this.getName(), "Invalid action type:" + action));
+            getErrors().add(new HarnessError(this, "Configuration", "Invalid action type:" + action));
         }
     }
 

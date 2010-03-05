@@ -36,16 +36,12 @@ public class TimedWaitRunHarness extends BaseHarness implements RunHarness
             }
             catch (InterruptedException e)
             {
-                getErrors().add(new HarnessError(this.getClass().getName(),
-                                                 "Error waiting for " + waitTime + " ms",
-                                                 e.getMessage()));
+                getErrors().add(new HarnessError(this, "Error waiting for " + waitTime + " ms", e));
             }
         }
         else
         {
-            getErrors().add(new HarnessError(this.getClass().getName(),
-                                             "No wait time specified!"));
-
+            getErrors().add(new HarnessError(this, "Configuration", "No wait time specified!"));
         }
     }
 

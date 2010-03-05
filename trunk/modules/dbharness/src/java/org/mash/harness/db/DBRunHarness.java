@@ -54,16 +54,20 @@ public class DBRunHarness extends BaseHarness implements RunHarness
         if (connection != null)
         {
             retrieveRow(connection, tableName, columnName, columnValue);
-            if(result.getResultSetData().size() == 0)
+            if (result.getResultSetData().size() == 0)
             {
-                getErrors().add(new HarnessError(getName(), "No results found for table '" + tableName +
-                                                            "', column '" + columnName +
-                                                            "', value '" + columnValue + "'"));
+                getErrors().add(new HarnessError(this,
+                                                 "Retrieve Row",
+                                                 "No results found for table '" + tableName +
+                                                 "', column '" + columnName +
+                                                 "', value '" + columnValue + "'"));
             }
         }
         else
         {
-            getErrors().add(new HarnessError(getName(), "No connection established"));
+            getErrors().add(new HarnessError(this,
+                                             "Connection",
+                                             "No connection established"));
         }
     }
 
@@ -76,7 +80,7 @@ public class DBRunHarness extends BaseHarness implements RunHarness
             log.info("Running sql:" + sql);
             statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
-            if(!results.next())
+            if (!results.next())
             {
                 log.warn("No results found!");
             }
@@ -91,11 +95,11 @@ public class DBRunHarness extends BaseHarness implements RunHarness
         {
             try
             {
-                if(statement != null)
+                if (statement != null)
                 {
                     statement.close();
                 }
-                if(connection != null)
+                if (connection != null)
                 {
                     connection.close();
                 }

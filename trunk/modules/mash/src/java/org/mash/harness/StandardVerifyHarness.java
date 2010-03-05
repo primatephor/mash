@@ -46,18 +46,18 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                 {
                     if (!responseText.contains(s))
                     {
-                        getErrors().add(new HarnessError(this.getName(), "Not present in response:" + s));
+                        getErrors().add(new HarnessError(this, "Verify", "Not present in response:" + s));
                     }
                 }
             }
             else
             {
-                getErrors().add(new HarnessError(this.getName(), "No response!"));
+                getErrors().add(new HarnessError(this, "Verify", "No response!"));
             }
         }
         else
         {
-            getErrors().add(new HarnessError(this.getName(), "No response!"));
+            getErrors().add(new HarnessError(this, "Verify", "No response!"));
         }
     }
 
@@ -98,9 +98,10 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 
     private void addError(String parameterName, String expected, String actual)
     {
-        getErrors().add(new HarnessError(getName(), "Parameter " + parameterName +
-                                                    " Expected:'" + expected +
-                                                    "' but was '" + actual + "'"));
+        getErrors().add(new HarnessError(this, "Verify",
+                                         "Parameter " + parameterName +
+                                         " Expected:'" + expected +
+                                         "' but was '" + actual + "'"));
     }
 
     @HarnessConfiguration(name = "contains")

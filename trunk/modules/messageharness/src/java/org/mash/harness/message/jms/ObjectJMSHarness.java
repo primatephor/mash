@@ -49,7 +49,7 @@ public class ObjectJMSHarness extends BaseJMSMessageHarness
     {
         if (!ActionType.RECEIVE.name().equalsIgnoreCase(action))
         {
-            getErrors().add(new HarnessError(this.getName(), "Invalid action type:" + action));
+            getErrors().add(new HarnessError(this, "Configuration", "Invalid action type:" + action));
         }
         super.setAction(action);
     }

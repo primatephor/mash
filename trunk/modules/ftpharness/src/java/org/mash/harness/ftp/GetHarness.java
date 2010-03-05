@@ -185,7 +185,7 @@ public class GetHarness extends FTPRunHarness
         Collections.sort(fileList, new FileDateComparator());
         if (fileList.size() <= fileIndex)
         {
-            getErrors().add(new HarnessError(this.getName(),
+            getErrors().add(new HarnessError(this, "List",
                                              "Number of conversations found (" + fileList.size() + ") " +
                                              "is less than desired index (out of bounds) " + fileIndex));
         }

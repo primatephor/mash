@@ -33,11 +33,11 @@ public abstract class BaseJMSMessageHarness extends BaseMessageHarness
         {
             if (providerUrl == null)
             {
-                getErrors().add(new HarnessError(this.getName(), "No provider url supplied"));
+                getErrors().add(new HarnessError(this, "Configuration", "No provider url supplied"));
             }
             if (queueName == null)
             {
-                getErrors().add(new HarnessError(this.getName(), "No queue name supplied"));
+                getErrors().add(new HarnessError(this, "Configuration", "No queue name supplied"));
             }
         }
 

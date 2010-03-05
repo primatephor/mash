@@ -61,14 +61,14 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
             {
                 client.disconnect();
                 log.error("FTP connection refused");
-                this.getErrors().add(new HarnessError(this.getClass().getName(), "FTP connection refused"));
+                this.getErrors().add(new HarnessError(this, "Connection", "FTP connection refused"));
             }
 
             if (!hasErrors())
             {
                 if (!client.login(user, password))
                 {
-                    this.getErrors().add(new HarnessError(this.getClass().getName(), "Unable to login with user " + user));
+                    this.getErrors().add(new HarnessError(this, "Authentication", "Unable to login with user " + user));
                 }
                 else
                 {
