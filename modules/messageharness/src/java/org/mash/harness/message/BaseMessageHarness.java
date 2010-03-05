@@ -48,7 +48,7 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
         {
             if (action == null)
             {
-                getErrors().add(new HarnessError(this.getName(), "Action not set!"));
+                getErrors().add(new HarnessError(this, "Configuration", "Action not set!"));
             }
         }
 
@@ -67,7 +67,7 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
                 catch (SendException e)
                 {
                     log.error("Problem sending message", e);
-                    getErrors().add(new HarnessError(this.getName(), "Problem sending message", e));
+                    getErrors().add(new HarnessError(this, "Problem sending message", e));
                 }
             }
             else if (ActionType.RECEIVE.equals(action))
@@ -83,7 +83,7 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
                 catch (SendException e)
                 {
                     log.error("Problem reading message", e);
-                    getErrors().add(new HarnessError(this.getName(), "Problem reading message", e));
+                    getErrors().add(new HarnessError(this, "Problem reading message", e));
                 }
             }
         }
@@ -127,7 +127,7 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
         }
         else
         {
-            getErrors().add(new HarnessError(this.getName(), "Invalid action (send or receive) type:" + action));
+            getErrors().add(new HarnessError(this, "Configuration", "Invalid action (send or receive) type:" + action));
         }
     }
 

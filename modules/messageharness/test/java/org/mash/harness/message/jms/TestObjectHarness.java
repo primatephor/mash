@@ -36,7 +36,7 @@ public class TestObjectHarness extends TestCase
 
         //should have failed, as send is invalid for object messages right now
         assertEquals(1, harness.getErrors().size());
-        assertEquals("Invalid action type:SEND", harness.getErrors().get(0).getValue());
+        assertEquals("Invalid action type:SEND", harness.getErrors().get(0).getDescription());
     }
 
     public void testReceive() throws NamingException, SendException, JMSException

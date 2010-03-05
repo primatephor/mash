@@ -56,7 +56,7 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                     String expectedTitle = pageResponse.getTitleText();
                     if (!title.equals(expectedTitle))
                     {
-                        getErrors().add(new HarnessError(this.getName(),
+                        getErrors().add(new HarnessError(this, "Verify Title",
                                                          "Expected title '" + title +
                                                          "' doesn't equal actual '" + expectedTitle + "'"));
                     }
@@ -69,22 +69,23 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                         int expectedStatus = response.getWebPage().getWebResponse().getStatusCode();
                         if (Integer.valueOf(status) != expectedStatus)
                         {
-                            getErrors().add(new HarnessError(this.getName(),
+                            getErrors().add(new HarnessError(this, "Verify Status",
                                                              "Expected status '" + status +
                                                              "' doesn't equal actual '" + expectedStatus + "'"));
                         }
                     }
                     else
                     {
-                        getErrors().add(new HarnessError(this.getName(), "Expected status '" + status +
-                                                                         "' invalid, no response!"));
+                        getErrors().add(new HarnessError(this, "Verify Status",
+                                                         "Expected status '" + status +
+                                                         "' invalid, no response!"));
                     }
                 }
             }
             catch (Exception e)
             {
                 log.error("Problem retrieving data from web response", e);
-                getErrors().add(new HarnessError(this.getName(),
+                getErrors().add(new HarnessError(this, "Response",
                                                  "Problem retrieving data from web response:" + e.getMessage()));
             }
         }

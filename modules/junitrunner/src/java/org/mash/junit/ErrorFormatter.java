@@ -18,7 +18,7 @@ public class ErrorFormatter
             buffer.append("Harness:").append(error.getHarnessName()).append(", Error:").append(error.getValue());
             if (error.getDescription() != null)
             {
-                buffer.append(" ").append(error.getDescription());
+                buffer.append(", Description:").append(error.getDescription());
             }
             buffer.append("\n");
         }

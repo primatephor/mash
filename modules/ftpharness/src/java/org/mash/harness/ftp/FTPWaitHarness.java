@@ -82,7 +82,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
                 }
                 catch (InterruptedException e)
                 {
-                    this.getErrors().add(new HarnessError(this.getClass().getName(), "Problem waiting for next polling", e.getMessage()));
+                    this.getErrors().add(new HarnessError(this, "Problem waiting for next polling", e));
                 }
             }
             current = new Date().getTime() - start;
@@ -90,7 +90,7 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
 
         if (!isComplete)
         {
-            this.getErrors().add(new HarnessError(this.getClass().getName(), "Timed out before found " + path));
+            this.getErrors().add(new HarnessError(this, "Wait", "Timed out before found " + path));
         }
     }
 

@@ -44,7 +44,7 @@ public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
         {
             if (fileSize == null)
             {
-                getErrors().add(new HarnessError(this.getClass().getName(), "No file size specified while checking size"));
+                getErrors().add(new HarnessError(this, "Size", "No file size specified while checking size"));
             }
             else
             {
@@ -58,15 +58,15 @@ public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
                         Long expected = new Long(fileSize);
                         if (expected != file.getSize())
                         {
-                            getErrors().add(new HarnessError(this.getClass().getName(), "File size is '" +
-                                                                                        file.getSize() +
-                                                                                        "' but expected '" +
-                                                                                        expected + "'"));
+                            getErrors().add(new HarnessError(this, "Size", "File size is '" +
+                                                                           file.getSize() +
+                                                                           "' but expected '" +
+                                                                           expected + "'"));
                         }
                     }
                     else
                     {
-                        getErrors().add(new HarnessError(this.getClass().getName(), "File '" + fileName + "' Not Found"));
+                        getErrors().add(new HarnessError(this, "List", "File '" + fileName + "' Not Found"));
                     }
                 }
             }
@@ -78,15 +78,15 @@ public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
             {
                 ListRunResponse listResponse = (ListRunResponse) response;
                 int actualSize = listResponse.getFiles().size();
-                if(actualSize != listSize)
+                if (actualSize != listSize)
                 {
-                    getErrors().add(new HarnessError(this.getClass().getName(), "Expected number of files:"+listSize +
-                                                                                " doesn't equal actual number:"+actualSize));
+                    getErrors().add(new HarnessError(this, "List", "Expected number of files:" + listSize +
+                                                                   " doesn't equal actual number:" + actualSize));
                 }
             }
             else
             {
-                getErrors().add(new HarnessError(this.getClass().getName(), "The response is not a list operation response"));
+                getErrors().add(new HarnessError(this, "Response", "The response is not a list operation response"));
             }
         }
     }
