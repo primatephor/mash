@@ -1,6 +1,7 @@
 package org.mash.junit;
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.apache.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
@@ -23,18 +24,11 @@ import java.util.List;
 public class JunitTestBuilder
 {
     private static final Logger log = Logger.getLogger(JunitTestBuilder.class.getName());
-    private TestCaseFactory testCaseFactory;
     private ScriptDefinitionLoader scriptDefinitionLoader;
     private Suite theSuite;
 
     public JunitTestBuilder()
     {
-        this(new TestCaseFactory());
-    }
-
-    public JunitTestBuilder(TestCaseFactory testCaseFactory)
-    {
-        this.testCaseFactory = testCaseFactory;
         this.scriptDefinitionLoader = new ScriptDefinitionLoader();
     }
 
@@ -85,20 +79,26 @@ public class JunitTestBuilder
             {
                 if (checktags(scriptDefinition, tags))
                 {
-                    result.add(testCaseFactory.createTestCase(scriptDefinition));
+                    result.add(new StandardTestCase(scriptDefinition));
                 }
             }
             else
             {
+                TestSuite suite = new TestSuite();
+                if(scriptDefinition.getDir() != null)
+                {
+                    suite.setName(scriptDefinition.getDir());
+                }
                 //load the directory of tests
                 List<ScriptDefinition> scripts = scriptDefinitionLoader.pullSubDefinitions(scriptDefinition, theSuite.getPath());
                 for (ScriptDefinition script : scripts)
                 {
                     if (checktags(script, tags))
                     {
-                        result.add(testCaseFactory.createTestCase(script));
+                        suite.addTest(new StandardTestCase(script));
                     }
                 }
+                result.add(suite);
             }
         }
         catch (Exception e)

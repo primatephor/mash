@@ -34,7 +34,7 @@ public class SystemTest
      */
     public static Test suite() throws Exception
     {
-        log.debug("Preparing to load system test(s) from context " + SYSTEM_TEST);
+        log.info("Preparing to load system test(s) from context " + SYSTEM_TEST);
 
         Suite suite = new SuiteLoader().loadSuite(SYSTEM_TEST);
         TestSuite testSuite = new TestSuite();
