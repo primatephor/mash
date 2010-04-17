@@ -1,6 +1,7 @@
 package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.log4j.Logger;
 import org.mash.file.FileLoader;
 import org.mash.harness.RunResponse;
 import org.mash.loader.HarnessParameter;
@@ -32,6 +33,7 @@ import java.io.InputStream;
  */
 public class PutHarness extends FTPRunHarness
 {
+    private static final Logger log = Logger.getLogger(PutHarness.class.getName());
     private FileLoader loader = new FileLoader();
     private String file_name;
     private String output_path;
@@ -52,6 +54,9 @@ public class PutHarness extends FTPRunHarness
             try
             {
                 fileStream = loader.findStream(fileName, path);
+                //have to remove first, otherwise this won't get put
+                log.debug("Removing "+output_path+" to put file "+fileName);
+                client.deleteFile(output_path);
                 client.storeFile(output_path, fileStream);
             }
             catch (Exception e)

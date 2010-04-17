@@ -119,8 +119,12 @@ public class ScriptLoaderProxy implements ScriptDefinition
                 {
                     String contents = reader.getContents(path);
                     JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();
-                    result = (Script) marshaller.unmarshal(contents);
-                    result.setPath(path);
+                    Object xmlData = marshaller.unmarshal(contents);
+                    if (xmlData instanceof Script)
+                    {
+                        result = (Script) xmlData;
+                        result.setPath(path);
+                    }
                 }
                 else
                 {
