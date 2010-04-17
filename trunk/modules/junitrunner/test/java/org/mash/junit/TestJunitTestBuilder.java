@@ -2,6 +2,7 @@ package org.mash.junit;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.mash.config.Suite;
 import org.mash.loader.SuiteLoader;
 
@@ -22,12 +23,15 @@ public class TestJunitTestBuilder extends TestCase
         List<Test> tests = builder.buildTests(suite);
 
         assertEquals(2, suite.getScriptOrParallel().size());
-        assertEquals(3, tests.size());
-        StandardTestCase test = (StandardTestCase) tests.get(0);
+        assertEquals(2, tests.size());
+        TestSuite builtSuite = (TestSuite) tests.get(0);
+        StandardTestCase test = (StandardTestCase) builtSuite.testAt(0);
         assertEquals("Base Test", test.getTestDefinition().getName());
-        test = (StandardTestCase) tests.get(1);
+
+        builtSuite = (TestSuite) tests.get(1);
+        test = (StandardTestCase) builtSuite.testAt(0);
         assertEquals("The Test", test.getTestDefinition().getName());
-        test = (StandardTestCase) tests.get(2);
+        test = (StandardTestCase) builtSuite.testAt(1);
         assertEquals("The Second Test", test.getTestDefinition().getName());
     }
 
@@ -40,12 +44,16 @@ public class TestJunitTestBuilder extends TestCase
         List<Test> tests = builder.buildTests(suite, tags);
 
         assertEquals(2, suite.getScriptOrParallel().size());
-        assertEquals(3, tests.size());
-        StandardTestCase test = (StandardTestCase) tests.get(0);
+        assertEquals(2, tests.size());
+        TestSuite builtSuite = (TestSuite) tests.get(0);
+        StandardTestCase test = (StandardTestCase) builtSuite.testAt(0);
         assertEquals("Base Test", test.getTestDefinition().getName());
-        test = (StandardTestCase) tests.get(1);
+
+        builtSuite = (TestSuite) tests.get(1);
+        assertEquals(2, builtSuite.testCount());
+        test = (StandardTestCase) builtSuite.testAt(0);
         assertEquals("The Test", test.getTestDefinition().getName());
-        test = (StandardTestCase) tests.get(2);
+        test = (StandardTestCase) builtSuite.testAt(1);
         assertEquals("The Second Test", test.getTestDefinition().getName());
 
 
@@ -54,9 +62,13 @@ public class TestJunitTestBuilder extends TestCase
 
         assertEquals(2, suite.getScriptOrParallel().size());
         assertEquals(2, tests.size());
-        test = (StandardTestCase) tests.get(0);
+        builtSuite = (TestSuite) tests.get(0);
+        test = (StandardTestCase) builtSuite.testAt(0);
         assertEquals("Base Test", test.getTestDefinition().getName());
-        test = (StandardTestCase) tests.get(1);
+
+        assertEquals(1, builtSuite.testCount());
+        builtSuite = (TestSuite) tests.get(1);
+        test = (StandardTestCase) builtSuite.testAt(0);
         assertEquals("The Test", test.getTestDefinition().getName());
     }
 }

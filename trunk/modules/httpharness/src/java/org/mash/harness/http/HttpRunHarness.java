@@ -2,6 +2,7 @@ package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.SgmlPage;
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
@@ -9,6 +10,7 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.HarnessError;
+import org.mash.harness.rest.RestResponse;
 import org.mash.loader.HarnessConfiguration;
 
 import java.util.HashMap;
@@ -89,11 +91,27 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     public RunResponse getResponse()
     {
         SgmlPage result = getSgmlPage();
-        if (response == null &&
-            result != null &&
-            result instanceof HtmlPage)
+        if (result != null)
         {
-            response = new HttpResponse((HtmlPage) result);
+            if (response == null)
+            {
+                if (result instanceof HtmlPage)
+                {
+                    response = new HttpResponse((HtmlPage) result);
+                }
+                else if (result instanceof XmlPage)
+                {
+                    response = new RestResponse((XmlPage) result);
+                }
+            }
+            else
+            {
+                log.warn("Unknown response type:" + result.getClass().getName());
+            }
+        }
+        else
+        {
+            log.warn("No response!");
         }
         return response;
     }
