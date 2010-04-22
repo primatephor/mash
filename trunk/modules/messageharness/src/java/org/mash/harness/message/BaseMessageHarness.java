@@ -62,6 +62,10 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
                 {
                     message = buildMessage();
                     message.getProperties().putAll(properties);
+                    if (getMessage() != null && log.isTraceEnabled())
+                    {
+                        log.trace("Sending message:" + String.valueOf(getMessage().getBody()));
+                    }
                     endpoint.send(message);
                 }
                 catch (SendException e)
@@ -75,9 +79,9 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
                 try
                 {
                     message = endpoint.read();
-                    if (message != null)
+                    if (getMessage() != null && log.isTraceEnabled())
                     {
-                        log.debug("Pulled message:" + String.valueOf(getMessage().getBody()));
+                        log.trace("Pulled message:" + String.valueOf(getMessage().getBody()));
                     }
                 }
                 catch (SendException e)

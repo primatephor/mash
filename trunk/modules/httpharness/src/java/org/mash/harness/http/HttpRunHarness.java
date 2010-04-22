@@ -65,6 +65,14 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             try
             {
                 client.submit(url, params);
+                if (log.isTraceEnabled())
+                {
+                    RunResponse response = getResponse();
+                    if (response != null)
+                    {
+                        log.trace("Response:" + response.getString());
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -93,20 +101,18 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         SgmlPage result = getSgmlPage();
         if (result != null)
         {
+            if (result instanceof HtmlPage)
+            {
+                response = new HttpResponse((HtmlPage) result);
+            }
+            else if (result instanceof XmlPage)
+            {
+                response = new RestResponse((XmlPage) result);
+            }
+
             if (response == null)
             {
-                if (result instanceof HtmlPage)
-                {
-                    response = new HttpResponse((HtmlPage) result);
-                }
-                else if (result instanceof XmlPage)
-                {
-                    response = new RestResponse((XmlPage) result);
-                }
-            }
-            else
-            {
-                log.warn("Unknown response type:" + result.getClass().getName());
+                log.error("Unknown response type:" + result.getClass().getName());
             }
         }
         else

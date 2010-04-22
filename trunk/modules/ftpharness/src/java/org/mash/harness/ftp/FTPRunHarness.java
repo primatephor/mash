@@ -74,6 +74,10 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
                 {
                     response = runOperation(client);
                 }
+                if (response != null && log.isTraceEnabled())
+                {
+                    log.trace("Response:" + response.getString());
+                }
                 client.logout();
             }
         }
