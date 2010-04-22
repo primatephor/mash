@@ -63,9 +63,9 @@ public class RestRunHarness extends HttpRunHarness
                 LOG.debug("Pulling sgml response");
                 XmlPage xmlPage = (XmlPage) getSgmlPage();
                 xmlResponse = new RestResponse(xmlPage);
-                if(LOG.isDebugEnabled())
+                if (LOG.isTraceEnabled())
                 {
-                    LOG.debug("RESPONSE:"+xmlResponse.getString());
+                    LOG.debug("Response:" + xmlResponse.getString());
                 }
             }
         }

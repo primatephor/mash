@@ -57,7 +57,10 @@ public class DBUnitWorker implements DBWorker
             {
                 conn = getConnection(connector).getConnection();
                 stmt = conn.createStatement();
-                log.debug("Exectuting " + sql);
+                if (log.isTraceEnabled())
+                {
+                    log.trace("Exectuting SQL:" + sql);
+                }
                 stmt.execute(sql);
             }
             finally
