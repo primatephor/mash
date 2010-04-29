@@ -3,11 +3,10 @@ package org.mash.harness;
 import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
-import org.mash.config.Parameter;
 import org.mash.config.ScriptDefinition;
+import org.mash.config.Parameter;
 import org.mash.loader.ConfigurationBuilder;
 import org.mash.loader.HarnessBuilder;
-import org.mash.loader.ParameterBuilder;
 import org.mash.loader.ScriptDefinitionLoader;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
@@ -93,7 +92,7 @@ public class StandardScriptRunner implements ScriptRunner
         if (this.harnesses != null)
         {
             log.debug("Running test");
-            ParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
+            CalculatingParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
             for (Object toRun : this.harnesses)
             {
                 List<HarnessError> errors = Collections.emptyList();

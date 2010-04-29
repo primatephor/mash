@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlTransient
 public class BaseParameter
 {
+    @XmlElement(name = "ParamName")
+    protected Parameter paramName;
     @XmlElement(name = "Value")
     protected String value;
     @XmlElement(name = "Response")
@@ -36,6 +38,16 @@ public class BaseParameter
     {
         this.value = value;
         this.name = name;
+    }
+
+    public Parameter getParamName()
+    {
+        return paramName;
+    }
+
+    public void setParamName(Parameter paramName)
+    {
+        this.paramName = paramName;
     }
 
     public Date getDate()
