@@ -75,3 +75,20 @@ Here is a parameter using a response:
     </Parameter>
 }}}
 This response references a previously run harness with the name 'get_user', it happened to return XML so we use xpath to retrieve from that xml the 'first_name' value.  If this were an http response, we'd just put in the parameter named on the page.
+
+----
+Both Parameter and Configurations may also have names that are calculated using the same rules above.  There may be instances where the name of the parameter is dynamic, based on the current state of the test.  
+
+A sample:
+{{{
+    <Parameter>
+       <ParamName>
+          <Value>user_{user.name}</Value>
+          <Replace search="{user.name}">
+             <Response name="get_user">/User/UserName</Response>
+          </Replace>
+       </ParamName>
+       <Response name="get_user">/User/Contact/FirstName</Response>
+    </Parameter>
+}}}
+Here, if the xml with a user name of "bsquarepants" is supplied with a contact first name "Bob", the resulting parameter has a name: "user_bsquarepants" and value: "Bob".
