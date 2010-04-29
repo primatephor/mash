@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "Replace", propOrder = {
+        "paramName",
         "value",
         "date",
         "response"

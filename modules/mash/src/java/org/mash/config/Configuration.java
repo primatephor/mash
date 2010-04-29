@@ -9,6 +9,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Configuration", propOrder = {
+        "paramName",
         "value",
         "date",
         "response",
