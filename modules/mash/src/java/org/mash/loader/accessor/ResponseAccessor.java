@@ -43,9 +43,14 @@ public class ResponseAccessor implements ContentAccessor
             RunHarness run = getRun(response.getName(), previousRun);
             if (run != null)
             {
+                if (log.isTraceEnabled())
+                {
+                    log.trace("Searching for '" + response.getValue() + "' in " + run.getDefinition().getName());
+                }
                 if (run.getResponse() != null)
                 {
                     result = run.getResponse().getValue(response.getValue());
+                    log.trace("Found result '" + result + "' in " + run.getDefinition().getName());
                 }
                 else
                 {
