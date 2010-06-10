@@ -29,7 +29,7 @@ public interface Harness
      *
      * @param configs for the harness implementation
      */
-    void setConfiguration(List<Configuration> configs);
+    void setConfiguration(List<Configuration> configs) throws Exception;
 
     /**
      * Apply the parameters from the test files to the harness implementation.  These are implementation specific and
@@ -41,7 +41,7 @@ public interface Harness
      *
      * @param params for the harness implementation
      */
-    void setParameters(List<Parameter> params);
+    void setParameters(List<Parameter> params) throws Exception;
 
     /**
      * Supply the test harness definitions for use by the defined harness

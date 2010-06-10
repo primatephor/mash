@@ -1,4 +1,4 @@
-package org.mash.harness.db.dbunit;
+package org.mash.harness.db;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.apache.log4j.Logger;

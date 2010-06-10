@@ -16,8 +16,7 @@ public class TestHarnessInvocation extends TestCase
 {
     public void testCallXML() throws Exception
     {
-        System.setProperty("db.setup.class", "org.mash.harness.db.DBWorkerTester");
-        DBSetupHarness harness = new DBSetupHarness();
+        DBSetupHarness harness = new MySetupHarness();
         harness.setType("DELETE");
         harness.setUrl("bogus.url");
         harness.setUser("bogus.user");
@@ -28,7 +27,7 @@ public class TestHarnessInvocation extends TestCase
         harness.setParameters(params);
         harness.setup();
 
-        DBWorkerTester worker = (DBWorkerTester) harness.getWorker();
+        DBUnitWorkerTester worker = (DBUnitWorkerTester) harness.getDBUnitWorker();
         assertEquals(true, worker.updateCalled);
         assertEquals(false, worker.executeCalled);
         assertEquals("DELETE", worker.getOperation());
@@ -36,8 +35,7 @@ public class TestHarnessInvocation extends TestCase
 
     public void testCallSQL() throws Exception
     {
-        System.setProperty("db.setup.class", "org.mash.harness.db.DBWorkerTester");
-        DBSetupHarness harness = new DBSetupHarness();
+        DBSetupHarness harness = new MySetupHarness();
         harness.setType("DELETE");
         harness.setUrl("bogus.url");
         harness.setUser("bogus.user");
@@ -48,8 +46,24 @@ public class TestHarnessInvocation extends TestCase
         harness.setParameters(params);
         harness.setup();
 
-        DBWorkerTester worker = (DBWorkerTester) harness.getWorker();
+        JDBCWorkerTester worker = (JDBCWorkerTester) harness.getJDBCWorker();
         assertEquals(false, worker.updateCalled);
         assertEquals(true, worker.executeCalled);
+    }
+
+    private class MySetupHarness extends DBSetupHarness
+    {
+        private DBUnitWorker dbunit = new DBUnitWorkerTester();
+        private JDBCWorkerTester jdbc = new JDBCWorkerTester();
+
+        public DBUnitWorker getDBUnitWorker()
+        {
+            return dbunit;
+        }
+
+        public JDBCWorker getJDBCWorker()
+        {
+            return jdbc;
+        }
     }
 }

@@ -69,11 +69,14 @@ public abstract class ParameterBuilder<T extends BaseParameter>
             {
                 name = chain.access(parameter.getParamName());
             }
-            log.info("Calculating parameter " + name);
             String contents = chain.access(parameter);
             if (contents == null)
             {
                 log.warn("Parameter '" + parameter.getName() + "' has no content!");
+            }
+            else
+            {
+                log.debug("Setting parameter " + name + " to " + contents);
             }
             T toAdd = buildParameter();
             toAdd.setName(name);
