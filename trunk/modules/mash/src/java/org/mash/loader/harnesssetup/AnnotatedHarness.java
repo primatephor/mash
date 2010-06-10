@@ -10,7 +10,6 @@ import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ import java.util.Map;
  */
 public class AnnotatedHarness implements Harness
 {
-    private static final Logger log = Logger.getLogger(AnnotatedHarness.class.getName());
     private Harness wrap;
     private Map<String, Method> paramSetters;
     private Map<String, Method> configSetters;
@@ -50,7 +48,7 @@ public class AnnotatedHarness implements Harness
         }
     }
 
-    public void setConfiguration(List<Configuration> configs)
+    public void setConfiguration(List<Configuration> configs) throws Exception
     {
         this.wrap.setConfiguration(configs);
         if (configs != null)
@@ -62,27 +60,16 @@ public class AnnotatedHarness implements Harness
         }
     }
 
-    private void invokeSetter(Map<String, Method> setMethods, BaseParameter param)
+    private void invokeSetter(Map<String, Method> setMethods, BaseParameter param) throws Exception
     {
         if (setMethods.get(param.getName()) != null)
         {
             Method method = setMethods.get(param.getName());
-            try
-            {
-                method.invoke(wrap, param.getValue());
-            }
-            catch (IllegalAccessException e)
-            {
-                log.error("Unexpected error accessing method " + method.getName() + " for setting " + param.getName(), e);
-            }
-            catch (InvocationTargetException e)
-            {
-                log.error("Unexpected error invoking method " + method.getName() + " for setting " + param.getName(), e);
-            }
+            method.invoke(wrap, param.getValue());
         }
     }
 
-    public void setParameters(List<Parameter> params)
+    public void setParameters(List<Parameter> params) throws Exception
     {
         this.wrap.setParameters(params);
         if (params != null)

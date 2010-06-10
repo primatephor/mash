@@ -1,12 +1,14 @@
 package org.mash.harness.db;
 
-import org.mash.harness.RunResponse;
+import org.mash.harness.ListRunResponse;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,16 +23,31 @@ import java.io.InputStreamReader;
  * @since Jan 8, 2010 3:24:50 PM
  *
  */
-public class DBResult implements RunResponse
+public class DBResult implements ListRunResponse
 {
     private static final Logger log = Logger.getLogger(DBResult.class.getName());
-    private Map<String, String> resultSetData;
+    private List<ResultSetData> resultSetData;
+    private int rowNumber = 0;
 
-    public DBResult(ResultSet results)
+    public DBResult(ResultSet results) throws Exception
     {
-        resultSetData = new HashMap<String, String>();
+        int count = 0;
+        log.debug("Retrieving row:" + count);
+        getResultSetData().add(addRow(results));
+        while (results.next())
+        {
+            log.debug("Retrieving row:" + count);
+            count++;
+            getResultSetData().add(addRow(results));
+        }
+    }
+
+    private ResultSetData addRow(ResultSet results)
+    {
+        ResultSetData result = null;
         try
         {
+            result = new ResultSetData();
             int size = results.getMetaData().getColumnCount();
             for (int i = 1; i <= size; i++)
             {
@@ -53,8 +70,8 @@ public class DBResult implements RunResponse
                     }
                     if (value != null)
                     {
-                        log.debug("Adding " + name + " to result as " + value);
-                        resultSetData.put(name, value.toString());
+                        log.trace("Adding " + name + " to result as " + value);
+                        result.put(name, value.toString());
                     }
                 }
                 catch (Exception e)
@@ -67,16 +84,36 @@ public class DBResult implements RunResponse
         {
             log.error("Unexpected error retrieving data", e);
         }
+        return result;
     }
 
-    public Map<String, String> getResultSetData()
+    public void setElementNumber(int elementNumber)
     {
+        this.rowNumber = elementNumber;
+    }
+
+    public int getSize()
+    {
+        return this.getResultSetData().size();
+    }
+
+    public Map<String, String> getResultSet(int row)
+    {
+        return getResultSetData().get(row).getData();
+    }
+
+    public List<ResultSetData> getResultSetData()
+    {
+        if (resultSetData == null)
+        {
+            resultSetData = new ArrayList<ResultSetData>();
+        }
         return resultSetData;
     }
 
     public String getValue(String name)
     {
-        return resultSetData.get(name);
+        return getResultSetData().get(rowNumber).getData().get(name);
     }
 
     public Collection<String> getValues(String name)
@@ -86,7 +123,7 @@ public class DBResult implements RunResponse
 
     public Collection<String> getValues()
     {
-        return resultSetData.values();
+        return getResultSetData().get(rowNumber).getData().values();
     }
 
     public String getString()
@@ -102,5 +139,34 @@ public class DBResult implements RunResponse
             }
         }
         return response.toString();
+    }
+
+    public int getRowNumber()
+    {
+        return rowNumber;
+    }
+
+    public void setRowNumber(int rowNumber)
+    {
+        this.rowNumber = rowNumber;
+    }
+
+    private class ResultSetData
+    {
+        private Map<String, String> resultSetData;
+
+        public Map<String, String> getData()
+        {
+            if (resultSetData == null)
+            {
+                resultSetData = new HashMap<String, String>();
+            }
+            return resultSetData;
+        }
+
+        public void put(String name, String s)
+        {
+            getData().put(name, s);
+        }
     }
 }

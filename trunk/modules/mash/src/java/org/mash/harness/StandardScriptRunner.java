@@ -54,6 +54,7 @@ public class StandardScriptRunner implements ScriptRunner
                 {
                     HarnessDefinition harnessDefinition = (HarnessDefinition) current;
                     harnessDefinition.setScriptDefinition(definition);
+                    log.info("Configuring " + harnessDefinition.getName());
                     Harness toAdd = builder.buildHarness(harnessDefinition);
                     ConfigurationBuilder configurationBuilder = new CalculatingConfigBuilder();
                     List<Configuration> configs = configurationBuilder.applyConfiguration(definition, toAdd);
@@ -63,16 +64,23 @@ public class StandardScriptRunner implements ScriptRunner
                     {
                         getSetupHarnesses().add((SetupHarness) toAdd);
                     }
+                    log.trace("Done configuring " + harnessDefinition.getName());
                 }
-
-                if (current instanceof ScriptDefinition)
+                else if (current instanceof ScriptDefinition)
                 {
                     ScriptDefinition scriptDefinition = (ScriptDefinition) current;
                     ScriptDefinition toAdd = builder.buildScriptDefinition(scriptDefinition, definition.getPath());
+                    log.info("Loading script " + toAdd.getDir() + "/" + toAdd.getFile());
                     results.add(toAdd);
+                }
+                else
+                {
+                    log.warn("Unable to apply configurations to " + current.getClass().getName() +
+                             ", not a HarnessDefinition or ScriptDefinition");
                 }
             }
         }
+        log.trace("Completed building harnesses and configurations");
         return results;
     }
 
@@ -86,74 +94,106 @@ public class StandardScriptRunner implements ScriptRunner
      */
     public List<HarnessError> run(ScriptDefinition definition) throws Exception
     {
-        this.harnesses = buildHarnesses(definition);
-        ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
-
-        if (this.harnesses != null)
+        List<HarnessError> errors = new ArrayList<HarnessError>();
+        try
         {
-            log.debug("Running test");
-            CalculatingParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
-            for (Object toRun : this.harnesses)
+            this.harnesses = buildHarnesses(definition);
+            ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
+
+            if (this.harnesses != null)
             {
-                List<HarnessError> errors = Collections.emptyList();
-                if (toRun instanceof Harness)
+                log.debug("Running test");
+                CalculatingParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
+                for (Object toRun : this.harnesses)
                 {
-                    Harness harness = (Harness) toRun;
-                    List<Parameter> params = parameterBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
-                    harness.setParameters(params);
-                    if (harness instanceof SetupHarness)
+                    if (toRun instanceof Harness)
                     {
-                        errors = runSetupHarness((SetupHarness) harness);
+                        Harness harness = (Harness) toRun;
+                        errors.addAll(processHarness(definition, parameterBuilder, harness));
                     }
-                    if (harness instanceof RunHarness)
+                    else if (toRun instanceof ScriptDefinition)
                     {
-                        errors = runRunHarness((RunHarness) harness);
+                        ScriptDefinition scriptDef = (ScriptDefinition) toRun;
+                        errors.addAll(processScriptDefinition(definition, loader, scriptDef));
                     }
-                    if (harness instanceof VerifyHarness)
+                    else
                     {
-                        errors = runVerifyHarness((VerifyHarness) harness);
+                        log.warn(toRun.getClass().getName() + " is not a valid Harness or ScriptDefinition");
                     }
-                    if (harness instanceof TeardownHarness)
+
+                    if (errors.size() > 0)
                     {
-                        errors = runTeardown((TeardownHarness) harness);
+                        return errors;
                     }
                 }
+            }
+            else
+            {
+                log.warn("No harnesses to run in script!");
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Unexpected error running script", e);
+            errors.add(new HarnessError("Running Script " + definition.getPath().getAbsolutePath() + " Failed",
+                                        e.getMessage(), e));
+        }
+        return errors;
+    }
 
-                if (toRun instanceof ScriptDefinition)
-                {
-                    List<ScriptDefinition> scripts = loader.pullSubDefinitions((ScriptDefinition) toRun,
-                                                                               definition.getPath());
-                    for (ScriptDefinition subDefinition : scripts)
-                    {
-                        ScriptRunner runner = RunnerFactory.getInstance().buildRunner();
-                        if (runner != null)
-                        {
-                            errors = runner.run(subDefinition);
-                            if (errors != null && errors.size() > 0)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                this.getPreviousRuns().addAll(runner.getPreviousRuns());
-                                this.lastRun = runner.getLastRun();
-                                this.getSetupHarnesses().addAll(runner.getSetupHarnesses());
-                            }
-                        }
-                    }
-                }
-
+    protected List<HarnessError> processScriptDefinition(ScriptDefinition definition,
+                                                         ScriptDefinitionLoader loader,
+                                                         ScriptDefinition scriptDef) throws Exception
+    {
+        List<HarnessError> errors = Collections.emptyList();
+        log.info("Loading script " + scriptDef.getDir() + "/" + scriptDef.getFile());
+        List<ScriptDefinition> scripts = loader.pullSubDefinitions(scriptDef, definition.getPath());
+        for (ScriptDefinition subDefinition : scripts)
+        {
+            ScriptRunner runner = RunnerFactory.getInstance().buildRunner();
+            if (runner != null)
+            {
+                errors = runner.run(subDefinition);
                 if (errors != null && errors.size() > 0)
                 {
-                    return errors;
+                    break;
+                }
+                else
+                {
+                    this.getPreviousRuns().addAll(runner.getPreviousRuns());
+                    this.lastRun = runner.getLastRun();
+                    this.getSetupHarnesses().addAll(runner.getSetupHarnesses());
                 }
             }
         }
-        else
+        return errors;
+    }
+
+    protected List<HarnessError> processHarness(ScriptDefinition definition,
+                                                CalculatingParameterBuilder parameterBuilder,
+                                                Harness harness) throws Exception
+    {
+        List<HarnessError> errors = Collections.emptyList();
+        log.info("Running harness " + harness.getDefinition().getName());
+        List<Parameter> params = parameterBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
+        harness.setParameters(params);
+        if (harness instanceof SetupHarness)
         {
-            log.debug("No harnesses to run");
+            errors = runSetupHarness((SetupHarness) harness);
         }
-        return Collections.emptyList();
+        if (harness instanceof RunHarness)
+        {
+            errors = runRunHarness((RunHarness) harness);
+        }
+        if (harness instanceof VerifyHarness)
+        {
+            errors = runVerifyHarness((VerifyHarness) harness);
+        }
+        if (harness instanceof TeardownHarness)
+        {
+            errors = runTeardown((TeardownHarness) harness);
+        }
+        return errors;
     }
 
     protected List<HarnessError> runTeardown(TeardownHarness harness)

@@ -7,6 +7,9 @@ import org.mash.harness.HarnessError;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
 
+import java.sql.Statement;
+import java.sql.SQLException;
+
 /**
  * Files run may be either DBUnit type flat xml data sets or raw sql.
  * <p/>
@@ -43,8 +46,6 @@ import org.mash.loader.HarnessConfiguration;
 public class DBSetupHarness extends BaseHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(DBSetupHarness.class.getName());
-    private static String HARNESS_CONNECTOR = System.getProperty("db.setup.class", "org.mash.harness.db.dbunit.DBUnitWorker");
-    private DBWorker util;
     private String url;
     private String user;
     private String password;
@@ -53,7 +54,6 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
 
     public void setup() throws Exception
     {
-        DBWorker util = getWorker();
         DBConnector connector = new DBConnector();
         connector.setDriver(driver);
         connector.setPassword(password);
@@ -69,11 +69,11 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
                     log.info("Running db setup file " + parameter.getFile());
                     if (parameter.getFile().endsWith(".sql"))
                     {
-                        util.execute(connector, parameter.getValue());
+                        getJDBCWorker().execute(connector, parameter.getValue());
                     }
                     else if (parameter.getFile().endsWith(".xml"))
                     {
-                        util.updateRows(connector, type, parameter.getValue());
+                        getDBUnitWorker().updateRows(connector, type, parameter.getValue());
                     }
                 }
             }
@@ -85,13 +85,25 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
         }
     }
 
-    public DBWorker getWorker() throws Exception
+    public DBUnitWorker getDBUnitWorker()
     {
-        if (util == null)
+        return new DBUnitWorker();
+    }
+
+    /**
+     * This overrides the processSql because we're expecting updates withing the DBSetup.
+     *
+     * @return worker to execute sql
+     */
+    public JDBCWorker getJDBCWorker()
+    {
+        return new JDBCWorker()
         {
-            util = (DBWorker) Class.forName(HARNESS_CONNECTOR).newInstance();
-        }
-        return util;
+            protected void processSql(String sql, Statement statement) throws SQLException
+            {
+                statement.execute(sql);
+            }
+        };
     }
 
     @HarnessConfiguration(name = "url")
