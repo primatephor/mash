@@ -49,11 +49,19 @@ public class StandardTestCase extends TestCase
      */
     protected void runTest() throws Throwable
     {
-        log.info("Running Test '" + this.getName() + "'");
+        log.info("\n********************************************************************************************\n" +
+                 "Running Test '" + this.getName() + "'");
         List<HarnessError> errors = this.scriptRunner.run(this.scriptDefinition);
+        handleErrors(errors);
+    }
+
+    protected void handleErrors(List<HarnessError> errors)
+    {
         if (errors.size() > 0)
         {
-            throw new AssertionFailedError(formatter.format(errors));
+            String error = formatter.format(errors);
+            log.error(error);
+            throw new AssertionFailedError(error);
         }
     }
 
