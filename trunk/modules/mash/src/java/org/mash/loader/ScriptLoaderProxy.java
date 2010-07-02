@@ -42,11 +42,42 @@ public class ScriptLoaderProxy implements ScriptDefinition
         {
             this.tags = temp.getTag();
             this.name = temp.getName();
+            calculateName(filename, suitePath);
             this.dir = temp.getDir();
         }
         else
         {
             this.validTestFile = false;
+        }
+    }
+
+    /**
+     * Names can be interesting. By default, it's set to whatever the attribute name was chosen.  However
+     * this may not be set, so here's where we calculate using the filename, subtracting the suite path.
+     *
+     * @param filename of test
+     * @param suitePath of test suite
+     */
+    protected void calculateName(String filename, File suitePath)
+    {
+        if(this.name == null)
+        {
+            this.name = filename;
+            if(suitePath != null && this.name != null)
+            {
+                int start = this.name.indexOf(suitePath.getParent());
+                if(start >= 0)
+                {
+                    if(this.name.length() > suitePath.getParent().length())
+                    {
+                        this.name = this.name.substring(suitePath.getParent().length()+1);
+                    }
+                    else
+                    {
+                        this.name = this.name.substring(suitePath.getParent().length());
+                    }
+                }
+            }
         }
     }
 
