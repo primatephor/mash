@@ -1,0 +1,6 @@
+#labels Featured
+= List of changes =
+==0.9.1===
+ * Log errors found during validation to the log.
+ * Calculate the name of the test when no test name is given.  This is done by looking at the file name and removing the path of the suite invoking the test.
+ * Provide a clear break between tests in the logs.
