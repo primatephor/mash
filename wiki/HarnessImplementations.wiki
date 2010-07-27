@@ -29,8 +29,8 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 
 = Email =
  * {{{MailHarness.jar}}}
-  * GetIMAPEmail (email client for retrieving messages)
-  * IMAPSetupHarness (cleaning out an inbox before testing)
+  * [GetIMAPEmail] (email client for retrieving messages)
+  * [IMAPSetupHarness] (cleaning out an inbox before testing)
 
 = REST =
  * {{{HttpHarness.jar}}}
