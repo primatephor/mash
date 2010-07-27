@@ -27,6 +27,11 @@ This is the list of supplied harnesses.  To build your own, check out Developing
   * HttpRunHarness (invokes http requests)
   * HttpVerifyHarness
 
+= Email =
+ * {{{MailHarness.jar}}}
+  * GetIMAPEmail (email client for retrieving messages)
+  * IMAPSetupHarness (cleaning out an inbox before testing)
+
 = REST =
  * {{{HttpHarness.jar}}}
   * RestRunHarness (invokes http requests in a restful manner)
