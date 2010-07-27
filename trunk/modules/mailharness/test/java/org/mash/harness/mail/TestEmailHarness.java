@@ -65,7 +65,7 @@ public class TestEmailHarness extends TestCase
         return message;
     }
 
-    private class MyEmailHarness extends GetEmailHarness
+    private class MyEmailHarness extends GetIMAPEmail
     {
         private FolderTester folder;
 
