@@ -132,7 +132,7 @@ public class StandardScriptRunner implements ScriptRunner
                 log.warn("No harnesses to run in script!");
             }
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
             log.error("Unexpected error running script", e);
             errors.add(new HarnessError("Running Script " + definition.getPath().getAbsolutePath() + " Failed",

@@ -14,7 +14,7 @@ public class HarnessError
         this(harness.getName(), value, description);
     }
 
-    public HarnessError(BaseHarness harness, String value, Exception e)
+    public HarnessError(BaseHarness harness, String value, Throwable e)
     {
         this(harness.getName(), value, e);
     }
@@ -26,7 +26,7 @@ public class HarnessError
         this.description = description;
     }
 
-    public HarnessError(String harnessName, String value, Exception e)
+    public HarnessError(String harnessName, String value, Throwable e)
     {
         this.harnessName = harnessName;
         this.value = value;
