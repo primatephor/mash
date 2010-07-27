@@ -1,5 +1,14 @@
 #labels Featured
 = List of changes =
+
+==0.10===
+ * Catch throwable, not exception in script runner, for better error reporting
+ * IMAP email harness
+  * Retrieve emails by message number or recipient
+  * clean out emails for setup
+  * verification of email properties (subject, recipient, from, content)
+
+
 ==0.9.1===
  * Log errors found during validation to the log.
  * Calculate the name of the test when no test name is given.  This is done by looking at the file name and removing the path of the suite invoking the test.
