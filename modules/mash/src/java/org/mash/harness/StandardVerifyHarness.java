@@ -63,33 +63,36 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 
     protected void verifyParameters(RunResponse response)
     {
-        for (Parameter parameter : parameters)
+        if (parameters != null)
         {
-            log.debug("Checking that '" + parameter.getName() + "' equals '" + parameter.getValue() + "'");
-            String responseValue = response.getValue(parameter.getName());
-            if (parameter.getValue() != null)
+            for (Parameter parameter : parameters)
             {
-                String checkValue = parameter.getValue();
-                if (!validateSpaces && responseValue != null)
+                log.debug("Checking that '" + parameter.getName() + "' equals '" + parameter.getValue() + "'");
+                String responseValue = response.getValue(parameter.getName());
+                if (parameter.getValue() != null)
                 {
-                    responseValue = responseValue.replaceAll("\\s+", "");
-                    checkValue = checkValue.replaceAll("\\s+", "");
-                }
-
-                if (checkValue != null && checkValue.length() > 0)
-                {
-                    //if is not null or blank, then response must be equal
-                    if (!checkValue.equals(responseValue))
+                    String checkValue = parameter.getValue();
+                    if (!validateSpaces && responseValue != null)
                     {
-                        addError(parameter.getName(), checkValue, responseValue);
+                        responseValue = responseValue.replaceAll("\\s+", "");
+                        checkValue = checkValue.replaceAll("\\s+", "");
                     }
-                }
-                else
-                {
-                    //if check is null or blank, then response must be null or blank
-                    if (responseValue != null && responseValue.length() > 0)
+
+                    if (checkValue != null && checkValue.length() > 0)
                     {
-                        addError(parameter.getName(), null, responseValue);
+                        //if is not null or blank, then response must be equal
+                        if (!checkValue.equals(responseValue))
+                        {
+                            addError(parameter.getName(), checkValue, responseValue);
+                        }
+                    }
+                    else
+                    {
+                        //if check is null or blank, then response must be null or blank
+                        if (responseValue != null && responseValue.length() > 0)
+                        {
+                            addError(parameter.getName(), null, responseValue);
+                        }
                     }
                 }
             }
