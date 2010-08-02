@@ -18,10 +18,15 @@ public class HttpClient
     private WebRequestFactory factory;
     private String methodType;
 
-    protected HttpClient(WebRequestFactory factory, String methodType)
+    public HttpClient(WebRequestFactory factory, String methodType)
     {
         this.factory = factory;
         this.methodType = methodType;
+    }
+
+    public HttpClient(WebRequestFactory factory)
+    {
+        this(factory, null);
     }
 
     public void submit(String uri, Map<String, String> contents) throws Exception
