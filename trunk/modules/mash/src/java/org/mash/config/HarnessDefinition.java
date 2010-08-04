@@ -9,9 +9,9 @@ import java.util.List;
 @XmlTransient
 public class HarnessDefinition
 {
-    @XmlElement(name = "Configuration", required = true)
+    @XmlElement(name = "Configuration")
     protected List<Configuration> configuration;
-    @XmlElement(name = "Parameter", required = true)
+    @XmlElement(name = "Parameter")
     protected List<Parameter> parameter;
     @XmlAttribute
     protected String type;
