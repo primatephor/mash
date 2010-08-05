@@ -1,5 +1,6 @@
 package org.mash.harness.http;
 
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.mash.harness.HarnessError;
@@ -9,8 +10,6 @@ import org.mash.harness.StandardVerifyHarness;
 import org.mash.loader.HarnessConfiguration;
 
 import java.util.List;
-
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * Containment is overridden to allow for escaped characters.  That way we can verify things like '<', etc.
@@ -92,6 +91,7 @@ public class HttpVerifyHarness extends StandardVerifyHarness
         else
         {
             log.warn("Not verifying response, not an HttpResponse");
+            getErrors().add(new HarnessError(this, "Response", "Not verifying response, not an HttpResponse"));
         }
 
         if (!hasErrors())
