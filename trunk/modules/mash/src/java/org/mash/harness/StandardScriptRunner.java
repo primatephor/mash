@@ -3,14 +3,17 @@ package org.mash.harness;
 import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
-import org.mash.config.ScriptDefinition;
 import org.mash.config.Parameter;
+import org.mash.config.ScriptDefinition;
 import org.mash.loader.ConfigurationBuilder;
 import org.mash.loader.HarnessBuilder;
 import org.mash.loader.ScriptDefinitionLoader;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
+import org.mash.tool.ErrorFormatter;
+import org.mash.tool.ErrorHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +37,32 @@ public class StandardScriptRunner implements ScriptRunner
 
     private RunHarness lastRun;
     private List<RunHarness> previousRuns;
+
+    public static void main(String[] args) throws Exception
+    {
+        if(args.length < 1)
+        {
+            System.out.println("Args: <script file name>");
+            System.out.println("Please insert a script filename");
+            System.exit(0);
+        }
+
+        String fileName = args[0];
+        log.info("Running script " + fileName);
+        StandardScriptRunner runner = new StandardScriptRunner();
+        ScriptDefinition definition = new ScriptDefinitionLoader().pullFile(fileName, new File("."));
+
+        ErrorHandler handler = new ErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
+        handler.handleErrors(runner.run(definition));
+        if(handler.isError())
+        {
+            log.error("There were errors running script");
+        }
+        else
+        {
+            log.info("No errors");
+        }
+    }
 
     /**
      * Construct the harnesses to be run from the list of definitions here.
@@ -150,7 +179,7 @@ public class StandardScriptRunner implements ScriptRunner
         List<ScriptDefinition> scripts = loader.pullSubDefinitions(scriptDef, definition.getPath());
         for (ScriptDefinition subDefinition : scripts)
         {
-            ScriptRunner runner = RunnerFactory.getInstance().buildRunner();
+            ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
             if (runner != null)
             {
                 errors = runner.run(subDefinition);

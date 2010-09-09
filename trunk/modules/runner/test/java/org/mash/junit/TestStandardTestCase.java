@@ -20,7 +20,7 @@ public class TestStandardTestCase extends TestCase
     public void testBaseRun() throws Throwable
     {
         System.setProperty("my.url", "MyURL");
-        System.setProperty("system.test.runner", "org.mash.junit.MyScriptRunner");
+        System.setProperty("script.runner", "org.mash.junit.MyScriptRunner");
 
         Suite suite = new SuiteLoader().loadSuite("org/mash/junit/suite.xml");
         StandardTestCase theCase = new StandardTestCase(new ScriptLoaderProxy("baseRun.xml", suite));

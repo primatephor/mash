@@ -1,12 +1,13 @@
 package org.mash.junit;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.harness.HarnessError;
-import org.mash.harness.RunnerFactory;
+import org.mash.harness.PropertyObjectFactory;
 import org.mash.harness.ScriptRunner;
+import org.mash.tool.ErrorFormatter;
+import org.mash.tool.ErrorHandler;
 
 import java.util.List;
 
@@ -15,29 +16,30 @@ import java.util.List;
  * verify, teardown).  This allows each harness to instantiate any necessary timings, etc before runtime.
  * <p/>
  * Error Formatting can be changed by extending the 'org.mash.junit.ErrorFormatter' class and setting the environment
- * variable 'system.test.formatter'.
+ * variable 'suite.error.formatter'.
  * <p/>
- * Running tests can be done with a different runner by specifying 'system.test.runner' and implementing the
- * 'org.mash.harness.HarnessRunner' interface.  Default is the 'org.mash.harness.StandardHarnessRunner'.
+ * Running tests can be done with a different runner by specifying 'script.runner' and implementing the
+ * 'org.mash.harness.ScriptRunner' interface.  Default is the 'org.mash.harness.StandardScriptRunner'.
  *
- * @see org.mash.harness.RunnerFactory
+ * @see org.mash.harness.PropertyObjectFactory
  *      <p/>
- *      User: teastlack Date: Jul 1, 2009 Time: 3:15:38 PM
+ *
+ * @author teastlack
+ * @since Jul 1, 2009 Time: 3:15:38 PM
  */
 public class StandardTestCase extends TestCase
 {
     private static final Logger log = Logger.getLogger(StandardTestCase.class.getName());
-    private static String FORMATTER = System.getProperty("system.test.formatter", "org.mash.junit.ErrorFormatter");
 
     private ScriptDefinition scriptDefinition;
     private ScriptRunner scriptRunner;
-    private ErrorFormatter formatter;
+    private ErrorHandler handler;
 
     public StandardTestCase(ScriptDefinition definition) throws Exception
     {
         this.scriptDefinition = definition;
-        formatter = (ErrorFormatter) Class.forName(FORMATTER).newInstance();
-        scriptRunner = RunnerFactory.getInstance().buildRunner();
+        this.scriptRunner = PropertyObjectFactory.getInstance().buildRunner();
+        this.handler = new AssertionErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
         this.setName(this.scriptDefinition.getName());
     }
 
@@ -52,17 +54,7 @@ public class StandardTestCase extends TestCase
         log.info("\n********************************************************************************************\n" +
                  "Running Test '" + this.getName() + "'");
         List<HarnessError> errors = this.scriptRunner.run(this.scriptDefinition);
-        handleErrors(errors);
-    }
-
-    protected void handleErrors(List<HarnessError> errors)
-    {
-        if (errors.size() > 0)
-        {
-            String error = formatter.format(errors);
-            log.error(error);
-            throw new AssertionFailedError(error);
-        }
+        handler.handleErrors(errors);
     }
 
     public ScriptDefinition getTestDefinition()
@@ -75,8 +67,4 @@ public class StandardTestCase extends TestCase
         return scriptRunner;
     }
 
-    public ErrorFormatter getFormatter()
-    {
-        return formatter;
-    }
 }

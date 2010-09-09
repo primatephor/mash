@@ -6,6 +6,7 @@ import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 import org.mash.file.FileLoader;
 import org.mash.file.TextFileReader;
+import org.mash.harness.PropertyObjectFactory;
 
 import java.io.File;
 import java.util.List;
@@ -63,7 +64,9 @@ public class ScriptLoaderProxy implements ScriptDefinition
         if(this.name == null)
         {
             this.name = filename;
-            if(suitePath != null && this.name != null)
+            if(suitePath != null &&
+               suitePath.getParent() != null &&
+               this.name != null)
             {
                 int start = this.name.indexOf(suitePath.getParent());
                 if(start >= 0)
@@ -149,7 +152,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
                 if (!path.isDirectory())
                 {
                     String contents = reader.getContents(path);
-                    JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();
+                    SuiteMarshaller marshaller = PropertyObjectFactory.getInstance().buildMarshaller();
                     Object xmlData = marshaller.unmarshal(contents);
                     if (xmlData instanceof Script)
                     {

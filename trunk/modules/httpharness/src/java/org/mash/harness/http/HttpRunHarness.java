@@ -1,15 +1,14 @@
 package org.mash.harness.http;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
-import org.mash.harness.HarnessError;
 import org.mash.harness.rest.RestResponse;
 import org.mash.loader.HarnessConfiguration;
 
@@ -32,8 +31,8 @@ import java.util.Map;
  * will instead submit this as an input stream </li>
  * </ul>
  *
- * @author: teastlack
- * @since: Jul 5, 2009
+ * @author teastlack
+ * @since Jul 5, 2009
  */
 public class HttpRunHarness extends BaseHarness implements RunHarness
 {
@@ -101,18 +100,13 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         SgmlPage result = getSgmlPage();
         if (result != null)
         {
-            if (result instanceof HtmlPage)
-            {
-                response = new HttpResponse((HtmlPage) result);
-            }
-            else if (result instanceof XmlPage)
+            if (result instanceof XmlPage)
             {
                 response = new RestResponse((XmlPage) result);
             }
-
-            if (response == null)
+            else
             {
-                log.error("Unknown response type:" + result.getClass().getName());
+                response = new HttpResponse(result);
             }
         }
         else

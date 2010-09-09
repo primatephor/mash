@@ -28,7 +28,7 @@
             <target name="makeJar"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
-            <property name="module.dir" value="junitrunner"/>
+            <property name="module.dir" value="runner"/>
             <target name="makeJar"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
@@ -67,7 +67,7 @@
             <property name="module.dir" value="mash"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
-            <property name="module.dir" value="junitrunner"/>
+            <property name="module.dir" value="runner"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
             <property name="module.dir" value="utilityharness"/>
@@ -98,7 +98,7 @@
             <target name="clean"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
-            <property name="module.dir" value="junitrunner"/>
+            <property name="module.dir" value="runner"/>
             <target name="clean"/>
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
@@ -147,7 +147,7 @@
             <sourcepath path="httpharness/src/java"/>
         </javadoc>
         <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="JUnit Runner Classes">
-            <sourcepath path="junitrunner/src/java"/>
+            <sourcepath path="runner/src/java"/>
         </javadoc>
         <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="FTP Harness Classes">
             <sourcepath path="ftpharness/src/java"/>

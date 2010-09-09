@@ -1,9 +1,8 @@
 package org.mash.harness.http;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.SgmlPage;
+import com.gargoylesoftware.htmlunit.html.DomNode;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
 import org.xml.sax.SAXException;
@@ -16,15 +15,15 @@ import java.util.List;
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
  *
- * @author: teastlack
- * @since: Jul 5, 2009
+ * @author teastlack
+ * @since Jul 5, 2009
  */
 public class HttpResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(HttpResponse.class);
-    private HtmlPage webPage;
+    private SgmlPage webPage;
 
-    public HttpResponse(HtmlPage webPage)
+    public HttpResponse(SgmlPage webPage)
     {
         this.webPage = webPage;
     }
