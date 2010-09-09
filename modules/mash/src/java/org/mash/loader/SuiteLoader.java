@@ -2,23 +2,24 @@ package org.mash.loader;
 
 import org.mash.config.Suite;
 import org.mash.file.TextFileReader;
+import org.mash.harness.PropertyObjectFactory;
 
 import java.io.File;
 
 /**
- * @author: teastlack
- * @since: Jul 3, 2009
+ * @author teastlack
+ * @since Jul 3, 2009
  */
 public class SuiteLoader
 {
-    private static String SUITE_MARSHALLER = System.getProperty("suite.marshaller", "org.mash.loader.JAXBSuiteMarshaller");
+
     private static SuiteMarshaller marshaller;
 
     private static SuiteMarshaller getMarshaller() throws Exception
     {
         if (marshaller == null)
         {
-            marshaller = (SuiteMarshaller) Class.forName(SUITE_MARSHALLER).newInstance();
+            marshaller = PropertyObjectFactory.getInstance().buildMarshaller();
         }
         return marshaller;
     }

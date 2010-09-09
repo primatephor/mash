@@ -30,8 +30,8 @@ import java.util.List;
  * So when names or ids of elements are present, this will use those.  If nothing is found, then an xpath
  * expression is run on the html using the parameter name.
  *
- * @author: teastlack
- * @since: Jul 5, 2009
+ * @author teastlack
+ * @since Jul 5, 2009
  */
 public class HttpVerifyHarness extends StandardVerifyHarness
 {
@@ -43,57 +43,64 @@ public class HttpVerifyHarness extends StandardVerifyHarness
     public void verify(RunHarness run, List<SetupHarness> setup)
     {
         log.debug("Verifying Http");
-        if (run.getResponse() instanceof HttpResponse)
+        if (run.getResponse() != null)
         {
-            try
+            if (run.getResponse() instanceof HttpResponse)
             {
-                HttpResponse response = (HttpResponse) run.getResponse();
-                if (title != null)
+                try
                 {
-                    HtmlPage pageResponse = (HtmlPage) response.getWebPage();
-                    log.debug("Verifying title is " + title);
-                    String expectedTitle = pageResponse.getTitleText();
-                    if (!title.equals(expectedTitle))
+                    HttpResponse response = (HttpResponse) run.getResponse();
+                    if (title != null)
                     {
-                        getErrors().add(new HarnessError(this, "Verify Title",
-                                                         "Expected title '" + title +
-                                                         "' doesn't equal actual '" + expectedTitle + "'"));
+                        HtmlPage pageResponse = (HtmlPage) response.getWebPage();
+                        log.debug("Verifying title is " + title);
+                        String expectedTitle = pageResponse.getTitleText();
+                        if (!title.equals(expectedTitle))
+                        {
+                            getErrors().add(new HarnessError(this, "Verify Title",
+                                                             "Expected title '" + title +
+                                                             "' doesn't equal actual '" + expectedTitle + "'"));
+                        }
                     }
-                }
-                if (status != null)
-                {
-                    log.debug("Verifying status is " + status);
-                    if (response.getWebPage() != null)
+                    if (status != null)
                     {
-                        int expectedStatus = response.getWebPage().getWebResponse().getStatusCode();
-                        if (Integer.valueOf(status) != expectedStatus)
+                        log.debug("Verifying status is " + status);
+                        if (response.getWebPage() != null)
+                        {
+                            int expectedStatus = response.getWebPage().getWebResponse().getStatusCode();
+                            if (Integer.valueOf(status) != expectedStatus)
+                            {
+                                getErrors().add(new HarnessError(this, "Verify Status",
+                                                                 "Expected status '" + status +
+                                                                 "' doesn't equal actual '" + expectedStatus + "'"));
+                            }
+                        }
+                        else
                         {
                             getErrors().add(new HarnessError(this, "Verify Status",
                                                              "Expected status '" + status +
-                                                             "' doesn't equal actual '" + expectedStatus + "'"));
+                                                             "' invalid, no response!"));
                         }
                     }
-                    else
-                    {
-                        getErrors().add(new HarnessError(this, "Verify Status",
-                                                         "Expected status '" + status +
-                                                         "' invalid, no response!"));
-                    }
+                }
+                catch (Exception e)
+                {
+                    log.error("Problem retrieving data from web response", e);
+                    getErrors().add(new HarnessError(this, "Response",
+                                                     "Problem retrieving data from web response:" + e.getMessage()));
                 }
             }
-            catch (Exception e)
+            else
             {
-                log.error("Problem retrieving data from web response", e);
-                getErrors().add(new HarnessError(this, "Response",
-                                                 "Problem retrieving data from web response:" + e.getMessage()));
+                log.warn("Not verifying response, not an HttpResponse:" + run.getResponse().getClass().getName());
+                getErrors().add(new HarnessError(this, "Response", "Not verifying response, not an HttpResponse:" +
+                                                                   run.getResponse().getClass().getName()));
             }
         }
         else
         {
-            log.warn("Not verifying response, not an HttpResponse");
-            getErrors().add(new HarnessError(this, "Response", "Not verifying response, not an HttpResponse"));
+            log.info("Not verifying response, is null");
         }
-
         if (!hasErrors())
         {
             super.verify(run, setup);

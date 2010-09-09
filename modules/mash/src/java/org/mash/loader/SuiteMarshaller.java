@@ -12,10 +12,10 @@ package org.mash.loader;
 public interface SuiteMarshaller
 {
     /**
-     * Marshal the submitted object to an XML string
+     * Marshal the submitted object to a string.  XML is the default mode.
      *
-     * @param element defined in the xml package
-     * @return XML as string
+     * @param element to turn to a string
+     * @return as string
      * @throws SuiteMarshallerException when marshalling is in error
      */
     public String marshal(Object element) throws SuiteMarshallerException;

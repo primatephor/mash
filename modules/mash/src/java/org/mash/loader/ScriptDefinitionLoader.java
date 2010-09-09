@@ -16,17 +16,24 @@ import java.util.List;
  * This allows tests to be loaded relative to the test suite definition file, or have absolute paths definied within the
  * test files themselves.
  *
- * @author: teastlack
- * @since: Jul 3, 2009
+ * @author teastlack
+ * @since Jul 3, 2009
  */
 public class ScriptDefinitionLoader
 {
     private static final Logger log = Logger.getLogger(ScriptDefinitionLoader.class.getName());
     private FileLoader fileLoader;
+    private List<String> tags;
 
     public ScriptDefinitionLoader()
     {
         this.fileLoader = new FileLoader();
+    }
+
+    public ScriptDefinitionLoader(List<String> tags)
+    {
+        this();
+        this.tags = tags;
     }
 
     /**
@@ -125,10 +132,37 @@ public class ScriptDefinitionLoader
     public ScriptDefinition pullFile(String filename, File suitePath) throws FileReaderException, SuiteMarshallerException
     {
         ScriptLoaderProxy proxy = new ScriptLoaderProxy(filename, suitePath);
-        if (proxy.isValidTestFile())
+        if (proxy.isValidTestFile() && checktags(proxy))
         {
             return proxy;
         }
         return null;
+    }
+
+    /**
+     * Check to see if the test definition contains the tags specified.  Used to determine if we can add as a test.
+     *
+     * @param script definition to check
+     * @return true if definition should be added, false otherwise
+     */
+    protected boolean checktags(ScriptDefinition script)
+    {
+        Boolean result = false;
+        if (tags == null || tags.size() == 0)
+        {
+            result = true;
+        }
+        else
+        {
+            for (String tag : tags)
+            {
+                if (script.getTag().contains(tag))
+                {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 }
