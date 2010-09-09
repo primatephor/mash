@@ -12,6 +12,7 @@ import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 import org.mash.tool.ErrorFormatter;
 import org.mash.tool.ErrorHandler;
+import org.mash.tool.StringUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class StandardScriptRunner implements ScriptRunner
 
     public static void main(String[] args) throws Exception
     {
-        if(args.length < 1)
+        if (args.length < 1)
         {
             System.out.println("Args: <script file name>");
             System.out.println("Please insert a script filename");
@@ -54,7 +55,7 @@ public class StandardScriptRunner implements ScriptRunner
 
         ErrorHandler handler = new ErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
         handler.handleErrors(runner.run(definition));
-        if(handler.isError())
+        if (handler.isError())
         {
             log.error("There were errors running script");
         }
@@ -88,18 +89,20 @@ public class StandardScriptRunner implements ScriptRunner
                     ConfigurationBuilder configurationBuilder = new CalculatingConfigBuilder();
                     List<Configuration> configs = configurationBuilder.applyConfiguration(definition, toAdd);
                     toAdd.setConfiguration(configs);
-                    results.add(toAdd);
                     if (toAdd instanceof SetupHarness)
                     {
                         getSetupHarnesses().add((SetupHarness) toAdd);
                     }
+                    results.add(toAdd);
                     log.trace("Done configuring " + harnessDefinition.getName());
                 }
                 else if (current instanceof ScriptDefinition)
                 {
                     ScriptDefinition scriptDefinition = (ScriptDefinition) current;
                     ScriptDefinition toAdd = builder.buildScriptDefinition(scriptDefinition, definition.getPath());
-                    log.info("Loading script " + toAdd.getDir() + "/" + toAdd.getFile());
+                    log.info("Loading script " +
+                             StringUtil.cleanNull(toAdd.getDir()) + "/" +
+                             StringUtil.cleanNull(toAdd.getFile()));
                     results.add(toAdd);
                 }
                 else
