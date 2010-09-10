@@ -1,5 +1,9 @@
 package org.mash.harness.db;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+
 /**
  * User: teastlack Date: Jul 7, 2009 Time: 6:35:29 PM
  */
@@ -9,6 +13,17 @@ public class DBConnector
     private String user;
     private String password;
     private String driver;
+
+    public DBConnector(String url,
+                       String user,
+                       String password,
+                       String driver)
+    {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+        this.driver = driver;
+    }
 
     public String getUrl()
     {
@@ -49,6 +64,15 @@ public class DBConnector
     {
         this.driver = driver;
     }
+
+    public Connection getConnection() throws Exception
+    {
+        Class jdbcDriverClass = Class.forName(driver);
+        Driver driverInstance = (Driver) jdbcDriverClass.newInstance();
+        DriverManager.registerDriver(driverInstance);
+        return DriverManager.getConnection(url, user, password);
+    }
+
 
     public String toString()
     {
