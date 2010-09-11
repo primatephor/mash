@@ -1,21 +1,22 @@
 package org.mash.harness.db.sql;
 
-import org.mash.harness.RunHarness;
+import org.apache.log4j.Logger;
+import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
-import org.mash.harness.SetupHarness;
-import org.mash.harness.RunResponse;
 import org.mash.harness.HarnessError;
-import org.mash.harness.db.DBResult;
+import org.mash.harness.RunHarness;
+import org.mash.harness.RunResponse;
+import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
+import org.mash.harness.db.DBResult;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
-import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 /**
  * Run an sql statement.  String values should be quoted!
@@ -57,18 +58,21 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
         {
             runSql(connection, sql);
         }
-        else
+        for (Parameter parameter : getParameters())
         {
-            getErrors().add(new HarnessError(this, "Run SQL", "No sql supplied"));
-        }
-
-        if (result == null ||
-            result.getResultSet(0) == null ||
-            result.getResultSet(0).size() == 0)
-        {
-            getErrors().add(new HarnessError(this,
-                                             "Retrieve Row",
-                                             "No results found for sql '" + sql + "'"));
+            if (parameter.getFile() != null)
+            {
+                try
+                {
+                    log.info("Running sql file " + parameter.getFile());
+                    runSql(connection, parameter.getValue());
+                }
+                catch (Exception e)
+                {
+                    log.error("Unexpected error executing db actions", e);
+                    getErrors().add(new HarnessError(this.getName(), "Unexpected error executing db actions", e.getMessage()));
+                }
+            }
         }
     }
 
@@ -115,17 +119,20 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
 
     protected void processSql(String sql, Statement statement) throws Exception
     {
-        ResultSet results = statement.executeQuery(sql);
-        if (!results.next())
+        if (statement.execute(sql))
         {
-            log.warn("No results found for sql " + sql);
+            ResultSet results = statement.getResultSet();
+            if (!results.next())
+            {
+                log.info("No results found for sql ");
+            }
+            else
+            {
+                log.debug("Setting results");
+                result = new DBResult(results);
+            }
+            results.close();
         }
-        else
-        {
-            log.debug("Setting results");
-            result = new DBResult(results);
-        }
-        results.close();
     }
 
     public RunResponse getResponse()

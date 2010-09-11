@@ -54,7 +54,7 @@ public class StandardTestCase extends TestCase
         log.info("\n********************************************************************************************\n" +
                  "Running Test '" + this.getName() + "'");
         List<HarnessError> errors = this.scriptRunner.run(this.scriptDefinition);
-        handler.handleErrors(errors);
+        handler.handleErrors(errors, this.scriptDefinition);
     }
 
     public ScriptDefinition getTestDefinition()

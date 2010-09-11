@@ -60,7 +60,19 @@ public class SuiteRunner
         for (ScriptDefinition script : scripts)
         {
             ScriptRunner scriptRunner = PropertyObjectFactory.getInstance().buildRunner();
-            handler.handleErrors(scriptRunner.run(script));
+            handler.handleErrors(scriptRunner.run(script), script);
+        }
+        
+        if(handler.isError())
+        {
+            for (String error : handler.getFormattedErrors())
+            {
+                log.error(error);
+            }
+        }
+        else
+        {
+            log.info("No errors");
         }
     }
 

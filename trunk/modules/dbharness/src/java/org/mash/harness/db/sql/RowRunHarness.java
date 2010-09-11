@@ -1,10 +1,10 @@
 package org.mash.harness.db.sql;
 
-import org.mash.harness.db.DBResult;
-import org.mash.harness.db.DBConnector;
+import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
-import org.mash.harness.HarnessError;
+import org.mash.harness.db.DBConnector;
+import org.mash.harness.db.DBResult;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
@@ -74,7 +74,7 @@ public class RowRunHarness extends SQLRunHarness implements RunHarness
     @HarnessConfiguration(name = "user")
     public void setUser(String user)
     {
-        super.setUrl(user);
+        super.setUser(user);
     }
 
     @HarnessConfiguration(name = "password")
