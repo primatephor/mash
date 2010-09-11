@@ -1,6 +1,16 @@
 #labels Featured
 = List of changes =
 
+==1.0===
+ * Runners for command line (not just junit from ant)
+  * Run for a particular script
+  * Run for an entire suite of scripts
+ * DB harness cleanup
+  * repackaging
+  * dbunit separation
+  * sql runs
+
+
 ==0.10===
  * Catch throwable, not exception in script runner, for better error reporting
  * IMAP email harness
