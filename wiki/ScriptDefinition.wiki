@@ -1,5 +1,4 @@
 #summary Description of a Script Definition
-#labels Featured
 
 = Introduction =
 
