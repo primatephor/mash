@@ -1,5 +1,4 @@
 #summary JUnit integration of the Suite
-#labels Featured
 
 = Introduction =
 
