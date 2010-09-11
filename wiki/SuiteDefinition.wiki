@@ -1,5 +1,4 @@
 #summary Description of the Suite XML
-#labels Featured
 
 = Introduction =
 
