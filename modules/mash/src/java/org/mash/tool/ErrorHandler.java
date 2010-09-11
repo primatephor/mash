@@ -1,6 +1,7 @@
 package org.mash.tool;
 
 import org.apache.log4j.Logger;
+import org.mash.config.ScriptDefinition;
 import org.mash.harness.HarnessError;
 
 import java.util.ArrayList;
@@ -27,13 +28,13 @@ public class ErrorHandler
         this.formatter = formatter;
     }
 
-    public void handleErrors(List<HarnessError> errors)
+    public void handleErrors(List<HarnessError> errors, ScriptDefinition script)
     {
         if (errors.size() > 0)
         {
             getHarnessErrors().addAll(errors);
             this.error = true;
-            getFormattedErrors().add(formatter.format(errors));
+            getFormattedErrors().add(formatter.format(errors, script));
             log.error(formattedErrors);
         }
     }

@@ -1,6 +1,7 @@
 package org.mash.junit;
 
 import junit.framework.AssertionFailedError;
+import org.mash.config.ScriptDefinition;
 import org.mash.harness.HarnessError;
 import org.mash.tool.ErrorFormatter;
 import org.mash.tool.ErrorHandler;
@@ -21,9 +22,9 @@ public class AssertionErrorHandler extends ErrorHandler
     }
 
     @Override
-    public void handleErrors(List<HarnessError> errors)
+    public void handleErrors(List<HarnessError> errors, ScriptDefinition script)
     {
-        super.handleErrors(errors);
+        super.handleErrors(errors, script);
         if(isError())
         {
             //just the first one should suffice for junit assertions

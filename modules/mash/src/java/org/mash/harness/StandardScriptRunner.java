@@ -53,15 +53,22 @@ public class StandardScriptRunner implements ScriptRunner
         StandardScriptRunner runner = new StandardScriptRunner();
         ScriptDefinition definition = new ScriptDefinitionLoader().pullFile(fileName, new File("."));
 
-        ErrorHandler handler = new ErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
-        handler.handleErrors(runner.run(definition));
-        if (handler.isError())
+        if (definition != null)
         {
-            log.error("There were errors running script");
+            ErrorHandler handler = new ErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
+            handler.handleErrors(runner.run(definition), definition);
+            if (handler.isError())
+            {
+                log.error("There were errors running script");
+            }
+            else
+            {
+                log.info("No errors");
+            }
         }
         else
         {
-            log.info("No errors");
+            log.error("Unable to find script to run:" + new File(fileName).getAbsolutePath());
         }
     }
 

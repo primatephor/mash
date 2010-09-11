@@ -1,5 +1,7 @@
 package org.mash.harness.db;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -9,6 +11,7 @@ import java.sql.DriverManager;
  */
 public class DBConnector
 {
+    private static final Logger log = Logger.getLogger(DBConnector.class.getName());
     private String url;
     private String user;
     private String password;
@@ -30,19 +33,9 @@ public class DBConnector
         return url;
     }
 
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
-
     public String getUser()
     {
         return user;
-    }
-
-    public void setUser(String user)
-    {
-        this.user = user;
     }
 
     public String getPassword()
@@ -50,19 +43,9 @@ public class DBConnector
         return password;
     }
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
     public String getDriver()
     {
         return driver;
-    }
-
-    public void setDriver(String driver)
-    {
-        this.driver = driver;
     }
 
     public Connection getConnection() throws Exception
@@ -70,9 +53,9 @@ public class DBConnector
         Class jdbcDriverClass = Class.forName(driver);
         Driver driverInstance = (Driver) jdbcDriverClass.newInstance();
         DriverManager.registerDriver(driverInstance);
+        log.trace("Connecting to db:"+toString());
         return DriverManager.getConnection(url, user, password);
     }
-
 
     public String toString()
     {

@@ -5,6 +5,7 @@ import org.mash.file.TextFileReader;
 import org.mash.harness.PropertyObjectFactory;
 
 import java.io.File;
+import java.net.URL;
 
 /**
  * @author teastlack
@@ -35,10 +36,18 @@ public class SuiteLoader
             throw new NoClassDefFoundError("Unable to find system test " + fileName);
         }
 
-        File suiteFile = new File(getClass().getClassLoader().getResource(fileName).getFile());
-        if (suiteFile.exists())
+        URL resource = getClass().getClassLoader().getResource(fileName);
+        if (resource != null)
         {
-            suite.setPath(suiteFile);
+            File suiteFile = new File(resource.getFile());
+            if (suiteFile.exists())
+            {
+                suite.setPath(suiteFile);
+            }
+            else
+            {
+                suite.setPath(new File(fileName));
+            }
         }
         else
         {

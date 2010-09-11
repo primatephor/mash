@@ -1,5 +1,6 @@
 package org.mash.tool;
 
+import org.mash.config.ScriptDefinition;
 import org.mash.harness.HarnessError;
 
 import java.util.List;
@@ -9,15 +10,18 @@ import java.util.List;
  */
 public class ErrorFormatter
 {
-    public String format(List<HarnessError> harnessErrors)
+    public String format(List<HarnessError> harnessErrors, ScriptDefinition script)
     {
         StringBuffer buffer = new StringBuffer();
         if (harnessErrors != null && harnessErrors.size() > 0)
         {
-            buffer.append("Errors found during verification\n");
+            buffer.append("Errors found during verification of script ")
+                    .append(script.getName()).append("\n");
             for (HarnessError error : harnessErrors)
             {
-                buffer.append("Harness:").append(error.getHarnessName()).append(", Error:").append(error.getValue());
+                buffer.append("Harness:")
+                        .append(error.getHarnessName())
+                        .append(", Error:").append(error.getValue());
                 if (error.getDescription() != null)
                 {
                     buffer.append(", Description:").append(error.getDescription());
