@@ -1,5 +1,4 @@
 #summary Description of the Parameter and Configuration
-#labels Featured
 
 = Introduction =
 
