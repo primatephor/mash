@@ -128,6 +128,16 @@ public class BaseHarness implements Harness
         return harnessErrors;
     }
 
+    public void addError(String message, Exception exception)
+    {
+        getErrors().add(new HarnessError(this, message, exception));
+    }
+
+    public void addError(String message, String description)
+    {
+        getErrors().add(new HarnessError(this, message, description));
+    }
+        
     public Boolean hasErrors()
     {
         return getErrors().size() > 0;
