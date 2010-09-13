@@ -1,9 +1,8 @@
-package org.mash.harness.ftp;
-
-import org.mash.harness.RunResponse;
+package org.mash.harness;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  *
@@ -15,7 +14,7 @@ public class RawResponse implements RunResponse
 {
     private String[] results;
 
-    public RawResponse(String[] results)
+    public RawResponse(String... results)
     {
         this.results = results;
     }
@@ -23,7 +22,8 @@ public class RawResponse implements RunResponse
     public String getValue(String name)
     {
         String response = null;
-        if (results.length > 0)
+        if (results != null &&
+            results.length > 0)
         {
             Integer index = new Integer(name);
             response = results[index];
@@ -38,16 +38,28 @@ public class RawResponse implements RunResponse
 
     public Collection<String> getValues()
     {
-        return Arrays.asList(results);
+        if (results != null)
+        {
+            return Arrays.asList(results);
+        }
+        return Collections.emptyList();
     }
 
     public String getString()
     {
         StringBuffer buffer = new StringBuffer();
-        for (String result : results)
+        if (results != null)
         {
-            buffer.append(result).append("\n");
+            for (int i = 0; i < results.length; i++)
+            {
+                buffer.append(results[i]);
+                if(i+1 < results.length)
+                {
+                    buffer.append("\n");
+                }
+            }
         }
         return buffer.toString();
     }
 }
+

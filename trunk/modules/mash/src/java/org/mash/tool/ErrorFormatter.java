@@ -15,8 +15,12 @@ public class ErrorFormatter
         StringBuffer buffer = new StringBuffer();
         if (harnessErrors != null && harnessErrors.size() > 0)
         {
-            buffer.append("Errors found during verification of script ")
-                    .append(script.getName()).append("\n");
+            buffer.append("Errors found during verification");
+            if (script != null && script.getName() != null)
+            {
+                buffer.append(" of script '").append(script.getName()).append("'");
+            }
+            buffer.append("\n");
             for (HarnessError error : harnessErrors)
             {
                 buffer.append("Harness:")

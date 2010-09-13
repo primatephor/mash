@@ -1,8 +1,8 @@
 package org.mash.harness.message.jms;
 
+import org.mash.harness.RawResponse;
 import org.mash.harness.RunResponse;
 import org.mash.harness.message.Message;
-import org.mash.harness.StringResponse;
 import org.mash.harness.message.MessagePropertyResponse;
 import org.mash.loader.HarnessParameter;
 
@@ -47,7 +47,7 @@ public class TextJMSHarness extends BaseJMSMessageHarness
         RunResponse result = null;
         if (getMessage() != null)
         {
-            return new MessagePropertyResponse(new StringResponse(String.valueOf(getMessage().getBody())),
+            return new MessagePropertyResponse(new RawResponse(String.valueOf(getMessage().getBody())),
                                                getMessage().getProperties());
         }
         return result;

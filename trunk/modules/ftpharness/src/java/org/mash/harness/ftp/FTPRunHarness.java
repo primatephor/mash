@@ -5,6 +5,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
+import org.mash.harness.RawResponse;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
