@@ -1,17 +1,17 @@
 package org.mash.harness.mail;
 
-import org.mash.harness.StringResponse;
+import org.mash.harness.RawResponse;
 
-import javax.mail.Message;
 import javax.mail.Address;
-import java.util.List;
+import javax.mail.Message;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author teastlack
  * @since Jul 26, 2010 1:57:54 PM
  */
-public class EmailResponse extends StringResponse
+public class EmailResponse extends RawResponse
 {
     private String subject;
     private List<String> recipients;

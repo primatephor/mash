@@ -6,6 +6,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.log4j.Logger;
 import org.mash.file.ByteFileReader;
 import org.mash.harness.HarnessError;
+import org.mash.harness.RawResponse;
 import org.mash.harness.RunResponse;
 import org.mash.loader.HarnessParameter;
 
@@ -104,7 +105,7 @@ public class GetHarness extends FTPRunHarness
             if (output_file == null)
             {
                 String fileContents = new ByteFileReader().getContents(fileStream);
-                result = new FileContentsResponse(fileContents);
+                result = new RawResponse(fileContents);
             }
             else
             {

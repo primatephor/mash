@@ -1,15 +1,14 @@
 package org.mash.harness.db.dbunit;
 
 import org.apache.log4j.Logger;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
-import org.mash.harness.HarnessError;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.database.IDatabaseConnection;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -73,7 +72,7 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
             catch (Exception e)
             {
                 log.error("Unexpected error executing db actions", e);
-                getErrors().add(new HarnessError(this.getName(), "Unexpected error executing db actions", e.getMessage()));
+                addError("Unexpected error executing db actions", e.getMessage());
             }
         }
     }

@@ -1,6 +1,5 @@
 package org.mash.harness.db.sql;
 
-import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
@@ -51,11 +50,10 @@ public class RowRunHarness extends SQLRunHarness implements RunHarness
             result.getResultSet(0) == null ||
             result.getResultSet(0).size() == 0)
         {
-            getErrors().add(new HarnessError(this,
-                                             "Retrieve Row",
-                                             "No results found for table '" + tableName +
-                                             "', column '" + columnName +
-                                             "', value '" + columnValue + "'"));
+            addError("Retrieve Row",
+                     "No results found for table '" + tableName +
+                     "', column '" + columnName +
+                     "', value '" + columnValue + "'");
         }
     }
 

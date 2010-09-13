@@ -3,7 +3,6 @@ package org.mash.harness.db.sql;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
-import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
@@ -70,7 +69,7 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
                 catch (Exception e)
                 {
                     log.error("Unexpected error executing db actions", e);
-                    getErrors().add(new HarnessError(this.getName(), "Unexpected error executing db actions", e.getMessage()));
+                    addError("Unexpected error executing db actions", e.getMessage());
                 }
             }
         }
@@ -95,7 +94,7 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
         catch (Exception e)
         {
             log.error("Unexpected error", e);
-            getErrors().add(new HarnessError(getName(), "Failed to execute sql '" + sql + "'", e));
+            addError("Failed to execute sql '" + sql + "'", e);
         }
         finally
         {
