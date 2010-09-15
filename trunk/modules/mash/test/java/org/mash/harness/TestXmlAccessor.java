@@ -58,4 +58,30 @@ public class TestXmlAccessor extends TestCase
         assertEquals("element1", xmlAccessor.getPath("/somexml/datalist")[0]);
         assertEquals("element2", xmlAccessor.getPath("/somexml/datalist")[1]);
     }
+
+    public void testXmlTag()
+    {
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+                     "<somexml>" +
+                     "   <data1>first</data1>" +
+                     "   <data2>" +
+                     "       <data3>third</data3>" +
+                     "   </data2>" +
+                     "   <datalist>element1</datalist>" +
+                     "   <datalist>element2</datalist>" +
+                     "</somexml>"+
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+                     "<somexml>" +
+                     "   <data1>2first</data1>" +
+                     "   <data2>" +
+                     "       <data3>2third</data3>" +
+                     "   </data2>" +
+                     "   <datalist>2element1</datalist>" +
+                     "   <datalist>2element2</datalist>" +
+                     "</somexml>";
+        XmlAccessor xmlAccessor = new XmlAccessor(xml);
+        assertEquals("first", xmlAccessor.getPath("/somexml[1]/data1")[0]);
+        assertEquals("2element1", xmlAccessor.getPath("/somexml[2]/datalist")[0]);
+        assertEquals("2element2", xmlAccessor.getPath("/somexml[2]/datalist")[1]);
+    }
 }

@@ -26,6 +26,8 @@ public class XmlAccessor
     private String xml;
     private Document document;
 
+    private String root = "documents";
+
     public XmlAccessor(String xml)
     {
         this.xml = xml;
@@ -37,10 +39,13 @@ public class XmlAccessor
         {
             ByteArrayInputStream inputStream = null;
             xml = removeNamespaces(xml);
+            xml = removeXmlTags(xml);
+            xml = "<" + root + ">" + xml + "</" + root + ">";
             try
             {
                 DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
                 docFactory.setNamespaceAware(true);
+                docFactory.setValidating(false);
                 DocumentBuilder builder = docFactory.newDocumentBuilder();
                 inputStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
                 document = builder.parse(inputStream);
@@ -70,7 +75,7 @@ public class XmlAccessor
                 log.debug("Searching for " + path);
                 XPathFactory xpFactory = XPathFactory.newInstance();
                 XPath xpath = xpFactory.newXPath();
-                XPathExpression expression = xpath.compile(path);
+                XPathExpression expression = xpath.compile(root + "/" + path);
                 NodeList nodes = (NodeList) expression.evaluate(getDocument(), XPathConstants.NODESET);
 
                 result = new String[nodes.getLength()];
@@ -121,6 +126,28 @@ public class XmlAccessor
         {
             log.error("Error when closing IOStream", e);
         }
+    }
+
+    private String removeXmlTags(String xml)
+    {
+        StringBuffer response = new StringBuffer();
+        String start = "<?";
+        String end = "?>";
+
+        int startIndex = xml.indexOf(start);
+        int endIndex = xml.indexOf(end);
+
+        String remainder = xml;
+        while (startIndex >= 0 && endIndex > 0)
+        {
+            response.append(remainder.substring(0, startIndex));
+            remainder = remainder.substring(endIndex + 2);
+            startIndex = remainder.indexOf(start);
+            endIndex = remainder.indexOf(end);
+        }
+        response.append(remainder);
+
+        return response.toString();
     }
 
     private String removeNamespaces(String xml)
