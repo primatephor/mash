@@ -83,5 +83,10 @@ public class TestXmlAccessor extends TestCase
         assertEquals("first", xmlAccessor.getPath("/somexml[1]/data1")[0]);
         assertEquals("2element1", xmlAccessor.getPath("/somexml[2]/datalist")[0]);
         assertEquals("2element2", xmlAccessor.getPath("/somexml[2]/datalist")[1]);
+
+        String[] responses = xmlAccessor.getPath("//data3");
+        assertEquals(2, responses.length);
+        assertEquals("third", responses[0]);
+        assertEquals("2third", responses[1]);
     }
 }
