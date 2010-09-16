@@ -3,6 +3,7 @@ package org.mash.tool;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,7 +12,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
-import java.io.Closeable;
 import java.io.IOException;
 
 /**
@@ -27,6 +27,7 @@ public class XmlAccessor
     private Document document;
 
     private String root = "documents";
+    private boolean addedRoot = false;
 
     public XmlAccessor(String xml)
     {
@@ -37,31 +38,71 @@ public class XmlAccessor
     {
         if (document == null)
         {
-            ByteArrayInputStream inputStream = null;
             xml = removeNamespaces(xml);
             xml = removeXmlTags(xml);
-            xml = "<" + root + ">" + xml + "</" + root + ">";
             try
             {
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                docFactory.setNamespaceAware(true);
-                docFactory.setValidating(false);
-                DocumentBuilder builder = docFactory.newDocumentBuilder();
-                inputStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
-                document = builder.parse(inputStream);
+                buildDocument(xml);
             }
             catch (Exception e)
             {
-                log.info("Failed to parse xml", e);
-            }
-            finally
-            {
-                close(inputStream);
+                log.error("Failed to parse xml", e);
             }
         }
         return document;
     }
 
+    private void buildDocument(String xml) throws Exception
+    {
+        ByteArrayInputStream inputStream = null;
+        try
+        {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setNamespaceAware(true);
+            docFactory.setValidating(false);
+            DocumentBuilder builder = docFactory.newDocumentBuilder();
+            inputStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+            document = builder.parse(inputStream);
+        }
+        catch (SAXParseException e)
+        {
+            if (!addedRoot)
+            {
+                addedRoot = true;
+                log.info("Problem parsing xml, adding root element to contain it");
+                xml = "<" + root + ">" + xml + "</" + root + ">";
+                buildDocument(xml);
+            }
+            else
+            {
+                throw e;
+            }
+        }
+        finally
+        {
+            try
+            {
+                if (inputStream != null)
+                {
+                    inputStream.close();
+                }
+            }
+            catch (IOException e)
+            {
+                log.error("Error when closing IOStream", e);
+            }
+        }
+    }
+
+    public String buildPath(String current)
+    {
+        String result = current;
+        if (addedRoot)
+        {
+            result = "/" + root + current;
+        }
+        return result;
+    }
 
     public String[] getPath(String path)
     {
@@ -72,10 +113,11 @@ public class XmlAccessor
         {
             try
             {
-                log.debug("Searching for " + path);
                 XPathFactory xpFactory = XPathFactory.newInstance();
                 XPath xpath = xpFactory.newXPath();
-                XPathExpression expression = xpath.compile(root + "/" + path);
+                String expressionPath = buildPath(path);
+                log.debug("Searching for " + expressionPath);
+                XPathExpression expression = xpath.compile(expressionPath);
                 NodeList nodes = (NodeList) expression.evaluate(getDocument(), XPathConstants.NODESET);
 
                 result = new String[nodes.getLength()];
@@ -111,21 +153,6 @@ public class XmlAccessor
             builder.append(delimiter).append(results[index]);
         }
         return builder.toString();
-    }
-
-    private void close(Closeable c)
-    {
-        try
-        {
-            if (c != null)
-            {
-                c.close();
-            }
-        }
-        catch (IOException e)
-        {
-            log.error("Error when closing IOStream", e);
-        }
     }
 
     private String removeXmlTags(String xml)
