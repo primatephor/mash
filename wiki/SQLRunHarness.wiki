@@ -1,0 +1,13 @@
+#summary SQLRunHarness
+
+= Introduction =
+
+The {{{SQLRunHarness}}} runs any sql against a database, and if there are results will supply them for verification (column names are the parameters).  
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
