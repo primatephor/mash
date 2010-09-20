@@ -31,7 +31,7 @@ import java.util.List;
  * <p/>
  * Parameters are:
  * <ul>
- * <li>sql (any sql to run) OR</li>
+ * <li>sql (any sql to run)</li>
  * </ul>
  *
  * @author teastlack
