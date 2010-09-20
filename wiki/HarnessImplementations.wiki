@@ -9,7 +9,8 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 = DB =
  * {{{DBHarness.jar}}}
   * [DBSetupHarness] (uses dbunit, runs sql)
-  * [DBRunHarness] (runs a 'select `*`' on a table)
+  * [RowRunHarness] (runs a 'select `*`' on a table)
+  * [SQLRunHarness] (run any sql)
 
 = Ftp =
  * {{{FtpHarness.jar}}}
