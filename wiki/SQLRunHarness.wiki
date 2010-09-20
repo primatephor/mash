@@ -35,4 +35,4 @@ Configuration parameters:
 
 Here the select run is: select `*` from my_table where first_name = 'bob'.  The verify just takes the mapped results and does a name/value check.  You can supply any column name in the verify to check the results.  
 
-Any sql should be valid.
+Any sql should be valid.  Use the ListVerifyHarness to validate when multiple results are found.
