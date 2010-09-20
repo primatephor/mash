@@ -11,9 +11,9 @@
   * sql runs
  * Unified responses around {{{RawResponse}}}
   * Used for putting raw strings into a response.  Good for file contents, string output, etc.
-  * Removed StringResponse
+  * Removed {{{StringResponse}}}
  * Beefed up {{{XmlAccessor}}} for xml responses
-  * Handles multiple XML documents in a row by wrapping with a root <documents> element
+  * Handles multiple XML documents in a row by wrapping with a root {{{<documents>}}} element
   * should allow for transparently running xpath on these elements
   * strip out xml base tags starting with {{{<?}}} and ending with {{{?>}}}
 
