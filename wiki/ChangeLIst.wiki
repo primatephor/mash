@@ -16,6 +16,7 @@
   * Handles multiple XML documents in a row by wrapping with a root {{{<documents>}}} element
   * should allow for transparently running xpath on these elements
   * strip out xml base tags starting with {{{<?}}} and ending with {{{?>}}}
+ * Renamed libraries to {{{mash-*}}}
 
 
 ==0.10===
