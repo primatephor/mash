@@ -18,15 +18,22 @@ public class CreateTable extends HBaseTableSetup
 {
     private static final Logger log = Logger.getLogger(CreateTable.class.getName());
     private List<String> families;
+    private List<String> columns;
+
+    public CreateTable()
+    {
+        families = new ArrayList<String>();
+        columns = new ArrayList<String>();
+    }
 
     protected void setup(HBaseAdmin admin, HTable table) throws Exception
     {
         if (admin.tableExists(table.getTableName()))
         {
             log.info("Table " + new String(table.getTableName()) + "already exists");
-            if(!admin.isTableEnabled(table.getTableName()))
+            if (!admin.isTableEnabled(table.getTableName()))
             {
-                log.info("Enabling table "+ new String(table.getTableName()));
+                log.info("Enabling table " + new String(table.getTableName()));
                 admin.enableTable(table.getTableName());
             }
         }
@@ -35,8 +42,14 @@ public class CreateTable extends HBaseTableSetup
             HTableDescriptor desc = new HTableDescriptor(table.getTableName());
             for (String family : families)
             {
+                log.info("Adding family " + family);
                 HColumnDescriptor columnDescriptor = new HColumnDescriptor(family);
                 desc.addFamily(new HColumnDescriptor(columnDescriptor));
+            }
+            for (String column : columns)
+            {
+                log.info("Adding column " + column);
+                admin.addColumn(table.getTableName(), new HColumnDescriptor(column));
             }
             admin.createTable(desc);
         }
@@ -45,10 +58,12 @@ public class CreateTable extends HBaseTableSetup
     @HarnessParameter(name = "family")
     public void addFamily(String family)
     {
-        if(families == null)
-        {
-            families = new ArrayList<String>();
-        }
         families.add(family);
+    }
+
+    @HarnessParameter(name = "column")
+    public void addColumn(String column)
+    {
+        columns.add(column);
     }
 }
