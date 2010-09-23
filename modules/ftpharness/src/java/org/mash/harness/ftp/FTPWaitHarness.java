@@ -1,15 +1,13 @@
 package org.mash.harness.ftp;
 
 import org.apache.log4j.Logger;
-import org.mash.harness.BaseHarness;
-import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,13 +33,9 @@ import java.util.List;
  * @since Oct 29, 2009 9:27:24 AM
  *
  */
-public class FTPWaitHarness extends BaseHarness implements RunHarness
+public class FTPWaitHarness extends PollingWaitHarness
 {
     private static final Logger log = Logger.getLogger(FTPWaitHarness.class.getName());
-    //timeout after 1 minute by default
-    private Integer timeoutMillis = 60 * 1000;
-    //poll every 5 seconds by default
-    private Integer pollMillis = 5 * 1000;
 
     private String user;
     private String password;
@@ -51,58 +45,12 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
 
     private ListHarness run;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public boolean poll(List<RunHarness> previous, List<SetupHarness> setups)
     {
         run = buildRunHarness();
-        run.setUrl(url);
-        run.setPassword(password);
-        run.setUser(user);
-        run.setPath(path);
-
-        long start = new Date().getTime();
-        long current = 0l;
-        boolean isComplete = false;
-        while (current < timeoutMillis && !isComplete)
-        {
-            run.run(previous, setups);
-            isComplete = isDoneWaiting(run.getResponse());
-            if (!isComplete)
-            {
-                long timeToWait = pollMillis;
-                if (current + pollMillis > timeoutMillis)
-                {
-                    //end at timeout then, plus a little slop
-                    timeToWait = current + pollMillis - timeoutMillis + 500;
-                }
-
-                try
-                {
-                    log.info("didn't find what I wanted, waiting "+timeToWait);
-                    Thread.sleep(timeToWait);
-                }
-                catch (InterruptedException e)
-                {
-                    this.getErrors().add(new HarnessError(this, "Problem waiting for next polling", e));
-                }
-            }
-            current = new Date().getTime() - start;
-        }
-
-        if (!isComplete)
-        {
-            this.getErrors().add(new HarnessError(this, "Wait", "Timed out before found " + path));
-        }
-    }
-
-    protected ListHarness buildRunHarness()
-    {
-        return new ListHarness();
-    }
-
-    private boolean isDoneWaiting(RunResponse response)
-    {
+        run.run(previous, setups);
         boolean result = false;
-        ListRunResponse listResponse = (ListRunResponse) response;
+        ListRunResponse listResponse = (ListRunResponse) run.getResponse();
         if (listResponse != null)
         {
             log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
@@ -118,6 +66,19 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
         return result;
     }
 
+    protected ListHarness buildRunHarness()
+    {
+        if (run == null)
+        {
+            run = new ListHarness();
+            run.setUrl(url);
+            run.setPassword(password);
+            run.setUser(user);
+            run.setPath(path);
+        }
+        return run;
+    }
+
     public RunResponse getResponse()
     {
         RunResponse response = null;
@@ -131,13 +92,13 @@ public class FTPWaitHarness extends BaseHarness implements RunHarness
     @HarnessConfiguration(name = "timeout")
     public void setTimeoutMillis(String timeoutMillis)
     {
-        this.timeoutMillis = Integer.valueOf(timeoutMillis);
+        super.setTimeoutMillis(timeoutMillis);
     }
 
     @HarnessConfiguration(name = "polltime")
     public void setPollMillis(String pollMillis)
     {
-        this.pollMillis = Integer.valueOf(pollMillis);
+        super.setPollMillis(pollMillis);
     }
 
     @HarnessConfiguration(name = "user")

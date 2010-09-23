@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.RunHarness;
-import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
 import org.mash.harness.db.DBResult;
@@ -134,7 +133,7 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
         }
     }
 
-    public RunResponse getResponse()
+    public DBResult getResponse()
     {
         return result;
     }
