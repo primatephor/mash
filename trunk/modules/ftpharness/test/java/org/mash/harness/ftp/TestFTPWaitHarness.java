@@ -65,7 +65,7 @@ public class TestFTPWaitHarness extends TestCase
         //less than 15 seconds
         assertTrue("too much time has passeed:"+difference, difference < 35000);
         assertEquals(1, wait.getErrors().size());
-        assertEquals("Timed out before found theFile", wait.getErrors().get(0).getDescription());
+        assertEquals("Timed out before polling succeeded", wait.getErrors().get(0).getDescription());
     }
 
     private class MyFTPWaitHarness extends FTPWaitHarness
