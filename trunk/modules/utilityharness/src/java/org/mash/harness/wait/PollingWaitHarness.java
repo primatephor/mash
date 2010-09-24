@@ -17,7 +17,6 @@ import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,24 +36,17 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
     @Override
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
-        long start = new Date().getTime();
-        long current = 0l;
+        long current = timeoutMillis;
+        long timeToWait = pollMillis;
         boolean isComplete = false;
-        while (current < timeoutMillis && !isComplete)
+        while (current > 0 && !isComplete)
         {
             isComplete = poll(previous, setups);
             if (!isComplete)
             {
-                long timeToWait = pollMillis;
-                if (current + pollMillis > timeoutMillis)
-                {
-                    //end at timeout then, plus a little slop
-                    timeToWait = current + pollMillis - timeoutMillis + 500;
-                }
-
                 try
                 {
-                    log.info("didn't find what I wanted, waiting " + timeToWait);
+                    log.info("didn't find what I wanted, waiting:" + timeToWait+", remaining:"+current);
                     Thread.sleep(timeToWait);
                 }
                 catch (InterruptedException e)
@@ -62,7 +54,12 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
                     this.getErrors().add(new HarnessError(this, "Problem waiting for next polling", e));
                 }
             }
-            current = new Date().getTime() - start;
+            current -= timeToWait;
+            //don't wait longer than what's remaining
+            if(timeToWait > current)
+            {
+                timeToWait = current;
+            }
         }
 
         if (!isComplete)
