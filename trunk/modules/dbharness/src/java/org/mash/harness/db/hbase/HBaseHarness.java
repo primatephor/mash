@@ -1,31 +1,27 @@
 package org.mash.harness.db.hbase;
 
-import org.mash.harness.SetupHarness;
-import org.mash.harness.BaseHarness;
-import org.mash.loader.HarnessParameter;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.log4j.Logger;
+import org.mash.loader.HarnessParameter;
+import org.mash.harness.BaseHarness;
 
 import java.io.IOException;
 
 /**
- * This setup will deal with an Hadoop table.
- * <p/>
- * Parameters:<p/>
- * Table: name of the table to setup
- *
  * @author: teastlack
- * @since: Sep 11, 2010
+ * @since: Sep 26, 2010
  */
-public abstract class HBaseTableSetup extends BaseHarness implements SetupHarness
+public class HBaseHarness extends BaseHarness
 {
-    private static final Logger log = Logger.getLogger(HBaseTableSetup.class.getName());
-    private String table;
+    private static final Logger log = Logger.getLogger(HBaseHarness.class.getName());
+    private String tableName;
+    private HBaseAdmin admin;
+    private HTable table;
 
-    public void setup() throws Exception
+    public void setup()
     {
         if (table == null)
         {
@@ -38,9 +34,8 @@ public abstract class HBaseTableSetup extends BaseHarness implements SetupHarnes
             HBaseConfiguration config = new HBaseConfiguration();
             try
             {
-                HBaseAdmin admin = new HBaseAdmin(config);
-                HTable hTable = new HTable(config, table);
-                setup(admin, hTable);
+                admin = new HBaseAdmin(config);
+                table = new HTable(config, tableName);
             }
             catch (MasterNotRunningException e)
             {
@@ -53,11 +48,32 @@ public abstract class HBaseTableSetup extends BaseHarness implements SetupHarnes
         }
     }
 
-    protected abstract void setup(HBaseAdmin admin, HTable table) throws Exception;
+    public String getTableName()
+    {
+        return tableName;
+    }
+
+    public HBaseAdmin getAdmin()
+    {
+        if (admin == null && !hasErrors())
+        {
+            setup();
+        }
+        return admin;
+    }
+
+    public HTable getTable()
+    {
+        if (table == null && !hasErrors())
+        {
+            setup();
+        }
+        return table;
+    }
 
     @HarnessParameter(name = "table")
     public void setTable(String table)
     {
-        this.table = table;
+        this.tableName = table;
     }
 }

@@ -3,30 +3,47 @@ package org.mash.harness.db.hbase;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.log4j.Logger;
+import org.mash.harness.SetupHarness;
+
+import java.io.IOException;
 
 /**
  * @author: teastlack
  * @since: Sep 11, 2010
  */
-public class DeleteTable extends HBaseTableSetup
+public class DeleteTable extends HBaseHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(DeleteTable.class.getName());
 
-    protected void setup(HBaseAdmin admin, HTable table) throws Exception
+    public void setup()
     {
-        if (admin.tableExists(table.getTableName()))
+
+        HBaseAdmin admin = getAdmin();
+        HTable table = getTable();
+        try
         {
-            if (!admin.isTableEnabled(table.getTableName()))
+            if (!hasErrors())
             {
-                log.info("Disabling table");
-                admin.disableTable(table.getTableName());
+                if (admin.tableExists(table.getTableName()))
+                {
+                    if (!admin.isTableEnabled(table.getTableName()))
+                    {
+                        log.info("Disabling table");
+                        admin.disableTable(table.getTableName());
+                    }
+                    log.info("Deleting table");
+                    admin.deleteTable(table.getTableName());
+                }
+                else
+                {
+                    log.info("No table named " + new String(table.getTableName()) + " exists");
+                }
             }
-            log.info("Deleting table");
-            admin.deleteTable(table.getTableName());
         }
-        else
+        catch (IOException e)
         {
-            log.info("No table named " + new String(table.getTableName()) + " exists");
+            addError("Problem deleting table " + getTableName(), e);
         }
+
     }
 }
