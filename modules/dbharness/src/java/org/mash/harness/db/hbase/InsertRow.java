@@ -9,6 +9,9 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * @author: teastlack
  * @since: Sep 26, 2010
@@ -17,9 +20,7 @@ public class InsertRow extends HBaseHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(InsertRow.class.getName());
     private String key;
-    private String family = "";
-    private String column = "";
-    private String value = "";
+    private List<Entry> entries;
 
     public void setup()
     {
@@ -35,11 +36,13 @@ public class InsertRow extends HBaseHarness implements SetupHarness
                     if (key != null)
                     {
                         Put put = new Put(Bytes.toBytes(key));
-                        byte[] family = Bytes.toBytes(this.family);
-                        byte[] column = Bytes.toBytes(this.column);
-                        put.add(family, column, Bytes.toBytes(value));
-                        log.debug("Inserting " + key + ", " + this.family +
-                                  ":" + this.column + ", " + value);
+                        for (Entry entry : entries)
+                        {
+                            byte[] family = Bytes.toBytes(entry.getFamily());
+                            byte[] column = Bytes.toBytes(entry.getColumn());
+                            put.add(family, column, Bytes.toBytes(entry.getValue()));
+                            log.debug("Inserting " + key + ", " + entry);
+                        }
                         table.put(put);
                     }
                     else
@@ -59,6 +62,15 @@ public class InsertRow extends HBaseHarness implements SetupHarness
         }
     }
 
+    public List<Entry> getEntries()
+    {
+        if (entries == null)
+        {
+            entries = new ArrayList<Entry>();
+        }
+        return entries;
+    }
+
     @HarnessConfiguration(name = "table")
     public void setTable(String table)
     {
@@ -71,21 +83,60 @@ public class InsertRow extends HBaseHarness implements SetupHarness
         this.key = key;
     }
 
-    @HarnessParameter(name = "family")
-    public void setFamily(String family)
+    @HarnessParameter(name = "entry")
+    public void setEntries(String entry)
     {
-        this.family = family;
+        getEntries().add(new Entry(entry));
     }
 
-    @HarnessParameter(name = "column")
-    public void setColumn(String column)
+    public class Entry
     {
-        this.column = column;
-    }
+        private String family;
+        private String column;
+        private String value;
 
-    @HarnessParameter(name = "value")
-    public void setValue(String value)
-    {
-        this.value = value;
+        private Entry(String entry)
+        {
+            int familyEndIndex = entry.indexOf(':');
+            if (familyEndIndex >= 0)
+            {
+                family = entry.substring(0, familyEndIndex);
+                entry = entry.substring(familyEndIndex + 1);
+            }
+            int columnEndIndex = entry.indexOf('=');
+            if (columnEndIndex >= 0)
+            {
+                column = entry.substring(0, columnEndIndex);
+                value = entry.substring(columnEndIndex + 1);
+            }
+            else
+            {
+                column = entry;
+            }
+        }
+
+        public String getFamily()
+        {
+            return family;
+        }
+
+        public String getColumn()
+        {
+            return column;
+        }
+
+        public String getValue()
+        {
+            return value;
+        }
+
+        public String toString()
+        {
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("Family=").append(getFamily()).append(",");
+            buffer.append("Column=").append(getColumn()).append(",");
+            buffer.append("Value=").append(getValue());
+            return buffer.toString();
+        }
     }
 }
