@@ -52,9 +52,9 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
         FTPClient client = buildClient();
         try
         {
-            //1 minute
-            client.setDefaultTimeout(60*1000);
-            log.info("Attempting connect to " + url + ".");
+            //5 minutes
+            client.setConnectTimeout(5*60*1000);
+            log.info("Attempting connect to " + url);
             client.connect(url);
             int reply = client.getReplyCode();
             log.info("Connection status: " + reply);
