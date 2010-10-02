@@ -1,13 +1,14 @@
 package org.mash.harness.mail;
 
+import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.loader.HarnessConfiguration;
 
-import javax.mail.Provider;
 import javax.mail.Folder;
+import javax.mail.MessagingException;
+import javax.mail.Provider;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.MessagingException;
 import java.util.Properties;
 
 /**
@@ -27,6 +28,7 @@ import java.util.Properties;
  */
 public class IMAPEmailHarness extends BaseHarness
 {
+    private static final Logger log = Logger.getLogger(IMAPEmailHarness.class.getName());
     private String smtpServer;
     private String user;
     private String password;
@@ -40,6 +42,10 @@ public class IMAPEmailHarness extends BaseHarness
     protected Folder connect() throws MessagingException
     {
         Session mailSession = Session.getDefaultInstance(new Properties());
+        if(log.isDebugEnabled())
+        {
+            mailSession.setDebug(true);
+        }
         Store store = mailSession.getStore(provider);
         store.connect(getSmtpServer(), getUser(), getPassword());
         return store.getFolder(folder);
