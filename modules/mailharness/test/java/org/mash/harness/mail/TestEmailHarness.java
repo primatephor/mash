@@ -2,9 +2,9 @@ package org.mash.harness.mail;
 
 import junit.framework.TestCase;
 
-import javax.mail.MessagingException;
 import javax.mail.Address;
 import javax.mail.Folder;
+import javax.mail.MessagingException;
 
 /**
  * @author teastlack
@@ -74,7 +74,7 @@ public class TestEmailHarness extends TestCase
             this.folder = folder;
         }
 
-        protected Folder connect() throws MessagingException
+        protected Folder getFolder() throws MessagingException
         {
             return folder;
         }

@@ -13,7 +13,7 @@ import java.util.Properties;
 
 /**
  * Provide common configuration settings for communicating with an email server
- *
+ * <p/>
  * Configurations:
  * <ul>
  * <li>smtp_server (the email server url)</li>
@@ -32,23 +32,52 @@ public class IMAPEmailHarness extends BaseHarness
     private String smtpServer;
     private String user;
     private String password;
-    private String folder = "INBOX";
+    private String folderName = "INBOX";
     private Provider provider = new Provider(Provider.Type.STORE,
                                              "imap",
                                              "com.sun.mail.imap.IMAPStore",
                                              "Sun Microsystems, Inc",
                                              "");
 
-    protected Folder connect() throws MessagingException
+    private Store store;
+    private Folder folder;
+
+    protected Store getStore() throws MessagingException
     {
         Session mailSession = Session.getDefaultInstance(new Properties());
-        if(log.isDebugEnabled())
+        if (log.isDebugEnabled())
         {
             mailSession.setDebug(true);
         }
-        Store store = mailSession.getStore(provider);
+        store = mailSession.getStore(provider);
         store.connect(getSmtpServer(), getUser(), getPassword());
-        return store.getFolder(folder);
+        return store;
+    }
+
+    protected Folder getFolder() throws MessagingException
+    {
+        if (folder == null)
+        {
+            Store theStore = getStore();
+            if (theStore != null)
+            {
+                folder = theStore.getFolder(folderName);
+            }
+        }
+        return folder;
+    }
+
+    protected void close() throws MessagingException
+    {
+        if(folder != null)
+        {
+            folder.close(true);
+        }
+        
+        if (store != null)
+        {
+            store.close();
+        }
     }
 
     @HarnessConfiguration(name = "smtp_server")
@@ -69,15 +98,10 @@ public class IMAPEmailHarness extends BaseHarness
         this.password = password;
     }
 
-    public String getFolder()
-    {
-        return folder;
-    }
-
     @HarnessConfiguration(name = "folder")
     public void setFolder(String folder)
     {
-        this.folder = folder;
+        this.folderName = folder;
     }
 
     public String getPassword()
