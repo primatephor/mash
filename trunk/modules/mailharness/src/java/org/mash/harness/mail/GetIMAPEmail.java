@@ -1,15 +1,15 @@
 package org.mash.harness.mail;
 
-import org.mash.harness.RunHarness;
-import org.mash.harness.SetupHarness;
-import org.mash.harness.RunResponse;
-import org.mash.harness.HarnessError;
-import org.mash.loader.HarnessParameter;
 import org.apache.log4j.Logger;
+import org.mash.harness.HarnessError;
+import org.mash.harness.RunHarness;
+import org.mash.harness.RunResponse;
+import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessParameter;
 
+import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
-import javax.mail.Address;
 import javax.mail.MessagingException;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
         log.info("Running EmailHarness");
         try
         {
-            Folder folder = connect();
+            Folder folder = getFolder();
             folder.open(Folder.READ_ONLY);
             Message message = null;
             if (address == null)
@@ -83,6 +83,7 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
             {
                 response = new EmailResponse(message, folder.getMessageCount());
             }
+            close();
         }
         catch (Exception e)
         {

@@ -1,18 +1,18 @@
 package org.mash.harness.mail;
 
+import org.apache.log4j.Logger;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessParameter;
-import org.apache.log4j.Logger;
 
+import javax.mail.Address;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
-import javax.mail.Flags;
-import javax.mail.Address;
 import javax.mail.MessagingException;
 
 /**
  * IMPORTANT: not working.  DO NOT USE.
- *
+ * <p/>
  * Configurations:
  * <ul>
  * <li>smtp_server (the email server url)</li>
@@ -44,8 +44,7 @@ public class IMAPSetupHarness extends IMAPEmailHarness implements SetupHarness
 
     public void setup() throws Exception
     {
-        Folder folder = connect();
-
+        Folder folder = getFolder();
         if (Action.CLEAN.equals(action))
         {
             folder.open(Folder.READ_WRITE);
@@ -57,15 +56,13 @@ public class IMAPSetupHarness extends IMAPEmailHarness implements SetupHarness
                     log.info("Deleting message:" + message.getMessageNumber());
                     message.setFlag(Flags.Flag.DELETED, true);
                 }
+                else
+                {
+                    log.info("Not cleaning message:" + message.getSubject());
+                }
             }
-            Message[] deletedMsgs = folder.expunge();
-            if (deletedMsgs != null)
-            {
-                log.info("Deleted " + deletedMsgs.length + " messages");
-            }
-            //expunge on close
-            folder.close(true);
         }
+        close();
     }
 
     protected boolean shouldActOn(Message message) throws MessagingException
