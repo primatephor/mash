@@ -14,7 +14,6 @@ import javax.mail.MessagingException;
 import java.util.List;
 
 /**
- *
  * Configurations:
  * <ul>
  * <li>smtp_server (the email server url)</li>
@@ -28,7 +27,7 @@ import java.util.List;
  * <li>message_number (which message to get, default = 1)</li>
  * <li>address (which address to get.  If nothing is specified, gets all)</li>
  * </ul>
- *
+ * <p/>
  * Message number is defaulted to 1.  If an address is specified, then the email retrieved is the first message
  * for that address.  If no address is specified, then the first email found is retrieved.
  *
@@ -43,45 +42,44 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
     private String address;
     private EmailResponse response;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(List<RunHarness> previous,
+                    List<SetupHarness> setups)
     {
-        log.info("Running EmailHarness");
+        log.info("Running GetIMAPEmail");
         try
         {
             Folder folder = getFolder();
             folder.open(Folder.READ_ONLY);
             Message message = null;
+            int totalMessages = 0;
             if (address == null)
             {
+                log.info("Retrieving message number " + messageNumber);
                 message = folder.getMessage(messageNumber);
+                totalMessages = folder.getMessageCount();
             }
             else
             {
                 log.info("Looking for address " + address);
-                int count = folder.getMessageCount();
                 int addyCount = 1;
-                for (int i = 1; i <= count; i++)
+                for (Message check : folder.getMessages())
                 {
-                    Message toCheck = folder.getMessage(i);
-                    if (isValidAddress(toCheck))
+                    if (isValidAddress(check))
                     {
                         log.debug("Checking message for " + address);
                         if (messageNumber == addyCount)
                         {
                             log.debug("Found the message");
-                            message = toCheck;
-                            break;
+                            message = check;
                         }
-                        else
-                        {
-                            addyCount++;
-                        }
+                        addyCount++;
+                        totalMessages++;
                     }
                 }
             }
             if (message != null)
             {
-                response = new EmailResponse(message, folder.getMessageCount());
+                response = new EmailResponse(message, totalMessages);
             }
             close();
         }

@@ -36,8 +36,8 @@ public class TestHarnessBuilder extends TestCase
         assertEquals(null, harness.getConfiguration().get(1).getValue());
 
         Harness toCheck = new HarnessBuilder().buildHarness(harness);
-        ConfigurationBuilder configurationBuilder = new CalculatingConfigBuilder();
-        List<Configuration> configs = configurationBuilder.applyConfiguration(definition, toCheck);
+        CalculatingConfigBuilder configurationBuilder = new CalculatingConfigBuilder();
+        List<Configuration> configs = configurationBuilder.applyParameters(null, definition, toCheck.getDefinition());
         toCheck.setConfiguration(configs);
         assertEquals("hey!", toCheck.getConfiguration().get(1).getValue());
     }
@@ -58,8 +58,8 @@ public class TestHarnessBuilder extends TestCase
         assertEquals(null, harness.getConfiguration().get(1).getValue());
 
         Harness toCheck = new HarnessBuilder().buildHarness(harness);
-        ConfigurationBuilder configurationBuilder = new CalculatingConfigBuilder();
-        List<Configuration> configs = configurationBuilder.applyConfiguration(definition, toCheck);
+        CalculatingConfigBuilder configurationBuilder = new CalculatingConfigBuilder();
+        List<Configuration> configs = configurationBuilder.applyParameters(null, definition, toCheck.getDefinition());
         toCheck.setConfiguration(configs);
 
         AnnotatedDBSetupHarness db = (AnnotatedDBSetupHarness) ((AnnotatedHarness) toCheck).getWrap();

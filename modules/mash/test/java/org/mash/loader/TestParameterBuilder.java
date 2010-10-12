@@ -1,16 +1,16 @@
 package org.mash.loader;
 
 import junit.framework.TestCase;
+import org.mash.config.Configuration;
 import org.mash.config.Date;
 import org.mash.config.HarnessDefinition;
-import org.mash.config.Script;
 import org.mash.config.Parameter;
-import org.mash.config.Configuration;
+import org.mash.config.Script;
 import org.mash.harness.AnnotatedDBSetupHarness;
 import org.mash.harness.Harness;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
-import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
+import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 
 import java.util.Calendar;
 import java.util.List;
@@ -121,7 +121,7 @@ public class TestParameterBuilder extends TestCase
 
         assertEquals(null, name);
         Harness toCheck = new HarnessBuilder().buildHarness((HarnessDefinition) result.getHarnesses().get(0));
-        List<Configuration> appliedParams = new CalculatingConfigBuilder().applyConfiguration(null, toCheck);
+        List<Configuration> appliedParams = new CalculatingConfigBuilder().applyParameters(null, null, toCheck.getDefinition());
         assertEquals(5, appliedParams.size());
         String configName = appliedParams.get(4).getName();
         assertEquals("this_will_be_named", configName);
