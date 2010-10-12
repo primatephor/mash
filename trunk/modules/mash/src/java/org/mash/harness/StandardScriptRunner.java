@@ -5,7 +5,6 @@ import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.Parameter;
 import org.mash.config.ScriptDefinition;
-import org.mash.loader.ConfigurationBuilder;
 import org.mash.loader.HarnessBuilder;
 import org.mash.loader.ScriptDefinitionLoader;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
@@ -55,7 +54,8 @@ public class StandardScriptRunner implements ScriptRunner
 
         if (definition != null)
         {
-            ErrorHandler handler = new ErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
+            ErrorHandler handler =
+                    new ErrorHandler((ErrorFormatter) PropertyObjectFactory.getInstance().buildFormatter());
             handler.handleErrors(runner.run(definition), definition);
             if (handler.isError())
             {
@@ -93,9 +93,6 @@ public class StandardScriptRunner implements ScriptRunner
                     harnessDefinition.setScriptDefinition(definition);
                     log.info("Configuring " + harnessDefinition.getName());
                     Harness toAdd = builder.buildHarness(harnessDefinition);
-                    ConfigurationBuilder configurationBuilder = new CalculatingConfigBuilder();
-                    List<Configuration> configs = configurationBuilder.applyConfiguration(definition, toAdd);
-                    toAdd.setConfiguration(configs);
                     if (toAdd instanceof SetupHarness)
                     {
                         getSetupHarnesses().add((SetupHarness) toAdd);
@@ -108,14 +105,14 @@ public class StandardScriptRunner implements ScriptRunner
                     ScriptDefinition scriptDefinition = (ScriptDefinition) current;
                     ScriptDefinition toAdd = builder.buildScriptDefinition(scriptDefinition, definition.getPath());
                     log.info("Loading script " +
-                             StringUtil.cleanNull(toAdd.getDir()) + "/" +
-                             StringUtil.cleanNull(toAdd.getFile()));
+                            StringUtil.cleanNull(toAdd.getDir()) + "/" +
+                            StringUtil.cleanNull(toAdd.getFile()));
                     results.add(toAdd);
                 }
                 else
                 {
                     log.warn("Unable to apply configurations to " + current.getClass().getName() +
-                             ", not a HarnessDefinition or ScriptDefinition");
+                            ", not a HarnessDefinition or ScriptDefinition");
                 }
             }
         }
@@ -143,12 +140,14 @@ public class StandardScriptRunner implements ScriptRunner
             {
                 log.debug("Running test");
                 CalculatingParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
+                CalculatingConfigBuilder configurationBuilder = new CalculatingConfigBuilder();
+
                 for (Object toRun : this.harnesses)
                 {
                     if (toRun instanceof Harness)
                     {
                         Harness harness = (Harness) toRun;
-                        errors.addAll(processHarness(definition, parameterBuilder, harness));
+                        errors.addAll(processHarness(definition, configurationBuilder, parameterBuilder, harness));
                     }
                     else if (toRun instanceof ScriptDefinition)
                     {
@@ -209,11 +208,14 @@ public class StandardScriptRunner implements ScriptRunner
     }
 
     protected List<HarnessError> processHarness(ScriptDefinition definition,
+                                                CalculatingConfigBuilder configurationBuilder,
                                                 CalculatingParameterBuilder parameterBuilder,
                                                 Harness harness) throws Exception
     {
         List<HarnessError> errors = Collections.emptyList();
         log.info("Running harness " + harness.getDefinition().getName());
+        List<Configuration> configs = configurationBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
+        harness.setConfiguration(configs);
         List<Parameter> params = parameterBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
         harness.setParameters(params);
         if (harness instanceof SetupHarness)
@@ -265,7 +267,8 @@ public class StandardScriptRunner implements ScriptRunner
         return harness.getErrors();
     }
 
-    private void logMsg(String harnessType, Harness harness)
+    private void logMsg(String harnessType,
+                        Harness harness)
     {
         String harnessName = harness.getClass().getName();
         if (harness.getDefinition().getName() != null)

@@ -9,17 +9,16 @@ import org.mash.loader.ContentAccessor;
 
 /**
  * Replace the content with any values found by the replacement.
- *
+ * <p/>
  * This works by pulling each <Replace> element out of the parameter, using an AccessChain to retrieve the value (since
  * it could be a Date, Value, file, or another response) and performing a replace on the currentContent.
- *
+ * <p/>
  * Since <Replace> elements are embedded, the content should have been found by previously run accessors, and this
  * accessor should come at the END of an accessor chain.  Replace accessors should not contain other replace accessors,
  * could get ugly.
  *
  * @author teastlack
  * @since Jul 10, 2009 1:32:30 PM
- *
  */
 public class ReplaceAccessor implements ContentAccessor
 {
@@ -31,7 +30,8 @@ public class ReplaceAccessor implements ContentAccessor
         this.accessorChain = accessorChain;
     }
 
-    public String accessContent(BaseParameter parameter, String currentContent) throws Exception
+    public String accessContent(BaseParameter parameter,
+                                String currentContent) throws Exception
     {
         String result = "";
         if (currentContent != null)
@@ -39,6 +39,7 @@ public class ReplaceAccessor implements ContentAccessor
             result = currentContent;
             if (parameter instanceof Replaceable)
             {
+                log.trace("Running replace on parameter " + parameter.getName());
                 Replaceable replaceable = (Replaceable) parameter;
                 if (replaceable.getReplace() != null)
                 {

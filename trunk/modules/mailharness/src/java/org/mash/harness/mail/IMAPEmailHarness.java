@@ -44,19 +44,22 @@ public class IMAPEmailHarness extends BaseHarness
 
     protected Store getStore() throws MessagingException
     {
-        Session mailSession = Session.getDefaultInstance(new Properties());
-        if (log.isDebugEnabled())
+        if (store == null || !store.isConnected())
         {
-            mailSession.setDebug(true);
+            Session mailSession = Session.getDefaultInstance(new Properties());
+            if (log.isDebugEnabled())
+            {
+                mailSession.setDebug(true);
+            }
+            store = mailSession.getStore(provider);
+            store.connect(getSmtpServer(), getUser(), getPassword());
         }
-        store = mailSession.getStore(provider);
-        store.connect(getSmtpServer(), getUser(), getPassword());
         return store;
     }
 
     protected Folder getFolder() throws MessagingException
     {
-        if (folder == null)
+        if (folder == null || !folder.isOpen())
         {
             Store theStore = getStore();
             if (theStore != null)
@@ -69,11 +72,11 @@ public class IMAPEmailHarness extends BaseHarness
 
     protected void close() throws MessagingException
     {
-        if(folder != null)
+        if (folder != null)
         {
             folder.close(true);
         }
-        
+
         if (store != null)
         {
             store.close();

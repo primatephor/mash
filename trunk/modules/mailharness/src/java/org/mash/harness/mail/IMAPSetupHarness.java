@@ -58,7 +58,20 @@ public class IMAPSetupHarness extends IMAPEmailHarness implements SetupHarness
                 }
                 else
                 {
-                    log.info("Not cleaning message:" + message.getSubject());
+                    StringBuffer recips = null;
+                    for (Address address : message.getAllRecipients())
+                    {
+                        if (recips == null)
+                        {
+                            recips = new StringBuffer();
+                        }
+                        else
+                        {
+                            recips.append(",");
+                        }
+                        recips.append(address);
+                    }
+                    log.info("Not cleaning message:" + message.getSubject() + " for users:" + recips);
                 }
             }
         }
