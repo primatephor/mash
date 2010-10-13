@@ -87,7 +87,7 @@ public class DateVerifyHarness extends BaseHarness implements VerifyHarness
 
                         if (responseMillis < min || responseMillis > max)
                         {
-                            addError("Date is out of range", "Response date " + responseDate +
+                            addError(parameter.getName()+" is out of range", "Response date " + responseDate +
                                     ", ms:" + responseDate.getTime() +
                                     " is out of range of expected date " + checkDate +
                                     ", ms:" + checkDate.getTime());

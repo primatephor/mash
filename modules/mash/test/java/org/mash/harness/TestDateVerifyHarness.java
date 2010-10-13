@@ -52,7 +52,7 @@ public class TestDateVerifyHarness extends TestCase
         harness.getParameters().add(new Parameter("0", "2009/07/09 13:06:41"));
         harness.verify(run, null);
         assertEquals(1, harness.getErrors().size());
-        assertEquals("Date is out of range", harness.getErrors().get(0).getValue());
+        assertEquals("0 is out of range", harness.getErrors().get(0).getValue());
         assertEquals("Response date Thu Jul 09 13:06:40 PDT 2009, ms:1247170000000 " +
                      "is out of range of expected date Thu Jul 09 13:06:41 PDT 2009, ms:1247170001000", harness.getErrors().get(0).getDescription());
     }
@@ -72,7 +72,7 @@ public class TestDateVerifyHarness extends TestCase
         harness.setRangeMillis("500");
         harness.verify(run, null);
         assertEquals(1, harness.getErrors().size());
-        assertEquals("Date is out of range", harness.getErrors().get(0).getValue());
+        assertEquals("0 is out of range", harness.getErrors().get(0).getValue());
         assertEquals("Response date Thu Jul 09 13:06:40 PDT 2009, ms:1247170000000 " +
                      "is out of range of expected date Thu Jul 09 13:06:41 PDT 2009, ms:1247170001000", harness.getErrors().get(0).getDescription());
     }
