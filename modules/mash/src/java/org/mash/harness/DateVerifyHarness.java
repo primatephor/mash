@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Verify dates for response.  This is broken out because so many dates have different formats, etc.
  * <p/>
- *
+ * <p/>
  * Configurations:
  * <ul>
  * <li> 'format' is the format of the response AND date parameters (common xml: yyyy-MM-dd'T'HH:mm:ss)</li>
  * <li> 'range_millis' is the range in milliseconds that the response date must fall within (default is 0)</li>
  * </ul>
- *
+ * <p/>
  * Parameters:
  * Parameters are pulled from the response like the StandardVerifyHarness, and the dates are converted to milliseconds
  * for comparison.
@@ -35,7 +35,8 @@ public class DateVerifyHarness extends BaseHarness implements VerifyHarness
     private long rangeMillis = 0;
     private DateFormat formatter;
 
-    public void verify(RunHarness run, List<SetupHarness> setup)
+    public void verify(RunHarness run,
+                       List<SetupHarness> setup)
     {
         if (this.format != null)
         {
@@ -86,8 +87,10 @@ public class DateVerifyHarness extends BaseHarness implements VerifyHarness
 
                         if (responseMillis < min || responseMillis > max)
                         {
-                            addError("Date is out of range", "Date " + responseValue +
-                                                             " is out of range of " + checkValue);
+                            addError("Date is out of range", "Response date " + responseDate +
+                                    ", ms:" + responseDate.getTime() +
+                                    " is out of range of expected date " + checkDate +
+                                    ", ms:" + checkDate.getTime());
                         }
                     }
                 }
@@ -96,7 +99,7 @@ public class DateVerifyHarness extends BaseHarness implements VerifyHarness
                     if (responseValue != null)
                     {
                         addError("Expected Response Not Null", "Expected NULL date for " + parameter.getName() +
-                                                               ", got " + responseValue);
+                                ", got " + responseValue);
                     }
                 }
             }
