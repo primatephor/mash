@@ -18,46 +18,37 @@ public class HBaseHarness extends BaseHarness
 {
     private static final Logger log = Logger.getLogger(HBaseHarness.class.getName());
     private String tableName;
+
     private HBaseAdmin admin;
     private HTable table;
-
-    public void setup()
-    {
-        if (table == null)
-        {
-            addError("'table' parameter not set", "You must specify a table to setup");
-        }
-
-        if (getErrors().size() == 0)
-        {
-            log.info("Running setup on " + table);
-            HBaseConfiguration config = new HBaseConfiguration();
-            try
-            {
-                admin = new HBaseAdmin(config);
-                table = new HTable(config, tableName);
-            }
-            catch (MasterNotRunningException e)
-            {
-                addError("Unable to connect admin tool to HBase, master not running", e);
-            }
-            catch (IOException e)
-            {
-                addError("Problem connecting to table", e);
-            }
-        }
-    }
+    HBaseConfiguration config;
 
     public String getTableName()
     {
         return tableName;
     }
 
+    public HBaseConfiguration getConfig()
+    {
+        if (config == null)
+        {
+            config = new HBaseConfiguration();
+        }
+        return config;
+    }
+
     public HBaseAdmin getAdmin()
     {
         if (admin == null && !hasErrors())
         {
-            setup();
+            try
+            {
+                admin = new HBaseAdmin(getConfig());
+            }
+            catch (MasterNotRunningException e)
+            {
+                addError("Unable to connect admin tool to HBase, master not running", e);
+            }
         }
         return admin;
     }
@@ -66,7 +57,23 @@ public class HBaseHarness extends BaseHarness
     {
         if (table == null && !hasErrors())
         {
-            setup();
+            if (tableName == null)
+            {
+                addError("'table' parameter not set", "You must specify a table to setup");
+            }
+
+            if (!hasErrors())
+            {
+                log.info("Running setup on " + table);
+                try
+                {
+                    table = new HTable(getConfig(), tableName);
+                }
+                catch (IOException e)
+                {
+                    addError("Problem creating table connection " + tableName, e);
+                }
+            }
         }
         return table;
     }

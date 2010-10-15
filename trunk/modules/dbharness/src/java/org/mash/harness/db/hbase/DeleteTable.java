@@ -2,6 +2,7 @@ package org.mash.harness.db.hbase;
 
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.log4j.Logger;
 import org.mash.harness.SetupHarness;
 
@@ -19,31 +20,34 @@ public class DeleteTable extends HBaseHarness implements SetupHarness
     {
 
         HBaseAdmin admin = getAdmin();
-        HTable table = getTable();
-        try
+        if (admin != null)
         {
-            if (!hasErrors())
+            HTable table;
+            try
             {
-                if (admin.tableExists(table.getTableName()))
+                table = getTable();
+                if (!hasErrors())
                 {
-                    if (!admin.isTableEnabled(table.getTableName()))
+                    if (admin.tableExists(table.getTableName()))
                     {
-                        log.info("Disabling table");
-                        admin.disableTable(table.getTableName());
+                        if (!admin.isTableEnabled(table.getTableName()))
+                        {
+                            log.info("Disabling table");
+                            admin.disableTable(table.getTableName());
+                        }
+                        log.info("Deleting table");
+                        admin.deleteTable(table.getTableName());
                     }
-                    log.info("Deleting table");
-                    admin.deleteTable(table.getTableName());
-                }
-                else
-                {
-                    log.info("No table named " + new String(table.getTableName()) + " exists");
+                    else
+                    {
+                        log.info("No table named " + new String(table.getTableName()) + " exists");
+                    }
                 }
             }
+            catch (IOException e)
+            {
+                addError("Problem deleting table " + getTableName(), e);
+            }
         }
-        catch (IOException e)
-        {
-            addError("Problem deleting table " + getTableName(), e);
-        }
-
     }
 }
