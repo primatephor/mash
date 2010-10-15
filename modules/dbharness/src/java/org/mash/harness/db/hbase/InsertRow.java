@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * @author: teastlack
@@ -26,7 +27,6 @@ public class InsertRow extends HBaseHarness implements SetupHarness
     {
         HBaseAdmin admin = getAdmin();
         HTable table = getTable();
-
         try
         {
             if (!hasErrors())
@@ -56,7 +56,7 @@ public class InsertRow extends HBaseHarness implements SetupHarness
                 }
             }
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             addError("Problem inserting row into table " + getTableName(), e);
         }
