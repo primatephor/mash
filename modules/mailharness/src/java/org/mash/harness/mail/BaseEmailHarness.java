@@ -29,7 +29,8 @@ import java.util.Properties;
 public class BaseEmailHarness extends BaseHarness
 {
     private static final Logger log = Logger.getLogger(BaseEmailHarness.class.getName());
-    private String smtpServer;
+    private String mailServer;
+    private int mailPort = -1;
     private String user;
     private String password;
     private String folderName = "INBOX";
@@ -48,7 +49,14 @@ public class BaseEmailHarness extends BaseHarness
                 mailSession.setDebug(true);
             }
             store = mailSession.getStore(protocol);
-            store.connect(getSmtpServer(), getUser(), getPassword());
+            if (mailPort > 0)
+            {
+                store.connect(getMailServer(), mailPort, getUser(), getPassword());
+            }
+            else
+            {
+                store.connect(getMailServer(), getUser(), getPassword());
+            }
         }
         return store;
     }
@@ -85,10 +93,17 @@ public class BaseEmailHarness extends BaseHarness
         this.protocol = protocol;
     }
 
-    @HarnessConfiguration(name = "smtp_server")
-    public void setSmtpServer(String smtpServer)
+    @HarnessConfiguration(name = "mail_server")
+    public void setMailServer(String mailServer)
     {
-        this.smtpServer = smtpServer;
+        String serverString = mailServer;
+        int portIndex = serverString.lastIndexOf(':');
+        if (portIndex > 0)
+        {
+            mailPort = Integer.valueOf(serverString.substring(portIndex + 1));
+            serverString = serverString.substring(0, portIndex);
+        }
+        this.mailServer = serverString;
     }
 
     @HarnessConfiguration(name = "user")
@@ -119,8 +134,8 @@ public class BaseEmailHarness extends BaseHarness
         return user;
     }
 
-    public String getSmtpServer()
+    public String getMailServer()
     {
-        return smtpServer;
+        return mailServer;
     }
 }
