@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
  * <p/>
  * Configurations:
  * <ul>
+ * <li>protocol (imap, imaps, pop, etc)</li>
  * <li>smtp_server (the email server url)</li>
  * <li>user (the db username)</li>
  * <li>password (the db password)</li>
@@ -31,9 +32,9 @@ import javax.mail.MessagingException;
  * @author teastlack
  * @since Jul 23, 2010 5:09:47 PM
  */
-public class IMAPSetupHarness extends IMAPEmailHarness implements SetupHarness
+public class EmailSetupHarness extends BaseEmailHarness implements SetupHarness
 {
-    private static final Logger log = Logger.getLogger(IMAPSetupHarness.class.getName());
+    private static final Logger log = Logger.getLogger(EmailSetupHarness.class.getName());
     private String emailAddress;
     private Action action;
 

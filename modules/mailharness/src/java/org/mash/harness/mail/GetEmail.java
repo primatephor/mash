@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Configurations:
  * <ul>
+ * <li>protocol (imap, pop3, etc)</li>
  * <li>smtp_server (the email server url)</li>
  * <li>user (the db username)</li>
  * <li>password (the db password)</li>
@@ -34,9 +35,9 @@ import java.util.List;
  * @author teastlack
  * @since Jul 23, 2010 5:09:07 PM
  */
-public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
+public class GetEmail extends BaseEmailHarness implements RunHarness
 {
-    private static final Logger log = Logger.getLogger(GetIMAPEmail.class.getName());
+    private static final Logger log = Logger.getLogger(GetEmail.class.getName());
 
     private int messageNumber = 1;
     private String address;
@@ -46,7 +47,7 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
     public void run(List<RunHarness> previous,
                     List<SetupHarness> setups)
     {
-        log.info("Running GetIMAPEmail");
+        log.info("Running GetEmail");
         try
         {
             Folder folder = getFolder();
