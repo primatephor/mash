@@ -6,7 +6,6 @@ import org.mash.loader.HarnessConfiguration;
 
 import javax.mail.Folder;
 import javax.mail.MessagingException;
-import javax.mail.Provider;
 import javax.mail.Session;
 import javax.mail.Store;
 import java.util.Properties;
@@ -16,6 +15,7 @@ import java.util.Properties;
  * <p/>
  * Configurations:
  * <ul>
+ * <li>protocol (imap, imaps, pop, etc)</li>
  * <li>smtp_server (the email server url)</li>
  * <li>user (the db username)</li>
  * <li>password (the db password)</li>
@@ -26,18 +26,14 @@ import java.util.Properties;
  * @author teastlack
  * @since Jul 23, 2010 5:10:33 PM
  */
-public class IMAPEmailHarness extends BaseHarness
+public class BaseEmailHarness extends BaseHarness
 {
-    private static final Logger log = Logger.getLogger(IMAPEmailHarness.class.getName());
+    private static final Logger log = Logger.getLogger(BaseEmailHarness.class.getName());
     private String smtpServer;
     private String user;
     private String password;
     private String folderName = "INBOX";
-    private Provider provider = new Provider(Provider.Type.STORE,
-                                             "imap",
-                                             "com.sun.mail.imap.IMAPStore",
-                                             "Sun Microsystems, Inc",
-                                             "");
+    private String protocol = "imap";
 
     private Store store;
     private Folder folder;
@@ -51,7 +47,7 @@ public class IMAPEmailHarness extends BaseHarness
             {
                 mailSession.setDebug(true);
             }
-            store = mailSession.getStore(provider);
+            store = mailSession.getStore(protocol);
             store.connect(getSmtpServer(), getUser(), getPassword());
         }
         return store;
@@ -81,6 +77,12 @@ public class IMAPEmailHarness extends BaseHarness
         {
             store.close();
         }
+    }
+
+    @HarnessConfiguration(name = "protocol")
+    public void setProtocol(String protocol)
+    {
+        this.protocol = protocol;
     }
 
     @HarnessConfiguration(name = "smtp_server")

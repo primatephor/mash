@@ -17,7 +17,7 @@ public class TestIMAPSetup extends TestCase
         FolderTester folder = new FolderTester();
         folder.addMessage(buildMessage("subject1", "content1"));
         folder.addMessage(buildMessage("subject2", "content2"));
-        MyIMAPSetup myIMAPSetup = new MyIMAPSetup(folder);
+        MyEmailSetup myIMAPSetup = new MyEmailSetup(folder);
         myIMAPSetup.setup();
         assertEquals(false, folder.getMessage(1).isExpunged());
         myIMAPSetup.setAction("CLEAN");
@@ -35,7 +35,7 @@ public class TestIMAPSetup extends TestCase
         folder.addMessage(buildMessage("subject3", "content3"));
         folder.getMessage(2).addRecipient(null, new AddressTester("rep3@somewhere.com"));
 
-        MyIMAPSetup myIMAPSetup = new MyIMAPSetup(folder);
+        MyEmailSetup myIMAPSetup = new MyEmailSetup(folder);
         myIMAPSetup.setup();
         myIMAPSetup.setAction("CLEAN");
         myIMAPSetup.setEmailAddress("rep3@somewhere.com");
@@ -61,11 +61,11 @@ public class TestIMAPSetup extends TestCase
         return message;
     }
 
-    private class MyIMAPSetup extends IMAPSetupHarness
+    private class MyEmailSetup extends EmailSetupHarness
     {
         private FolderTester folder;
 
-        private MyIMAPSetup(FolderTester folder)
+        private MyEmailSetup(FolderTester folder)
         {
             this.folder = folder;
         }
