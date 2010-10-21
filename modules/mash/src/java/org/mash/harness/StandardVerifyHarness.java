@@ -11,11 +11,11 @@ import java.util.List;
  * Verify each parameter name/value pair exists within the given response.
  * <p/>
  * Setup information about containment is evaluated.
- *
+ * <p/>
  * Multiple 'contains' configurations can be supplied, and the result will be checked for each
  * to ensure that it contains the value specified.  This is not a parameter as there may be a
  * parameter named 'contains' and as a configuration the harness can control that.
- *
+ * <p/>
  * Configurations:
  * <ul>
  * <li> 'contains' will look for any value supplied in this config in the response </li>
@@ -31,10 +31,14 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
     private List<String> containment;
     private Boolean validateSpaces = false;
 
-    public void verify(RunHarness run, List<SetupHarness> setup)
+    public void verify(RunHarness run,
+                       List<SetupHarness> setup)
     {
-        log.debug("Verifying parameters");
         RunResponse response = run.getResponse();
+        if (log.isDebugEnabled())
+        {
+            log.debug("Verifying response :" + response.toString());
+        }
 
         if (response != null)
         {
@@ -99,12 +103,14 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         }
     }
 
-    private void addError(String parameterName, String expected, String actual)
+    private void addError(String parameterName,
+                          String expected,
+                          String actual)
     {
         getErrors().add(new HarnessError(this, "Verify",
                                          "Parameter " + parameterName +
-                                         " Expected:'" + expected +
-                                         "' but was '" + actual + "'"));
+                                                 " Expected:'" + expected +
+                                                 "' but was '" + actual + "'"));
     }
 
     @HarnessConfiguration(name = "contains")

@@ -154,4 +154,13 @@ public class HttpResponse implements RunResponse
     {
         return webPage;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuffer result = new StringBuffer();
+        result.append("Status:").append(this.webPage.getWebResponse().getStatusCode()).append("\n");
+        result.append("Content:").append(this.webPage.getTextContent()).append("\n");
+        return result.toString();
+    }
 }

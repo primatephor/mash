@@ -1,6 +1,7 @@
 package org.mash.harness.mail;
 
 import org.mash.harness.RawResponse;
+import org.mash.tool.StringUtil;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -17,10 +18,12 @@ public class EmailResponse extends RawResponse
     private List<String> recipients;
     private List<String> sender;
     private int count;
+    private String content;
 
     public EmailResponse(Message email, int messageCount) throws Exception
     {
         super(stringValue(email.getContent()));
+        this.content = email.getContent().toString();
         this.count = messageCount;
         this.subject = email.getSubject();
         recipients = new ArrayList<String>();
@@ -63,5 +66,16 @@ public class EmailResponse extends RawResponse
     public int getCount()
     {
         return count;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("To:").append(StringUtil.toString(this.recipients)).append("\n");
+        buffer.append("From:").append(StringUtil.toString(this.sender)).append("\n");
+        buffer.append("Subject:").append(this.subject).append("\n");
+        buffer.append("Content:").append(this.content).append("\n");
+        return buffer.toString();
     }
 }

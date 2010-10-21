@@ -64,23 +64,30 @@ public class GetEmail extends BaseEmailHarness implements RunHarness
             {
                 log.info("Looking for address " + address);
                 int addyCount = 1;
-                for (Message check : folder.getMessages())
+                Message[] toCheck = folder.getMessages();
+                if (toCheck != null)
                 {
-                    if (isValid(check))
+                    for (Message check : toCheck)
                     {
-                        log.debug("Checking message for " + address);
-                        if (messageNumber == addyCount)
+                        if (isValid(check))
                         {
-                            log.debug("Found the message");
-                            message = check;
+                            if (messageNumber == addyCount)
+                            {
+                                message = check;
+                            }
+                            addyCount++;
+                            totalMessages++;
                         }
-                        addyCount++;
-                        totalMessages++;
                     }
+                }
+                else
+                {
+                    log.warn("No messages in folder " + folder.getFullName());
                 }
             }
             if (message != null)
             {
+                log.info("Found the message with subject:" + message.getSubject());
                 response = new EmailResponse(message, totalMessages);
             }
             close();
@@ -109,6 +116,8 @@ public class GetEmail extends BaseEmailHarness implements RunHarness
             {
                 if (!subject.equalsIgnoreCase(message.getSubject()))
                 {
+                    log.debug("subject '" + message.getSubject() +
+                            "' does not equal expected subject '" + subject + "'");
                     result = false;
                 }
             }

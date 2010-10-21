@@ -38,4 +38,18 @@ public class FileRefResponse extends OGNLResponse
     {
         return theFile;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer();
+        if(this.theFile != null)
+        {
+            buffer.append("File:").append(theFile.getAbsolutePath()).append("\n");
+            buffer.append("Size:").append(theFile.getTotalSpace()).append("\n");
+            buffer.append("Read:").append(theFile.canRead()).append("\n");
+            buffer.append("Write").append(theFile.canWrite()).append("\n");
+        }
+        return buffer.toString();
+    }
 }
