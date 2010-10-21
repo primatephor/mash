@@ -1,5 +1,7 @@
 package org.mash.harness;
 
+import org.mash.tool.StringUtil;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,19 +49,18 @@ public class RawResponse implements RunResponse
 
     public String getString()
     {
-        StringBuffer buffer = new StringBuffer();
+        String result = null;
         if (results != null)
         {
-            for (int i = 0; i < results.length; i++)
-            {
-                buffer.append(results[i]);
-                if(i+1 < results.length)
-                {
-                    buffer.append("\n");
-                }
-            }
+            result = StringUtil.toString(results);
         }
-        return buffer.toString();
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        return getString();
     }
 }
 

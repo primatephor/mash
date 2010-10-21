@@ -1,20 +1,21 @@
 package org.mash.harness.db;
 
-import org.mash.harness.ListRunResponse;
 import org.apache.log4j.Logger;
+import org.mash.harness.ListRunResponse;
+import org.mash.tool.StringUtil;
 
-import java.util.Collection;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DB results analyze the result set of the db invocation.  This only works with supplied column names.
@@ -128,17 +129,8 @@ public class DBResult implements ListRunResponse
 
     public String getString()
     {
-        StringBuffer response = new StringBuffer();
         Iterator<String> iter = getValues().iterator();
-        while (iter.hasNext())
-        {
-            response.append(iter.next());
-            if (iter.hasNext())
-            {
-                response.append(", ");
-            }
-        }
-        return response.toString();
+        return StringUtil.toString(iter);
     }
 
     public int getRowNumber()
@@ -168,5 +160,11 @@ public class DBResult implements ListRunResponse
         {
             getData().put(name, s);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return getString();
     }
 }

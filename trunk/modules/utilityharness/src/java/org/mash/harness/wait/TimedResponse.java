@@ -6,10 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- *
  * @author teastlack
  * @since Sep 28, 2009 12:17:46 PM
- *
  */
 public class TimedResponse implements RunResponse
 {
@@ -38,5 +36,11 @@ public class TimedResponse implements RunResponse
     public String getString()
     {
         return waitTime.toString();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Wait Time:" + getString();
     }
 }

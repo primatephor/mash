@@ -63,4 +63,10 @@ public class XmlResponse implements RunResponse
         }
         return accessor;
     }
+
+    @Override
+    public String toString()
+    {
+        return getString();
+    }
 }

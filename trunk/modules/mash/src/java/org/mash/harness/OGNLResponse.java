@@ -72,4 +72,10 @@ public class OGNLResponse implements RunResponse
     {
         return access.toString();
     }
+
+    @Override
+    public String toString()
+    {
+        return getString();
+    }
 }

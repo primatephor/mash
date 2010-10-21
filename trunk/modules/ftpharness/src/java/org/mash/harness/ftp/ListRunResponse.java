@@ -2,6 +2,7 @@ package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.mash.harness.RunResponse;
+import org.mash.tool.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,5 +84,11 @@ public class ListRunResponse implements RunResponse
         {
             return o1.compareTo(o2);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return StringUtil.toString(getValues());
     }
 }
