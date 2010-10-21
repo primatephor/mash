@@ -40,6 +40,7 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
 
     private int messageNumber = 1;
     private String address;
+    private String subject;
     private EmailResponse response;
 
     public void run(List<RunHarness> previous,
@@ -64,7 +65,7 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
                 int addyCount = 1;
                 for (Message check : folder.getMessages())
                 {
-                    if (isValidAddress(check))
+                    if (isValid(check))
                     {
                         log.debug("Checking message for " + address);
                         if (messageNumber == addyCount)
@@ -90,7 +91,7 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
         }
     }
 
-    private boolean isValidAddress(Message message) throws MessagingException
+    protected boolean isValid(Message message) throws MessagingException
     {
         boolean result = false;
         for (Address recipient : message.getAllRecipients())
@@ -99,6 +100,16 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
             {
                 result = true;
                 break;
+            }
+        }
+        if (result)
+        {
+            if (subject != null)
+            {
+                if (!subject.equalsIgnoreCase(message.getSubject()))
+                {
+                    result = false;
+                }
             }
         }
         return result;
@@ -119,5 +130,11 @@ public class GetIMAPEmail extends IMAPEmailHarness implements RunHarness
     public void setAddress(String address)
     {
         this.address = address;
+    }
+
+    @HarnessParameter(name = "subject")
+    public void setSubject(String subject)
+    {
+        this.subject = subject;
     }
 }
