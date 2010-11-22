@@ -1,5 +1,6 @@
 package org.mash.harness.ftp;
 
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Poll an ftp directory of file until that file is present.  Basically just run a 'ls' command on an ftp server
  * at the specified path.  If there are files (or file), then polling is done.
- *
+ * <p/>
  * Configurations:
  * <ul>
  * <li> 'url' is the url to submit to </li>
@@ -22,16 +23,16 @@ import java.util.List;
  * <li> 'timeout' optional time in milliseconds to stop polling (default timeout = 1 minute) </li>
  * <li> 'polltime' optional time in milliseconds to poll remote server (default poll time is 5 seconds) </li>
  * </ul>
- *
+ * <p/>
  * Parameters:
  * <ul>
  * <li> 'path' of file or directory to check </li>
  * <li> 'size' number of files to wait for, default is 1 </li>
+ * <li> 'file_size' expected total size of all files</li>
  * </ul>
  *
  * @author teastlack
  * @since Oct 29, 2009 9:27:24 AM
- *
  */
 public class FTPWaitHarness extends PollingWaitHarness
 {
@@ -42,6 +43,7 @@ public class FTPWaitHarness extends PollingWaitHarness
     private String url;
     private String path;
     private Integer size = 1;
+    private Long fileSize;
 
     private ListHarness run;
 
@@ -53,10 +55,21 @@ public class FTPWaitHarness extends PollingWaitHarness
         ListRunResponse listResponse = (ListRunResponse) run.getResponse();
         if (listResponse != null)
         {
-            log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
-            if (listResponse.getFiles().size() >= size)
+            if (fileSize != null)
             {
-                result = true;
+                long totalSize = 0;
+                for (FTPFile file : listResponse.getFiles().values())
+                {
+                    totalSize += file.getSize();
+                }
+                log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
+                log.info("Found " + totalSize + " bytes, waiting for " + fileSize);
+                result = listResponse.getFiles().size() >= size && totalSize >= fileSize;
+            }
+            else
+            {
+                log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
+                result = listResponse.getFiles().size() >= size;
             }
         }
         else
@@ -129,5 +142,11 @@ public class FTPWaitHarness extends PollingWaitHarness
     public void setSize(String size)
     {
         this.size = Integer.valueOf(size);
+    }
+
+    @HarnessParameter(name = "file_size")
+    public void setFileSize(String fileSize)
+    {
+        this.fileSize = Long.valueOf(fileSize);
     }
 }
