@@ -75,6 +75,7 @@ public class EmailSetupHarness extends BaseEmailHarness implements SetupHarness
                     log.info("Not cleaning message:" + message.getSubject() + " for users:" + recips);
                 }
             }
+            folder.expunge();
         }
         close();
     }
