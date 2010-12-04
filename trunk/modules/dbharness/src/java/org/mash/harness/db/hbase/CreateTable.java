@@ -1,7 +1,6 @@
 package org.mash.harness.db.hbase;
 
 import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.log4j.Logger;
@@ -30,23 +29,22 @@ public class CreateTable extends HBaseHarness implements SetupHarness
     {
 
         HBaseAdmin admin = getAdmin();
-        HTable table = getTable();
         try
         {
             if (!hasErrors())
             {
-                if (admin.tableExists(table.getTableName()))
+                if (admin.tableExists(getTableName()))
                 {
-                    log.info("Table " + new String(table.getTableName()) + "already exists");
-                    if (!admin.isTableEnabled(table.getTableName()))
+                    log.info("Table " + getTableName() + "already exists");
+                    if (!admin.isTableEnabled(getTableName()))
                     {
-                        log.info("Enabling table " + new String(table.getTableName()));
-                        admin.enableTable(table.getTableName());
+                        log.info("Enabling table " + getTableName());
+                        admin.enableTable(getTableName());
                     }
                 }
                 else
                 {
-                    HTableDescriptor desc = new HTableDescriptor(table.getTableName());
+                    HTableDescriptor desc = new HTableDescriptor(getTableName());
                     for (String family : families)
                     {
                         log.info("Adding family " + family);
@@ -62,13 +60,6 @@ public class CreateTable extends HBaseHarness implements SetupHarness
             addError("Problem creating table " + getTableName(), e);
         }
     }
-
-    @HarnessParameter(name = "table")
-    public void setTable(String table)
-    {
-        super.setTable(table);
-    }
-
 
     @HarnessParameter(name = "family")
     public void addFamily(String family)

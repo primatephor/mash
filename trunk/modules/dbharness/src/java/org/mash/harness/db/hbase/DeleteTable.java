@@ -1,8 +1,7 @@
 package org.mash.harness.db.hbase;
 
 import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.HTable;
-import org.apache.hadoop.hbase.MasterNotRunningException;
+import org.apache.hadoop.hbase.TableNotFoundException;
 import org.apache.log4j.Logger;
 import org.mash.harness.SetupHarness;
 
@@ -22,27 +21,29 @@ public class DeleteTable extends HBaseHarness implements SetupHarness
         HBaseAdmin admin = getAdmin();
         if (admin != null)
         {
-            HTable table;
             try
             {
-                table = getTable();
                 if (!hasErrors())
                 {
-                    if (admin.tableExists(table.getTableName()))
+                    if (admin.tableExists(getTableName()))
                     {
-                        if (!admin.isTableEnabled(table.getTableName()))
+                        if (admin.isTableEnabled(getTableName()))
                         {
                             log.info("Disabling table");
-                            admin.disableTable(table.getTableName());
+                            admin.disableTable(getTableName());
                         }
                         log.info("Deleting table");
-                        admin.deleteTable(table.getTableName());
+                        admin.deleteTable(getTableName());
                     }
                     else
                     {
-                        log.info("No table named " + new String(table.getTableName()) + " exists");
+                        log.info("No table named " + getTableName() + " exists");
                     }
                 }
+            }
+            catch (TableNotFoundException e)
+            {
+                log.info("Table already deleted");
             }
             catch (IOException e)
             {
