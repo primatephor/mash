@@ -26,13 +26,13 @@ public class InsertRow extends HBaseHarness implements SetupHarness
     public void setup()
     {
         HBaseAdmin admin = getAdmin();
-        HTable table = getTable();
         try
         {
             if (!hasErrors())
             {
-                if (admin.tableExists(table.getTableName()))
+                if (admin.tableExists(getTableName()))
                 {
+                    HTable table = getTable();                    
                     if (key != null)
                     {
                         Put put = new Put(Bytes.toBytes(key));

@@ -6,9 +6,15 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.log4j.Logger;
 import org.mash.loader.HarnessParameter;
+import org.mash.loader.HarnessConfiguration;
 import org.mash.harness.BaseHarness;
+import org.mash.file.FileLoader;
+import org.mash.file.FileReaderException;
 
 import java.io.IOException;
+import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author: teastlack
@@ -18,6 +24,7 @@ public class HBaseHarness extends BaseHarness
 {
     private static final Logger log = Logger.getLogger(HBaseHarness.class.getName());
     private String tableName;
+    private List<String> siteConfigs;
 
     private HBaseAdmin admin;
     private HTable table;
@@ -33,6 +40,20 @@ public class HBaseHarness extends BaseHarness
         if (config == null)
         {
             config = new HBaseConfiguration();
+            FileLoader loader = new FileLoader();
+            try
+            {
+                for (String siteConfig : siteConfigs)
+                {
+                    File siteFileConfig = loader.findFile(siteConfig, getDefinition().getScriptDefinition().getPath());
+                    log.info("Adding site config " + siteFileConfig.getAbsolutePath());
+                    config.addResource(siteFileConfig.getAbsolutePath());
+                }
+            }
+            catch (FileReaderException e)
+            {
+                addError("Unable to find site file " + siteConfigs, e);
+            }
         }
         return config;
     }
@@ -53,7 +74,7 @@ public class HBaseHarness extends BaseHarness
         return admin;
     }
 
-    public HTable getTable()
+    public HTable getTable() throws IOException
     {
         if (table == null && !hasErrors())
         {
@@ -61,18 +82,15 @@ public class HBaseHarness extends BaseHarness
             {
                 addError("'table' parameter not set", "You must specify a table to setup");
             }
+            if (siteConfigs == null)
+            {
+                addError("'site_config' configuration not set", "You must specify a site config file (hbase-site.xml) to setup");
+            }
 
             if (!hasErrors())
             {
-                log.info("Running setup on " + table);
-                try
-                {
-                    table = new HTable(getConfig(), tableName);
-                }
-                catch (IOException e)
-                {
-                    addError("Problem creating table connection " + tableName, e);
-                }
+                log.info("Running setup on " + tableName);
+                table = new HTable(getConfig(), tableName);
             }
         }
         return table;
@@ -82,5 +100,15 @@ public class HBaseHarness extends BaseHarness
     public void setTable(String table)
     {
         this.tableName = table;
+    }
+
+    @HarnessConfiguration(name = "site_config")
+    public void setSiteConfigs(String siteConfigs)
+    {
+        if (this.siteConfigs == null)
+        {
+            this.siteConfigs = new ArrayList<String>();
+        }
+        this.siteConfigs.add(siteConfigs);
     }
 }

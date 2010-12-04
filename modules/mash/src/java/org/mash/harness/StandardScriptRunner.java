@@ -91,14 +91,14 @@ public class StandardScriptRunner implements ScriptRunner
                 {
                     HarnessDefinition harnessDefinition = (HarnessDefinition) current;
                     harnessDefinition.setScriptDefinition(definition);
-                    log.info("Configuring " + harnessDefinition.getName());
+                    log.info("Configuring '" + harnessDefinition.getName() + "'");
                     Harness toAdd = builder.buildHarness(harnessDefinition);
                     if (toAdd instanceof SetupHarness)
                     {
                         getSetupHarnesses().add((SetupHarness) toAdd);
                     }
                     results.add(toAdd);
-                    log.trace("Done configuring " + harnessDefinition.getName());
+                    log.trace("Done configuring '" + harnessDefinition.getName() + "'");
                 }
                 else if (current instanceof ScriptDefinition)
                 {
