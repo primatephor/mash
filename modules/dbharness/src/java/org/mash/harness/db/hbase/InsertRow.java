@@ -32,7 +32,7 @@ public class InsertRow extends HBaseHarness implements SetupHarness
             {
                 if (admin.tableExists(getTableName()))
                 {
-                    HTable table = getTable();                    
+                    HTable table = getTable();
                     if (key != null)
                     {
                         Put put = new Put(Bytes.toBytes(key));
@@ -40,8 +40,14 @@ public class InsertRow extends HBaseHarness implements SetupHarness
                         {
                             byte[] family = Bytes.toBytes(entry.getFamily());
                             byte[] column = Bytes.toBytes(entry.getColumn());
-                            put.add(family, column, Bytes.toBytes(entry.getValue()));
+
                             log.debug("Inserting " + key + ", " + entry);
+                            byte[] value = new byte[]{};
+                            if (entry.getValue() != null)
+                            {
+                                value = Bytes.toBytes(entry.getValue());
+                            }
+                            put.add(family, column, value);
                         }
                         table.put(put);
                     }
@@ -87,56 +93,5 @@ public class InsertRow extends HBaseHarness implements SetupHarness
     public void setEntries(String entry)
     {
         getEntries().add(new Entry(entry));
-    }
-
-    public class Entry
-    {
-        private String family;
-        private String column;
-        private String value;
-
-        private Entry(String entry)
-        {
-            int familyEndIndex = entry.indexOf(':');
-            if (familyEndIndex >= 0)
-            {
-                family = entry.substring(0, familyEndIndex);
-                entry = entry.substring(familyEndIndex + 1);
-            }
-            int columnEndIndex = entry.indexOf('=');
-            if (columnEndIndex >= 0)
-            {
-                column = entry.substring(0, columnEndIndex);
-                value = entry.substring(columnEndIndex + 1);
-            }
-            else
-            {
-                column = entry;
-            }
-        }
-
-        public String getFamily()
-        {
-            return family;
-        }
-
-        public String getColumn()
-        {
-            return column;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-
-        public String toString()
-        {
-            StringBuffer buffer = new StringBuffer();
-            buffer.append("Family=").append(getFamily()).append(",");
-            buffer.append("Column=").append(getColumn()).append(",");
-            buffer.append("Value=").append(getValue());
-            return buffer.toString();
-        }
     }
 }
