@@ -1,6 +1,9 @@
 package org.mash.harness.db.hbase;
 
 /**
+ * Column families, qualifiers, and values are needed enough to warrant breaking out a class to
+ * handle that work.  Follows the format 'family:qualifier=value'
+ *
  * @author: teastlack
  * @since: Dec 5, 2010
  */
