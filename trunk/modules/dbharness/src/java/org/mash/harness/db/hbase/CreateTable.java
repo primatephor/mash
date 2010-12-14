@@ -12,6 +12,21 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 /**
+ * Create an HBase table.
+ * <p/>
+ * Necessary configurations are
+ * <ul>
+ * <li>site_config (relative path to config file(s), like hbase-site.xml).  Multiple site configs
+ *     are allowed, just add more than one site config and all will be added as a resource</li>
+ * </ul>
+ * <p/>
+ *
+ * Parameters are:
+ * <ul>
+ * <li>table (name of table to create)</li>
+ * <li>family (families to be added to the table).  More than one family is allowed.</li>
+ * </ul>
+ *
  * @author: teastlack
  * @since: Sep 11, 2010
  */
