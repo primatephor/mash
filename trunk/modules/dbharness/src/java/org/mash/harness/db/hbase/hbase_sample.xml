@@ -36,7 +36,7 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>key</Value>
         </Parameter>
         <Parameter name="family">
-            <Value>data</Value>
+            <Value>address</Value>
         </Parameter>
         <Parameter name="family">
             <Value>i_zip</Value>
@@ -68,22 +68,22 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>001</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:firstname=bob</Value>
+            <Value>address:firstname=bob</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:lastname=squarepants</Value>
+            <Value>address:lastname=squarepants</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:street1=123 main</Value>
+            <Value>address:street1=123 main</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:city=San Francisco</Value>
+            <Value>address:city=San Francisco</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:state=CA</Value>
+            <Value>address:state=CA</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:zip=12345</Value>
+            <Value>address:zip=12345</Value>
         </Parameter>
         <Parameter name="entry">
             <Value>i_zip:12345</Value>
@@ -112,25 +112,25 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>002</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:firstname=patrick</Value>
+            <Value>address:firstname=patrick</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:lastname=star</Value>
+            <Value>address:lastname=star</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:street1=321 main</Value>
+            <Value>address:street1=321 main</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:city=San Francisco</Value>
+            <Value>address:city=San Francisco</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:state=CA</Value>
+            <Value>address:state=CA</Value>
         </Parameter>
         <Parameter name="entry">
             <Value>i_zip:98765</Value>
         </Parameter>
         <Parameter name="entry">
-            <Value>data:zip=98765</Value>
+            <Value>address:zip=98765</Value>
         </Parameter>
         <Parameter name="entry">
             <Value>auth:user=pats</Value>
@@ -164,7 +164,7 @@ this has been tested as is with a simple pseudo-distributed cluster
     <Verify type="org.mash.harness.ListVerifyHarness" name="get by key">
         <Configuration name="expected_size"><Value>1</Value></Configuration>
         <Configuration name="element_number"><Value>0</Value></Configuration>
-        <Parameter name="data:firstname"><Value>bob</Value></Parameter>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
     </Verify>
 
 
@@ -185,18 +185,18 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>dataset</Value>
         </Configuration>
         <Parameter name="column">
-            <Value>data</Value>
+            <Value>address</Value>
         </Parameter>
     </Run>
     <Verify type="org.mash.harness.ListVerifyHarness" name="verify first">
         <Configuration name="expected_size"><Value>2</Value></Configuration>
         <Configuration name="element_number"><Value>0</Value></Configuration>
-        <Parameter name="data:firstname"><Value>bob</Value></Parameter>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
     </Verify>
     <Verify type="org.mash.harness.ListVerifyHarness" name="verify second">
         <Configuration name="expected_size"><Value>2</Value></Configuration>
         <Configuration name="element_number"><Value>1</Value></Configuration>
-        <Parameter name="data:firstname"><Value>patrick</Value></Parameter>
+        <Parameter name="address:firstname"><Value>patrick</Value></Parameter>
     </Verify>
 
 
@@ -217,25 +217,25 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>dataset</Value>
         </Configuration>
         <Parameter name="column">
-            <Value>data:state</Value>
+            <Value>address:state</Value>
         </Parameter>
         <Parameter name="column">
-            <Value>data:zip</Value>
+            <Value>address:zip</Value>
         </Parameter>
     </Run>
     <Verify type="org.mash.harness.ListVerifyHarness" name="verify first">
         <Configuration name="expected_size"><Value>2</Value></Configuration>
         <Configuration name="element_number"><Value>0</Value></Configuration>
-        <Parameter name="data:state"><Value>CA</Value></Parameter>
-        <Parameter name="data:zip"><Value>12345</Value></Parameter>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>12345</Value></Parameter>
         <!-- only gets specified column -->
-        <Parameter name="data:firstname"><Value/></Parameter>
+        <Parameter name="address:firstname"><Value/></Parameter>
     </Verify>
     <Verify type="org.mash.harness.ListVerifyHarness" name="verify second">
         <Configuration name="expected_size"><Value>2</Value></Configuration>
         <Configuration name="element_number"><Value>1</Value></Configuration>
-        <Parameter name="data:state"><Value>CA</Value></Parameter>
-        <Parameter name="data:zip"><Value>98765</Value></Parameter>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>98765</Value></Parameter>
     </Verify>
 
 
@@ -256,18 +256,18 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>dataset</Value>
         </Configuration>
         <Parameter name="filter">
-            <Value>data:zip=12345</Value>
+            <Value>address:zip=12345</Value>
         </Parameter>
         <Parameter name="column">
-            <Value>data</Value>
+            <Value>address</Value>
         </Parameter>
     </Run>
     <Verify type="org.mash.harness.ListVerifyHarness" name="verify index">
         <Configuration name="expected_size"><Value>1</Value></Configuration>
         <Configuration name="element_number"><Value>0</Value></Configuration>
-        <Parameter name="data:state"><Value>CA</Value></Parameter>
-        <Parameter name="data:zip"><Value>12345</Value></Parameter>
-        <Parameter name="data:firstname"><Value>bob</Value></Parameter>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>12345</Value></Parameter>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
     </Verify>
 
     <!--
@@ -287,20 +287,20 @@ this has been tested as is with a simple pseudo-distributed cluster
             <Value>dataset</Value>
         </Configuration>
         <Parameter name="filter">
-            <Value>data:zip=40000</Value>
+            <Value>address:zip=40000</Value>
         </Parameter>
         <Parameter name="compare_operation">
             <Value>LESS</Value>
         </Parameter>
         <Parameter name="column">
-            <Value>data</Value>
+            <Value>address</Value>
         </Parameter>
     </Run>
     <Verify type="org.mash.harness.ListVerifyHarness" name="verify index">
         <Configuration name="expected_size"><Value>1</Value></Configuration>
         <Configuration name="element_number"><Value>0</Value></Configuration>
-        <Parameter name="data:state"><Value>CA</Value></Parameter>
-        <Parameter name="data:zip"><Value>12345</Value></Parameter>
-        <Parameter name="data:firstname"><Value>bob</Value></Parameter>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>12345</Value></Parameter>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
     </Verify>
 </ns1:Script>
