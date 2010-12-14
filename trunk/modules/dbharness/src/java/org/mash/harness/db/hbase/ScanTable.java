@@ -12,29 +12,47 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
 
 /**
+ * Scan an HBase table.
+ * <p/>
+ * Necessary configurations are
+ * <ul>
+ * <li>site_config (relative path to config file(s), like hbase-site.xml).  Multiple site configs
+ *     are allowed, just add more than one site config and all will be added as a resource</li>
+ * <li>table (name of table to insert into)</li>
+ * </ul>
+ * <p/>
+ *
+ * Parameters are one of:
+ * <ul>
+ * <li>key (this is the row key).  Basically a unique id.</li>
+ * <li>column (family and/or qualifier to retrieve).  Format 'family:qualifier'</li>
+ * </ul>
+ *
  * @author: teastlack
  * @since: Dec 5, 2010
  */
 public class ScanTable extends HBaseHarness implements RunHarness
 {
+    private static final Logger log = Logger.getLogger(ScanTable.class.getName());
     //retrieve by key
     private String key;
 
     //or by family:qualifier
-    private String family;
-    private String qualifier;
+    private List<String> columns;
 
     private RunResponse response;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
         HBaseAdmin admin = getAdmin();
+        ResultScanner scanner = null;
         try
         {
             if (!hasErrors())
@@ -48,16 +66,21 @@ public class ScanTable extends HBaseHarness implements RunHarness
                         Result result = table.get(get);
                         response = new HBaseResult(result);
                     }
-                    else if (family != null && qualifier != null)
+                    else if (columns != null && columns.size() > 0)
                     {
-                        Scan s = new Scan();
-                        s.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
-                        ResultScanner scanner = table.getScanner(s);
+                        Scan s = createScan();
+                        for (String column : columns)
+                        {
+                            log.info("Searching for " + column);
+                            s.addColumn(Bytes.toBytes(column));
+                        }
+                        scanner = table.getScanner(s);
                         try
                         {
                             List<Result> scannedResults = new ArrayList<Result>();
                             for (Result scanResult : scanner)
                             {
+                                log.debug("Found row:" + scanResult);
                                 scannedResults.add(scanResult);
                             }
                             response = new HBaseResult(scannedResults);
@@ -82,6 +105,18 @@ public class ScanTable extends HBaseHarness implements RunHarness
         {
             addError("Problem inserting row into table " + getTableName(), e);
         }
+        finally
+        {
+            if (scanner != null)
+            {
+                scanner.close();
+            }
+        }
+    }
+
+    protected Scan createScan()
+    {
+        return new Scan();
     }
 
     public RunResponse getResponse()
@@ -101,15 +136,13 @@ public class ScanTable extends HBaseHarness implements RunHarness
         this.key = key;
     }
 
-    @HarnessParameter(name = "family")
-    public void setFamily(String family)
+    @HarnessParameter(name = "column")
+    public void setFamily(String column)
     {
-        this.family = family;
-    }
-
-    @HarnessParameter(name = "qualifier")
-    public void setQualifier(String qualifier)
-    {
-        this.qualifier = qualifier;
+        if (this.columns == null)
+        {
+            this.columns = new ArrayList<String>();
+        }
+        this.columns.add(column);
     }
 }

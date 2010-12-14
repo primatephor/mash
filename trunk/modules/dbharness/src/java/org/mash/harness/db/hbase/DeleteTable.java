@@ -8,6 +8,20 @@ import org.mash.harness.SetupHarness;
 import java.io.IOException;
 
 /**
+ * Delete an HBase table.  Tabe is disabled first, then deleted.
+ * <p/>
+ * Necessary configurations are
+ * <ul>
+ * <li>site_config (relative path to config file(s), like hbase-site.xml).  Multiple site configs
+ *     are allowed, just add more than one site config and all will be added as a resource</li>
+ * </ul>
+ * <p/>
+ *
+ * Parameters are:
+ * <ul>
+ * <li>table (name of table to delete)</li>
+ * </ul>
+ *
  * @author: teastlack
  * @since: Sep 11, 2010
  */

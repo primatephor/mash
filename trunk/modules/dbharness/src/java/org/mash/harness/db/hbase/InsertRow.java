@@ -14,6 +14,22 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 /**
+ * Insert a row with appropriate data into an HBase table.
+ * <p/>
+ * Necessary configurations are
+ * <ul>
+ * <li>site_config (relative path to config file(s), like hbase-site.xml).  Multiple site configs
+ *     are allowed, just add more than one site config and all will be added as a resource</li>
+ * <li>table (name of table to insert into)</li>
+ * </ul>
+ * <p/>
+ *
+ * Parameters are:
+ * <ul>
+ * <li>key (this is the row key).  Basically a unique id.</li>
+ * <li>entry (a column value).  Has the format 'family:qualifier=value'</li>
+ * </ul>
+ *
  * @author: teastlack
  * @since: Sep 26, 2010
  */

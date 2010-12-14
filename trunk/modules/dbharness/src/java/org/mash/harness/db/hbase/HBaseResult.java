@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 /**
+ * Multiple rows returned from HBase are dealt with here, where the scan results are parsed one at a
+ * time and values are compared to each one.
+ * 
  * @author: teastlack
  * @since: Dec 5, 2010
  */

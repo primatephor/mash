@@ -17,6 +17,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
+ * Common configurations and admin access for HBase is supplied with this entity.  Site comfigs are
+ * supplied as a list, and each one added as a resource to the configuration.
+ *
+ * Extending classes then use this data to retrieve the relevant HBaseAdmin, allowing specific work
+ * to take over.
+ *
  * @author: teastlack
  * @since: Sep 26, 2010
  */
