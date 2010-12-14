@@ -6,14 +6,22 @@
 This is the list of supplied harnesses.  To build your own, check out DevelopingHarnesses.
 
 
-= DB =
- * {{{DBHarness.jar}}}
+= Relational DB =
+ * {{{mash-dbharness.jar}}}
   * [DBSetupHarness] (uses dbunit, runs sql)
   * [RowRunHarness] (runs a 'select `*`' on a table)
   * [SQLRunHarness] (run any sql)
 
+= HBase DB =
+ * {{{mash-dbharness.jar}}}
+  * [CreateTable] (creates hbase table)
+  * [InsertRow] (insert hbase row)
+  * [DeleteTable] (remove hbase table)
+  * [ScanTable] (scan an hbase table for relevant rows / columns)
+  * [ValueFilterScanTable] (filter a scan result)
+
 = Ftp =
- * {{{FtpHarness.jar}}}
+ * {{{mash_ftpharness.jar}}}
   * [FtpRunHarness FTPRunHarness] (invokes ftp requests)
   * GetHarness (gets a file)
   * ListHarness (lists files)
@@ -24,34 +32,34 @@ This is the list of supplied harnesses.  To build your own, check out Developing
    * check path (file or directory) and wait until it exists
 
 = Http =
- * {{{HttpHarness.jar}}}
+ * {{{mash_httpharness.jar}}}
   * HttpRunHarness (invokes http requests)
   * HttpVerifyHarness
 
 = Email =
- * {{{MailHarness.jar}}}
+ * {{{mash_mailharness.jar}}}
   * [GetIMAPEmail] (email client for retrieving messages)
   * [IMAPSetupHarness] (cleaning out an inbox before testing)
 
 = REST =
- * {{{HttpHarness.jar}}}
+ * {{{mash_httpharness.jar}}}
   * RestRunHarness (invokes http requests in a restful manner)
   * RestResponse (for running xpath queries)
 
 = Messaging =
- * {{{MessageHarness.jar}}}
+ * {{{mash_messageharness.jar}}}
   * [XmlJMSHarness] (send and receive xml files on JMS queue)
   * [TextJMSHarness] (send and receive text files on JMS queue)
   * [ObjectJMSHarness] (receive Java objects from JMS queue)
   * [JMSSetupHarness] (clean a queue)
 
 = Core =
- * {{{mash.jar}}}
+ * {{{mash_core.jar}}}
   * StandardVerifyHarness
   * ListVerifyHarness
 
 = Utilities =
- * {{{UtilityHarness.jar}}}
+ * {{{mash_utilityharness.jar}}}
   * TimedWaitRunHarness
 
 = Teardown =
