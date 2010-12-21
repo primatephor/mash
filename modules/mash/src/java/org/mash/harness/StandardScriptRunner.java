@@ -14,6 +14,8 @@ import org.mash.tool.ErrorHandler;
 import org.mash.tool.StringUtil;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +51,16 @@ public class StandardScriptRunner implements ScriptRunner
 
         String fileName = args[0];
         log.info("Running script " + fileName);
+
+        if (log.isTraceEnabled())
+        {
+            ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
+            URL[] urls = ((URLClassLoader) sysClassLoader).getURLs();
+            for (URL url : urls)
+            {
+                log.trace("classpath:" + url.getFile());
+            }
+        }
         StandardScriptRunner runner = new StandardScriptRunner();
         ScriptDefinition definition = new ScriptDefinitionLoader().pullFile(fileName, new File("."));
 
@@ -91,14 +103,14 @@ public class StandardScriptRunner implements ScriptRunner
                 {
                     HarnessDefinition harnessDefinition = (HarnessDefinition) current;
                     harnessDefinition.setScriptDefinition(definition);
-                    log.info("Configuring '" + harnessDefinition.getName() + "'");
+                    log.info("Configuring " + harnessDefinition.getName());
                     Harness toAdd = builder.buildHarness(harnessDefinition);
                     if (toAdd instanceof SetupHarness)
                     {
                         getSetupHarnesses().add((SetupHarness) toAdd);
                     }
                     results.add(toAdd);
-                    log.trace("Done configuring '" + harnessDefinition.getName() + "'");
+                    log.trace("Done configuring " + harnessDefinition.getName());
                 }
                 else if (current instanceof ScriptDefinition)
                 {
