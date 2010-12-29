@@ -4,6 +4,7 @@ import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.log4j.Logger;
 import org.mash.loader.HarnessParameter;
 
 /**
@@ -51,6 +52,7 @@ import org.mash.loader.HarnessParameter;
  */
 public class ValueFilterScanTable extends ScanTable
 {
+    private static final Logger log = Logger.getLogger(ValueFilterScanTable.class.getName());
     private String filter;
     private String compareOp;
 
@@ -105,7 +107,7 @@ public class ValueFilterScanTable extends ScanTable
         }
         else
         {
-            addError("undefined filter", "Must specify a filter like 'fam:qual=value'");
+            log.info("Not filtering results");
         }
         return result;
     }
