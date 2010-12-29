@@ -1,5 +1,7 @@
 package org.mash.harness.db.hbase;
 
+import org.apache.log4j.Logger;
+
 /**
  * Column families, qualifiers, and values are needed enough to warrant breaking out a class to
  * handle that work.  Follows the format 'family:qualifier=value'
@@ -9,6 +11,7 @@ package org.mash.harness.db.hbase;
  */
 public class Entry
 {
+    private static final Logger log = Logger.getLogger(Entry.class.getName());
     private String family;
     private String column;
     private String value;
@@ -46,6 +49,17 @@ public class Entry
     public String getValue()
     {
         return value;
+    }
+
+    public boolean isValid()
+    {
+        boolean result = true;
+        if(family == null)
+        {
+            result = false;
+            log.debug("Invalid entry, no family");
+        }
+        return result;
     }
 
     public String toString()

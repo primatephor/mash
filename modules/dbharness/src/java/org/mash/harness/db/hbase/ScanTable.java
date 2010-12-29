@@ -24,11 +24,11 @@ import java.io.IOException;
  * Necessary configurations are
  * <ul>
  * <li>site_config (relative path to config file(s), like hbase-site.xml).  Multiple site configs
- *     are allowed, just add more than one site config and all will be added as a resource</li>
+ * are allowed, just add more than one site config and all will be added as a resource</li>
  * <li>table (name of table to insert into)</li>
  * </ul>
  * <p/>
- *
+ * <p/>
  * Parameters are one of:
  * <ul>
  * <li>key (this is the row key).  Basically a unique id.</li>
@@ -48,6 +48,7 @@ public class ScanTable extends HBaseHarness implements RunHarness
     private List<String> columns;
 
     private RunResponse response;
+    private List<Result> scannedResults;
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
@@ -77,13 +78,12 @@ public class ScanTable extends HBaseHarness implements RunHarness
                         scanner = table.getScanner(s);
                         try
                         {
-                            List<Result> scannedResults = new ArrayList<Result>();
+                            scannedResults = new ArrayList<Result>();
                             for (Result scanResult : scanner)
                             {
                                 log.debug("Found row:" + scanResult);
-                                scannedResults.add(scanResult);
+                                applyResult(scanResult);
                             }
-                            response = new HBaseResult(scannedResults);
                         }
                         finally
                         {
@@ -114,6 +114,11 @@ public class ScanTable extends HBaseHarness implements RunHarness
         }
     }
 
+    protected void applyResult(Result scanResult)
+    {
+        scannedResults.add(scanResult);
+    }
+
     protected Scan createScan()
     {
         return new Scan();
@@ -121,6 +126,10 @@ public class ScanTable extends HBaseHarness implements RunHarness
 
     public RunResponse getResponse()
     {
+        if (response == null)
+        {
+            response = new HBaseResult(scannedResults);
+        }
         return response;
     }
 
