@@ -40,6 +40,7 @@ public class JMSEndpoint
             log.debug("Creating JMS connection");
             session = connectionData.getSession();
             MessageProducer sender = session.createProducer(connectionData.getQueue());
+            sender.setTimeToLive(timeout);
             log.debug("Sending message to JMS channel");
             sender.send(message);
         }
