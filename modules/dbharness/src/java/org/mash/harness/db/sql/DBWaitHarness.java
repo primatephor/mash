@@ -57,12 +57,12 @@ public class DBWaitHarness extends PollingWaitHarness
     private String sql;
 
     private Integer size = 1;
-    private DBResult result;
 
     private SQLRunHarness run;
 
     @Override
-    protected boolean poll(List<RunHarness> previous, List<SetupHarness> setups)
+    protected boolean poll(List<RunHarness> previous,
+                           List<SetupHarness> setups)
     {
         boolean result = false;
 
@@ -75,6 +75,7 @@ public class DBWaitHarness extends PollingWaitHarness
             int responseSize = response.getResultSetData().size();
             if (responseSize == size)
             {
+                log.info("Found all " + size + " records");
                 result = true;
             }
             else
@@ -85,7 +86,6 @@ public class DBWaitHarness extends PollingWaitHarness
         return result;
     }
 
-    @Override
     public RunResponse getResponse()
     {
         RunResponse response = null;
