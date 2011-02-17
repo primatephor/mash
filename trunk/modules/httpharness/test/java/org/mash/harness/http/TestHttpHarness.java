@@ -105,7 +105,7 @@ public class TestHttpHarness extends TestCase
         //verify second page
         configs.add(new Configuration("contains", "/search?q=System+Test"));
         configs.add(new Configuration("contains", "start=100"));
-        configs.add(new Configuration("contains", "http://www.google.com/product"));
+        configs.add(new Configuration("contains", "Searches related to <em>System Test</em>"));
         params = new ArrayList<Parameter>();
         //<input type=hidden name=client value="firefox-a">
         params.add(new Parameter("client", "firefox-a"));
