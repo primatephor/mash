@@ -62,7 +62,7 @@ public class ConfigProducer implements MessageProducer
 
     public void setTimeToLive(long l) throws JMSException
     {
-        throw new UnsupportedOperationException("Method setTimeToLive not yet implemented");
+        
     }
 
     public long getTimeToLive() throws JMSException
