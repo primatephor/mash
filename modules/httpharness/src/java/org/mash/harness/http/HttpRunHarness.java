@@ -4,11 +4,7 @@ import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
-import org.mash.harness.BaseHarness;
-import org.mash.harness.HarnessError;
-import org.mash.harness.RunHarness;
-import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
+import org.mash.harness.*;
 import org.mash.harness.rest.RestResponse;
 import org.mash.loader.HarnessConfiguration;
 
@@ -40,6 +36,8 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private String url;
     private String type;
     private String clean;
+    private String username;
+    private String password;
     protected HttpClient client;
     protected RunResponse response;
 
@@ -51,7 +49,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             WebConversationHolder.reset();
         }
 
-        client = getClient(type);
+        client = getClient(type, username, password);
 
         if (client != null)
         {
@@ -122,9 +120,9 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
      * @param clientType (POST, PUT, DELETE, GET)
      * @return HttpClient
      */
-    protected HttpClient getClient(String clientType)
+    protected HttpClient getClient(String clientType, String username, String password)
     {
-        return new HttpClient(new StandardRequestFactory(), clientType);
+        return new HttpClient(new StandardRequestFactory(), clientType, username, password);
     }
 
     @HarnessConfiguration(name = "url")
@@ -143,5 +141,17 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     public void setClean(String clean)
     {
         this.clean = clean;
+    }
+
+    @HarnessConfiguration(name = "username")
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    @HarnessConfiguration(name = "password")
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 }
