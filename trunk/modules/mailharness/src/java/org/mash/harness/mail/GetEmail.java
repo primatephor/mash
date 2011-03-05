@@ -53,42 +53,35 @@ public class GetEmail extends BaseEmailHarness implements RunHarness
             Folder folder = getFolder();
             folder.open(Folder.READ_ONLY);
             Message message = null;
-            int totalMessages = 0;
-            if (address == null)
+            int totalValidMessages = 0;
+
+            int currentMessageCount = 1;
+            Message[] toCheck = folder.getMessages();
+            if (toCheck != null)
             {
-                log.info("Retrieving message number " + messageNumber);
-                message = folder.getMessage(messageNumber);
-                totalMessages = folder.getMessageCount();
+                for (Message check : toCheck)
+                {
+                    log.info("Checking message " + currentMessageCount);
+                    if (isValid(check))
+                    {
+                        log.info("Valid email to consider");
+                        if (messageNumber == currentMessageCount)
+                        {
+                            message = check;
+                        }
+                        currentMessageCount++;
+                        totalValidMessages++;
+                    }
+                }
             }
             else
             {
-                log.info("Looking for address " + address);
-                int addyCount = 1;
-                Message[] toCheck = folder.getMessages();
-                if (toCheck != null)
-                {
-                    for (Message check : toCheck)
-                    {
-                        if (isValid(check))
-                        {
-                            if (messageNumber == addyCount)
-                            {
-                                message = check;
-                            }
-                            addyCount++;
-                            totalMessages++;
-                        }
-                    }
-                }
-                else
-                {
-                    log.warn("No messages in folder " + folder.getFullName());
-                }
+                log.warn("No messages in folder " + folder.getFullName());
             }
             if (message != null)
             {
                 log.info("Found the message with subject:" + message.getSubject());
-                response = new EmailResponse(message, totalMessages);
+                response = new EmailResponse(message, totalValidMessages);
             }
             close();
         }
@@ -102,22 +95,34 @@ public class GetEmail extends BaseEmailHarness implements RunHarness
     protected boolean isValid(Message message) throws MessagingException
     {
         boolean result = false;
-        for (Address recipient : message.getAllRecipients())
+        //if there is an address to retrieve, we have a potentially valid message
+        if (address != null && address.length() > 0)
         {
-            if (address.equalsIgnoreCase(recipient.toString()))
+            for (Address recipient : message.getAllRecipients())
             {
-                result = true;
-                break;
+                if (address.equalsIgnoreCase(recipient.toString()))
+                {
+                    result = true;
+                    break;
+                }
             }
         }
+        else
+        {
+            log.info("No address set, checking subjects");
+            //add addresses are valid
+            result = true;
+        }
+
         if (result)
         {
+            //if a subject has been set, then we need to find the message that equals it
             if (subject != null)
             {
+                log.info("checking message subject '" + message.getSubject() +
+                        "' against desired subject '" + subject + "'");
                 if (!subject.equalsIgnoreCase(message.getSubject()))
                 {
-                    log.debug("subject '" + message.getSubject() +
-                            "' does not equal expected subject '" + subject + "'");
                     result = false;
                 }
             }

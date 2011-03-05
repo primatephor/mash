@@ -28,7 +28,6 @@ import java.util.Properties;
  */
 public class BaseEmailHarness extends BaseHarness
 {
-    private static final Logger log = Logger.getLogger(BaseEmailHarness.class.getName());
     private String mailServer;
     private int mailPort = -1;
     private String user;
@@ -44,10 +43,6 @@ public class BaseEmailHarness extends BaseHarness
         if (store == null || !store.isConnected())
         {
             Session mailSession = Session.getDefaultInstance(new Properties());
-            if (log.isDebugEnabled())
-            {
-                mailSession.setDebug(true);
-            }
             store = mailSession.getStore(protocol);
             if (mailPort > 0)
             {
