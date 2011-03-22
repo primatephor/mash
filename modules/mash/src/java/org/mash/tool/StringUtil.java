@@ -54,4 +54,55 @@ public class StringUtil
     {
         return toString(Arrays.asList(array));
     }
+
+    public static String leftPad(String toPad,
+                          int length,
+                          char character)
+    {
+        StringBuffer result = new StringBuffer(padString(toPad, length, character));
+        toPad = cleanNull(toPad);
+        return result.append(toPad).toString();
+    }
+
+    public static String rightPad(String toPad,
+                           int length,
+                           char character)
+    {
+        StringBuffer result = new StringBuffer(cleanNull(toPad));
+        return result.append(padString(toPad, length, character)).toString();
+    }
+
+    private static String padString(String toPad,
+                            int length,
+                            char character)
+    {
+        toPad = cleanNull(toPad);
+        StringBuffer result = new StringBuffer();
+        while ((result.length() + toPad.length()) < length)
+        {
+            result.append(character);
+        }
+        return result.toString();
+    }
+
+    public static String nullSafeTrim(String str)
+    {
+        return str == null ? null : str.trim();
+    }
+
+    public static boolean isEmpty(String str)
+    {
+        return str == null || str.trim().isEmpty();
+    }
+
+    public static String truncate(String str,
+                           int length)
+    {
+        if (null != str && str.length() > length)
+        {
+            str = str.substring(0, length);
+        }
+        return str;
+    }
+
 }
