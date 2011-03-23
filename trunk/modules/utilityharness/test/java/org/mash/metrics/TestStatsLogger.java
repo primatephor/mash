@@ -1,11 +1,10 @@
 package org.mash.metrics;
 
 import junit.framework.TestCase;
-
-import java.math.BigDecimal;
-
 import org.mash.metrics.formatter.BaseFormatter;
 import org.mash.metrics.formatter.PrettyFormatter;
+
+import java.math.BigDecimal;
 
 /**
  * @author teastlack
@@ -15,7 +14,7 @@ public class TestStatsLogger extends TestCase
 {
     public void testLogging() throws InterruptedException
     {
-        MetricsLogger logger = new MetricsLogger(1000l);
+        MetricsLogger logger = new MetricsLogger(1000l, "basic", "stats");
         MetricsManager.reset();
         
         Metrics stats1 = MetricsManager.startStats("testLogging1");
@@ -81,7 +80,7 @@ public class TestStatsLogger extends TestCase
 
     public void testManyAdds() throws InterruptedException
     {
-        MetricsLogger logger = new MetricsLogger(100000l);
+        MetricsLogger logger = new MetricsLogger(100000l, "basic", "stats");
         MetricsManager.reset();
 
         Metrics stats1 = MetricsManager.startStats("testManyAdds1");
