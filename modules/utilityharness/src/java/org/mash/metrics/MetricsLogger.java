@@ -91,6 +91,7 @@ public class MetricsLogger
         Long totalCPU = getTotalCPU(stats);
         for (String entity : stats.keySet())
         {
+            log.debug("Adding key '"+entity+"' to output");
             Metrics statistics = stats.get(entity);
             LoggerLine line = logStats(totalCPU, statistics);
             formatter.addLine(line);
@@ -102,6 +103,10 @@ public class MetricsLogger
             buffer.append("\n");
             buffer.append(formatter.format());
             log.info(buffer.toString());
+        }
+        else
+        {
+            log.warn("No lines were added to the formatter!");
         }
     }
 
