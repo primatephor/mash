@@ -56,4 +56,8 @@ public class NoOpMetrics implements Metrics
     {
         return null;
     }
+
+    public void add(Metrics statistics)
+    {
+    }
 }

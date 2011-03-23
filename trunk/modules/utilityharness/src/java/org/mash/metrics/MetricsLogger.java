@@ -97,7 +97,7 @@ public class MetricsLogger
         }
 
         StringBuilder buffer = new StringBuilder();
-        if (formatter.length() > 1)
+        if (formatter.length() > 0)
         {
             buffer.append("\n");
             buffer.append(formatter.format());

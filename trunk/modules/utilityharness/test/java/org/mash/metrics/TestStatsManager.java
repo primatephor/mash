@@ -112,6 +112,6 @@ public class TestStatsManager extends TestCase
         Thread.sleep(1000l);
         long diff = stats1.end();
         assertTrue("Diff too long", diff <=1100l);
-        assertEquals("com.ensenda.util.statistics.TestMetricsManager", stats1.getEntity());
+        assertEquals("org.mash.metrics.TestStatsManager", stats1.getEntity());
     }
 }

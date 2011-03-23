@@ -152,15 +152,15 @@ public class BaseMetrics implements Metrics
 
     private Lock lock = new ReentrantLock();
 
-    public void add(BaseMetrics statistics)
+    public void add(Metrics metrics)
     {
         lock.lock();
         try
         {
-            this.total = addTotal(statistics.getTotal());
-            this.max = max(this.max, statistics.getMax());
-            this.min = min(this.min, statistics.getMin());
-            this.count += statistics.getCount();
+            this.total = addTotal(metrics.getTotal());
+            this.max = max(this.max, metrics.getMax());
+            this.min = min(this.min, metrics.getMin());
+            this.count += metrics.getCount();
         }
         finally
         {

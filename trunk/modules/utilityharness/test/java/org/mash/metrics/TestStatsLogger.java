@@ -80,7 +80,7 @@ public class TestStatsLogger extends TestCase
 
     public void testManyAdds() throws InterruptedException
     {
-        MetricsLogger logger = new MetricsLogger(100000l, "basic", "stats");
+        MetricsLogger logger = new MetricsLogger(5000l, "pretty", "stats");
         MetricsManager.reset();
 
         Metrics stats1 = MetricsManager.startStats("testManyAdds1");
