@@ -16,6 +16,8 @@ import java.util.TimerTask;
  * metrics.running (true/false.  can turn off logging of metrics via properties file this way)
  * metrics.format (basic/pretty.  Basic is comma separated for spreadsheets, pretty adds spaces for readability)
  *
+ * These properties may be used in the constructor also, so there's no need to have them present
+ * 
  * @author teastlack
  * @since Feb 17, 2011 4:41:59 PM
  */
