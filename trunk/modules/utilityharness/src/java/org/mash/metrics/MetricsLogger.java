@@ -115,16 +115,16 @@ public class MetricsLogger
                 if (!running)
                 {
                     running = true;
-                    if (MetricsManager.getStats().size() > 0)
+                    if (MetricsManager.getRegular().size() > 0)
                     {
                         log.info("Gathering Metrics");
-                        logStats(MetricsManager.getStats());
+                        logStats(MetricsManager.getRegular());
                     }
 
-                    if (MetricsManager.getBadStats().size() > 0)
+                    if (MetricsManager.getBad().size() > 0)
                     {
                         log.info("Gathering Outliers and Bad Data");
-                        logStats(MetricsManager.getBadStats());
+                        logStats(MetricsManager.getBad());
                     }
                 }
             }

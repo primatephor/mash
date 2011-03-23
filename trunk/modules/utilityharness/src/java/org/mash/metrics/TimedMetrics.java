@@ -53,11 +53,11 @@ public class TimedMetrics extends BaseMetrics
                 //will be reported separately for analysis
                 if (end < CULL_TIME)
                 {
-                    manager.add(this, MetricsManager.getStats());
+                    manager.add(this, MetricsManager.getRegular());
                 }
                 else
                 {
-                    manager.add(this, MetricsManager.getBadStats());
+                    manager.add(this, MetricsManager.getBad());
                 }
             }
         }

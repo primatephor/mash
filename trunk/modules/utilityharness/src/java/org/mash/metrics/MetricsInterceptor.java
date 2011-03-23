@@ -15,7 +15,7 @@ public class MetricsInterceptor implements org.aopalliance.intercept.MethodInter
         Object result = null;
         Method method = methodInvocation.getMethod();
         Class declaring = method.getDeclaringClass();
-        Metrics stats = MetricsManager.startStats(declaring, method);
+        Metrics stats = MetricsManager.start(declaring, method);
         try
         {
             result = methodInvocation.proceed();

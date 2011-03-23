@@ -47,13 +47,12 @@ public class MetricsManager
         getInstance().badMetrics = new HashMap<String, Metrics>();
     }
 
-    public static Metrics startStats(Class base)
+    public static Metrics start(Class base)
     {
-        return startStats(base, null);
+        return start(base, null);
     }
 
-    public static Metrics startStats(Class base,
-                                               Method method)
+    public static Metrics start(Class base, Method method)
     {
         StringBuilder builder = new StringBuilder();
         if (base != null)
@@ -65,17 +64,17 @@ public class MetricsManager
                 builder.append(method.getName());
             }
         }
-        return startStats(builder.toString());
+        return start(builder.toString());
     }
 
-    public static Metrics startStats(String entity)
+    public static Metrics start(String entity)
     {
         Metrics result = getInstance().noop;
         try
         {
             if (Configuration.isActive())
             {
-                result = getInstance().buildStats(entity);
+                result = getInstance().build(entity);
             }
             else
             {
@@ -92,17 +91,17 @@ public class MetricsManager
         return result;
     }
 
-    public static Map<String, Metrics> getStats()
+    public static Map<String, Metrics> getRegular()
     {
         return getInstance().regularMetrics;
     }
 
-    public static Map<String, Metrics> getBadStats()
+    public static Map<String, Metrics> getBad()
     {
         return getInstance().badMetrics;
     }
 
-    private BaseMetrics buildStats(String entity)
+    protected Metrics build(String entity)
     {
         return new TimedMetrics(entity, this);
     }
