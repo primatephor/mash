@@ -17,24 +17,24 @@ public class TestStatsLogger extends TestCase
         MetricsLogger logger = new MetricsLogger(1000l, "basic", "stats");
         MetricsManager.reset();
         
-        Metrics stats1 = MetricsManager.startStats("testLogging1");
+        Metrics stats1 = MetricsManager.start("testLogging1");
         Thread.sleep(1000l);
         long diff = stats1.end();
         assertTrue("Diff too long", diff <=1100l);
 
-        Metrics stats2 = MetricsManager.startStats("testLogging2");
+        Metrics stats2 = MetricsManager.start("testLogging2");
         Thread.sleep(1000l);
         diff = stats2.end();
         assertTrue("Diff too long", diff <=1100l);
 
-        Metrics stats3 = MetricsManager.startStats("testLogging1");
+        Metrics stats3 = MetricsManager.start("testLogging1");
         Thread.sleep(2000l);
         diff = stats3.end();
         assertTrue("Diff too long", diff <=3100l);
         Thread.sleep(2000l);
 
 
-        LoggerLine logline = logger.logStats(MetricsManager.getStats().get("testLogging1"), MetricsManager.getStats());
+        LoggerLine logline = logger.logStats(MetricsManager.getRegular().get("testLogging1"), MetricsManager.getRegular());
         assertEquals("testLogging1", logline.getEntity());
         assertEquals(2, logline.getCount());
 
@@ -58,13 +58,13 @@ public class TestStatsLogger extends TestCase
         assertTrue("too small", min >=900l);
 
         BaseFormatter formatter = new BaseFormatter();
-        String lineString = formatter.formatData(logger.logStats(MetricsManager.getStats().get("testLogging2"), MetricsManager.getStats()));
+        String lineString = formatter.formatData(logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular()));
         assertContains("testLogging2", lineString);
         assertContains("1,0m 1.0s,0m 1.0s,25.00,0m 1.0s,0m 1.0s", lineString);
 
         //check pretty formatting
         formatter = new PrettyFormatter();
-        formatter.addLine(logger.logStats(MetricsManager.getStats().get("testLogging2"), MetricsManager.getStats()));
+        formatter.addLine(logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular()));
         String colString = formatter.formatColumnNames();
         lineString = formatter.formatData();
         //HAVE TO IGNORE START TIMES
@@ -73,7 +73,7 @@ public class TestStatsLogger extends TestCase
         assertContains(", # of Calls, Average, Total  , % of CPU, Max Time, Min Time", colString);
         assertContains(", 1         , 0m 1.0s, 0m 1.0s, 25.00   , 0m 1.0s , 0m 1.0s", lineString);
 
-        logline = logger.logStats(MetricsManager.getStats().get("testLogging2"), MetricsManager.getStats());
+        logline = logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular());
         percent =  logline.getPercent(); //25%
         assertEquals(25.0, percent.doubleValue());
     }
@@ -83,39 +83,39 @@ public class TestStatsLogger extends TestCase
         MetricsLogger logger = new MetricsLogger(5000l, "pretty", "stats");
         MetricsManager.reset();
 
-        Metrics stats1 = MetricsManager.startStats("testManyAdds1");
+        Metrics stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
-        Metrics stats2 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
+        Metrics stats2 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
-        stats1 = MetricsManager.startStats("testManyAdds1");
+        stats1 = MetricsManager.start("testManyAdds1");
         Thread.sleep(1000l);
         stats1.end();
         stats2.end();
         Thread.sleep(2000l);
 
 
-        LoggerLine logline = logger.logStats(MetricsManager.getStats().get("testManyAdds1"), MetricsManager.getStats());
+        LoggerLine logline = logger.logStats(MetricsManager.getRegular().get("testManyAdds1"), MetricsManager.getRegular());
         assertEquals("testManyAdds1", logline.getEntity());
         assertEquals(10, logline.getCount());
 

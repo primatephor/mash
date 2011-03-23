@@ -48,7 +48,7 @@ public class MetricsHandler implements InvocationHandler
         Metrics stats = null;
         if (target != null)
         {
-            stats = MetricsManager.startStats(target.getClass(), method);
+            stats = MetricsManager.start(target.getClass(), method);
         }
 
         try
