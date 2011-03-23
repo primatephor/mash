@@ -5,7 +5,12 @@ import org.apache.log4j.Logger;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Timed metrics have a maximum run time before stopping.  Once stopped, they're added to a bad
+ * list in the manager.  This class has intimate knowledge of the MetricsManager.
+ *
+ * If the TimedMetrics is ended normally, it's added to the regular group.
+ */
 public class TimedMetrics extends BaseMetrics
 {
     private static final Logger log = Logger.getLogger(TimedMetrics.class.getName());
@@ -14,8 +19,7 @@ public class TimedMetrics extends BaseMetrics
     private MetricsManager manager;
     private Timer timer;
 
-    public TimedMetrics(String entity,
-                             MetricsManager manager)
+    public TimedMetrics(String entity, MetricsManager manager)
     {
         super(entity);
         this.manager = manager;
@@ -49,11 +53,11 @@ public class TimedMetrics extends BaseMetrics
                 //will be reported separately for analysis
                 if (end < CULL_TIME)
                 {
-                    manager.addStats(this, MetricsManager.getStats());
+                    manager.add(this, MetricsManager.getStats());
                 }
                 else
                 {
-                    manager.addStats(this, MetricsManager.getBadStats());
+                    manager.add(this, MetricsManager.getBadStats());
                 }
             }
         }

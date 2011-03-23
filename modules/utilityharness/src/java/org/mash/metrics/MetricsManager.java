@@ -9,10 +9,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Manage statistics.  Because we don't want these added forever and ever, if new stats are gathered and the last
- * check time is greater than the CULL_CHECK, go through all the currently gathered stats and remove them.
- * <p/>
- * Statistics are extended so calling .end() will put the totals into the stats map.
+ * Manage metrics gathering.
+ *
+ * Because we don't want these added forever and ever, a wrapping timer (TimedMetrics) stops any
+ * metric after it has run for 10 minutes.
+ *
+ * Two groups of Metrics are maintained by the timer: regular and bad.  Anytime a Metric is ended
+ * due to a timeout, it's added to the 'bad' group, to prevent the regular group from being weighted
+ * with improper runs.
  *
  * @author teastlack
  * @since Feb 17, 2011 2:21:10 PM
@@ -22,8 +26,8 @@ public class MetricsManager
     private static final Logger log = Logger.getLogger(MetricsManager.class.getName());
     private static MetricsManager ourInstance = new MetricsManager();
 
-    private Map<String, Metrics> stats = new HashMap<String, Metrics>();
-    private Map<String, Metrics> badStats = new HashMap<String, Metrics>();
+    private Map<String, Metrics> regularMetrics = new HashMap<String, Metrics>();
+    private Map<String, Metrics> badMetrics = new HashMap<String, Metrics>();
 
     private NoOpMetrics noop = new NoOpMetrics();
 
@@ -39,8 +43,8 @@ public class MetricsManager
     public static void reset()
     {
         log.info("Resetting Manager");
-        getInstance().stats = new HashMap<String, Metrics>();
-        getInstance().badStats = new HashMap<String, Metrics>();
+        getInstance().regularMetrics = new HashMap<String, Metrics>();
+        getInstance().badMetrics = new HashMap<String, Metrics>();
     }
 
     public static Metrics startStats(Class base)
@@ -75,7 +79,7 @@ public class MetricsManager
             }
             else
             {
-                if (getInstance().stats.size() > 0)
+                if (getInstance().regularMetrics.size() > 0)
                 {
                     reset();
                 }
@@ -90,12 +94,12 @@ public class MetricsManager
 
     public static Map<String, Metrics> getStats()
     {
-        return getInstance().stats;
+        return getInstance().regularMetrics;
     }
 
     public static Map<String, Metrics> getBadStats()
     {
-        return getInstance().badStats;
+        return getInstance().badMetrics;
     }
 
     private BaseMetrics buildStats(String entity)
@@ -105,23 +109,30 @@ public class MetricsManager
 
     private Lock lock = new ReentrantLock();
 
-    protected void addStats(BaseMetrics statistics,
-                            Map<String, BaseMetrics> stats)
+    /**
+     * Add the metric to the given map.  If one is present, then it's added to that metric.  If
+     * there is no metric yet in that map, then it becomes the base metric and all others are added
+     * to it.
+     *
+     * @param metrics to add
+     * @param metricsMap to put it in
+     */
+    protected void add(Metrics metrics, Map<String, Metrics> metricsMap)
     {
-        BaseMetrics managed = stats.get(statistics.getEntity());
+        Metrics managed = metricsMap.get(metrics.getEntity());
         if (managed == null)
         {
             lock.lock();
             try
             {
                 //double check because may have occured outside of lock
-                if (stats.get(statistics.getEntity()) == null)
+                if (metricsMap.get(metrics.getEntity()) == null)
                 {
-                    stats.put(statistics.getEntity(), statistics);
+                    metricsMap.put(metrics.getEntity(), metrics);
                 }
                 else
                 {
-                    managed = stats.get(statistics.getEntity());
+                    managed = metricsMap.get(metrics.getEntity());
                 }
             }
             finally
@@ -131,7 +142,7 @@ public class MetricsManager
         }
         if (managed != null)
         {
-            managed.add(statistics);
+            managed.add(metrics);
         }
     }
 

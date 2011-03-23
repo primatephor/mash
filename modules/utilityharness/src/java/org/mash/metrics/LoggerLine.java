@@ -7,12 +7,14 @@ import java.math.RoundingMode;
 import java.util.Date;
 
 /**
+ * This contains the base level information shown in a logger's line.  Formatters use this data
+ * to display as they see fit.
+ *
  * @author teastlack
  * @since Feb 18, 2011 10:32:36 AM
  */
 public class LoggerLine
 {
-    private static final Logger log = Logger.getLogger(LoggerLine.class.getName());
     private Long totalCPU;
     private Metrics toLog;
 
@@ -70,10 +72,6 @@ public class LoggerLine
             Long lNum = numerator.getTotal();
             if (lNum != null)
             {
-                if (log.isDebugEnabled())
-                {
-                    log.debug("Numerator:" + lNum + ", Denominator:" + totalCPU);
-                }
                 BigDecimal num = BigDecimal.valueOf(lNum);
                 BigDecimal den = BigDecimal.valueOf(totalCPU);
                 BigDecimal calc = num.divide(den, 2, RoundingMode.HALF_UP);
