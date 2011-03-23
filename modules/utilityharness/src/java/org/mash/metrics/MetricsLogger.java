@@ -8,7 +8,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Log the statistics to a log file
+ * Log the statistics to a log file.  You must specify a log file name, and can control this through a reloadable
+ * properties file or environment variables.
+ *
+ * Variables for the property file or environment:
+ * metrics.logger.name (the name of the log4j logger to retrieve with Logger.getLogger())
+ * metrics.running (true/false.  can turn off logging of metrics via properties file this way)
+ * metrics.format (basic/pretty.  Basic is comma separated for spreadsheets, pretty adds spaces for readability)
  *
  * @author teastlack
  * @since Feb 17, 2011 4:41:59 PM
@@ -17,24 +23,42 @@ public class MetricsLogger
 {
     private Logger log;
 
-    private long period;
     private Timer timer;
     private boolean running = false;
 
-    public MetricsLogger(long period)
+    public MetricsLogger(long period, String format, String logName)
     {
-        this.period = period;
-        this.log = Logger.getLogger(Configuration.getLogName());
-        Configuration.active();
-        start();
+        Configuration.getInstance().setFormat(format);
+        Configuration.getInstance().setLogName(logName);
+        start(period);
     }
 
-    public void start()
+    public MetricsLogger(long period, String propertyFileName)
     {
-        if (timer == null)
+        Configuration.getInstance().setPropertyFileName(propertyFileName);
+        start(period);
+    }
+
+    public MetricsLogger(long period)
+    {
+        start(period);
+    }
+
+    /**
+     * Restart the timer.  This cancels all timer jobs and creates a brand new timer
+     *
+     * @param period milliseconds between runs of logging
+     */
+    public void start(long period)
+    {
+        this.log = Logger.getLogger(Configuration.getLogName());
+        Configuration.active();
+        if (timer != null)
         {
-            timer = new Timer();
+            timer.cancel();
+            timer = null;
         }
+        timer = new Timer();
         this.timer.scheduleAtFixedRate(new LogTask(), new Date(), period);
     }
 

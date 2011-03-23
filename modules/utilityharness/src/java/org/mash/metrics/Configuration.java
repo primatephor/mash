@@ -1,10 +1,14 @@
 package org.mash.metrics;
 
-import org.mash.metrics.formatter.PrettyFormatter;
+import org.mash.file.PropertiesFile;
 import org.mash.metrics.formatter.BaseFormatter;
+import org.mash.metrics.formatter.PrettyFormatter;
 
 
 /**
+ * Encapsulate the configuration of the logger and metrics gathering.  This will search for a properties file containing
+ * the metrics names, or look for system environment variables.
+ *
  * @author teastlack
  * @since Feb 18, 2011 9:59:00 AM
  */
@@ -13,12 +17,13 @@ public class Configuration
     private static Configuration ourInstance = new Configuration();
 
     private State state = Configuration.State.INACTIVE;
-    private String logName = "stats";
-    private String format = "basic";
-    private Boolean active;
+    private String propertyFileName;
 
-    private static final String METRICS_RUNNING = "metrics.running";
-    private static final String METRICS_FORMAT = "metrics.format";
+    private PropertiesFile properties;
+
+    public static final String METRICS_LOGGER_NAME = "metrics.logger.name";
+    public static final String METRICS_RUNNING = "metrics.running";
+    public static final String METRICS_FORMAT = "metrics.format";
 
     public static Configuration getInstance()
     {
@@ -32,7 +37,7 @@ public class Configuration
 
     public static String getLogName()
     {
-        return getInstance().logName;
+        return getInstance().getProperty(METRICS_LOGGER_NAME, "stats");
     }
 
     public static Formatter getFormatter()
@@ -61,12 +66,49 @@ public class Configuration
 
     private static boolean runMetrics()
     {
-        return Boolean.valueOf(System.getProperty(METRICS_RUNNING, "true"));
+        return Boolean.valueOf(getInstance().getProperty(METRICS_RUNNING, "true"));
     }
 
     private static String getFormat()
     {
-        return System.getProperty(METRICS_FORMAT, "basic");
+        return getInstance().getProperty(METRICS_FORMAT, "basic");
+    }
+
+    public void setLogName(String logName)
+    {
+        System.getProperties().put(METRICS_LOGGER_NAME, logName);
+    }
+
+    public void setFormat(String format)
+    {
+        System.getProperties().put(METRICS_FORMAT, format);
+    }
+
+    public void setPropertyFileName(String propertyFileName)
+    {
+        this.propertyFileName = propertyFileName;
+    }
+
+    protected String getProperty(String name, String defaultValue)
+    {
+        String result = null;
+        if (properties == null && propertyFileName != null)
+        {
+            properties = new PropertiesFile(propertyFileName);
+        }
+        if (properties != null)
+        {
+            result = properties.getProperty(name);
+        }
+        if (result == null)
+        {
+            result = System.getProperty(name);
+        }
+        if (result == null)
+        {
+            result = defaultValue;
+        }
+        return result;
     }
 
     public enum State
