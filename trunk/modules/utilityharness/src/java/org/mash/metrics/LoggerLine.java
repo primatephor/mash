@@ -1,7 +1,5 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
