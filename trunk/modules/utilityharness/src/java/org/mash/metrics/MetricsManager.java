@@ -33,6 +33,10 @@ public class MetricsManager
 
     public static MetricsManager getInstance()
     {
+        if(ourInstance == null)
+        {
+            ourInstance = new MetricsManager();
+        }
         return ourInstance;
     }
 
