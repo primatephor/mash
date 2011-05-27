@@ -15,7 +15,18 @@ public class DBConnector
     private String url;
     private String user;
     private String password;
+    private String schema;
     private String driver;
+
+    public DBConnector(String url,
+                       String user,
+                       String password,
+                       String schema,
+                       String driver)
+    {
+        this(url, user, password, driver);
+        this.schema = schema;
+    }
 
     public DBConnector(String url,
                        String user,
@@ -48,6 +59,11 @@ public class DBConnector
         return driver;
     }
 
+    public String getSchema()
+    {
+        return schema;
+    }
+
     public Connection getConnection() throws Exception
     {
         Class jdbcDriverClass = Class.forName(driver);
@@ -64,6 +80,7 @@ public class DBConnector
         buffer.append(", Driver:").append(driver);
         buffer.append(", User:").append(user);
         buffer.append(", Pass:").append(password);
+        buffer.append(", Schema:").append(schema);
         return buffer.toString();
     }
 }
