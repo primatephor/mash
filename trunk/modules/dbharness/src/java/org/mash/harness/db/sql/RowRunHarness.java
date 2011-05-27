@@ -31,8 +31,8 @@ import java.util.List;
  * 'select * from table_name where column_name=column_value'.
  * Keep in mind: if column_value is a string, surround with ' (e.g. 'somevalue').
  *
- * @author: teastlack
- * @since: Sep 9, 2010
+ * @author teastlack
+ * @since Sep 9, 2010
  */
 public class RowRunHarness extends SQLRunHarness implements RunHarness
 {
@@ -45,7 +45,7 @@ public class RowRunHarness extends SQLRunHarness implements RunHarness
         DBConnector connection = getConnector();
 
         retrieveRow(connection, tableName, columnName, columnValue);
-        DBResult result = (DBResult) getResponse();
+        DBResult result = getResponse();
         if (result == null ||
             result.getResultSet(0) == null ||
             result.getResultSet(0).size() == 0)
@@ -85,6 +85,12 @@ public class RowRunHarness extends SQLRunHarness implements RunHarness
     public void setDriver(String driver)
     {
         super.setDriver(driver);
+    }
+
+    @HarnessConfiguration(name = "schema")
+    public void setSchema(String schema)
+    {
+        super.setSchema(schema);
     }
 
     @HarnessParameter(name = "table_name")

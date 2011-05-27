@@ -21,8 +21,8 @@ public class DBConnector
     public DBConnector(String url,
                        String user,
                        String password,
-                       String schema,
-                       String driver)
+                       String driver,
+                       String schema)
     {
         this(url, user, password, driver);
         this.schema = schema;
