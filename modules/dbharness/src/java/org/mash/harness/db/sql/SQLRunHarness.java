@@ -43,6 +43,7 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
     private String url;
     private String user;
     private String password;
+    private String schema;
     private String driver;
 
     private String sql;
@@ -76,7 +77,14 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
 
     protected DBConnector getConnector()
     {
-        return new DBConnector(url, user, password, driver);
+        if (schema == null)
+        {
+            return new DBConnector(url, user, password, driver);
+        }
+        else
+        {
+            return new DBConnector(url, user, password, driver, schema);
+        }
     }
 
     protected void runSql(DBConnector connector, String sql)
@@ -155,6 +163,12 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    @HarnessConfiguration(name = "schema")
+    public void setSchema(String schema)
+    {
+        this.schema = schema;
     }
 
     @HarnessConfiguration(name = "driver")
