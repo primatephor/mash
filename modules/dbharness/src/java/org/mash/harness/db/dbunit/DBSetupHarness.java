@@ -53,6 +53,7 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
     private String url;
     private String user;
     private String password;
+    private String schema;
     private String driver;
     private String type;
 
@@ -79,7 +80,10 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
 
     protected DBUnitConnector getConnector()
     {
+        if(schema == null)
         return new DBUnitConnector(url, user, password, driver);
+        else
+        return new DBUnitConnector(url, user, password, driver, schema);
     }
 
     protected IDataSet getDataSet(String contents) throws IOException,
@@ -121,6 +125,12 @@ public class DBSetupHarness extends BaseHarness implements SetupHarness
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    @HarnessConfiguration(name = "schema")
+    public void setSchema(String schema)
+    {
+        this.schema = schema;
     }
 
     @HarnessConfiguration(name = "driver")

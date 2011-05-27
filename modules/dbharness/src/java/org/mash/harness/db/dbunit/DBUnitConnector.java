@@ -7,8 +7,8 @@ import org.dbunit.IDatabaseTester;
 import org.apache.log4j.Logger;
 
 /**
- * @author: teastlack
- * @since: Sep 9, 2010
+ * @author teastlack
+ * @since Sep 9, 2010
  */
 public class DBUnitConnector extends DBConnector
 {
@@ -20,18 +20,25 @@ public class DBUnitConnector extends DBConnector
         super(url, user, password, driver);
     }
 
+    public DBUnitConnector(String url, String user, String password, String driver, String schema)
+    {
+        super(url, user, password, driver, schema);
+    }
+
     public IDatabaseConnection getDBUnitConnection() throws Exception
     {
         if (this.databaseTester == null)
         {
-            log.info("Instantiating DB info [driver='" + getDriver() +
-                     "', url='" + getUrl() +
-                     "', user='" + getUser() +
-                     "', pass='" + getPassword() + "']");
-            this.databaseTester = new JdbcDatabaseTester(getDriver(),
-                                                         getUrl(),
-                                                         getUser(),
-                                                         getPassword());
+            log.info("Instantiating DB info [driver='" + getDriver() + "', url='" + getUrl() + "', user='" + getUser() +
+                    "', pass='" + getPassword() + "']");
+            if (getSchema() == null)
+            {
+                this.databaseTester = new JdbcDatabaseTester(getDriver(), getUrl(), getUser(), getPassword());
+            }
+            else
+            {
+                this.databaseTester = new JdbcDatabaseTester(getDriver(), getUrl(), getUser(), getPassword(), getSchema());
+            }
         }
         return this.databaseTester.getConnection();
     }
