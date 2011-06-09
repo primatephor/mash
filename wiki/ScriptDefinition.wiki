@@ -8,10 +8,11 @@ Script definitions define all the work performed by a single script run (or in a
 = Details =
 A break down of a sample script:
 {{{
-<ns1:Script name="Base Test" xmlns:ns1="http://www.mash.org/schema/V1">
+<ns1:Script name="Base Test" xmlns:ns1="http://www.mash.org/schema/V1" order="0">
 }}}
  * {{{xmlns:ns1="http://www.mash.org/schema/V1"}}} is the version 1 namespace of the config.  There will likely be other versions in the future.
- * name is the name of this run 
+ * name is the name of this run.  If not supplied, the name is the name of the file. 
+ * order is an optional element.  If not supplied, the test name will be the order.  All ordered elements come before any named elements in the overall sort.
 
 = Tags =
 Tags are used to filter which scripts are to be run.
