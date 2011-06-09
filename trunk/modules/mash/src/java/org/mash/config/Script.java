@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,9 @@ public class Script implements ScriptDefinition
     protected String dir;
     @XmlAttribute
     protected String file;
-
+    @XmlAttribute
+    protected BigInteger order;
+    
     private File path;
 
     /**
@@ -154,5 +157,15 @@ public class Script implements ScriptDefinition
     public void setPath(File path)
     {
         this.path = path;
+    }
+
+    public BigInteger getOrder()
+    {
+        return order;
+    }
+
+    public void setOrder(BigInteger order)
+    {
+        this.order = order;
     }
 }

@@ -9,6 +9,7 @@ import org.mash.file.TextFileReader;
 import org.mash.harness.PropertyObjectFactory;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
     private Boolean validTestFile = true;
     private File path;
     private File suitePath;
+    private BigInteger order;
 
     public ScriptLoaderProxy(String filename, File suitePath)
     {
@@ -45,6 +47,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
             this.name = temp.getName();
             calculateName(filename, suitePath);
             this.dir = temp.getDir();
+            this.order = temp.getOrder();
         }
         else
         {
@@ -126,6 +129,11 @@ public class ScriptLoaderProxy implements ScriptDefinition
     public File getPath()
     {
         return this.path;
+    }
+
+    public BigInteger getOrder()
+    {
+        return order;
     }
 
     public Boolean isTestLoaded()
