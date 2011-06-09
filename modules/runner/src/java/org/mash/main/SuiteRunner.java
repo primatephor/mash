@@ -13,6 +13,8 @@ import org.mash.tool.ErrorHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -107,6 +109,7 @@ public class SuiteRunner
                 //load the directory of tests
                 List<ScriptDefinition> scripts = new ScriptDefinitionLoader(tags).pullSubDefinitions(scriptDefinition,
                                                                                                      suite.getPath());
+                scripts = sort(scripts);
                 result.addAll(scripts);
             }
         }
@@ -116,6 +119,29 @@ public class SuiteRunner
         }
 
         return result;
+    }
+
+    private List<ScriptDefinition> sort(List<ScriptDefinition> scripts)
+    {
+        List<ScriptDefinition> ordered = new ArrayList<ScriptDefinition>();
+        List<ScriptDefinition> named = new ArrayList<ScriptDefinition>();
+        for (ScriptDefinition script : scripts)
+        {
+            if(script.getOrder() != null && script.getOrder().intValue() > 0)
+            {
+                ordered.add(script);
+            }
+            else
+            {
+                named.add(script);
+            }
+        }
+        Collections.sort(ordered, new OrderComparater());
+        Collections.sort(named, new NameComparater());
+
+        //order numbers take precedence
+        ordered.addAll(named);
+        return ordered;
     }
 
     public List<String> getTags()
@@ -133,4 +159,21 @@ public class SuiteRunner
         return tags;
     }
 
+    private class OrderComparater implements Comparator<ScriptDefinition>
+    {
+        @Override
+        public int compare(ScriptDefinition o1, ScriptDefinition o2)
+        {
+            return o1.getOrder().compareTo(o2.getOrder());
+        }
+    }
+
+    private class NameComparater implements Comparator<ScriptDefinition>
+    {
+        @Override
+        public int compare(ScriptDefinition o1, ScriptDefinition o2)
+        {
+            return o1.getName().compareTo(o2.getName());
+        }
+    }
 }

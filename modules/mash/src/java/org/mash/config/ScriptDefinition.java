@@ -1,6 +1,7 @@
 package org.mash.config;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -19,4 +20,6 @@ public interface ScriptDefinition
     String getFile();
 
     File getPath();
+
+    BigInteger getOrder();
 }
