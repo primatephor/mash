@@ -9,6 +9,7 @@ import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,34 +43,50 @@ public class FTPWaitHarness extends PollingWaitHarness
     private String password;
     private String url;
     private String path;
-    private Integer size = 1;
-    private Long fileSize;
 
-    private ListHarness run;
+    //for lists
+    private Long fileSize;
+    private Integer size = 1;
+
+    //for contents
+    private Integer fileIndex;
+    private List<String> fileContents;
+    private String filename;
+
+    private FTPRunHarness run;
 
     public boolean poll(List<RunHarness> previous, List<SetupHarness> setups)
     {
         run = buildRunHarness();
         run.run(previous, setups);
         boolean result = false;
-        ListRunResponse listResponse = (ListRunResponse) run.getResponse();
-        if (listResponse != null)
+        RunResponse runResponse = getResponse();
+        if (runResponse != null)
         {
-            if (fileSize != null)
+            if (runResponse instanceof ListRunResponse)
             {
-                long totalSize = 0;
-                for (FTPFile file : listResponse.getFiles().values())
+                ListRunResponse listResponse = (ListRunResponse) runResponse;
+                if (fileSize != null)
                 {
-                    totalSize += file.getSize();
+                    long totalSize = 0;
+                    for (FTPFile file : listResponse.getFiles().values())
+                    {
+                        totalSize += file.getSize();
+                    }
+                    log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
+                    log.info("Found " + totalSize + " bytes, waiting for " + fileSize);
+                    result = listResponse.getFiles().size() >= size && totalSize >= fileSize;
                 }
-                log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
-                log.info("Found " + totalSize + " bytes, waiting for " + fileSize);
-                result = listResponse.getFiles().size() >= size && totalSize >= fileSize;
+                else
+                {
+                    log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
+                    result = listResponse.getFiles().size() >= size;
+                }
             }
             else
             {
-                log.info("Found " + listResponse.getFiles().size() + " files, waiting for " + size);
-                result = listResponse.getFiles().size() >= size;
+                //it's not null, so something matching was found
+                result = true;
             }
         }
         else
@@ -79,15 +96,34 @@ public class FTPWaitHarness extends PollingWaitHarness
         return result;
     }
 
-    protected ListHarness buildRunHarness()
+    protected FTPRunHarness buildRunHarness()
     {
         if (run == null)
         {
-            run = new ListHarness();
-            run.setUrl(url);
-            run.setPassword(password);
-            run.setUser(user);
-            run.setPath(path);
+            if (fileContents != null || fileIndex != null || filename != null)
+            {
+                GetHarness getHarness = new GetHarness();
+                getHarness.setUrl(url);
+                getHarness.setUser(user);
+                getHarness.setPassword(password);
+                getHarness.setPath(path);
+                getHarness.setFileContents(fileContents);
+                if (fileIndex != null)
+                {
+                    getHarness.setFileIndex(String.valueOf(fileIndex));
+                }
+                getHarness.setFilename(filename);
+                run = getHarness;
+            }
+            else
+            {
+                ListHarness listHarness = new ListHarness();
+                listHarness.setUrl(url);
+                listHarness.setPassword(password);
+                listHarness.setUser(user);
+                listHarness.setPath(path);
+                run = listHarness;
+            }
         }
         return run;
     }
@@ -149,4 +185,27 @@ public class FTPWaitHarness extends PollingWaitHarness
     {
         this.fileSize = Long.valueOf(fileSize);
     }
+
+    @HarnessParameter(name = "file_index")
+    public void setFileIndex(String fileIndex)
+    {
+        this.fileIndex = Integer.valueOf(fileIndex);
+    }
+
+    @HarnessParameter(name = "file_contents")
+    public void setFileContents(String fileContents)
+    {
+        if(this.fileContents == null)
+        {
+            this.fileContents = new ArrayList<String>();
+        }
+        this.fileContents.add(fileContents);
+    }
+
+    @HarnessParameter(name = "file_name")
+    public void setFilename(String filename)
+    {
+        this.filename = filename;
+    }
+
 }

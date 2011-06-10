@@ -195,7 +195,7 @@ public class TestHttpHarness extends TestCase
         catch (Throwable throwable)
         {
             assertEquals("Errors found during verification\n" +
-                         "Harness:search1, Error:Unexpected error sending to /search", throwable.getMessage().trim());
+                         "Harness:search1, Error:Unexpected error sending to /search, Description:java.lang.IllegalArgumentException:URI is not absolute", throwable.getMessage().trim());
             expectedError = true;
         }
         assertTrue("No expected error found!", expectedError);

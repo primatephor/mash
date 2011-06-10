@@ -59,7 +59,7 @@ public class GetHarness extends FTPRunHarness
     private int transferMode = FTP.ASCII_FILE_TYPE;
 
     private Integer fileIndex;
-    private String fileContents;
+    private List<String> fileContents;
     private String filename;
     private String path;
 
@@ -164,12 +164,21 @@ public class GetHarness extends FTPRunHarness
             log.info("Retrieving file " + filename);
             RunResponse result = retrieve(client, filename);
             String toCheck = result.getString();
-            if (toCheck.contains(fileContents))
+
+            boolean allContentFound = true;
+            for (String fileContent : fileContents)
+            {
+                if (!toCheck.contains(fileContent))
+                {
+                    allContentFound = false;
+                    break;
+                }
+            }
+            if (allContentFound)
             {
                 log.info("Found " + fileContents);
                 log.debug("Response:" + toCheck);
                 response = result;
-                break;
             }
         }
         return response;
@@ -224,6 +233,15 @@ public class GetHarness extends FTPRunHarness
 
     @HarnessParameter(name = "file_contents")
     public void setFileContents(String fileContents)
+    {
+        if(this.fileContents == null)
+        {
+            this.fileContents = new ArrayList<String>();
+        }
+        this.fileContents.add(fileContents);
+    }
+
+    public void setFileContents(List<String> fileContents)
     {
         this.fileContents = fileContents;
     }

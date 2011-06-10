@@ -1,6 +1,5 @@
 package org.mash.loader.harnesssetup;
 
-import org.apache.log4j.Logger;
 import org.mash.config.BaseParameter;
 import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
@@ -109,5 +108,11 @@ public class AnnotatedHarness implements Harness
     public Harness getWrap()
     {
         return wrap;
+    }
+
+    @Override
+    public String getName()
+    {
+        return wrap.getName();
     }
 }

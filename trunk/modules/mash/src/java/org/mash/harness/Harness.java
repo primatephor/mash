@@ -66,4 +66,6 @@ public interface Harness
     List<Configuration> getConfiguration();
 
     List<Parameter> getParameters();
+
+    String getName();
 }
