@@ -23,9 +23,7 @@ public class StandardRequestFactory implements WebRequestFactory
     private static final Logger log = Logger.getLogger(StandardRequestFactory.class.getName());
     public static String BODY = "body";
 
-    public WebRequestSettings createRequest(String methodType,
-                                            String url,
-                                            Map<String, String> contents)
+    public WebRequestSettings createRequest(String methodType, String url, Map<String, String> contents) throws Exception
     {
         WebRequestSettings settings = null;
         String body = null;
@@ -42,23 +40,16 @@ public class StandardRequestFactory implements WebRequestFactory
 
         if (method != null)
         {
-            try
+            URL theUrl = new URI(url).toURL();
+            HttpMethod httpMethod = method.getMethod();
+            settings = new WebRequestSettings(theUrl, httpMethod);
+            if (body != null)
             {
-                URL theUrl = new URI(url).toURL();
-                HttpMethod httpMethod = method.getMethod();
-                settings = new WebRequestSettings(theUrl, httpMethod);
-                if (body != null)
-                {
-                    settings.setRequestBody(body);
-                }
-                else
-                {
-                    populateRequestParameters(contents, settings);
-                }
+                settings.setRequestBody(body);
             }
-            catch (Exception e)
+            else
             {
-                log.error("Unexpected error creating method to send page data to " + url, e);
+                populateRequestParameters(contents, settings);
             }
         }
         return settings;

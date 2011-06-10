@@ -143,6 +143,8 @@ public class StandardScriptRunner implements ScriptRunner
     public List<HarnessError> run(ScriptDefinition definition) throws Exception
     {
         List<HarnessError> errors = new ArrayList<HarnessError>();
+        String lastRun;
+
         try
         {
             this.harnesses = buildHarnesses(definition);
@@ -185,8 +187,7 @@ public class StandardScriptRunner implements ScriptRunner
         catch (Throwable e)
         {
             log.error("Unexpected error running script", e);
-            errors.add(new HarnessError("Running Script " + definition.getPath().getAbsolutePath() + " Failed",
-                                        e.getMessage(), e));
+            errors.add(new HarnessError(definition.getPath().getAbsolutePath(), "Unknown Exception Running Script", e));
         }
         return errors;
     }
@@ -224,27 +225,34 @@ public class StandardScriptRunner implements ScriptRunner
                                                 CalculatingParameterBuilder parameterBuilder,
                                                 Harness harness) throws Exception
     {
-        List<HarnessError> errors = Collections.emptyList();
+        List<HarnessError> errors = new ArrayList<HarnessError>();
         log.info("Running harness " + harness.getDefinition().getName());
         List<Configuration> configs = configurationBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
         harness.setConfiguration(configs);
         List<Parameter> params = parameterBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
         harness.setParameters(params);
-        if (harness instanceof SetupHarness)
+        try
         {
-            errors = runSetupHarness((SetupHarness) harness);
+            if (harness instanceof SetupHarness)
+            {
+                errors.addAll(runSetupHarness((SetupHarness) harness));
+            }
+            if (harness instanceof RunHarness)
+            {
+                errors.addAll(runRunHarness((RunHarness) harness));
+            }
+            if (harness instanceof VerifyHarness)
+            {
+                errors.addAll(runVerifyHarness((VerifyHarness) harness));
+            }
+            if (harness instanceof TeardownHarness)
+            {
+                errors.addAll(runTeardown((TeardownHarness) harness));
+            }
         }
-        if (harness instanceof RunHarness)
+        catch (Exception e)
         {
-            errors = runRunHarness((RunHarness) harness);
-        }
-        if (harness instanceof VerifyHarness)
-        {
-            errors = runVerifyHarness((VerifyHarness) harness);
-        }
-        if (harness instanceof TeardownHarness)
-        {
-            errors = runTeardown((TeardownHarness) harness);
+            errors.add(new HarnessError(harness, "Exception Running Harness", e));
         }
         return errors;
     }

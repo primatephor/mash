@@ -12,5 +12,5 @@ public interface WebRequestFactory
 {
     WebRequestSettings createRequest(String methodType,
                                      String url,
-                                     Map<String, String> contents);
+                                     Map<String, String> contents) throws Exception;
 }
