@@ -1,15 +1,16 @@
 package org.mash.loader;
 
 import org.apache.log4j.Logger;
+import org.mash.config.BaseParameter;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.ScriptDefinition;
-import org.mash.config.BaseParameter;
 import org.mash.harness.RunHarness;
 import org.mash.loader.accessor.DateAccessor;
 import org.mash.loader.accessor.FileAccessor;
 import org.mash.loader.accessor.PropertyAccessor;
 import org.mash.loader.accessor.ReplaceAccessor;
 import org.mash.loader.accessor.ResponseAccessor;
+import org.mash.loader.accessor.ScriptParameterAccessor;
 import org.mash.loader.accessor.ValueAccessor;
 
 import java.io.File;
@@ -58,7 +59,7 @@ public abstract class ParameterBuilder<T extends BaseParameter>
         {
             path = scriptDefinition.getPath();
         }
-        AccessorChain chain = buildChain(previousRun, path);
+        AccessorChain chain = buildChain(previousRun, scriptDefinition, path);
         List<T> appliedParameters = new ArrayList<T>();
         List<T> currentConfig = getConfigParams(harnessDefinition);
         for (T parameter : currentConfig)
@@ -92,12 +93,13 @@ public abstract class ParameterBuilder<T extends BaseParameter>
 
     protected abstract List<T> getConfigParams(HarnessDefinition harnessDefinition);
 
-    protected AccessorChain buildChain(List<RunHarness> previousRun, File path)
+    protected AccessorChain buildChain(List<RunHarness> previousRun, ScriptDefinition scriptDefinition, File path)
     {
         if (accessChain == null)
         {
             accessChain = new AccessorChain();
             accessChain.add(new ValueAccessor());
+            accessChain.add(new ScriptParameterAccessor(scriptDefinition));
             accessChain.add(new PropertyAccessor());
             accessChain.add(new DateAccessor());
             if (previousRun != null)
@@ -108,6 +110,7 @@ public abstract class ParameterBuilder<T extends BaseParameter>
 
             AccessorChain replaceChain = new AccessorChain();
             replaceChain.add(new ValueAccessor());
+            replaceChain.add(new ScriptParameterAccessor(scriptDefinition));
             replaceChain.add(new PropertyAccessor());
             replaceChain.add(new DateAccessor());
             if (previousRun != null)

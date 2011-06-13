@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-
 <xs:schema version="1.0" targetNamespace="http://code.google.com/p/mash/schema/V1"
            xmlns:tns="http://code.google.com/p/mash/schema/V1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -26,6 +25,7 @@
     <xs:complexType name="Script">
         <xs:sequence>
             <xs:element name="Tag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Parameter" type="tns:Parameter" minOccurs="0" maxOccurs="unbounded"/>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element name="Script" type="tns:Script"/>
                 <xs:element name="Setup" type="tns:Setup"/>
@@ -40,28 +40,6 @@
         <xs:attribute name="name" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="Setup">
-        <xs:sequence>
-            <xs:element name="Configuration" type="tns:Configuration" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="Parameter" type="tns:Parameter" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="name" type="xs:string"/>
-        <xs:attribute name="type" type="xs:string"/>
-    </xs:complexType>
-
-    <xs:complexType name="Configuration">
-        <xs:sequence>
-            <xs:element name="ParamName" type="tns:Parameter" minOccurs="0"/>
-            <xs:element name="Value" type="xs:string" minOccurs="0"/>
-            <xs:element name="Date" type="tns:Date" minOccurs="0"/>
-            <xs:element name="Response" type="tns:Response" minOccurs="0"/>
-            <xs:element name="Replace" type="tns:Replace" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="property" type="xs:string"/>
-        <xs:attribute name="name" type="xs:string"/>
-        <xs:attribute name="file" type="xs:string"/>
-    </xs:complexType>
-
     <xs:complexType name="Parameter">
         <xs:sequence>
             <xs:element name="ParamName" type="tns:Parameter" minOccurs="0"/>
@@ -70,6 +48,7 @@
             <xs:element name="Response" type="tns:Response" minOccurs="0"/>
             <xs:element name="Replace" type="tns:Replace" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
+        <xs:attribute name="scriptParameter" type="xs:string"/>
         <xs:attribute name="property" type="xs:string"/>
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="file" type="xs:string"/>
@@ -105,10 +84,34 @@
             <xs:element name="Date" type="tns:Date" minOccurs="0"/>
             <xs:element name="Response" type="tns:Response" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="scriptParameter" type="xs:string"/>
         <xs:attribute name="property" type="xs:string"/>
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="file" type="xs:string"/>
         <xs:attribute name="search" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Setup">
+        <xs:sequence>
+            <xs:element name="Configuration" type="tns:Configuration" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Parameter" type="tns:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Configuration">
+        <xs:sequence>
+            <xs:element name="ParamName" type="tns:Parameter" minOccurs="0"/>
+            <xs:element name="Value" type="xs:string" minOccurs="0"/>
+            <xs:element name="Date" type="tns:Date" minOccurs="0"/>
+            <xs:element name="Response" type="tns:Response" minOccurs="0"/>
+            <xs:element name="Replace" type="tns:Replace" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="scriptParameter" type="xs:string"/>
+        <xs:attribute name="property" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="file" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="Run">

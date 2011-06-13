@@ -22,6 +22,8 @@ public class BaseParameter
     protected String name;
     @XmlAttribute
     protected String property;
+    @XmlAttribute
+    protected String scriptParameter;
 
     public BaseParameter()
     {
@@ -128,5 +130,15 @@ public class BaseParameter
     public void setResponse(Response response)
     {
         this.response = response;
+    }
+
+    public String getScriptParameter()
+    {
+        return scriptParameter;
+    }
+
+    public void setScriptParameter(String scriptParameter)
+    {
+        this.scriptParameter = scriptParameter;
     }
 }

@@ -1,6 +1,7 @@
 package org.mash.loader;
 
 import org.apache.log4j.Logger;
+import org.mash.config.Parameter;
 import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
@@ -31,6 +32,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
     private String name;
     private Script script;
     private List<String> tags;
+    private List<Parameter> parameters;
     private Boolean validTestFile = true;
     private File path;
     private File suitePath;
@@ -48,6 +50,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
             calculateName(filename, suitePath);
             this.dir = temp.getDir();
             this.order = temp.getOrder();
+            this.parameters = temp.getParameter();
         }
         else
         {
@@ -95,6 +98,11 @@ public class ScriptLoaderProxy implements ScriptDefinition
     public List<String> getTag()
     {
         return this.tags;
+    }
+
+    public List<Parameter> getParameter()
+    {
+        return this.parameters;
     }
 
     public List<Object> getHarnesses()
