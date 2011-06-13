@@ -23,13 +23,13 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "Script", propOrder = {
         "tag",
+        "parameter",
         "harnesses"
         }, namespace = "http://code.google.com/p/mash/schema/V1")
 
 @XmlRootElement(name = "Script", namespace = "http://code.google.com/p/mash/schema/V1")
 public class Script implements ScriptDefinition
 {
-
     @XmlElements({
         @XmlElement(name = "Script", type = Script.class),
         @XmlElement(name = "Setup", type = Setup.class),
@@ -38,9 +38,10 @@ public class Script implements ScriptDefinition
         @XmlElement(name = "Teardown", type = Teardown.class)
             })
     protected List<Object> harnesses;
-
     @XmlElement(name = "Tag")
     protected List<String> tag;
+    @XmlElement(name = "Parameter")
+    protected List<Parameter> parameter;
     @XmlAttribute
     protected String name;
     @XmlAttribute
@@ -79,6 +80,14 @@ public class Script implements ScriptDefinition
         return this.tag;
     }
 
+    public List<Parameter> getParameter()
+    {
+        if (parameter == null)
+        {
+            parameter = new ArrayList<Parameter>();
+        }
+        return this.parameter;
+    }
 
     public List<Object> getHarnesses()
     {

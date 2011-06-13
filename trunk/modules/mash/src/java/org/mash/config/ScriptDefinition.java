@@ -11,6 +11,8 @@ public interface ScriptDefinition
 {
     List<String> getTag();
 
+    List<Parameter> getParameter();
+
     List<Object> getHarnesses();
 
     String getName();
