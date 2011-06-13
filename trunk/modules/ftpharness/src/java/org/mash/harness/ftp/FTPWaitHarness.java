@@ -2,6 +2,7 @@ package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.log4j.Logger;
+import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
@@ -100,7 +101,7 @@ public class FTPWaitHarness extends PollingWaitHarness
     {
         if (run == null)
         {
-            if (fileContents != null || fileIndex != null || filename != null)
+            if (isGetHarness())
             {
                 GetHarness getHarness = new GetHarness();
                 getHarness.setUrl(url);
@@ -126,6 +127,53 @@ public class FTPWaitHarness extends PollingWaitHarness
             }
         }
         return run;
+    }
+
+    public boolean isGetHarness()
+    {
+        return fileContents != null || fileIndex != null || filename != null;
+    }
+
+    protected HarnessError buildPollingFailureError()
+    {
+        HarnessError result;
+        StringBuilder errorData = new StringBuilder();
+        errorData.append("Timed out");
+        if (isGetHarness())
+        {
+            errorData.append(" retrieving file");
+        }
+        else
+        {
+            errorData.append(" listing files");
+        }
+        if (path != null)
+        {
+            errorData.append(" on path ").append(path);
+        }
+        if (filename != null)
+        {
+            errorData.append(" with filename ").append(filename);
+        }
+        if (fileIndex != null)
+        {
+            errorData.append(" with index ").append(fileIndex);
+        }
+        if (fileContents != null && fileContents.size() > 0)
+        {
+            errorData.append(" containing data '");
+            for (int i = 0; i < fileContents.size(); i++)
+            {
+                errorData.append(fileContents.get(i));
+                if (i + 1 == fileContents.size())
+                {
+                    errorData.append(",");
+                }
+            }
+            errorData.append("'");
+        }
+        result = new HarnessError(this, "FTP Polling Wait", errorData.toString());
+        return result;
     }
 
     public RunResponse getResponse()
@@ -195,7 +243,7 @@ public class FTPWaitHarness extends PollingWaitHarness
     @HarnessParameter(name = "file_contents")
     public void setFileContents(String fileContents)
     {
-        if(this.fileContents == null)
+        if (this.fileContents == null)
         {
             this.fileContents = new ArrayList<String>();
         }

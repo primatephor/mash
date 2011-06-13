@@ -12,6 +12,7 @@
 package org.mash.harness.db.sql;
 
 import org.apache.log4j.Logger;
+import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
@@ -61,8 +62,7 @@ public class DBWaitHarness extends PollingWaitHarness
     private SQLRunHarness run;
 
     @Override
-    protected boolean poll(List<RunHarness> previous,
-                           List<SetupHarness> setups)
+    protected boolean poll(List<RunHarness> previous, List<SetupHarness> setups)
     {
         boolean result = false;
 
@@ -108,6 +108,11 @@ public class DBWaitHarness extends PollingWaitHarness
             run.setSql(sql);
         }
         return run;
+    }
+
+    protected HarnessError buildPollingFailureError()
+    {
+        return new HarnessError(this, "DB Polling Wait", "Timed out running SQL '" + sql + "'");
     }
 
     @HarnessConfiguration(name = "timeout")
