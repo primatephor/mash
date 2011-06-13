@@ -64,8 +64,13 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
 
         if (!isComplete)
         {
-            this.getErrors().add(new HarnessError(this, "Polling Wait", "Timed out before polling succeeded"));
+            this.getErrors().add(buildPollingFailureError());
         }
+    }
+
+    protected HarnessError buildPollingFailureError()
+    {
+        return new HarnessError(this, "Polling Wait", "Timed out before polling succeeded");
     }
 
     /**
