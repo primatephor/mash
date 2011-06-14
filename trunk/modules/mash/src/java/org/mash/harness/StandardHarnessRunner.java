@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2011 Ensenda, Inc. All Rights Reserved.
+ * This code  is the  sole  property  of  Ensenda Inc.,
+ * and is protected  by  copyright  under the  laws of the United
+ * States. This program is confidential, proprietary, and a trade
+ * secret, not to be disclosed without written authorization from
+ * Ensenda Inc.  Any  use, duplication, or  disclosure
+ * of  this  program  by other than Ensenda Inc. and its
+ * assigned licensees is strictly forbidden by law.
+ */
+
 package org.mash.harness;
 
 import org.mash.config.ScriptDefinition;
@@ -11,8 +22,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * @author: teastlack
- * @since: Jun 13, 2011
+ * @author teastlack
+ * @since Jun 13, 2011
  */
 public class StandardHarnessRunner implements HarnessRunner
 {
@@ -84,7 +95,7 @@ public class StandardHarnessRunner implements HarnessRunner
         logMsg("run", harness);
         lastRun = harness;
         getLastRun().run(getPreviousRuns(), getSetupHarnesses());
-        previousRuns.add(getLastRun());
+        getPreviousRuns().add(getLastRun());
         return harness.getErrors();
     }
 
@@ -92,6 +103,7 @@ public class StandardHarnessRunner implements HarnessRunner
     {
         logMsg("setup", harness);
         harness.setup();
+        getSetupHarnesses().add(harness);
         return harness.getErrors();
     }
 

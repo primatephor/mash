@@ -52,6 +52,7 @@ public class ScriptDefinitionLoader
         ScriptDefinition fileDef = pullFile(filename, basePath);
         if (fileDef != null)
         {
+            fileDef.getParameter().addAll(scriptDefinition.getParameter());
             result.add(fileDef);
         }
         //load the directory of tests

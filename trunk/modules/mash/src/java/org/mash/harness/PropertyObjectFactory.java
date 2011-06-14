@@ -16,7 +16,7 @@ import java.util.List;
 public class PropertyObjectFactory
 {
     private static PropertyObjectFactory ourInstance = new PropertyObjectFactory();
-    public static String HARNESS_RUNNER = System.getProperty("script.runner", "org.mash.harness.StandardHarnessRunner");
+    public static String HARNESS_RUNNER = System.getProperty("harness.runner", "org.mash.harness.StandardHarnessRunner");
     public static String RUNNER = System.getProperty("script.runner", "org.mash.harness.StandardScriptRunner");
     public static String FORMATTER = System.getProperty("suite.error.formatter", "org.mash.tool.ErrorFormatter");
     public static String SUITE_MARSHALLER = System.getProperty("suite.marshaller", "org.mash.loader.JAXBSuiteMarshaller");
@@ -57,8 +57,7 @@ public class PropertyObjectFactory
     }
 
     //helper methods for dealing with existing known properties
-    public HarnessRunner buildHarnessRunner(RunHarness lastRun,
-                                            List<RunHarness> previousRuns,
+    public HarnessRunner buildHarnessRunner(List<RunHarness> previousRuns,
                                             List<SetupHarness> setupHarnesses) throws InstantiationException
     {
         HarnessRunner harnessRunner = (HarnessRunner) buildObject(HARNESS_RUNNER);

@@ -2,6 +2,7 @@
     <Tag>login</Tag>
     <Tag>website</Tag>
     <Tag>myapp</Tag>
+
     <Setup type="org.mash.harness.DBSetupHarness">
         <Configuration name="clean">
             <Value>true</Value>
@@ -28,9 +29,7 @@
         <Configuration name="status">
             <Value>200</Value>
         </Configuration>
-        <Configuration name="title">
-            <Value>My Page Title</Value>
-        </Configuration>
+        <Configuration name="title" scriptParameter="search_title"/>
         <Configuration name="contains">
             <Value>Enter your order number</Value>
         </Configuration>

@@ -155,6 +155,8 @@ public class StandardScriptRunner implements ScriptRunner
                         Harness harness = (Harness) toRun;
                         HarnessRunner runner = getHarnessRunner();
                         errors.addAll(runner.run(definition, harness, getPreviousRuns()));
+                        getPreviousRuns().addAll(runner.getPreviousRuns());
+                        getSetupHarnesses().addAll(runner.getSetupHarnesses());
                         lastRun = runner.getLastRun();
                     }
                     else if (toRun instanceof ScriptDefinition)
@@ -186,15 +188,17 @@ public class StandardScriptRunner implements ScriptRunner
         return errors;
     }
 
-    protected List<HarnessError> processScriptDefinition(ScriptDefinition definition,
+    protected List<HarnessError> processScriptDefinition(ScriptDefinition currentDefinition,
                                                          ScriptDefinitionLoader loader,
-                                                         ScriptDefinition scriptDef) throws Exception
+                                                         ScriptDefinition toRun) throws Exception
     {
         List<HarnessError> errors = Collections.emptyList();
-        log.info("Loading script " + scriptDef.getDir() + "/" + scriptDef.getFile());
-        List<ScriptDefinition> scripts = loader.pullSubDefinitions(scriptDef, definition.getPath());
+        log.info("Loading script " + toRun.getDir() + "/" + toRun.getFile());
+        List<ScriptDefinition> scripts = loader.pullSubDefinitions(toRun, currentDefinition.getPath());
         for (ScriptDefinition subDefinition : scripts)
         {
+            //send parameters to the sub definition
+            subDefinition.getParameter().addAll(currentDefinition.getParameter());
             ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
             if (runner != null)
             {
@@ -218,8 +222,7 @@ public class StandardScriptRunner implements ScriptRunner
     {
         if(harnessRunner == null)
         {
-            harnessRunner = PropertyObjectFactory.getInstance().buildHarnessRunner(getLastRun(),
-                                                                                   getPreviousRuns(),
+            harnessRunner = PropertyObjectFactory.getInstance().buildHarnessRunner(getPreviousRuns(),
                                                                                    getSetupHarnesses());
         }
         return harnessRunner;
