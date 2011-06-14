@@ -1,12 +1,13 @@
 package org.mash.junit;
 
 import junit.framework.TestCase;
+import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 import org.mash.harness.DBSetupHarness;
 import org.mash.harness.Harness;
 import org.mash.harness.HttpRunHarness;
 import org.mash.harness.HttpVerifyHarness;
-import org.mash.loader.ScriptLoaderProxy;
+import org.mash.loader.ScriptDefinitionLoader;
 import org.mash.loader.SuiteLoader;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
@@ -23,7 +24,8 @@ public class TestStandardTestCase extends TestCase
         System.setProperty("script.runner", "org.mash.junit.MyScriptRunner");
 
         Suite suite = new SuiteLoader().loadSuite("org/mash/junit/suite.xml");
-        StandardTestCase theCase = new StandardTestCase(new ScriptLoaderProxy("baseRun.xml", suite));
+        List<ScriptDefinition> scripts = new ScriptDefinitionLoader().pullSubDefinitions((ScriptDefinition) suite.getScriptOrParallel().get(0), suite.getPath());
+        StandardTestCase theCase = new StandardTestCase(scripts.get(0));
         theCase.runTest();
         List<Harness> harnesses = ((MyScriptRunner) theCase.getHarnessRunner()).getHarnesses();
 
@@ -42,6 +44,8 @@ public class TestStandardTestCase extends TestCase
         HttpVerifyHarness httpVerifyHarness = (HttpVerifyHarness) ((AnnotatedHarness) harnesses.get(2)).getWrap();
         assertEquals(Boolean.TRUE, httpVerifyHarness.verifyCalled);
         assertEquals("status", httpVerifyHarness.getConfigs().get(0).getName());
+        assertEquals("title", httpVerifyHarness.getConfigs().get(1).getName());
+        assertEquals("My Page Title", httpVerifyHarness.getConfigs().get(1).getValue());
 
         httpRunHarness = (HttpRunHarness) ((AnnotatedHarness) harnesses.get(3)).getWrap();
         assertEquals(Boolean.TRUE, httpRunHarness.runCalled);
