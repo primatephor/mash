@@ -2,6 +2,8 @@ package org.mash.harness;
 
 import org.mash.loader.SuiteMarshaller;
 
+import java.util.List;
+
 /**
  * Build objects from common property values.  This is mostly a convenience class, but should help clean up and
  * centralize some of these properties.
@@ -14,6 +16,7 @@ import org.mash.loader.SuiteMarshaller;
 public class PropertyObjectFactory
 {
     private static PropertyObjectFactory ourInstance = new PropertyObjectFactory();
+    public static String HARNESS_RUNNER = System.getProperty("script.runner", "org.mash.harness.StandardHarnessRunner");
     public static String RUNNER = System.getProperty("script.runner", "org.mash.harness.StandardScriptRunner");
     public static String FORMATTER = System.getProperty("suite.error.formatter", "org.mash.tool.ErrorFormatter");
     public static String SUITE_MARSHALLER = System.getProperty("suite.marshaller", "org.mash.loader.JAXBSuiteMarshaller");
@@ -54,6 +57,16 @@ public class PropertyObjectFactory
     }
 
     //helper methods for dealing with existing known properties
+    public HarnessRunner buildHarnessRunner(RunHarness lastRun,
+                                            List<RunHarness> previousRuns,
+                                            List<SetupHarness> setupHarnesses) throws InstantiationException
+    {
+        HarnessRunner harnessRunner = (HarnessRunner) buildObject(HARNESS_RUNNER);
+        harnessRunner.getPreviousRuns().addAll(previousRuns);
+        harnessRunner.getSetupHarnesses().addAll(setupHarnesses);
+        return harnessRunner;
+    }
+
     public ScriptRunner buildRunner() throws InstantiationException
     {
         return (ScriptRunner) buildObject(RUNNER);

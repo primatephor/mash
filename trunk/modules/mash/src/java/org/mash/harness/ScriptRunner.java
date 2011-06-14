@@ -11,7 +11,7 @@ import java.util.List;
  * <p/>
  * User: teastlack Date: Jul 7, 2009 Time: 3:51:16 PM
  */
-public interface ScriptRunner
+public interface ScriptRunner extends Runner
 {
     /**
      * Run the definition and return any errors
@@ -20,26 +20,4 @@ public interface ScriptRunner
      * @throws Exception when something odd happens
      */
     List<HarnessError> run(ScriptDefinition definition) throws Exception;
-
-    /**
-     * For subscript invocation, need to retrieve the previous run information and supply to the
-     * super script.
-     *
-     * @return runs
-     */
-    List<RunHarness> getPreviousRuns();
-
-    /**
-     * For subscript invocation, retrieve setup information from subscript.
-     *
-     * @return setups
-     */
-    List<SetupHarness> getSetupHarnesses();
-
-    /**
-     * and the last run from the subscript
-     *
-     * @return last run harness
-     */
-    RunHarness getLastRun();
 }

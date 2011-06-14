@@ -1,14 +1,10 @@
 package org.mash.harness;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
-import org.mash.config.Parameter;
 import org.mash.config.ScriptDefinition;
 import org.mash.loader.HarnessBuilder;
 import org.mash.loader.ScriptDefinitionLoader;
-import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
-import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 import org.mash.tool.ErrorFormatter;
 import org.mash.tool.ErrorHandler;
 import org.mash.tool.StringUtil;
@@ -35,8 +31,8 @@ public class StandardScriptRunner implements ScriptRunner
     private static final Logger log = Logger.getLogger(StandardScriptRunner.class.getName());
 
     protected List harnesses;
+    private HarnessRunner harnessRunner;
     private List<SetupHarness> setupHarnesses;
-
     private RunHarness lastRun;
     private List<RunHarness> previousRuns;
 
@@ -143,7 +139,6 @@ public class StandardScriptRunner implements ScriptRunner
     public List<HarnessError> run(ScriptDefinition definition) throws Exception
     {
         List<HarnessError> errors = new ArrayList<HarnessError>();
-        String lastRun;
 
         try
         {
@@ -153,15 +148,14 @@ public class StandardScriptRunner implements ScriptRunner
             if (this.harnesses != null)
             {
                 log.debug("Running test");
-                CalculatingParameterBuilder parameterBuilder = new CalculatingParameterBuilder();
-                CalculatingConfigBuilder configurationBuilder = new CalculatingConfigBuilder();
-
                 for (Object toRun : this.harnesses)
                 {
                     if (toRun instanceof Harness)
                     {
                         Harness harness = (Harness) toRun;
-                        errors.addAll(processHarness(definition, configurationBuilder, parameterBuilder, harness));
+                        HarnessRunner runner = getHarnessRunner();
+                        errors.addAll(runner.run(definition, harness, getPreviousRuns()));
+                        lastRun = runner.getLastRun();
                     }
                     else if (toRun instanceof ScriptDefinition)
                     {
@@ -220,82 +214,15 @@ public class StandardScriptRunner implements ScriptRunner
         return errors;
     }
 
-    protected List<HarnessError> processHarness(ScriptDefinition definition,
-                                                CalculatingConfigBuilder configurationBuilder,
-                                                CalculatingParameterBuilder parameterBuilder,
-                                                Harness harness) throws Exception
+    public HarnessRunner getHarnessRunner() throws InstantiationException
     {
-        List<HarnessError> errors = new ArrayList<HarnessError>();
-        log.info("Running harness " + harness.getDefinition().getName());
-        List<Configuration> configs = configurationBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
-        harness.setConfiguration(configs);
-        List<Parameter> params = parameterBuilder.applyParameters(getPreviousRuns(), definition, harness.getDefinition());
-        harness.setParameters(params);
-        try
+        if(harnessRunner == null)
         {
-            if (harness instanceof SetupHarness)
-            {
-                errors.addAll(runSetupHarness((SetupHarness) harness));
-            }
-            if (harness instanceof RunHarness)
-            {
-                errors.addAll(runRunHarness((RunHarness) harness));
-            }
-            if (harness instanceof VerifyHarness)
-            {
-                errors.addAll(runVerifyHarness((VerifyHarness) harness));
-            }
-            if (harness instanceof TeardownHarness)
-            {
-                errors.addAll(runTeardown((TeardownHarness) harness));
-            }
+            harnessRunner = PropertyObjectFactory.getInstance().buildHarnessRunner(getLastRun(),
+                                                                                   getPreviousRuns(),
+                                                                                   getSetupHarnesses());
         }
-        catch (Exception e)
-        {
-            errors.add(new HarnessError(harness, "Exception Running Harness", e));
-        }
-        return errors;
-    }
-
-    protected List<HarnessError> runTeardown(TeardownHarness harness)
-    {
-        logMsg("teardown", harness);
-        harness.teardown(getSetupHarnesses());
-        return harness.getErrors();
-    }
-
-    protected List<HarnessError> runVerifyHarness(VerifyHarness harness)
-    {
-        logMsg("verify", harness);
-        harness.verify(getLastRun(), getSetupHarnesses());
-        return harness.getErrors();
-    }
-
-    protected List<HarnessError> runRunHarness(RunHarness harness)
-    {
-        logMsg("run", harness);
-        lastRun = harness;
-        lastRun.run(getPreviousRuns(), getSetupHarnesses());
-        previousRuns.add(getLastRun());
-        return harness.getErrors();
-    }
-
-    protected List<HarnessError> runSetupHarness(SetupHarness harness) throws Exception
-    {
-        logMsg("setup", harness);
-        harness.setup();
-        return harness.getErrors();
-    }
-
-    private void logMsg(String harnessType,
-                        Harness harness)
-    {
-        String harnessName = harness.getClass().getName();
-        if (harness.getDefinition().getName() != null)
-        {
-            harnessName = harness.getDefinition().getName();
-        }
-        log.info("Running " + harnessType + " '" + harnessName + "'");
+        return harnessRunner;
     }
 
     public List getHarnesses()
@@ -325,4 +252,5 @@ public class StandardScriptRunner implements ScriptRunner
     {
         return lastRun;
     }
+
 }
