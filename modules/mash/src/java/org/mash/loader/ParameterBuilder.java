@@ -31,7 +31,7 @@ import java.util.List;
  * <li>FileAccessor</li>
  * <li>ReplaceAccessor (can replace data in any of the above)</li>
  * </ul>
- *
+ * <p/>
  * To find values to replace, the replace also makes use of these accessors.  They are:
  * <ul>
  * <li>ValueAccessor</li>
@@ -93,13 +93,26 @@ public abstract class ParameterBuilder<T extends BaseParameter>
 
     protected abstract List<T> getConfigParams(HarnessDefinition harnessDefinition);
 
-    protected AccessorChain buildChain(List<RunHarness> previousRun, ScriptDefinition scriptDefinition, File path)
+    protected AccessorChain buildChain(List<RunHarness> previousRun,
+                                       ScriptDefinition scriptDefinition,
+                                       File path)
     {
         if (accessChain == null)
         {
+            //script accessor
+            AccessorChain  scriptParamChain = new AccessorChain();
+            scriptParamChain.add(new ValueAccessor());
+            scriptParamChain.add(new PropertyAccessor());
+            scriptParamChain.add(new DateAccessor());
+            if (previousRun != null)
+            {
+                scriptParamChain.add(new ResponseAccessor(previousRun));
+            }
+            scriptParamChain.add(new FileAccessor(path));
+
             accessChain = new AccessorChain();
             accessChain.add(new ValueAccessor());
-            accessChain.add(new ScriptParameterAccessor(scriptDefinition));
+            accessChain.add(new ScriptParameterAccessor(scriptDefinition, scriptParamChain));
             accessChain.add(new PropertyAccessor());
             accessChain.add(new DateAccessor());
             if (previousRun != null)
@@ -108,9 +121,10 @@ public abstract class ParameterBuilder<T extends BaseParameter>
             }
             accessChain.add(new FileAccessor(path));
 
+            //ressponse accessor
             AccessorChain replaceChain = new AccessorChain();
             replaceChain.add(new ValueAccessor());
-            replaceChain.add(new ScriptParameterAccessor(scriptDefinition));
+            replaceChain.add(new ScriptParameterAccessor(scriptDefinition, scriptParamChain));
             replaceChain.add(new PropertyAccessor());
             replaceChain.add(new DateAccessor());
             if (previousRun != null)
