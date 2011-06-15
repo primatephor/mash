@@ -1,7 +1,6 @@
 package org.mash.loader;
 
 import org.mash.config.HarnessDefinition;
-import org.mash.config.ScriptDefinition;
 import org.mash.harness.Harness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
@@ -10,7 +9,6 @@ import org.mash.harness.TeardownHarness;
 import org.mash.harness.VerifyHarness;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -18,16 +16,13 @@ import java.util.List;
  * harnesses.
  * <p/>
  *
- * @author: teastlack
- * @since: Jul 4, 2009
+ * @author teastlack
+ * @since Jul 4, 2009
  */
 public class HarnessBuilder
 {
-    private ScriptDefinitionLoader scriptDefinitionLoader;
-
     public HarnessBuilder()
     {
-        scriptDefinitionLoader = new ScriptDefinitionLoader();
     }
 
     public Harness buildHarness(HarnessDefinition harnessDefinition) throws HarnessException
@@ -60,26 +55,6 @@ public class HarnessBuilder
             throw new HarnessException("Problem building harness '" + classname + "':" + e.getMessage(), e);
         }
         return harness;
-    }
-
-    public ScriptDefinition buildScriptDefinition(ScriptDefinition scriptDefinition, File currentPath) throws HarnessException
-    {
-        //only works with file definitions, don't run whole directories
-        String filename = scriptDefinition.getFile();
-        ScriptDefinition result;
-        try
-        {
-            result = scriptDefinitionLoader.pullFile(filename, currentPath);
-            if (result == null)
-            {
-                result = scriptDefinition;
-            }
-        }
-        catch (Exception e)
-        {
-            throw new HarnessException("Unable to load script at " + filename, e);
-        }
-        return result;
     }
 
     private class SetupAnnotatedHarness extends AnnotatedHarness implements SetupHarness

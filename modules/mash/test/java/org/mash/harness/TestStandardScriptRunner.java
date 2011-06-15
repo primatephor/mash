@@ -1,6 +1,7 @@
 package org.mash.harness;
 
 import junit.framework.TestCase;
+import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 import org.mash.loader.ScriptDefinitionLoader;
@@ -20,7 +21,9 @@ public class TestStandardScriptRunner extends TestCase
         ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         SuiteLoader suiteLoader = new SuiteLoader();
         Suite suite = suiteLoader.loadSuite("org/mash/harness/testHarnessAndScript_data/suite1.xml");
-        ScriptDefinition definition = loader.pullFile("script1.xml", suite);
+        Script theScript = new Script();
+        theScript.setFile("script1.xml");
+        ScriptDefinition definition = loader.pullDefinition(theScript, suite);
 
         DBSetupHarness.reset();
         HttpRunHarness.reset();
@@ -54,7 +57,8 @@ public class TestStandardScriptRunner extends TestCase
         ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         SuiteLoader suiteLoader = new SuiteLoader();
         Suite suite = suiteLoader.loadSuite("org/mash/harness/testHarnessAndScript_data/suite1.xml");
-        ScriptDefinition definition = loader.pullFile("script3.xml", suite);
+        Script theScript = (Script) suite.getScriptOrParallel().get(1); //is the script3
+        ScriptDefinition definition = loader.pullDefinition(theScript, suite);
 
         DBSetupHarness.reset();
         HttpRunHarness.reset();
@@ -62,19 +66,22 @@ public class TestStandardScriptRunner extends TestCase
         runner.run(definition);
 
         StandardScriptRunner standardScriptRunner = (StandardScriptRunner) runner;
-        assertEquals(3, standardScriptRunner.getHarnesses().size());
         AnnotatedHarness harness;
 
         harness = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(0);
         assertTrue("DB setup not invoked", ((DBSetupHarness) harness.getWrap()).setupCalled);
 
         //sub script
-//        ScriptLoaderProxy subScript = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(1);
-//        //subdirectories DO NOT WORK (not supposed to)
-//        assertEquals(null, subScript);
+        ScriptLoaderProxy subScript = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(1);
+        assertEquals("script4", subScript.getName());
+        assertEquals("someparam", subScript.getParameter().get(0).getName());
+
+        subScript = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(2);
+        assertEquals("script5", subScript.getName());
+        assertEquals("someparam", subScript.getParameter().get(0).getName());
 
         //back to main script
-        harness = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(2);
+        harness = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(3);
         assertTrue("Http run not invoked", ((HttpRunHarness) harness.getWrap()).runCalled);
 
         //db and http should have been called 2 times with these scripts!

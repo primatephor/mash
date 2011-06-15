@@ -2,6 +2,7 @@ package org.mash.harness;
 
 import org.apache.log4j.Logger;
 import org.mash.config.HarnessDefinition;
+import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.loader.HarnessBuilder;
 import org.mash.loader.ScriptDefinitionLoader;
@@ -58,7 +59,10 @@ public class StandardScriptRunner implements ScriptRunner
             }
         }
         StandardScriptRunner runner = new StandardScriptRunner();
-        ScriptDefinition definition = new ScriptDefinitionLoader().pullFile(fileName, new File("."));
+
+        Script theScript = new Script();
+        theScript.setFile(fileName);
+        ScriptDefinition definition = new ScriptDefinitionLoader().pullDefinition(theScript, new File("."));
 
         if (definition != null)
         {
@@ -91,6 +95,7 @@ public class StandardScriptRunner implements ScriptRunner
     {
         List results = new ArrayList();
         HarnessBuilder builder = new HarnessBuilder();
+        ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         if (definition.getHarnesses() != null)
         {
             for (Object current : definition.getHarnesses())
@@ -111,11 +116,14 @@ public class StandardScriptRunner implements ScriptRunner
                 else if (current instanceof ScriptDefinition)
                 {
                     ScriptDefinition scriptDefinition = (ScriptDefinition) current;
-                    ScriptDefinition toAdd = builder.buildScriptDefinition(scriptDefinition, definition.getPath());
-                    log.info("Loading script " +
-                            StringUtil.cleanNull(toAdd.getDir()) + "/" +
-                            StringUtil.cleanNull(toAdd.getFile()));
-                    results.add(toAdd);
+                    List<ScriptDefinition> toAdd = loader.pullSubDefinitions(scriptDefinition, definition.getPath());
+                    for (ScriptDefinition sub : toAdd)
+                    {
+                        log.info("Loading script " +
+                                StringUtil.cleanNull(sub.getDir()) + "/" +
+                                StringUtil.cleanNull(sub.getFile()));
+                        results.add(sub);
+                    }
                 }
                 else
                 {
@@ -197,8 +205,6 @@ public class StandardScriptRunner implements ScriptRunner
         List<ScriptDefinition> scripts = loader.pullSubDefinitions(toRun, currentDefinition.getPath());
         for (ScriptDefinition subDefinition : scripts)
         {
-            //send parameters to the sub definition
-            subDefinition.getParameter().addAll(currentDefinition.getParameter());
             ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
             if (runner != null)
             {

@@ -1,6 +1,7 @@
 package org.mash.loader;
 
 import junit.framework.TestCase;
+import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 
@@ -41,7 +42,9 @@ public class TestScriptDefinitionLoader extends TestCase
         ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         SuiteLoader suiteLoader = new SuiteLoader();
         Suite suite = suiteLoader.loadSuite("org/mash/loader/suite2.xml");
-        ScriptDefinition definition = loader.pullFile("dir/test.xml", suite);
+        Script theScript = new Script();
+        theScript.setFile("dir/test.xml");
+        ScriptDefinition definition = loader.pullDefinition(theScript, suite);
 
         assertEquals("The Test", definition.getName());
     }

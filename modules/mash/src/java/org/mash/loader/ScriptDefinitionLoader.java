@@ -1,6 +1,7 @@
 package org.mash.loader;
 
 import org.apache.log4j.Logger;
+import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 import org.mash.file.FileLoader;
@@ -37,7 +38,7 @@ public class ScriptDefinitionLoader
     }
 
     /**
-     * Load the subscripts of this script definition.
+     * Load the directory of subscripts of this script definition.
      *
      * @param scriptDefinition to check for referenced scripts in
      * @param basePath         of the suite (or whereever the base has been run)
@@ -45,15 +46,14 @@ public class ScriptDefinitionLoader
      * @throws FileReaderException      when unable to read a file
      * @throws SuiteMarshallerException when unable to marshal file
      */
-    public List<ScriptDefinition> pullSubDefinitions(ScriptDefinition scriptDefinition, File basePath) throws SuiteMarshallerException, FileReaderException
+    public List<ScriptDefinition> pullSubDefinitions(ScriptDefinition scriptDefinition, File basePath)
+            throws SuiteMarshallerException, FileReaderException
     {
         List<ScriptDefinition> result = new ArrayList<ScriptDefinition>();
-        String filename = scriptDefinition.getFile();
-        ScriptDefinition fileDef = pullFile(filename, basePath);
-        if (fileDef != null)
+        ScriptDefinition top = pullDefinition(scriptDefinition, basePath);
+        if (top != null)
         {
-            fileDef.getParameter().addAll(scriptDefinition.getParameter());
-            result.add(fileDef);
+            result.add(top);
         }
         //load the directory of tests
         String dirname = scriptDefinition.getDir();
@@ -62,7 +62,41 @@ public class ScriptDefinitionLoader
             List<ScriptDefinition> scripts = pullDir(dirname, basePath);
             for (ScriptDefinition script : scripts)
             {
+                script.getParameter().addAll(scriptDefinition.getParameter());
                 result.add(script);
+            }
+        }
+        return result;
+    }
+
+
+    public ScriptDefinition pullDefinition(ScriptDefinition scriptDefinition, Suite suite)
+            throws SuiteMarshallerException, FileReaderException
+    {
+        return pullDefinition(scriptDefinition, suite.getPath());
+    }
+
+    /**
+     * Load the specific subscript in this definition
+     *
+     * @param scriptDefinition to retrieve
+     * @param basePath         of start point
+     * @return defined script
+     * @throws SuiteMarshallerException when xml is invalid
+     * @throws FileReaderException      when file not found
+     */
+    public ScriptDefinition pullDefinition(ScriptDefinition scriptDefinition, File basePath)
+            throws SuiteMarshallerException, FileReaderException
+    {
+        ScriptDefinition result = null;
+        String filename = scriptDefinition.getFile();
+        if (filename != null)
+        {
+            ScriptLoaderProxy proxy = new ScriptLoaderProxy(filename, basePath);
+            if (proxy.isValidTestFile() && checktags(proxy))
+            {
+                result = proxy;
+                result.getParameter().addAll(scriptDefinition.getParameter());
             }
         }
         return result;
@@ -77,12 +111,14 @@ public class ScriptDefinitionLoader
      * @throws FileReaderException      when unable to read a file
      * @throws SuiteMarshallerException when unable to marshal file
      */
-    public List<ScriptDefinition> pullDir(String directory, Suite suite) throws FileReaderException, SuiteMarshallerException
+    public List<ScriptDefinition> pullDir(String directory, Suite suite)
+            throws FileReaderException, SuiteMarshallerException
     {
         return pullDir(directory, suite.getPath());
     }
 
-    public List<ScriptDefinition> pullDir(String directory, File basePath) throws FileReaderException, SuiteMarshallerException
+    public List<ScriptDefinition> pullDir(String directory, File basePath)
+            throws FileReaderException, SuiteMarshallerException
     {
         List<ScriptDefinition> scripts = new ArrayList<ScriptDefinition>();
         if (directory != null)
@@ -100,7 +136,9 @@ public class ScriptDefinitionLoader
                 {
                     if (file.getAbsolutePath().toLowerCase().endsWith(".xml"))
                     {
-                        ScriptDefinition pulled = pullFile(file.getAbsolutePath(), basePath);
+                        Script theScript = new Script();
+                        theScript.setFile(file.getAbsolutePath());
+                        ScriptDefinition pulled = pullDefinition(theScript, basePath);
                         if (pulled != null)
                         {
                             scripts.add(pulled);
@@ -114,30 +152,6 @@ public class ScriptDefinitionLoader
             }
         }
         return scripts;
-    }
-
-    /**
-     * Pull the definition specified by the filename
-     *
-     * @param filename to retrieve tests from
-     * @param suite    of all tests
-     * @return list of test definitions
-     * @throws FileReaderException      when unable to read a file
-     * @throws SuiteMarshallerException when unable to marshal file
-     */
-    public ScriptDefinition pullFile(String filename, Suite suite) throws FileReaderException, SuiteMarshallerException
-    {
-        return pullFile(filename, suite.getPath());
-    }
-
-    public ScriptDefinition pullFile(String filename, File suitePath) throws FileReaderException, SuiteMarshallerException
-    {
-        ScriptLoaderProxy proxy = new ScriptLoaderProxy(filename, suitePath);
-        if (proxy.isValidTestFile() && checktags(proxy))
-        {
-            return proxy;
-        }
-        return null;
     }
 
     /**
