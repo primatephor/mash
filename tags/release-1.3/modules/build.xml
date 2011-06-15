@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<project name="Mash Framework Build" default="build">
+
+    <!--
+    Initialization components
+    -->
+    <target name="init">
+        <property environment="ENV"/>
+        <property file="./build.properties"/>
+        <property name="target.name" value="target"/>
+
+        <condition property="build.dir" value="${build.dir}" else="${ENV.BUILD_DIR}">
+            <isset property="build.dir"/>
+        </condition>
+        <property name="build.tgt" value="${build.dir}/${target.name}"/>
+
+        <property name="buildfile" value="${build.dir}/buildCode.xml"/>
+        <property name="testfile" value="${build.dir}/buildTest.xml"/>
+    </target>
+
+    <!--
+    Modules to construct
+    -->
+
+    <target name="compile" depends="init">
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="mash"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="runner"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="utilityharness"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="httpharness"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="dbharness"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="ftpharness"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="messageharness"/>
+            <target name="makeJar"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="mailharness"/>
+            <target name="makeJar"/>
+        </ant>
+    </target>
+
+    <target name="build" depends="compile"/>
+
+    <!--
+    Unit Test definitions
+    -->
+    <target name="test" depends="init">
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="mash"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="runner"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="utilityharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="httpharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="dbharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="ftpharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="messageharness"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+            <property name="module.dir" value="mailharness"/>
+        </ant>
+    </target>
+
+    <!--
+    Clean definitions
+    -->
+    <target name="clean" depends="init">
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="mash"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="runner"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="utilityharness"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="httpharness"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="dbharness"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="ftpharness"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="messageharness"/>
+            <target name="clean"/>
+        </ant>
+        <ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+            <property name="module.dir" value="mailharness"/>
+            <target name="clean"/>
+        </ant>
+        <delete dir="${build.tgt}"/>
+    </target>
+
+    <!-- 
+    Javadoc definitions
+    -->
+
+    <target name="docs" depends="init,build">
+        <path id="local.class.path">
+            <fileset dir="${build.tgt}" includes="*.jar,mashlib/*.jar,dbharnesslib/*.jar,httpharnesslib/*.jar,junitrunnerlib/*.jar,ftpharnesslib/*.jar,utilityharnesslib/*.jar"/>
+        </path>
+        <delete dir="${build.tgt}/javadocs"/>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Mash Framework Classes">
+            <sourcepath path="mash/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="DB Harness Classes">
+            <sourcepath path="dbharness/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="HTTP Harness Classes">
+            <sourcepath path="httpharness/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="JUnit Runner Classes">
+            <sourcepath path="runner/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="FTP Harness Classes">
+            <sourcepath path="ftpharness/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Utility Harness Classes">
+            <sourcepath path="utilityharness/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Utility Harness Classes">
+            <sourcepath path="messageharness/src/java"/>
+        </javadoc>
+        <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Utility Harness Classes">
+            <sourcepath path="mailharness/src/java"/>
+        </javadoc>
+    </target>
+
+</project>
