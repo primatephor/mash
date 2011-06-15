@@ -2,6 +2,7 @@ package org.mash.loader;
 
 import junit.framework.TestCase;
 import org.mash.config.Configuration;
+import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Setup;
 import org.mash.config.Suite;
@@ -26,7 +27,9 @@ public class TestHarnessBuilder extends TestCase
         ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         SuiteLoader suiteLoader = new SuiteLoader();
         Suite suite = suiteLoader.loadSuite("org/mash/loader/suite1.xml");
-        ScriptDefinition definition = loader.pullFile("dir/setup.xml", suite);
+        Script theScript = new Script();
+        theScript.setFile("dir/setup.xml");
+        ScriptDefinition definition = loader.pullDefinition(theScript, suite);
 
         assertEquals("Sample Setup", definition.getName());
         List harnesses = definition.getHarnesses();
@@ -48,7 +51,9 @@ public class TestHarnessBuilder extends TestCase
         ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         SuiteLoader suiteLoader = new SuiteLoader();
         Suite suite = suiteLoader.loadSuite("org/mash/loader/suite1.xml");
-        ScriptDefinition definition = loader.pullFile("dir/setup2.xml", suite);
+        Script theScript = new Script();
+        theScript.setFile("dir/setup2.xml");
+        ScriptDefinition definition = loader.pullDefinition(theScript, suite);
 
         assertEquals("Sample 2 Setup", definition.getName());
         List harnesses = definition.getHarnesses();

@@ -1,8 +1,8 @@
-<ns1:Script name="The Subscript in a subdir" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
-    <Setup type="org.mash.harness.DBSetupHarness">
+<ns1:Script name="script4" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+    <Setup type="org.mash.harness.DBSetupHarness" name="s4_db">
         <Configuration name="clean">true</Configuration>
     </Setup>
-    <Run type="org.mash.harness.HttpRunHarness">
+    <Run type="org.mash.harness.HttpRunHarness" name="s4_post">
         <Configuration name="url" property="my.url"/>
         <Configuration name="type">POST</Configuration>
         <Parameter name="username">testuser</Parameter>
