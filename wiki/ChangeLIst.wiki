@@ -1,6 +1,10 @@
 #labels Featured
 = List of changes =
 
+==1.3==
+ * Pass parameters to scripts invoked within a script
+  * The name of the parameter in the calling script 
+
 ==1.0===
  * Runners for command line (not just junit from ant)
   * Run for a particular script
