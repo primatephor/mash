@@ -3,7 +3,9 @@
 
 ==1.3==
  * Pass parameters to scripts invoked within a script
-  * The name of the parameter in the calling script 
+  * The name of the parameter in the calling script should be the same as the attribute 'scriptParameter' in the called script
+  * all transforms (replace, etc) are applicable
+ * Code cleanup
 
 ==1.0===
  * Runners for command line (not just junit from ant)
