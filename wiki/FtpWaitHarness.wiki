@@ -41,3 +41,19 @@ To change the path to a file, and change the default polling settings:
 }}}
 
 Here we check to see if a specific file is present, and poll every 2 seconds for 30 seconds.
+
+Another option would be to get all files and poll until you find one with some specific content:
+{{{
+    <Run type="org.mash.harness.ftp.FTPWaitHarness">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="user"><Value>theuser</Value></Configuration>
+        <Configuration name="password"><Value>password</Value></Configuration>
+        <Configuration name="polltime"><Value>2</Value></Configuration>
+        <Configuration name="timeout"><Value>30</Value></Configuration>
+        <Parameter name="file_contents"><Value>Some Expected Text</Value></Parameter>
+        <Parameter name="file_contents"><Value>More Expected Text</Value></Parameter>
+    </Run>
+}}}
+Each file is parsed looking for the contents 'Some Expected Text' and 'More Expected Text'.  Both must be present. 
+
+The wait harness will hold the specific file if it's been found, so you can perform parsing / verification on it later.
