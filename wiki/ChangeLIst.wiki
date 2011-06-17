@@ -7,6 +7,11 @@
   * all transforms (replace, etc) are applicable
  * Code cleanup
 
+==1.2==
+ * FTPWaitHarness improvements
+  * Scan file for text contents
+  * Keep file results for verification / access
+
 ==1.0===
  * Runners for command line (not just junit from ant)
   * Run for a particular script
