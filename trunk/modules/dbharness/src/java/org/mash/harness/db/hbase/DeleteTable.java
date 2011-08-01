@@ -4,8 +4,11 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.TableNotFoundException;
 import org.apache.log4j.Logger;
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessParameter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Delete an HBase table.  Tabe is disabled first, then deleted.
@@ -13,10 +16,10 @@ import java.io.IOException;
  * Necessary configurations are
  * <ul>
  * <li>site_config (relative path to config file(s), like hbase-site.xml).  Multiple site configs
- *     are allowed, just add more than one site config and all will be added as a resource</li>
+ * are allowed, just add more than one site config and all will be added as a resource</li>
  * </ul>
  * <p/>
- *
+ * <p/>
  * Parameters are:
  * <ul>
  * <li>table (name of table to delete)</li>
@@ -28,6 +31,7 @@ import java.io.IOException;
 public class DeleteTable extends HBaseHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(DeleteTable.class.getName());
+    private List<String> tables;
 
     public void setup()
     {
@@ -39,19 +43,23 @@ public class DeleteTable extends HBaseHarness implements SetupHarness
             {
                 if (!hasErrors())
                 {
-                    if (admin.tableExists(getTableName()))
+                    for (String table : getTables())
                     {
-                        if (admin.isTableEnabled(getTableName()))
+                        super.setTable(table);
+                        if (admin.tableExists(getTableName()))
                         {
-                            log.info("Disabling table");
-                            admin.disableTable(getTableName());
+                            if (admin.isTableEnabled(getTableName()))
+                            {
+                                log.info("Disabling table");
+                                admin.disableTable(getTableName());
+                            }
+                            log.info("Deleting table");
+                            admin.deleteTable(getTableName());
                         }
-                        log.info("Deleting table");
-                        admin.deleteTable(getTableName());
-                    }
-                    else
-                    {
-                        log.info("No table named " + getTableName() + " exists");
+                        else
+                        {
+                            log.info("No table named " + getTableName() + " exists");
+                        }
                     }
                 }
             }
@@ -64,5 +72,20 @@ public class DeleteTable extends HBaseHarness implements SetupHarness
                 addError("Problem deleting table " + getTableName(), e);
             }
         }
+    }
+
+    @HarnessParameter(name = "table")
+    public void setTable(String table)
+    {
+        getTables().add(table);
+    }
+
+    public List<String> getTables()
+    {
+        if (tables == null)
+        {
+            tables = new ArrayList<String>();
+        }
+        return tables;
     }
 }
