@@ -1,6 +1,7 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.SgmlPage;
+import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import org.apache.log4j.Logger;
@@ -76,7 +77,13 @@ public class HttpResponse implements RunResponse
         List<?> paths = webPage.getByXPath(name);
         for (Object path : paths)
         {
-            if (path instanceof DomNode)
+            if (path instanceof DomAttr)
+            {
+                DomAttr attr = (DomAttr) path;
+                log.debug("Found " + attr.getValue());
+                results.add(attr.getValue());
+            }
+            else if (path instanceof DomNode)
             {
                 DomNode node = (DomNode) path;
                 log.debug("Found " + node.asText());
