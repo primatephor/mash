@@ -1,9 +1,7 @@
 package org.mash.harness.http;
 
-import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
-import com.gargoylesoftware.htmlunit.SgmlPage;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequestSettings;
+import com.gargoylesoftware.htmlunit.*;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -13,6 +11,8 @@ import java.util.Map;
  */
 public class HttpClient
 {
+    private static final Logger log = Logger.getLogger(HttpClient.class.getName());
+
     private WebClient client;
     private WebRequestSettings webRequest;
     private SgmlPage webResponse;
@@ -61,12 +61,27 @@ public class HttpClient
         }
         if (null != contentType)
         {
+            log.trace("Setting content type to " + contentType);
             client.addRequestHeader("Accept", contentType);
             client.addRequestHeader("Content-Type", contentType);
         }
+        else
+        {
+            log.trace("Using default content type");
+            client.removeRequestHeader("Accept");
+            client.removeRequestHeader("Content-Type");
+        }
         webRequest = factory.createRequest(methodType, uri, contents);
         client.setThrowExceptionOnFailingStatusCode(false);
-        webResponse = client.getPage(webRequest);
+        Page page = client.getPage(webRequest);
+        if (page instanceof SgmlPage)
+        {
+            webResponse = (SgmlPage) page;
+        }
+        else
+        {
+            log.warn("Unexpected response: " + page.getWebResponse().getContentAsString());
+        }
     }
 
     public WebClient getClient()
