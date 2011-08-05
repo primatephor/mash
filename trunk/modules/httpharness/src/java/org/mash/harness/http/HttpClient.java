@@ -20,6 +20,16 @@ public class HttpClient
     private String methodType;
     private String username;
     private String password;
+    private String contentType;
+
+    public HttpClient(WebRequestFactory factory, String methodType, String username, String password, String contentType)
+    {
+        this.factory = factory;
+        this.methodType = methodType;
+        this.username = username;
+        this.password = password;
+        this.contentType = contentType;
+    }
 
     public HttpClient(WebRequestFactory factory, String methodType, String username, String password)
     {
@@ -48,6 +58,11 @@ public class HttpClient
             DefaultCredentialsProvider credentials = new DefaultCredentialsProvider();
             credentials.addCredentials(username, password);
             client.setCredentialsProvider(credentials);
+        }
+        if (null != contentType)
+        {
+            client.addRequestHeader("Accept", contentType);
+            client.addRequestHeader("Content-Type", contentType);
         }
         webRequest = factory.createRequest(methodType, uri, contents);
         client.setThrowExceptionOnFailingStatusCode(false);
