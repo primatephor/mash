@@ -1,6 +1,5 @@
 package org.mash.harness.rest;
 
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
@@ -58,8 +57,7 @@ public class RestRunHarness extends HttpRunHarness
             if (getSgmlPage() != null)
             {
                 LOG.debug("Pulling sgml response");
-                XmlPage xmlPage = (XmlPage) getSgmlPage();
-                xmlResponse = new RestResponse(xmlPage);
+                xmlResponse = new RestResponse(getSgmlPage());
                 if (LOG.isTraceEnabled())
                 {
                     LOG.debug("Response:" + xmlResponse.getString());

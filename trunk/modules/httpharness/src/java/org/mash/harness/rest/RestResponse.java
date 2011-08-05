@@ -1,6 +1,6 @@
 package org.mash.harness.rest;
 
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import com.gargoylesoftware.htmlunit.SgmlPage;
 import org.mash.harness.RunResponse;
 import org.mash.harness.XmlResponse;
 import org.mash.harness.http.HttpResponse;
@@ -16,7 +16,7 @@ public class RestResponse extends HttpResponse implements RunResponse
 {
     private XmlResponse response;
 
-    public RestResponse(XmlPage page)
+    public RestResponse(SgmlPage page)
     {
         super(page);
         response = new XmlResponse(page.asXml());
@@ -41,5 +41,4 @@ public class RestResponse extends HttpResponse implements RunResponse
     {
         return response.getString();
     }
-
 }
