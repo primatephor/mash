@@ -1,15 +1,11 @@
 package org.mash.config;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Response", propOrder = {
         "value"
-        }, namespace = "http://code.google.com/p/mash/schema/V1")
+}, namespace = "http://code.google.com/p/mash/schema/V1")
 public class Response
 {
 
@@ -17,6 +13,8 @@ public class Response
     protected String value;
     @XmlAttribute
     protected String name;
+    @XmlAttribute
+    protected Boolean trim;
 
     public Response()
     {
@@ -46,5 +44,15 @@ public class Response
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public Boolean getTrim()
+    {
+        return trim;
+    }
+
+    public void setTrim(final Boolean trim)
+    {
+        this.trim = trim;
     }
 }

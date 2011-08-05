@@ -1,18 +1,18 @@
 package org.mash.harness.rest;
 
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.harness.http.HttpClient;
 import org.mash.harness.http.HttpRunHarness;
 import org.mash.harness.http.Method;
 import org.mash.harness.http.StandardRequestFactory;
-import org.apache.log4j.Logger;
 
 import java.util.List;
-
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
 
 /**
  * Configurations:
@@ -29,9 +29,6 @@ import com.gargoylesoftware.htmlunit.xml.XmlPage;
  * question </li>
  * <li> 'content_type' is the type of body.  This isn't required, default is 'text/xml' </li>
  * </ul>
- *
- * @author: teastlack
- * @since: Jul 26, 2009
  */
 public class RestRunHarness extends HttpRunHarness
 {
@@ -70,6 +67,17 @@ public class RestRunHarness extends HttpRunHarness
             }
         }
         return xmlResponse;
+    }
+
+    @Override
+    protected HttpClient getClient(String clientType, String username, String password)
+    {
+        String contentType = getParameterValue("content_type");
+        if (null == contentType)
+        {
+            contentType = DEFAULT_CONTENT_TYPE;
+        }
+        return new HttpClient(new StandardRequestFactory(), clientType, username, password, contentType);
     }
 
     /**

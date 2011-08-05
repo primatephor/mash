@@ -5,14 +5,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
  * @author teastlack
@@ -116,12 +113,21 @@ public class XmlAccessor
                 String expressionPath = buildPath(path);
                 log.debug("Searching for " + expressionPath);
                 XPathExpression expression = xpath.compile(expressionPath);
-                NodeList nodes = (NodeList) expression.evaluate(getDocument(), XPathConstants.NODESET);
 
-                result = new String[nodes.getLength()];
-                for (int index = 0; index < result.length; index++)
+                try
                 {
-                    result[index] = nodes.item(index).getTextContent();
+                    NodeList nodes = (NodeList) expression.evaluate(getDocument(), XPathConstants.NODESET);
+                    result = new String[nodes.getLength()];
+                    for (int index = 0; index < result.length; index++)
+                    {
+                        result[index] = nodes.item(index).getTextContent();
+                    }
+                }
+                catch (XPathExpressionException e)
+                {
+                    //this is for cases where the xpath query does not evaluate to a nodelist, i.e. "count(/foo/bar)"
+                    String value = expression.evaluate(getDocument());
+                    result = new String[]{value};
                 }
             }
             catch (Exception e)

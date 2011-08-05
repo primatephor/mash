@@ -18,7 +18,6 @@ import java.util.List;
  *
  * @author teastlack
  * @since Jul 10, 2009 1:04:56 PM
- *
  */
 public class ResponseAccessor implements ContentAccessor
 {
@@ -50,6 +49,10 @@ public class ResponseAccessor implements ContentAccessor
                 if (run.getResponse() != null)
                 {
                     result = run.getResponse().getValue(response.getValue());
+                    if (null != result && Boolean.TRUE.equals(response.getTrim()))
+                    {
+                        result = result.trim();
+                    }
                     log.trace("Found result '" + result + "' in " + run.getDefinition().getName());
                 }
                 else
