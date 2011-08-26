@@ -23,15 +23,11 @@ public class MetricsHandler implements InvocationHandler
 
     //just in case it's not wired
 
-    public static Object newInstance(Object obj,
-                                     Class... interfaces)
+    public static Object newInstance(Object obj, Class... interfaces)
     {
         if (interfaces != null && interfaces.length > 0)
         {
-            return Proxy.newProxyInstance(
-                    obj.getClass().getClassLoader(),
-                    interfaces,
-                    new MetricsHandler(obj));
+            return Proxy.newProxyInstance(obj.getClass().getClassLoader(), interfaces, new MetricsHandler(obj));
         }
         else
         {
@@ -40,9 +36,7 @@ public class MetricsHandler implements InvocationHandler
         }
     }
 
-    public Object invoke(Object proxy,
-                         Method method,
-                         Object[] args) throws Throwable
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
         Object result = null;
         Metrics stats = null;
@@ -57,7 +51,15 @@ public class MetricsHandler implements InvocationHandler
         }
         catch (InvocationTargetException e)
         {
-            log.error("Problem invoking " + target.getClass() + "." + method.getName(), e);
+            //remove the proxy bs from the stack trace
+            if (e.getCause() != null)
+            {
+                throw e.getCause();
+            }
+            else
+            {
+                log.error("Problem invoking " + target.getClass() + "." + method.getName(), e);
+            }
         }
         finally
         {
