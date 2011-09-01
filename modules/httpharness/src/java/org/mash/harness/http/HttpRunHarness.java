@@ -100,7 +100,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         {
             if (result instanceof XmlPage)
             {
-                response = new RestResponse((XmlPage) result);
+                response = new RestResponse(result);
             }
             else
             {

@@ -37,6 +37,7 @@ public class RestRunHarness extends HttpRunHarness
 
     public void run(List<RunHarness> previous, List<SetupHarness> setups)
     {
+        LOG.debug("Running restful harness");
         String type = getConfigurationValue("type");
         if (Method.POST.name().equalsIgnoreCase(type) ||
             Method.PUT.name().equalsIgnoreCase(type))
