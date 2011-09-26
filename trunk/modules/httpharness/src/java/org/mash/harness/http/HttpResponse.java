@@ -4,14 +4,12 @@ import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import org.apache.commons.httpclient.Cookie;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
 import org.xml.sax.SAXException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
@@ -23,10 +21,17 @@ public class HttpResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(HttpResponse.class);
     private SgmlPage webPage;
+    private Set<Cookie> cookies;
 
     public HttpResponse(SgmlPage webPage)
     {
+        this(webPage, null);
+    }
+
+    public HttpResponse(final SgmlPage webPage, final Set<Cookie> cookies)
+    {
         this.webPage = webPage;
+        this.cookies = cookies;
     }
 
     public String getValue(String name)
@@ -63,6 +68,11 @@ public class HttpResponse implements RunResponse
         if (results.size() == 0)
         {
             retrieveByXpath(name, results);
+        }
+
+        if (results.size() == 0)
+        {
+            retrieveCookies(name, results);
         }
 
         if (results.size() == 0)
@@ -121,6 +131,20 @@ public class HttpResponse implements RunResponse
             {
                 log.debug("SETTING '" + elementName + "' to value:" + value);
                 results.add(value);
+            }
+        }
+    }
+
+    private void retrieveCookies(String name, Collection<String> results)
+    {
+        if (null != cookies)
+        {
+            for (Cookie cookie : cookies)
+            {
+                if (cookie.getName().equals(name))
+                {
+                    results.add(cookie.getValue());
+                }
             }
         }
     }

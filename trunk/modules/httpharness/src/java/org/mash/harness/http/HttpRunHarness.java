@@ -1,7 +1,10 @@
 package org.mash.harness.http;
 
+import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.SgmlPage;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import org.apache.commons.httpclient.Cookie;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.*;
@@ -11,6 +14,7 @@ import org.mash.loader.HarnessConfiguration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Configurations:
@@ -93,6 +97,24 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         return result;
     }
 
+    protected Set<Cookie> getCookies()
+    {
+        Set<Cookie> cookies = null;
+        if (client != null)
+        {
+            WebClient webClient = client.getClient();
+            if (null != webClient)
+            {
+                CookieManager cookieManager = webClient.getCookieManager();
+                if (null != cookieManager)
+                {
+                    cookies = cookieManager.getCookies();
+                }
+            }
+        }
+        return cookies;
+    }
+
     public RunResponse getResponse()
     {
         SgmlPage result = getSgmlPage();
@@ -104,7 +126,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
             }
             else
             {
-                response = new HttpResponse(result);
+                response = new HttpResponse(result, getCookies());
             }
         }
         else
