@@ -1,4 +1,4 @@
-#summary FTPWaitHarness implementation
+#summary FileCopyHarness implementation
 
 = Introduction =
 Copy a file from one location to another.  The user can either pass the name of the original file to be copied or the desired content of the new file.
