@@ -18,7 +18,6 @@ public class CommandExecutorVerifyHarness extends BaseHarness implements VerifyH
 	private static final Logger log = Logger.getLogger(CommandExecutorVerifyHarness.class.getName());
 	
 	// configuration value
-	private boolean configSuccess;
 	private String configOutput;
 	
 	public void verify(RunHarness run, List<SetupHarness> setup ) {
@@ -29,9 +28,6 @@ public class CommandExecutorVerifyHarness extends BaseHarness implements VerifyH
 				
 				String responseOutput = response.getValue("output");
 				verifyOutput(responseOutput);
-								
-				String responseSuccess = response.getValue("wasSuccess");
-				verifySuccessfulRun(responseSuccess);				
 				
 			} else {
 				log.warn("Not verifying response, not a CommandExecutorResponse:" + run.getResponse().getClass().getName());
@@ -49,20 +45,6 @@ public class CommandExecutorVerifyHarness extends BaseHarness implements VerifyH
 			getErrors().add(new HarnessError(this, "Command Executor", "Desired output was provided, but no execution output was detected."));
 		}
 	}
-	
-	public void verifySuccessfulRun(String run) {
-		if(null == run) {
-			getErrors().add(new HarnessError(this, "Command Executor","Desired success was provided, but no execution success was detected."));
-		} else if(run.equals(Boolean.toString(configSuccess)) == false) {
-			getErrors().add(new HarnessError(this, "Command Executor","Command success did not match desired."));
-		}		
-	}
-	
-    @HarnessConfiguration(name = "succeeded")
-    public void setSuccess(String succeeded)
-    {
-        this.configSuccess = Boolean.parseBoolean(succeeded);
-    }
     
     @HarnessConfiguration(name = "output")
     public void setOutput(String output)
