@@ -9,42 +9,40 @@ import org.mash.harness.RunResponse;
 public class FileCopyResponse implements RunResponse {
 
 	private static final Logger log = Logger.getLogger(FileCopyResponse.class);
-	boolean fileCopiedString;
-	String fileCopiedName;
+	private String fileCopiedName;
 
-	public FileCopyResponse(boolean copied, String fileCopiedName) {
-		this.fileCopiedString = copied;		
+	public FileCopyResponse(String fileCopiedName) {		
 		this.fileCopiedName = fileCopiedName;
 	}
 
 	public String getValue(String name) {		
-		if (name.equals("fileCopied")) {
-			return Boolean.toString(fileCopiedString);
+		if (name.equals("fileCopiedName")) {
+			return fileCopiedName;
 		} else {
-			log.debug("Something requested a value other than file copied.  Returning null");
+			log.debug("Something requested a value other than file copied name.  Returning null");
 			return null;
 		}
 	}
 
 	public Collection<String> getValues() {
 		Collection<String> results = new ArrayList<String>();
-		results.add(Boolean.toString(fileCopiedString));
+		results.add(fileCopiedName);
 		return results;
 	}
 	
 	public Collection<String> getValues(String name) {
 		Collection<String> results = new ArrayList<String>();
-		if (name.equals("fileCopied")) {			
-			results.add(Boolean.toString(fileCopiedString));
+		if (name.equals("fileCopiedName")) {			
+			results.add(fileCopiedName);
 			return results;
 		} else {
-			log.debug("Something requested a value other than file copied.  Returning empty collection");
+			log.debug("Something requested a value other than file copied name.  Returning empty collection");
 			return results;
 		}
 	}
 	
 	public String getString() {
-		return Boolean.toString(this.fileCopiedString);
+		return fileCopiedName;
 	}
 	
 	public String getFileCopiedName() {

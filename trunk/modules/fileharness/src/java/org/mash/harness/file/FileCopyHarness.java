@@ -7,7 +7,6 @@ import java.io.RandomAccessFile;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
@@ -34,11 +33,10 @@ import org.mash.loader.HarnessParameter;
 public class FileCopyHarness extends BaseHarness implements RunHarness {
 	private static final Logger log = Logger.getLogger(FileCopyHarness.class.getName());
 
-	String sourceFileName;
-	String targetFileNameBaseDir;
-	String targetFileName;
-	String targetFileContent;	
-	boolean wasSuccessful;
+	private String sourceFileName;
+	private String targetFileNameBaseDir;
+	private String targetFileName;
+	private String targetFileContent;	
 	
 	private RunResponse response;
 	
@@ -48,40 +46,19 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 	private int bufferSize = 1024;
 	
 	public void run(List<RunHarness> previous, List<SetupHarness> setups) {
-		log.info("Running File Copy Harness");
-
-		if(log.isDebugEnabled() && null != parameters) {
-			String logParamString = "Parameters:";
-			for(int i = 0; i < this.parameters.size(); i++) {
-				logParamString += "\n\tParameter[" + i + "] name: " + parameters.get(i).getName() + "\t\tValue: " + parameters.get(i).getValue();			
-			}		
-			log.debug(logParamString);
-		}
-		run();		
-	}
-	
-	public void run() {
-		sourceFileName = getAndRemoveParamValue(this.parameters, "sourceFileName");
-		targetFileName = getAndRemoveParamValue(this.parameters, "targetFileName");
-		
-		targetFileContent = getAndRemoveParamValue(this.parameters, "targetFileContent");
-		targetFileNameBaseDir = getAndRemoveParamValue(this.parameters, "targetFileNameBaseDir");
-		
+		log.info("Running File Copy Harness");		
 		if(null != targetFileNameBaseDir && targetFileNameBaseDir.trim().length() > 0 ) {
 			targetFileName = targetFileNameBaseDir + targetFileName; 
 		}
 		
 		if( null != targetFileContent && targetFileContent.trim().length() > 0) {
-			wasSuccessful = writeContent(targetFileContent, targetFileName);
+			writeContent(targetFileContent, targetFileName);
 		} else if(null != sourceFileName && sourceFileName.trim().length() > 0) {
-			wasSuccessful = copyFile(sourceFileName, targetFileName); 
-		} else {
-			wasSuccessful = false;
-		}
-	}
+			copyFile(sourceFileName, targetFileName); 
+		} 		
+	}		
 	
-	public boolean copyFile(String srcFile, String tgtFile) {
-		boolean result = false;
+	public void copyFile(String srcFile, String tgtFile) {
 		try {
 			byte[] data = new byte[bufferSize];
 			
@@ -96,69 +73,54 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 			}
 			
 			File testFile = new File(targetFileName);
-			if(testFile.exists()) {
-				result = true;
+			if(testFile.exists() == false) {
+				throw new Exception("Output file not created");
 			}
 			
 		} catch(FileNotFoundException e) {
-			getErrors().add(new HarnessError(this, "File Copy Harness", "File Not Found Exception."));
-			result = false;
+			getErrors().add(new HarnessError(this, "File Copy Harness", "File Not Found Exception: " + e.getMessage()));
 		} catch (IOException e) {
-			getErrors().add(new HarnessError(this, "File Copy Harness", "IO Exception."));
-			result = false;
+			getErrors().add(new HarnessError(this, "File Copy Harness", "IO Exception: " + e.getMessage()));
+		} catch (Exception e) {
+			getErrors().add(new HarnessError(this, "File Copy Harness", "Exception: " + e.getMessage()));
 		} finally {			
 			if(null != outputFile) {
 				try {
 					outputFile.close();
 				} catch (IOException e) {					
-					e.printStackTrace();
+					log.warn("Problem closing output file: " + e.getMessage());
 				}
 			}
 			if(null != inputFile) {
 				try {
 					inputFile.close();
 				} catch (IOException e) {					
-					e.printStackTrace();
+					log.warn("Problem closing input file: "+e.getMessage());
 				}
-			}
-			
+			}			
 		}
-		return result;
 	}
 	
-	public boolean writeContent(String content, String fileName) {
-		boolean result = false;
+	public void writeContent(String content, String fileName) {
 		try {			
 			outputFile = new RandomAccessFile(fileName, "rw");
 			outputFile.seek(0);
 			outputFile.writeBytes(content);
 			File testFile = new File(fileName);
-			if(testFile.exists()) {
-				result = true;
+			if(testFile.exists() == false) {
+				throw new Exception("Output file not created");
 			}			
 		} catch(FileNotFoundException e) {
-			getErrors().add(new HarnessError(this, "File Copy Harness", "File Not Found Exception."));
-			result = false;
+			getErrors().add(new HarnessError(this, "File Copy Harness", "File Not Found Exception: " + e.getMessage()));
 		} catch (IOException e) {
-			getErrors().add(new HarnessError(this, "File Copy Harness", "IO Exception."));
-			result = false;
+			getErrors().add(new HarnessError(this, "File Copy Harness", "IO Exception: " + e.getMessage()));
+		} catch (Exception e) {
+			getErrors().add(new HarnessError(this, "File Copy Harness", "Exception: " + e.getMessage()));
 		}		
-		return result;
-	}
-	
-	public String getAndRemoveParamValue(List<Parameter> params, String paramName) {
-		String value = "";
-		for (int i = 0; i < params.size(); i++) {
-			if (params.get(i).getName().equals(paramName)) {
-				value = params.get(i).getValue();
-				params.remove(i);
-			}
-		}
-		return value;
 	}
 	
 	public RunResponse getResponse() {
-		response = new FileCopyResponse(wasSuccessful, targetFileName);
+		response = new FileCopyResponse(targetFileName);
 		return response;
 	}
 
@@ -173,14 +135,19 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
     {
         this.targetFileName = path;
     }
-	
+
+    @HarnessParameter(name = "targetFileContent")
+    public void setTargetFileContent(String path)
+    {
+        this.targetFileContent = path;
+    }
+
+    @HarnessParameter(name = "targetFileNameBaseDir")
+    public void setTargetFileNameBaseDir(String path)
+    {
+        this.targetFileNameBaseDir = path;
+    }
+    
+
 }	
-	
-	
-	
-	
-	
-	
-	
-	
 	

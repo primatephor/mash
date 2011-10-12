@@ -52,32 +52,19 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 
 	public void run(List<RunHarness> previous, List<SetupHarness> setups) {
 		log.info("Running File List Harness");
-		
-		if(log.isDebugEnabled() && null != parameters) {
-			String logParamString = "Parameters:";
-			for (int i = 0; i < this.parameters.size(); i++) {
-				logParamString += "\n\tParameter[" + i + "] name: " + parameters.get(i).getName() + "\t\tValue: " + parameters.get(i).getValue();
-			}
-			log.debug(logParamString);
-		}
-		response = run();
-	}
-
-	protected RunResponse run() {
-		RunResponse result = null;
+				
 		if (filename != null) {
 			log.info("Getting file: " + filename);
-			result = retrieve(filename);
+			response = retrieve(filename);
 		} else if (path != null) {
 			if (fileContents != null) {
 				log.info("Looking for file in path: " + path + " containing: " + fileContents);
-				result = retrieveResponseContainment(path);
+				response = retrieveResponseContainment(path);
 			} else if (fileIndex != null) {
 				log.info("Retriving file in: " + path + " at index: " + fileIndex);
-				result = retrieveIndexedResponse(path);
+				response = retrieveIndexedResponse(path);
 			}
 		}
-		return result;
 	}
 
 	protected RunResponse retrieve(String path) {
@@ -99,7 +86,7 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 				FileCopyHarness copyHarness = new FileCopyHarness();
 				copyHarness.setTargetFile(output_file);
 				copyHarness.setTargetFile(path);
-				copyHarness.run();
+				copyHarness.run(null, null);
 				result = (FileCopyResponse) copyHarness.getResponse();
 			}
 			inFile.close();
