@@ -55,6 +55,10 @@
             <property name="module.dir" value="mailharness"/>
             <target name="makeJar"/>
         </ant>
+	<ant inheritAll="true" inheritrefs="true" dir="." antfile="${buildfile}">
+	  <property name="module.dir" value="fileharness"/>
+	  <target name="makeJar"/>
+        </ant>
     </target>
 
     <target name="build" depends="compile"/>
@@ -86,6 +90,9 @@
         </ant>
         <ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
             <property name="module.dir" value="mailharness"/>
+        </ant>
+	<ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+	  <property name="module.dir" value="fileharness"/>
         </ant>
     </target>
 
@@ -125,6 +132,9 @@
             <property name="module.dir" value="mailharness"/>
             <target name="clean"/>
         </ant>
+	<ant inheritAll="true" inheritrefs="true" dir="." antfile="${testfile}" target="test">
+	  <property name="module.dir" value="fileharness"/>
+        </ant>
         <delete dir="${build.tgt}"/>
     </target>
 
@@ -160,6 +170,9 @@
         </javadoc>
         <javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Utility Harness Classes">
             <sourcepath path="mailharness/src/java"/>
+        </javadoc>
+	<javadoc packagenames="org.mash.*" classpathref="local.class.path" destdir="${build.tgt}/javadocs" Windowtitle="Utility Harness Classes">
+	  <sourcepath path="fileharness/src/java"/>
         </javadoc>
     </target>
 
