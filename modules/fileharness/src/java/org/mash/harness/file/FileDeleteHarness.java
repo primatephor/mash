@@ -18,8 +18,8 @@ import org.mash.loader.HarnessConfiguration;
 public class FileDeleteHarness extends BaseHarness implements RunHarness {
 	private static final Logger log = Logger.getLogger(FileDeleteHarness.class.getName());
 
-	String fileName;
-	String folderName;
+	private String fileName;
+	private String folderName;
 
 	private RunResponse response;
 
@@ -28,16 +28,6 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
 
 	public void run(List<RunHarness> previous, List<SetupHarness> setups) {
 		log.info("Running File Delete Harness");
-
-		if (log.isDebugEnabled() && null != parameters) {
-			String logParamString = "Parameters:";
-			for (int i = 0; i < this.parameters.size(); i++) {
-				logParamString += "\n\tParameter[" + i + "] name: "
-						+ parameters.get(i).getName() + "\t\tValue: "
-						+ parameters.get(i).getValue();
-			}
-			log.debug(logParamString);
-		}
 
 		if (null != fileName) {
 			if(deleteOnlyContent) {

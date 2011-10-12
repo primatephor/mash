@@ -25,13 +25,6 @@ public class FileVerifyHarness extends BaseHarness implements VerifyHarness {
 	public void verify(RunHarness run, List<SetupHarness> setup ) {
 		log.info("Running File Verify Harness");
 		
-		if(log.isDebugEnabled() && null != parameters) {			
-			String logParamString = "Parameters:";
-			for(int i = 0; i < this.parameters.size(); i++) {
-				logParamString += "\n\tParameter[" + i + "] name: " + parameters.get(i).getName() + "\t\tValue: " + parameters.get(i).getValue();			
-			}		
-			log.debug(logParamString);
-		}
 		if(run != null && run.getResponse() != null) {
 			expected = getAndRemoveParamValue(this.parameters, "expected");
 			if(run.getResponse() instanceof FileListResponse) {
@@ -197,13 +190,5 @@ public class FileVerifyHarness extends BaseHarness implements VerifyHarness {
 	}
 	
 }
-
-
-
-
-
-
-
-
 
 
