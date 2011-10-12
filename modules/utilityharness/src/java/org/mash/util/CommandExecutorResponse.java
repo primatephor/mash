@@ -8,22 +8,18 @@ import org.mash.harness.RunResponse;
 
 public class CommandExecutorResponse implements RunResponse {
 	private static final Logger log = Logger.getLogger(CommandExecutorResponse.class);
-	
-	boolean wasSuccessful;
+
 	String output;
 
-	public CommandExecutorResponse(Boolean wasSuccessful, String output) {
-		this.wasSuccessful = wasSuccessful;
+	public CommandExecutorResponse(String output) {
 		this.output = output;		
 	}
 	
 	public String getValue(String name) {		
 		if (name.equals("output")) {
 			return output;
-		}else if(name.equals("wasSuccess")) {
-			return Boolean.toString(wasSuccessful);
 		} else {
-			log.warn("Something requested a value other than file output or wasSuccess.  Returning null");
+			log.warn("Something requested a value other than output.  Returning null");
 			return null;
 		}
 	}
@@ -53,15 +49,3 @@ public class CommandExecutorResponse implements RunResponse {
 		return this.output;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
