@@ -1,0 +1,16 @@
+#summary FileVerifyHarness implementation
+
+= Introduction =
+Compare the contents of two files and verify they match.  Line separation characters are ignored (CR+LF / NL).  An optional list of allowed differences can be provided.
+
+For instance if the expected file content is 'I have two pet cats' and the actual output is 'I have two pet dogs', this would not be considered a match; however, you could define an allowed exception of 'cat' and this would now be considered a match.
+
+= Configuration =
+Configuration values:
+
+
+= Parameter =
+ * '' - 
+ 
+= Sample Usages =
+== Case One ==
