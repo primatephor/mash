@@ -66,7 +66,6 @@ public class TestHttpHarness extends TestCase
         configs.add(new Configuration("title", "System Test - Google Search"));
         configs.add(new Configuration("status", "200"));
         configs.add(new Configuration("contains", "/search?q=System+Test"));
-        configs.add(new Configuration("contains", "Searches related to <em>System Test</em>"));
         params = new ArrayList<Parameter>();
         //<input type=hidden name=client value="firefox-a">
         params.add(new Parameter("client", "firefox-a"));
@@ -105,7 +104,6 @@ public class TestHttpHarness extends TestCase
         //verify second page
         configs.add(new Configuration("contains", "/search?q=System+Test"));
         configs.add(new Configuration("contains", "start=100"));
-        configs.add(new Configuration("contains", "Searches related to <em>System Test</em>"));
         params = new ArrayList<Parameter>();
         //<input type=hidden name=client value="firefox-a">
         params.add(new Parameter("client", "firefox-a"));
@@ -148,7 +146,6 @@ public class TestHttpHarness extends TestCase
         configs.add(new Configuration("status", "200"));
         configs.add(new Configuration("contains", "/search?q=System+Test"));
         configs.add(new Configuration("contains", "start=10"));
-        configs.add(new Configuration("contains", "Searches related to <em>System Test</em>"));
         params = new ArrayList<Parameter>();
         //<input type=hidden name=client value="firefox-a">
         params.add(new Parameter("//title[1]", "System Test - Google Search"));
