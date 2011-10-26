@@ -6,13 +6,14 @@ import org.mash.file.FileLoader;
 import org.mash.harness.RunResponse;
 import org.mash.loader.HarnessParameter;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * Perform an FTP put.
- *
+ * <p/>
  * Configurations:
  * <ul>
  * <li> 'url' is the url to submit to </li>
@@ -23,18 +24,18 @@ import java.io.InputStream;
  * <p/>
  * Parameters are applied to the request, and the request is invoked.  There are special parameters:
  * <ul>
- * <li> 'output_path' is the directory to dump the file on</li> 
+ * <li> 'output_path' is the directory to dump the file on</li>
  * <li> 'file_name' is the local filename to put</li>
  * </ul>
  *
  * @author teastlack
  * @since Dec 4, 2009 11:20:37 AM
- *
  */
 public class PutHarness extends FTPRunHarness
 {
     private static final Logger log = Logger.getLogger(PutHarness.class.getName());
     private FileLoader loader = new FileLoader();
+    private String file_content;
     private String file_name;
     private String output_path;
     private File path;
@@ -42,53 +43,67 @@ public class PutHarness extends FTPRunHarness
     protected RunResponse runOperation(FTPClient client) throws OperationException
     {
         path = getDefinition().getScriptDefinition().getPath();
-        return put(client, file_name);
+        return put(client);
     }
 
-    public RunResponse put(FTPClient client, String fileName) throws OperationException
+    public RunResponse put(FTPClient client) throws OperationException
     {
         InputStream fileStream = null;
         RunResponse result;
-        if (fileName != null)
+        try
         {
-            try
+            if (file_name != null)
             {
-                fileStream = loader.findStream(fileName, path);
-                //have to remove first, otherwise this won't get put
-                log.debug("Removing "+output_path+" to put file "+fileName);
-                client.deleteFile(output_path);
-                client.storeFile(output_path, fileStream);
+                log.info("Reading file "+file_name);
+                fileStream = loader.findStream(file_name, path);
             }
-            catch (Exception e)
+            else if (file_content != null)
             {
-                throw new OperationException("Problem putting file on server "+file_name, e);
+                log.info("Sending content");
+                fileStream = new ByteArrayInputStream(file_content.getBytes());
             }
-            finally
+
+            if (fileStream == null)
             {
-                if (fileStream != null)
+                throw new OperationException("No file or content specified to put");
+            }
+
+            //have to remove first, otherwise this won't get put
+            log.debug("Removing " + output_path);
+            client.deleteFile(output_path);
+            client.storeFile(output_path, fileStream);
+        }
+        catch (Exception e)
+        {
+            throw new OperationException("Problem putting file on server " + file_name, e);
+        }
+        finally
+        {
+            if (fileStream != null)
+            {
+                try
                 {
-                    try
-                    {
-                        fileStream.close();
-                    }
-                    catch (IOException e)
-                    {
-                        //yes, this could mask exceptions above
-                        throw new OperationException("Problem reading file", e);
-                    }
+                    fileStream.close();
+                }
+                catch (IOException e)
+                {
+                    //yes, this could mask exceptions above
+                    throw new OperationException("Problem reading file", e);
                 }
             }
-            //list the file as a response
-            ListHarness listHarness = new ListHarness();
-            listHarness.setPath(output_path);
-            result = listHarness.list(client);
+        }
+        //list the file as a response
+        ListHarness listHarness = new ListHarness();
+        listHarness.setPath(output_path);
+        result = listHarness.list(client);
 
-        }
-        else
-        {
-            throw new OperationException("No file specified to read");
-        }
         return result;
+    }
+
+    @HarnessParameter(name = "file_content")
+    public void setFileContent(String file_content)
+    {
+        this.file_content = file_content;
     }
 
     @HarnessParameter(name = "file_name")
