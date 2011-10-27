@@ -1,6 +1,15 @@
 #labels Featured
 = List of changes =
 
+==1.4==
+ * File Harnesses
+  * copy
+  * delete
+  * get
+  * list
+ * Command line executable harness.  Can now invoke command line actions.
+ * Specify content in script for FTP (don't need a file)
+
 ==1.3==
  * Pass parameters to scripts invoked within a script
   * The name of the parameter in the calling script should be the same as the attribute 'scriptParameter' in the called script
