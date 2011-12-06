@@ -8,10 +8,11 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 
 = Relational DB =
  * {{{mash-dbharness.jar}}}
-  * [DBSetupHarness] (uses dbunit, runs sql)
-  * [DBWaitHarness] (wait for a particular state in the db)
-  * [RowRunHarness] (runs a 'select `*`' on a table)
-  * [SQLRunHarness] (run any sql)
+|| *Harness* || *type attribute* || *Description* ||
+|| [DBSetupHarness] || db || uses dbunit, runs sql ||
+|| [DBWaitHarness] || db_wait || wait for a particular state in the db ||
+|| [RowRunHarness] || db_row || runs a 'select `*`' on a table ||
+|| [SQLRunHarness] || sql || run any sql ||
 
 = HBase DB =
  * {{{mash-dbharness.jar}}}
