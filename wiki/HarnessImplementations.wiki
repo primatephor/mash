@@ -9,6 +9,7 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 = Relational DB =
  * {{{mash-dbharness.jar}}}
   * [DBSetupHarness] (uses dbunit, runs sql)
+  * [DBWaitHarness] (wait for a particular state in the db)
   * [RowRunHarness] (runs a 'select `*`' on a table)
   * [SQLRunHarness] (run any sql)
 
@@ -69,6 +70,7 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 
 = Utilities =
  * {{{mash_utilityharness.jar}}}
-  * TimedWaitRunHarness
+  * TimedWaitRunHarness (wait some amount of time)
+  * CommandExecutorHarness (execute a command on command line)
 
 = Teardown =
