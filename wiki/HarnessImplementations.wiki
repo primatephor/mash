@@ -16,20 +16,23 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 
 = HBase DB =
  * {{{mash-dbharness.jar}}}
-  * [CreateTable] (creates hbase table)
-  * [InsertRow] (insert hbase row)
-  * [DeleteTable] (remove hbase table)
-  * [ScanTable] (scan an hbase table for relevant rows / columns)
-  * [ValueFilterScanTable] (filter a scan result)
+|| *Harness* || *type attribute* || *Description* ||
+|| [CreateTable] || hbase_create || creates hbase table ||
+|| [InsertRow] || hbase_insert || insert hbase row ||
+|| [DeleteTable] || hbase_delete || remove hbase table ||
+|| [ScanTable] || hbase_scan || scan an hbase table for relevant rows / columns ||
+|| [ValueFilterScanTable] || hbase_value_scan || filter a scan result ||
+|| [UpdateRows] || hbase_update || scan table for row, apply update ||
 
 = File =
  * {{{mash-fileharness.jar}}}
-  * [FileGetHarness] (retrieve a file)
-  * [FileListHarness] (list files)
-  * [FileDeleteHarness] (remove file)
-  * [FileCopyHarness] (copy a file from source to target)
-  * [FileWaitHarness] (wait for a file to get written)
-  * [FileVerifyHarness] (compare contents of a file)
+|| *Harness* || *type attribute* || *Description* ||
+|| [FileGetHarness] ||| || retrieve a file ||
+|| [FileListHarness] ||| || list files ||
+|| [FileDeleteHarness] || || remove file ||
+|| [FileCopyHarness] || || copy a file from source to target ||
+|| [FileWaitHarness] || || wait for a file to get written ||
+|| [FileVerifyHarness] || || compare contents of a file ||
 
 = Ftp =
  * {{{mash_ftpharness.jar}}}
