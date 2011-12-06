@@ -1,4 +1,4 @@
-#summary IMAPSetupHarness implementation
+#summary EmailSetupHarness implementation
 
 = Introduction =
 
@@ -6,10 +6,11 @@ Invoke an email client for cleaning out a folder on an email server.
 
 = Configuration =
 Configuration values:
- * 'smtp_server' = url of the email server
+ * 'mail_server' = url of the email server
  * 'user' = user (usually an admin user) to log into server with 
  * 'password' = password of user
  * 'folder' = optional folder to specify (default is INBOX)
+ * 'protocol' = imap by default (smtp, pop, imap).  see [http://docs.oracle.com/javaee/5/api/javax/mail/Session.html java Session api]
 
 = Parameter =
  * 'action' = Is the action to perform (only 'CLEAN' right now)
@@ -17,8 +18,8 @@ Configuration values:
 
 = Sample Usage =
 {{{
-    <Setup type="org.mash.harness.mail.IMAPSetupHarness" name="clean email">
-       <Configuration name="smtp_server" property="mail.server"/>
+    <Setup type="org.mash.harness.mail.EmailSetupHarness" name="clean email">
+       <Configuration name="email_server" property="mail.server"/>
        <Configuration name="user" property="mail.user"/>
        <Configuration name="password" property="mail.password"/>
        <Parameter name="action"><Value>CLEAN</Value></Parameter>
