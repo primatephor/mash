@@ -61,16 +61,15 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 = REST =
  * {{{mash_httpharness.jar}}}
 || *Harness* || *type attribute* || *Description* ||
-  * RestRunHarness (invokes http requests in a restful manner)
-  * RestResponse (for running xpath queries)
+|| RestRunHarness || rest || invokes http requests in a restful manner.  Uses RestResponse for xpath ||
 
 = Messaging =
  * {{{mash_messageharness.jar}}}
 || *Harness* || *type attribute* || *Description* ||
-  * [XmlJMSHarness] (send and receive xml files on JMS queue)
-  * [TextJMSHarness] (send and receive text files on JMS queue)
-  * [ObjectJMSHarness] (receive Java objects from JMS queue)
-  * [JMSSetupHarness] (clean a queue)
+|| [XmlJMSHarness] || xml_jms || send and receive xml files on JMS queue ||
+|| [TextJMSHarness] || text_jms || send and receive text files on JMS queue ||
+|| [ObjectJMSHarness] || object_jms || receive Java objects from JMS queue ||
+|| [JMSSetupHarness] || jms || clean a queue ||
 
 = Core =
  * {{{mash_core.jar}}}
