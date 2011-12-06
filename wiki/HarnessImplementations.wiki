@@ -72,5 +72,6 @@ This is the list of supplied harnesses.  To build your own, check out Developing
  * {{{mash_utilityharness.jar}}}
   * TimedWaitRunHarness (wait some amount of time)
   * CommandExecutorHarness (execute a command on command line)
+  * CommandExecuterVerifyHarness (verify the output of a command)
 
 = Teardown =
