@@ -74,15 +74,15 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 = Core =
  * {{{mash_core.jar}}}
 || *Harness* || *type attribute* || *Description* ||
-  * StandardVerifyHarness
-  * ListVerifyHarness
+|| StandardVerifyHarness || standard || standard response validation ||
+|| ListVerifyHarness || list || verify lists, retrieve specific elements to verify ||
 
 = Utilities =
  * {{{mash_utilityharness.jar}}}
 || *Harness* || *type attribute* || *Description* ||
-  * TimedWaitRunHarness (wait some amount of time)
-  * CommandExecutorHarness (execute a command on command line)
-  * CommandExecuterVerifyHarness (verify the output of a command)
+|| TimedWaitRunHarness || wait || wait some amount of time ||
+|| CommandExecutorHarness || cli || execute a command on command line ||
+|| CommandExecuterVerifyHarness || verify_cli || verify the output of a command ||
 
 = Teardown =
 no teardown implementations yet
