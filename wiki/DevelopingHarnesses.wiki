@@ -13,6 +13,27 @@ Harnesses must implement one of the interfaces:
 
 Extending the {{{BaseHarness}}} implements many of the methods in the {{{Harness}}} interface.  It is advised to use this class to simplify your harness, however if there is special functionality you need you can implement these methods on your own.
 
+= Name = 
+When using the {{{type}}} attribute you can either specify a fully qualified class name, or a shorter name that you specify on your harness. 
+
+To specify a name use the {{{@HarnessName}}} annotation on the class.
+
+Example:
+{{{
+   @HarnessName(name="my_harness")
+   public class MyHarness extends BaseHarness implements RunHarness
+   {
+      ...
+   }
+}}}
+Your XML may now use this name instead of the class name:
+{{{
+   <Run type="my_harness" name="run my harness">
+   ...
+   </Run>
+}}}
+
+
 = Configuration = 
 There are two ways of getting configurations into your harness.  One is to parse the {{{Configuration}}} list manually and selectively apply them to your harness.  
 
