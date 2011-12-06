@@ -20,6 +20,15 @@ This is the list of supplied harnesses.  To build your own, check out Developing
   * [ScanTable] (scan an hbase table for relevant rows / columns)
   * [ValueFilterScanTable] (filter a scan result)
 
+= File =
+ * {{{mash-fileharness.jar}}}
+  * [FileGetHarness] (retrieve a file)
+  * [FileListHarness] (list files)
+  * [FileDeleteHarness] (remove file)
+  * [FileCopyHarness] (copy a file from source to target)
+  * [FileWaitHarness] (wait for a file to get written)
+  * [FileVerifyHarness] (compare contents of a file)
+
 = Ftp =
  * {{{mash_ftpharness.jar}}}
   * [FtpRunHarness FTPRunHarness] (invokes ftp requests)
