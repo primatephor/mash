@@ -20,13 +20,22 @@ To specify a name use the {{{@HarnessName}}} annotation on the class.
 
 Example:
 {{{
+   package com.my.harnesses;
+
    @HarnessName(name="my_harness")
    public class MyHarness extends BaseHarness implements RunHarness
    {
       ...
    }
 }}}
-Your XML may now use this name instead of the class name:
+Normally you use the class name in type:
+{{{
+   <Run type="com.my.harnesses.MyHarness" name="run my harness">
+   ...
+   </Run>
+}}}
+
+with the {{{HarnessName}}}, your XML may now use this name instead of the class name:
 {{{
    <Run type="my_harness" name="run my harness">
    ...
