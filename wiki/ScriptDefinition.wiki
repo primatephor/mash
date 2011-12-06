@@ -97,6 +97,7 @@ Runs perform the core desired action.
 }}}
 optionally, you could use the type attributes in HarnessImplementations
 {{{
+     ...
     <Run type="http" name="login">
      ...   
 }}}
