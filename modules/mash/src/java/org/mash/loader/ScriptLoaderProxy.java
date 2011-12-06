@@ -168,7 +168,7 @@ public class ScriptLoaderProxy implements ScriptDefinition
                 if (!path.isDirectory())
                 {
                     String contents = reader.getContents(path);
-                    SuiteMarshaller marshaller = PropertyObjectFactory.getInstance().buildMarshaller();
+                    SuiteMarshaller marshaller = PropertyObjectFactory.getInstance().buildMarshaller(path.getName());
                     Object xmlData = marshaller.unmarshal(contents);
                     if (xmlData instanceof Script)
                     {
