@@ -33,8 +33,14 @@ You can run other scripts from within a script.
  * Or you can run an entire directory of scripts
 
 = Setup =
+You may specify a fully qualified class:
 {{{
     <Setup type="org.mash.harness.DBSetupHarness">
+}}}
+
+Or the type attribute specified in HarnessImplementations:
+{{{
+    <Setup type="db">
 }}}
  * This specifies an implementation of a SetupHarness, and the class specified by the type  attribute will be loaded to run this harness.  
 
@@ -89,6 +95,11 @@ Runs perform the core desired action.
         </Parameter>
     </Run>
 }}}
+optionally, you could use the type attributes in HarnessImplementations
+{{{
+    <Run type="http" name="login">
+     ...   
+}}}
  * The HttpRunHarness here will invoke an http request.
  * the name of this harness is 'login', for use by later harnesses that need the response data.
  * The first configuration is the 'url' parameter, and its value is the system property 'my.url'.  
@@ -98,7 +109,7 @@ Runs perform the core desired action.
 = Verify =
 Verify harnesses look at the previous run and perform some validation.  The {{{StandardVerifyHarness}}} is a common way of associating parameter names to values, and should fit for quite a few run harnesses.  
 {{{
-    <Verify type="org.mash.harness.HttpVerifyHarness">
+    <Verify type="verify">
         <Configuration name="status">
             <Value>200</Value>
         </Configuration>
@@ -118,7 +129,7 @@ Verify harnesses look at the previous run and perform some validation.  The {{{S
 = Another Run =
 Multiple runs produce more interesting script behavior.
 {{{
-    <Run type="org.mash.harness.HttpRunHarness">
+    <Run type="http">
         <Configuration name="url" property="my.url">
             <Value>/index.html</Value>
         </Configuration>
