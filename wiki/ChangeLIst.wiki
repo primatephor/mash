@@ -2,9 +2,9 @@
 = List of changes =
 
 ==1.5==
- * HarnessName annotation
+ * {{{HarnessName}}} annotation
   * use name like 'http' to instead of 'org.mash.harness.http.HttpRunHarness'
-  * see implementation document for name on harness
+  * see HarnessImplementations document for name on harness
  * minor JSON support.  Still not working though.
 
 ==1.4==
