@@ -1,5 +1,8 @@
 package org.mash.loader;
 
+import javassist.bytecode.AnnotationsAttribute;
+import javassist.bytecode.ClassFile;
+import org.apache.log4j.Logger;
 import org.mash.config.HarnessDefinition;
 import org.mash.harness.Harness;
 import org.mash.harness.RunHarness;
@@ -9,7 +12,18 @@ import org.mash.harness.TeardownHarness;
 import org.mash.harness.VerifyHarness;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Building a harness entails actually creating an instance of that harness, and applying the configurations to those
@@ -21,17 +35,29 @@ import java.util.List;
  */
 public class HarnessBuilder
 {
+    private static final Logger log = Logger.getLogger(HarnessBuilder.class.getName());
+    private static HarnessBuilder instance;
+    private Map<String, String> types;
+
     public HarnessBuilder()
     {
     }
 
+    public static HarnessBuilder getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new HarnessBuilder();
+        }
+        return instance;
+    }
+
     public Harness buildHarness(HarnessDefinition harnessDefinition) throws HarnessException
     {
-        String classname = harnessDefinition.getType();
         Harness harness;
         try
         {
-            harness = (Harness) Class.forName(classname).newInstance();
+            harness = createInstance(harnessDefinition);
             if (harness instanceof SetupHarness)
             {
                 harness = new SetupAnnotatedHarness(harness);
@@ -52,9 +78,37 @@ public class HarnessBuilder
         }
         catch (Exception e)
         {
-            throw new HarnessException("Problem building harness '" + classname + "':" + e.getMessage(), e);
+            throw new HarnessException("Problem building harness '" + harnessDefinition.getType() + "':" + e.getMessage(), e);
         }
         return harness;
+    }
+
+    private Harness createInstance(HarnessDefinition harnessDefinition) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+    {
+        Harness result;
+        //load up the types
+        if (types == null)
+        {
+            types = new HashMap<String, String>();
+
+//            ClassLoader loader = getClass().getClassLoader();
+//            DataInputStream dstream = new DataInputStream(new BufferedInputStream(bits));
+//            ClassFile cf = new ClassFile(dstream);
+//            String className = cf.getName();
+//            AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute(AnnotationsAttribute.visibleTag);
+//            for (javassist.bytecode.annotation.Annotation ann : visible.getAnnotations())
+//            {
+//                System.out.println("@" + ann.getTypeName());
+//            }
+
+        }
+        String className = types.get(harnessDefinition.getType());
+        if (className == null)
+        {
+            className = harnessDefinition.getType();
+        }
+        result = (Harness) Class.forName(className).newInstance();
+        return result;
     }
 
     private class SetupAnnotatedHarness extends AnnotatedHarness implements SetupHarness
@@ -113,4 +167,64 @@ public class HarnessBuilder
             ((TeardownHarness) getWrap()).teardown(setups);
         }
     }
+
+    //todo: finish parsing jarfiles
+    //been using http://code.google.com/p/annovention/ (nice work Animesh Kumar)
+//    private ResourceIterator getResourceIterator(URL url, Filter filter) throws IOException
+//    {
+//        String urlString = url.toString();
+//        if (urlString.endsWith("!/")) {
+//            urlString = urlString.substring(4);
+//            urlString = urlString.substring(0, urlString.length() - 2);
+//            url = new URL(urlString);
+//        }
+//
+//        if (!urlString.endsWith("/")) {
+//            return new JarFileIterator(url.openStream(), filter);
+//        } else {
+//
+//            if (!url.getProtocol().equals("file")) {
+//                throw new IOException("Unable to understand protocol: " + url.getProtocol());
+//            }
+//
+//            File f = new File(url.getPath());
+//            if (f.isDirectory()) {
+//                return new ClassFileIterator(f, filter);
+//            } else {
+//                return new JarFileIterator(url.openStream(), filter);
+//            }
+//        }
+//    }
+
+
+    public final URL[] findResources()
+    {
+        List<URL> list = new ArrayList<URL>();
+        String classpath = System.getProperty("java.class.path");
+        StringTokenizer tokenizer = new StringTokenizer(classpath,
+                                                        File.pathSeparator);
+
+        while (tokenizer.hasMoreTokens())
+        {
+            String path = tokenizer.nextToken();
+            try
+            {
+                path = java.net.URLDecoder.decode(path, "UTF-8");
+
+                File fp = new File(path);
+                if (!fp.exists())
+                {
+                    throw new RuntimeException(
+                            "File in java.class.path does not exist: " + fp);
+                }
+                list.add(fp.toURL());
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        return list.toArray(new URL[list.size()]);
+    }
+
 }

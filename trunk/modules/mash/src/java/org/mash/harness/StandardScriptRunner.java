@@ -94,7 +94,7 @@ public class StandardScriptRunner implements ScriptRunner
     protected List buildHarnesses(ScriptDefinition definition) throws Exception
     {
         List results = new ArrayList();
-        HarnessBuilder builder = new HarnessBuilder();
+        HarnessBuilder builder = HarnessBuilder.getInstance();
         ScriptDefinitionLoader loader = new ScriptDefinitionLoader();
         if (definition.getHarnesses() != null)
         {
