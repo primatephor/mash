@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Verify email information retrieved by GetEmail  
+Verify email information retrieved by [GetIMAPEmail GetEmail]  
 
 = Configuration =
 Configuration values:
