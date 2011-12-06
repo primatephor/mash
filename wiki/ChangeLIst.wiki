@@ -3,7 +3,7 @@
 
 ==1.5==
  * {{{HarnessName}}} annotation
-  * use name like 'http' to instead of 'org.mash.harness.http.HttpRunHarness'
+  * use name like {{{http}}} to instead of {{{org.mash.harness.http.HttpRunHarness}}}
   * see HarnessImplementations document for name on harness
  * minor JSON support.  Still not working though.
 
