@@ -27,41 +27,46 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 = File =
  * {{{mash-fileharness.jar}}}
 || *Harness* || *type attribute* || *Description* ||
-|| [FileGetHarness] ||| || retrieve a file ||
-|| [FileListHarness] ||| || list files ||
-|| [FileDeleteHarness] || || remove file ||
-|| [FileCopyHarness] || || copy a file from source to target ||
-|| [FileWaitHarness] || || wait for a file to get written ||
-|| [FileVerifyHarness] || || compare contents of a file ||
+|| [FileGetHarness] ||| get_file || retrieve a file ||
+|| [FileListHarness] ||| list_file || list files ||
+|| [FileDeleteHarness] || delete_file || remove file ||
+|| [FileCopyHarness] || copy_file || copy a file from source to target ||
+|| [FileWaitHarness] || file_wait || wait for a file to get written ||
+|| [FileVerifyHarness] || file || compare contents of a file ||
 
 = Ftp =
  * {{{mash_ftpharness.jar}}}
-  * [FtpRunHarness FTPRunHarness] (invokes ftp requests)
-  * GetHarness (gets a file)
-  * ListHarness (lists files)
-  * PutHarness (puts a file on a server)
-  * DeleteHarness (removes a directory or file)
-  * [FtpVerifyListHarness FTPVerifyListHarness] (used by ListHarness, verifies files are present)
-  * [FtpWaitHarness FTPWaitHarness] (wait for a file to be there)
-   * check path (file or directory) and wait until it exists
+|| *Harness* || *type attribute* || *Description* ||
+|| [FtpRunHarness FTPRunHarness] || ftp || invokes ftp requests ||
+|| GetHarness || get_ftp || gets a file ||
+|| ListHarness || list_ftp || lists files ||
+|| PutHarness || put_ftp || puts a file on a server ||
+|| DeleteHarness || delete_ftp || removes a directory or file ||
+|| [FtpVerifyListHarness FTPVerifyListHarness] || list_ftp || used by ListHarness, verifies files are present ||
+|| [FtpWaitHarness FTPWaitHarness] || wait_ftp || wait for a file to be there ||
 
 = Http =
  * {{{mash_httpharness.jar}}}
-  * HttpRunHarness (invokes http requests)
-  * HttpVerifyHarness
+|| *Harness* || *type attribute* || *Description* ||
+|| HttpRunHarness || http || invokes http requests ||
+|| HttpVerifyHarness || http || verify response (title, etc) ||
 
 = Email =
  * {{{mash_mailharness.jar}}}
-  * [GetIMAPEmail] (email client for retrieving messages)
-  * [IMAPSetupHarness] (cleaning out an inbox before testing)
+|| *Harness* || *type attribute* || *Description* ||
+|| [GetIMAPEmail GetEmail] || email || email client for retrieving messages ||
+|| [IMAPSetupHarness EmailSetupHarness] || email || cleaning out an inbox before testing ||
+|| [EmailVerifyHarness] || email || verify email (subject, count, recipient, etc) ||
 
 = REST =
  * {{{mash_httpharness.jar}}}
+|| *Harness* || *type attribute* || *Description* ||
   * RestRunHarness (invokes http requests in a restful manner)
   * RestResponse (for running xpath queries)
 
 = Messaging =
  * {{{mash_messageharness.jar}}}
+|| *Harness* || *type attribute* || *Description* ||
   * [XmlJMSHarness] (send and receive xml files on JMS queue)
   * [TextJMSHarness] (send and receive text files on JMS queue)
   * [ObjectJMSHarness] (receive Java objects from JMS queue)
@@ -69,13 +74,16 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 
 = Core =
  * {{{mash_core.jar}}}
+|| *Harness* || *type attribute* || *Description* ||
   * StandardVerifyHarness
   * ListVerifyHarness
 
 = Utilities =
  * {{{mash_utilityharness.jar}}}
+|| *Harness* || *type attribute* || *Description* ||
   * TimedWaitRunHarness (wait some amount of time)
   * CommandExecutorHarness (execute a command on command line)
   * CommandExecuterVerifyHarness (verify the output of a command)
 
 = Teardown =
+no teardown implementations yet
