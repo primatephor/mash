@@ -16,11 +16,11 @@ public class SuiteLoader
 
     private static SuiteMarshaller marshaller;
 
-    private static SuiteMarshaller getMarshaller() throws Exception
+    private static SuiteMarshaller getMarshaller(String fileName) throws Exception
     {
         if (marshaller == null)
         {
-            marshaller = PropertyObjectFactory.getInstance().buildMarshaller();
+            marshaller = PropertyObjectFactory.getInstance().buildMarshaller(fileName);
         }
         return marshaller;
     }
@@ -29,7 +29,7 @@ public class SuiteLoader
     {
         TextFileReader reader = new TextFileReader();
         String contents = reader.getContents(fileName);
-        SuiteMarshaller marshaller = getMarshaller();
+        SuiteMarshaller marshaller = getMarshaller(fileName);
         Suite suite = (Suite) marshaller.unmarshal(contents);
         if (suite == null)
         {

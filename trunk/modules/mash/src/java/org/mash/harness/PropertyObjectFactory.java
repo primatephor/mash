@@ -1,5 +1,6 @@
 package org.mash.harness;
 
+import org.mash.loader.JSONSuiteMarshaller;
 import org.mash.loader.SuiteMarshaller;
 
 import java.util.List;
@@ -76,8 +77,17 @@ public class PropertyObjectFactory
         return buildObject(FORMATTER);
     }
 
-    public SuiteMarshaller buildMarshaller() throws InstantiationException
+    public SuiteMarshaller buildMarshaller(String filename) throws InstantiationException
     {
-        return (SuiteMarshaller) buildObject(SUITE_MARSHALLER);
+        SuiteMarshaller result;
+        if(filename != null && filename.endsWith(".json"))
+        {
+            result = new JSONSuiteMarshaller();
+        }
+        else
+        {
+            result = (SuiteMarshaller) buildObject(SUITE_MARSHALLER);
+        }
+        return result;
     }
 }

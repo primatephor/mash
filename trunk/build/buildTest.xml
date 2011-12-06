@@ -83,6 +83,7 @@
                 <exclude name="**/*.java"/>
                 <include name="**/*.sql"/>
                 <include name="**/*.xml"/>
+                <include name="**/*.json"/>
                 <include name="**/*.log"/>
                 <include name="**/*.csv"/>
                 <include name="**/*.txt"/>
