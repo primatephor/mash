@@ -6,19 +6,21 @@ Invoke an email client for retrieving messages from an IMAP server.
 
 = Configuration =
 Configuration values:
- * 'smtp_server' = url of the email server
+ * 'mail_server' = url of the email server
  * 'user' = user (usually an admin user) to log into server with 
  * 'password' = password of user
  * 'folder' = optional folder to specify (default is INBOX)
+ * 'protocol' = imap by default.  see [http://docs.oracle.com/javaee/5/api/javax/mail/Session.html java Session api]
 
 = Parameter =
  * 'message_number' = The message to retrieve from the list on the server
  * 'address' = The recipient of the email to retrieve  
+ * 'subject' = subject of message(s) to retrieve
 
 = Sample Usage =
 {{{
-    <Run type="org.mash.harness.mail.GetIMAPEmail" name="get email">
-       <Configuration name="smtp_server" property="mail.server"/>
+    <Run type="org.mash.harness.mail.GetEmail" name="get email">
+       <Configuration name="mail_server" property="mail.server"/>
        <Configuration name="user" property="mail.user"/>
        <Configuration name="password" property="mail.password"/>
        <Parameter name="message_number"><Value>1</Value></Parameter>
