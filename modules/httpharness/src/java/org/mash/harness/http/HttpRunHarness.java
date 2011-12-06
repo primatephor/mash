@@ -10,6 +10,7 @@ import org.mash.config.Parameter;
 import org.mash.harness.*;
 import org.mash.harness.rest.RestResponse;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.Set;
  * @author teastlack
  * @since Jul 5, 2009
  */
+@HarnessName(name = "Http")
 public class HttpRunHarness extends BaseHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());
