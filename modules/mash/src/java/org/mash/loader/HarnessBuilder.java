@@ -185,14 +185,12 @@ public class HarnessBuilder
     {
         List<String> classes = new ArrayList<String>();
 
-        @Override
         public void discovered(String clazz, String annotation)
         {
             log.info("Adding harness named class " + clazz);
             classes.add(clazz);
         }
 
-        @Override
         public String[] supportedAnnotations()
         {
             return new String[]{HarnessName.class.getName()};

@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>mash</groupId>
+        <groupId>org.mash</groupId>
         <artifactId>base-parent</artifactId>
         <version>Latest</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>mash</groupId>
+    <groupId>org.mash</groupId>
     <artifactId>mash-dbharness</artifactId>
     <packaging>jar</packaging>
     <name>DB Harness</name>
@@ -23,29 +23,34 @@
     <dependencies>
         <!-- internal dependencies -->
         <dependency>
-            <groupId>mash</groupId>
-            <artifactId>core</artifactId>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-utilityharness</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- external dependencies -->
         <dependency>
-            <groupId>org.dbunit</groupId>
+            <groupId>dbunit</groupId>
             <artifactId>dbunit</artifactId>
         </dependency>
         <dependency>
-            <groupId>hadoop</groupId>
+            <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>hadoop</groupId>
+            <groupId>org.apache.hbase</groupId>
             <artifactId>hbase</artifactId>
         </dependency>
         <dependency>
-            <groupId>sflj4j</groupId>
+            <groupId>slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>sflj4j</groupId>
+            <groupId>slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
     </dependencies>
