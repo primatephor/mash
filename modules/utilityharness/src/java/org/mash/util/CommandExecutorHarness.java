@@ -11,8 +11,10 @@ import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
+@HarnessName(name = "cli")
 public class CommandExecutorHarness extends BaseHarness implements RunHarness {
 	private static final Logger log = Logger.getLogger(CommandExecutorHarness.class.getName());
 	

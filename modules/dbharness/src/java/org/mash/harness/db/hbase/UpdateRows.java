@@ -1,5 +1,6 @@
 package org.mash.harness.db.hbase;
 
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Put;
@@ -58,6 +59,7 @@ import java.io.IOException;
  * @author: teastlack
  * @since: Dec 28, 2010
  */
+@HarnessName(name = "hbase_update")
 public class UpdateRows extends ValueFilterScanTable
 {
     private static final Logger log = Logger.getLogger(UpdateRows.class.getName());

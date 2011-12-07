@@ -4,6 +4,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.Collection;
  * @since Dec 4, 2009 11:10:59 AM
  *
  */
+@HarnessName(name = "delete_ftp")
 public class DeleteHarness extends FTPRunHarness
 {
     private static final Logger log = Logger.getLogger(DeleteHarness.class.getName());

@@ -2,6 +2,7 @@ package org.mash.harness.mail;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import javax.mail.Address;
@@ -11,7 +12,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 
 /**
- * IMPORTANT: not working.  DO NOT USE.
  * <p/>
  * Configurations:
  * <ul>
@@ -32,6 +32,7 @@ import javax.mail.MessagingException;
  * @author teastlack
  * @since Jul 23, 2010 5:09:47 PM
  */
+@HarnessName(name = "email")
 public class EmailSetupHarness extends BaseEmailHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(EmailSetupHarness.class.getName());

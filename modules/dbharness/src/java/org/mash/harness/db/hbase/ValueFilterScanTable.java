@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.log4j.Logger;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 /**
@@ -50,6 +51,7 @@ import org.mash.loader.HarnessParameter;
  * @author: teastlack
  * @since: Dec 13, 2010
  */
+@HarnessName(name = "hbase_value_scan")
 public class ValueFilterScanTable extends ScanTable
 {
     private static final Logger log = Logger.getLogger(ValueFilterScanTable.class.getName());

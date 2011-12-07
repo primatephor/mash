@@ -6,6 +6,8 @@ import org.mash.harness.SetupHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 import org.apache.log4j.Logger;
+import org.mash.loader.HarnessName;
+import org.mash.loader.HarnessParameter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
  * @author teastlack
  * @since Jul 26, 2010 2:25:19 PM
  */
+@HarnessName(name = "email")
 public class EmailVerifyHarness extends StandardVerifyHarness
 {
     private static final Logger log = Logger.getLogger(EmailVerifyHarness.class.getName());
@@ -91,25 +94,25 @@ public class EmailVerifyHarness extends StandardVerifyHarness
         }
     }
 
-    @HarnessConfiguration(name = "subject")
+    @HarnessParameter(name = "subject")
     public void setSubject(String subject)
     {
         this.subject = subject;
     }
 
-    @HarnessConfiguration(name = "recipient")
+    @HarnessParameter(name = "recipient")
     public void setRecipients(String recipient)
     {
         this.recipients.add(recipient);
     }
 
-    @HarnessConfiguration(name = "sender")
+    @HarnessParameter(name = "sender")
     public void setSender(String sender)
     {
         this.senders.add(sender);
     }
 
-    @HarnessConfiguration(name = "count")
+    @HarnessParameter(name = "count")
     public void setCount(String count)
     {
         this.count = Integer.valueOf(count);

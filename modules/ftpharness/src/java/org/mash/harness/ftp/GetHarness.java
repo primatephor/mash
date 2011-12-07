@@ -8,6 +8,7 @@ import org.mash.file.ByteFileReader;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RawResponse;
 import org.mash.harness.RunResponse;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.io.File;
@@ -51,6 +52,7 @@ import java.util.Map;
  * @since Dec 4, 2009 9:49:20 AM
  *
  */
+@HarnessName(name = "get_ftp")
 public class GetHarness extends FTPRunHarness
 {
     private static final Logger log = Logger.getLogger(GetHarness.class.getName());

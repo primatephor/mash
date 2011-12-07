@@ -3,6 +3,7 @@ package org.mash.harness;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
  * @author: teastlack
  * @since: Jul 5, 2009
  */
+@HarnessName(name = "standard")
 public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
 {
     private static final Logger log = Logger.getLogger(StandardVerifyHarness.class.getName());
