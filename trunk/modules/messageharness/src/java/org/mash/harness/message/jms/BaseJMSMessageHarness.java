@@ -6,6 +6,7 @@ import org.mash.harness.SetupHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 import org.apache.log4j.Logger;
+import org.mash.loader.HarnessName;
 
 import java.util.List;
 

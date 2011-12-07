@@ -1,6 +1,7 @@
 package org.mash.harness;
 
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ import java.util.List;
  * @author teastlack
  * @since Jun 9, 2010 4:43:07 PM
  */
+@HarnessName(name = "list")
 public class ListVerifyHarness extends StandardVerifyHarness
 {
     private int elementNumber = 0;

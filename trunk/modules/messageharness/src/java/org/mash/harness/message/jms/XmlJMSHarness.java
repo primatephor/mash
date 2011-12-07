@@ -3,6 +3,7 @@ package org.mash.harness.message.jms;
 import org.mash.harness.RunResponse;
 import org.mash.harness.XmlResponse;
 import org.mash.harness.message.MessagePropertyResponse;
+import org.mash.loader.HarnessName;
 
 /**
  * Configurations:
@@ -24,6 +25,7 @@ import org.mash.harness.message.MessagePropertyResponse;
  * @since Jan 29, 2010 11:24:49 AM
  *
  */
+@HarnessName(name = "xml_jms")
 public class XmlJMSHarness extends TextJMSHarness
 {
     public RunResponse getResponse()

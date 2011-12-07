@@ -10,6 +10,7 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.List;
  * @since Sep 17, 2009 10:20:40 AM
  *
  */
+@HarnessName(name = "ftp")
 public class FTPRunHarness extends BaseHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(FTPRunHarness.class.getName());

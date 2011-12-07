@@ -1,6 +1,7 @@
 package org.mash.harness.db.hbase;
 
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 import org.mash.loader.HarnessConfiguration;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
@@ -33,6 +34,7 @@ import java.io.IOException;
  * @author: teastlack
  * @since: Sep 26, 2010
  */
+@HarnessName(name = "hbase_insert")
 public class InsertRow extends HBaseHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(InsertRow.class.getName());

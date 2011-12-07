@@ -7,6 +7,7 @@ import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.io.File;
@@ -41,6 +42,7 @@ import java.util.List;
  * @author dschultz
  * @since Oct 06, 2011
  */
+@HarnessName(name = "file_wait")
 public class FileWaitHarness extends PollingWaitHarness
 {
     private static final Logger log = Logger.getLogger(FileWaitHarness.class.getName());

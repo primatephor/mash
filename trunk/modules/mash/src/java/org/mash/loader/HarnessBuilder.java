@@ -1,9 +1,14 @@
 package org.mash.loader;
 
-import javassist.bytecode.AnnotationsAttribute;
-import javassist.bytecode.ClassFile;
+import com.impetus.annovention.ClasspathDiscoverer;
+import com.impetus.annovention.Discoverer;
+import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
 import org.apache.log4j.Logger;
 import org.mash.config.HarnessDefinition;
+import org.mash.config.Run;
+import org.mash.config.Setup;
+import org.mash.config.Teardown;
+import org.mash.config.Verify;
 import org.mash.harness.Harness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
@@ -12,18 +17,10 @@ import org.mash.harness.TeardownHarness;
 import org.mash.harness.VerifyHarness;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 /**
  * Building a harness entails actually creating an instance of that harness, and applying the configurations to those
@@ -37,7 +34,7 @@ public class HarnessBuilder
 {
     private static final Logger log = Logger.getLogger(HarnessBuilder.class.getName());
     private static HarnessBuilder instance;
-    private Map<String, String> types;
+    private Map<TypeKey, Class> types;
 
     public HarnessBuilder()
     {
@@ -78,36 +75,52 @@ public class HarnessBuilder
         }
         catch (Exception e)
         {
-            throw new HarnessException("Problem building harness '" + harnessDefinition.getType() + "':" + e.getMessage(), e);
+            throw new HarnessException(
+                    "Problem building harness '" + harnessDefinition.getType() + "':" + e.getMessage(), e);
         }
         return harness;
     }
 
-    private Harness createInstance(HarnessDefinition harnessDefinition) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+    private Harness createInstance(HarnessDefinition harnessDefinition)
+            throws InstantiationException, IllegalAccessException, ClassNotFoundException, HarnessException
     {
         Harness result;
         //load up the types
         if (types == null)
         {
-            types = new HashMap<String, String>();
-
-//            ClassLoader loader = getClass().getClassLoader();
-//            DataInputStream dstream = new DataInputStream(new BufferedInputStream(bits));
-//            ClassFile cf = new ClassFile(dstream);
-//            String className = cf.getName();
-//            AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute(AnnotationsAttribute.visibleTag);
-//            for (javassist.bytecode.annotation.Annotation ann : visible.getAnnotations())
-//            {
-//                System.out.println("@" + ann.getTypeName());
-//            }
-
+            Discoverer discoverer = new ClasspathDiscoverer();
+            // Register class annotation listener
+            NamedClassDiscover namedClassDiscover = new NamedClassDiscover();
+            discoverer.addAnnotationListener(namedClassDiscover);
+            discoverer.discover();
+            types = buildTypes(namedClassDiscover.classes);
         }
-        String className = types.get(harnessDefinition.getType());
-        if (className == null)
+
+        TypeKey key = TypeKey.build(harnessDefinition.getType(), harnessDefinition);
+        Class clazz = types.get(key);
+        if (clazz == null)
         {
-            className = harnessDefinition.getType();
+            clazz = Class.forName(harnessDefinition.getType());
         }
-        result = (Harness) Class.forName(className).newInstance();
+
+        log.debug("Building harness " + clazz.getName());
+        result = (Harness) clazz.newInstance();
+        return result;
+    }
+
+    private Map<TypeKey, Class> buildTypes(List<String> classes) throws ClassNotFoundException, HarnessException
+    {
+        Map<TypeKey, Class> result = new HashMap<TypeKey, Class>();
+        for (String className : classes)
+        {
+            Class harness = Class.forName(className);
+            TypeKey key = TypeKey.build(harness);
+            if(result.get(key) != null)
+            {
+                throw new HarnessException("Harness with name already exists! Name:"+key.name+" type: "+key.type.name());
+            }
+            result.put(key, harness);
+        }
         return result;
     }
 
@@ -168,63 +181,134 @@ public class HarnessBuilder
         }
     }
 
-    //todo: finish parsing jarfiles
-    //been using http://code.google.com/p/annovention/ (nice work Animesh Kumar)
-//    private ResourceIterator getResourceIterator(URL url, Filter filter) throws IOException
-//    {
-//        String urlString = url.toString();
-//        if (urlString.endsWith("!/")) {
-//            urlString = urlString.substring(4);
-//            urlString = urlString.substring(0, urlString.length() - 2);
-//            url = new URL(urlString);
-//        }
-//
-//        if (!urlString.endsWith("/")) {
-//            return new JarFileIterator(url.openStream(), filter);
-//        } else {
-//
-//            if (!url.getProtocol().equals("file")) {
-//                throw new IOException("Unable to understand protocol: " + url.getProtocol());
-//            }
-//
-//            File f = new File(url.getPath());
-//            if (f.isDirectory()) {
-//                return new ClassFileIterator(f, filter);
-//            } else {
-//                return new JarFileIterator(url.openStream(), filter);
-//            }
-//        }
-//    }
-
-
-    public final URL[] findResources()
+    private class NamedClassDiscover implements ClassAnnotationDiscoveryListener
     {
-        List<URL> list = new ArrayList<URL>();
-        String classpath = System.getProperty("java.class.path");
-        StringTokenizer tokenizer = new StringTokenizer(classpath,
-                                                        File.pathSeparator);
+        List<String> classes = new ArrayList<String>();
 
-        while (tokenizer.hasMoreTokens())
+        @Override
+        public void discovered(String clazz, String annotation)
         {
-            String path = tokenizer.nextToken();
-            try
-            {
-                path = java.net.URLDecoder.decode(path, "UTF-8");
-
-                File fp = new File(path);
-                if (!fp.exists())
-                {
-                    throw new RuntimeException(
-                            "File in java.class.path does not exist: " + fp);
-                }
-                list.add(fp.toURL());
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException(e);
-            }
+            log.info("Adding harness named class " + clazz);
+            classes.add(clazz);
         }
-        return list.toArray(new URL[list.size()]);
+
+        @Override
+        public String[] supportedAnnotations()
+        {
+            return new String[]{HarnessName.class.getName()};
+        }
     }
 
+    private static class TypeKey
+    {
+        private String name;
+        private KeyTypes type;
+
+        public static TypeKey build(String annotationName, HarnessDefinition harness)
+        {
+            TypeKey result = new TypeKey();
+            result.name = annotationName;
+
+            if (harness instanceof Setup)
+            {
+                result.type = KeyTypes.SETUP;
+            }
+            else if (harness instanceof Run)
+            {
+                result.type = KeyTypes.RUN;
+            }
+            else if (harness instanceof Verify)
+            {
+                result.type = KeyTypes.VERIFY;
+            }
+            else if (harness instanceof Teardown)
+            {
+                result.type = KeyTypes.TEARDOWN;
+            }
+
+            return result;
+        }
+
+        public static TypeKey build(Class harness)
+        {
+            TypeKey result = new TypeKey();
+            HarnessName harnessName = (HarnessName) harness.getAnnotation(HarnessName.class);
+            result.name = harnessName.name();
+
+            if (contains(SetupHarness.class, harness.getInterfaces()))
+            {
+                result.type = KeyTypes.SETUP;
+            }
+            else if (contains(RunHarness.class, harness.getInterfaces()))
+            {
+                result.type = KeyTypes.RUN;
+            }
+            else if (contains(VerifyHarness.class, harness.getInterfaces()))
+            {
+                result.type = KeyTypes.VERIFY;
+            }
+            else if (contains(TeardownHarness.class, harness.getInterfaces()))
+            {
+                result.type = KeyTypes.TEARDOWN;
+            }
+
+            return result;
+        }
+
+        enum KeyTypes
+        {
+            SETUP,
+            RUN,
+            VERIFY,
+            TEARDOWN
+        }
+
+        public static boolean contains(Class isEqual, Class[] interfaces)
+        {
+            boolean result = false;
+            for (Class anInterface : interfaces)
+            {
+                if (anInterface.equals(isEqual))
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+
+            TypeKey typeKey = (TypeKey) o;
+
+            if (name != null ? !name.equals(typeKey.name) : typeKey.name != null)
+            {
+                return false;
+            }
+            if (type != null ? !type.equals(typeKey.type) : typeKey.type != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            int result = name != null ? name.hashCode() : 0;
+            result = 31 * result + (type != null ? type.hashCode() : 0);
+            return result;
+        }
+    }
 }

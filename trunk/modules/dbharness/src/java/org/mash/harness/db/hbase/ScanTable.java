@@ -4,6 +4,7 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.RunResponse;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
@@ -38,6 +39,7 @@ import java.io.IOException;
  * @author: teastlack
  * @since: Dec 5, 2010
  */
+@HarnessName(name = "hbase_scan")
 public class ScanTable extends HBaseHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(ScanTable.class.getName());

@@ -19,6 +19,7 @@ import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBResult;
 import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.util.List;
@@ -47,6 +48,7 @@ import java.util.List;
  * @author teastlack
  * @since Sep 23, 2010 10:24:06 AM
  */
+@HarnessName(name = "db_wait")
 public class DBWaitHarness extends PollingWaitHarness
 {
     private static final Logger log = Logger.getLogger(DBWaitHarness.class.getName());

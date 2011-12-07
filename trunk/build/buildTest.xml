@@ -62,6 +62,10 @@
     Compile the test classes, and run the junit tests
     -->
     <target name="test" depends="classpath">
+        <dirname property="pwd" file="." />
+        <echo>pwd = ${pwd}</echo>
+        <echo>module dir = ${module.dir}</echo>
+
         <delete dir="${test.out.dir}"/>
         <mkdir dir="${test.out.dir}"/>
         <delete dir="/${report.out.dir}"/>
@@ -120,8 +124,9 @@
         </copy>
 
         <junit maxmemory="512M" failureProperty="test.failure">
-            <sysproperty key="log4j.configuration" value="build/build.log4j.properties"/>
+            <sysproperty key="log4j.configuration" value="build.log4j.properties"/>
             <classpath>
+                <path path="."/>
                 <path refid="local.class.path"/>
                 <path refid="modules.class.path"/>
                 <path refid="modules.lib.path"/>

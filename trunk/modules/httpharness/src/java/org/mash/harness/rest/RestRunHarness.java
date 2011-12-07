@@ -10,6 +10,7 @@ import org.mash.harness.http.HttpClient;
 import org.mash.harness.http.HttpRunHarness;
 import org.mash.harness.http.Method;
 import org.mash.harness.http.StandardRequestFactory;
+import org.mash.loader.HarnessName;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ import java.util.List;
  * <li> 'content_type' is the type of body.  This isn't required, default is 'text/xml' </li>
  * </ul>
  */
+@HarnessName(name = "rest")
 public class RestRunHarness extends HttpRunHarness
 {
     private static final Logger LOG = Logger.getLogger(RestRunHarness.class.getName());

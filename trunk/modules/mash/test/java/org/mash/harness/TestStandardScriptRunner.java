@@ -10,8 +10,8 @@ import org.mash.loader.SuiteLoader;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
 /**
- * @author: teastlack
- * @since: Sep 19, 2009
+ * @author teastlack
+ * @since Sep 19, 2009
  */
 public class TestStandardScriptRunner extends TestCase
 {
@@ -31,7 +31,7 @@ public class TestStandardScriptRunner extends TestCase
         runner.run(definition);
 
         StandardScriptRunner standardScriptRunner = (StandardScriptRunner) runner;
-        assertEquals(3, standardScriptRunner.getHarnesses().size());
+        assertEquals(4, standardScriptRunner.getHarnesses().size());
         AnnotatedHarness harness;
 
         harness = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(0);
@@ -44,6 +44,10 @@ public class TestStandardScriptRunner extends TestCase
         //back to main script
         harness = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(2);
         assertTrue("Http run not invoked", ((HttpRunHarness) harness.getWrap()).runCalled);
+
+        //verify
+        AnnotatedHarness verify = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(3);
+        assertTrue("Verify harness not run", ((HttpVerifyHarness)verify.getWrap()).verifyCalled);
 
         //db and http should have been called 2 times with these scripts!
         assertEquals(2, DBSetupHarness.callCount);

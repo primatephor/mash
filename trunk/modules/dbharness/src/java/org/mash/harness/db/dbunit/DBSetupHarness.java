@@ -9,6 +9,7 @@ import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -46,6 +47,7 @@ import java.io.StringReader;
  * @author teastlack
  * @since Jul 7, 2009 5:20:41 PM
  */
+@HarnessName(name = "db")
 public class DBSetupHarness extends BaseHarness implements SetupHarness
 {
     private static final Logger log = Logger.getLogger(DBSetupHarness.class.getName());

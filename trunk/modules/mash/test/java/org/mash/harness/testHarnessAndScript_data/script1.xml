@@ -3,10 +3,13 @@
         <Configuration name="clean">true</Configuration>
     </Setup>
     <Script file="script2.xml"/>
-    <Run type="org.mash.harness.HttpRunHarness">
+    <Run type="http">
         <Configuration name="url" property="my.url"/>
         <Configuration name="type">POST</Configuration>
         <Parameter name="username">testuser</Parameter>
         <Parameter name="password">pass</Parameter>
     </Run>
+    <Verify type="http">
+        <Configuration name="title">whatever</Configuration>
+    </Verify>
 </ns1:Script>

@@ -5,6 +5,7 @@ import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import javax.mail.Address;
@@ -35,6 +36,7 @@ import java.util.List;
  * @author teastlack
  * @since Jul 23, 2010 5:09:07 PM
  */
+@HarnessName(name = "email")
 public class GetEmail extends BaseEmailHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(GetEmail.class.getName());

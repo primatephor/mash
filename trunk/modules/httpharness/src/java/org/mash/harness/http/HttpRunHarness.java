@@ -35,7 +35,7 @@ import java.util.Set;
  * @author teastlack
  * @since Jul 5, 2009
  */
-@HarnessName(name = "Http")
+@HarnessName(name = "http")
 public class HttpRunHarness extends BaseHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());

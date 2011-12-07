@@ -8,6 +8,7 @@ import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.List;
  * @author teastlack
  * @since Oct 29, 2009 9:27:24 AM
  */
+@HarnessName(name = "wait_ftp")
 public class FTPWaitHarness extends PollingWaitHarness
 {
     private static final Logger log = Logger.getLogger(FTPWaitHarness.class.getName());

@@ -14,7 +14,9 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
+@HarnessName(name = "delete_file")
 public class FileDeleteHarness extends BaseHarness implements RunHarness {
 	private static final Logger log = Logger.getLogger(FileDeleteHarness.class.getName());
 

@@ -8,6 +8,7 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.StandardVerifyHarness;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ import java.util.List;
  * @author teastlack
  * @since Jul 5, 2009
  */
+@HarnessName(name = "http")
 public class HttpVerifyHarness extends StandardVerifyHarness
 {
     private static final Logger log = Logger.getLogger(HttpVerifyHarness.class);

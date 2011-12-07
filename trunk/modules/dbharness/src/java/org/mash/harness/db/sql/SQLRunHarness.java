@@ -8,6 +8,7 @@ import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
 import org.mash.harness.db.DBResult;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.sql.Connection;
@@ -36,6 +37,7 @@ import java.util.List;
  * @author teastlack
  * @since Jan 8, 2010 3:22:30 PM
  */
+@HarnessName(name = "sql")
 public class SQLRunHarness extends BaseHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(SQLRunHarness.class.getName());

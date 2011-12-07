@@ -7,6 +7,7 @@ import org.mash.harness.RawResponse;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.io.File;
@@ -38,6 +39,7 @@ import java.util.Map;
  * @since Oct 5, 2011 9:49:20 AM
  * 
  */
+@HarnessName(name = "get_file")
 public class FileGetHarness extends BaseHarness implements RunHarness {
 	private static final Logger log = Logger.getLogger(FileGetHarness.class.getName());
 

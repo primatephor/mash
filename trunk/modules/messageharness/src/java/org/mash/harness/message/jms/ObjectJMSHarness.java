@@ -6,6 +6,7 @@ import org.mash.harness.OGNLResponse;
 import org.mash.harness.HarnessError;
 import org.mash.harness.message.MessagePropertyResponse;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 /**
  * Configurations:
@@ -26,6 +27,7 @@ import org.mash.loader.HarnessConfiguration;
  * @since Jan 29, 2010 11:27:13 AM
  *
  */
+@HarnessName(name = "object_jms")
 public class ObjectJMSHarness extends BaseJMSMessageHarness
 {
     public JMSEndpointAdapter buildEndpoint()

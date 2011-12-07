@@ -8,6 +8,7 @@ import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.VerifyHarness;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
  * @since Sep 22, 2009 12:02:24 PM
  *
  */
+@HarnessName(name = "list_ftp")
 public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
 {
     private static final Logger log = Logger.getLogger(FTPVerifyListHarness.class.getName());

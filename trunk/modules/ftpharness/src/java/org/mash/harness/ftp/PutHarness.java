@@ -4,6 +4,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.log4j.Logger;
 import org.mash.file.FileLoader;
 import org.mash.harness.RunResponse;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.io.ByteArrayInputStream;
@@ -31,6 +32,7 @@ import java.io.InputStream;
  * @author teastlack
  * @since Dec 4, 2009 11:20:37 AM
  */
+@HarnessName(name = "put_ftp")
 public class PutHarness extends FTPRunHarness
 {
     private static final Logger log = Logger.getLogger(PutHarness.class.getName());

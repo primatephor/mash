@@ -4,6 +4,7 @@ import org.mash.harness.SetupHarness;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 
 /**
  * Configurations:
@@ -21,6 +22,7 @@ import org.mash.loader.HarnessConfiguration;
  * @since Feb 1, 2010 7:18:26 PM
  *
  */
+@HarnessName(name = "jms")
 public class JMSSetupHarness extends BaseHarness implements SetupHarness
 {
     private String providerUrl;

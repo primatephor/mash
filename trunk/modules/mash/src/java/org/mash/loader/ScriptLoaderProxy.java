@@ -26,7 +26,6 @@ import java.util.List;
 public class ScriptLoaderProxy implements ScriptDefinition
 {
     private static final Logger log = Logger.getLogger(ScriptLoaderProxy.class.getName());
-
     private String filename;
     private String dir;
     private String name;

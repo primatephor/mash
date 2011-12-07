@@ -4,6 +4,7 @@ import org.mash.harness.RawResponse;
 import org.mash.harness.RunResponse;
 import org.mash.harness.message.Message;
 import org.mash.harness.message.MessagePropertyResponse;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 /**
@@ -26,6 +27,7 @@ import org.mash.loader.HarnessParameter;
  * @since Jan 28, 2010 6:23:21 PM
  *
  */
+@HarnessName(name = "text_jms")
 public class TextJMSHarness extends BaseJMSMessageHarness
 {
     private String message;

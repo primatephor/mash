@@ -5,6 +5,7 @@ import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
 import org.mash.harness.db.DBResult;
 import org.mash.loader.HarnessConfiguration;
+import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.List;
  * @author teastlack
  * @since Sep 9, 2010
  */
+@HarnessName(name = "db_row")
 public class RowRunHarness extends SQLRunHarness implements RunHarness
 {
     private String tableName;

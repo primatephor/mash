@@ -15,7 +15,9 @@ import org.mash.harness.RawResponse;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.VerifyHarness;
+import org.mash.loader.HarnessName;
 
+@HarnessName(name = "file")
 public class FileVerifyHarness extends BaseHarness implements VerifyHarness {
 	private static final Logger log = Logger.getLogger(FileVerifyHarness.class.getName());
 	

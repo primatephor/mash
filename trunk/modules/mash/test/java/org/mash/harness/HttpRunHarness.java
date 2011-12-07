@@ -2,6 +2,7 @@ package org.mash.harness;
 
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
+import org.mash.loader.HarnessName;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 /**
  * User: teastlack Date: Jul 1, 2009 Time: 6:36:21 PM
  */
+@HarnessName(name = "http")
 public class HttpRunHarness extends BaseHarness implements RunHarness
 {
     private List<Configuration> configs;
