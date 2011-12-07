@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>mash</groupId>
+        <groupId>org.mash</groupId>
         <artifactId>base-parent</artifactId>
         <version>Latest</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>mash</groupId>
+    <groupId>org.mash</groupId>
     <artifactId>mash-messageharness</artifactId>
     <packaging>jar</packaging>
     <name>Message Harness</name>
@@ -23,50 +23,50 @@
     <dependencies>
         <!-- internal dependencies -->
         <dependency>
-            <groupId>mash</groupId>
-            <artifactId>core</artifactId>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- external dependencies -->
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>aop-client</artifactId>
+            <artifactId>jboss-aop-client</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>jboss-common-core</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>javaee</artifactId>
+            <artifactId>jboss-javaee</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>logging-spi</artifactId>
+            <artifactId>jboss-logging-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>mdr</artifactId>
+            <artifactId>jboss-mdr</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>messaging-client</artifactId>
+            <artifactId>jboss-messaging-client</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>remoting</artifactId>
+            <artifactId>jboss-remoting</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
-            <artifactId>serialization</artifactId>
+            <artifactId>jboss-serialization</artifactId>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
+            <artifactId>jbossall-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>trove</groupId>
             <artifactId>trove</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jbossall</groupId>
-            <artifactId>client</artifactId>
         </dependency>
     </dependencies>
 </project>

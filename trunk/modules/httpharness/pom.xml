@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>mash</groupId>
+        <groupId>org.mash</groupId>
         <artifactId>base-parent</artifactId>
         <version>Latest</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>mash</groupId>
+    <groupId>org.mash</groupId>
     <artifactId>mash-httpharness</artifactId>
     <packaging>jar</packaging>
     <name>Http Harness</name>
@@ -23,8 +23,13 @@
     <dependencies>
         <!-- internal dependencies -->
         <dependency>
-            <groupId>mash</groupId>
-            <artifactId>core</artifactId>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-runner</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- external dependencies -->
@@ -53,27 +58,27 @@
             <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
-            <groupId>cssparser</groupId>
+            <groupId>net.sourceforge.cssparser</groupId>
             <artifactId>cssparser</artifactId>
         </dependency>
         <dependency>
-            <groupId>htmlunit</groupId>
+            <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
         </dependency>
         <dependency>
-            <groupId>htmlunit</groupId>
+            <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit-core-js</artifactId>
         </dependency>
         <dependency>
-            <groupId>nekohtml</groupId>
+            <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
         </dependency>
         <dependency>
-            <groupId>sac</groupId>
+            <groupId>org.w3c.css</groupId>
             <artifactId>sac</artifactId>
         </dependency>
         <dependency>
-            <groupId>serializer</groupId>
+            <groupId>xalan</groupId>
             <artifactId>serializer</artifactId>
         </dependency>
         <dependency>

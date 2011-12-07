@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>mash</groupId>
+        <groupId>org.mash</groupId>
         <artifactId>base-parent</artifactId>
         <version>Latest</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>mash</groupId>
+    <groupId>org.mash</groupId>
     <artifactId>mash-fileharness</artifactId>
     <packaging>jar</packaging>
     <name>File Harness</name>
@@ -23,8 +23,13 @@
     <dependencies>
         <!-- internal dependencies -->
         <dependency>
-            <groupId>mash</groupId>
-            <artifactId>core</artifactId>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mash</groupId>
+            <artifactId>mash-utilityharness</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
