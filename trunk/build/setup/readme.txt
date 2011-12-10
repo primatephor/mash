@@ -1,24 +1,9 @@
 Distribution:
 
 /javadocs: javadocs for both the core and harness frameworks
-
-/dbharnesslib: dependent libraries needed for running DBHarness.jar
-/ftpharnesslib: dependent libraries needed for running FtpHarness.jar
-/httpharnesslib: dependent libraries needed for running HttpHarness.jar
-/junitrunnerlib: dependent libraries needed for running JunitRunner.jar
-/mailharnesslib: dependent libraries needed for running MailHarness.jar
-/mashlib: dependent libraries needed for running core mash.jar
-/messageharnesslib: dependent libraries needed for running MessageHarness.jar
-
+/lib: all libraries required by Mash
 /src: all the source for the packaged modules
+/dist: Mash distribution
 
-/DBHarness.jar: the db interaction harness
-/FtpHarness.jar: the Ftp interaction harness
-/HttpHarness.jar: the http interaction harness
-/JunitRunner.jar: the junit functionality (good for integrating into ant)
-/MailHarness.jar: the email client harness
-/mash.jar: the mash core
-/MessageHarness.jar: the JMS client harness
-/UtilityHarness.jar: Simple utilities useful for testing (waiting, etc)
-
-
+To build:
+run build/lib/install.sh to insert

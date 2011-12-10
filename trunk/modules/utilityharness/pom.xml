@@ -10,6 +10,7 @@
     </parent>
     <groupId>org.mash</groupId>
     <artifactId>mash-utilityharness</artifactId>
+    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>Utility Harness</name>
     <build>
