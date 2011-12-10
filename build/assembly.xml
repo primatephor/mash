@@ -10,11 +10,11 @@
         <dependencySet>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory>lib</outputDirectory>
-            <useProjectArtifact>false</useProjectArtifact>
+            <useProjectArtifact>true</useProjectArtifact>
             <scope>runtime</scope>
-            <excludes>
-                <exclude>mash*</exclude>
-            </excludes>
+            <!--<excludes>-->
+                <!--<exclude>mash*</exclude>-->
+            <!--</excludes>-->
         </dependencySet>
     </dependencySets>
     <!--<fileSets>-->

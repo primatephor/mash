@@ -10,6 +10,7 @@
     </parent>
     <groupId>org.mash</groupId>
     <artifactId>mash-messageharness</artifactId>
+    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>Message Harness</name>
     <build>
