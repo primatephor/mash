@@ -10,7 +10,6 @@
     </parent>
     <groupId>org.mash</groupId>
     <artifactId>mash-runner</artifactId>
-    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>Mash Runner</name>
     <build>

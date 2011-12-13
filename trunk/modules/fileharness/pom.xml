@@ -10,7 +10,6 @@
     </parent>
     <groupId>org.mash</groupId>
     <artifactId>mash-fileharness</artifactId>
-    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>File Harness</name>
     <build>
