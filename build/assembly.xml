@@ -8,14 +8,26 @@
     <includeBaseDirectory>true</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory>lib</outputDirectory>
+            <!--<useTransitiveDependencies>false</useTransitiveDependencies>-->
             <useProjectArtifact>true</useProjectArtifact>
+            <includes>
+                <include>*:jar:*</include>
+            </includes>
             <scope>runtime</scope>
             <!--<excludes>-->
                 <!--<exclude>mash*</exclude>-->
             <!--</excludes>-->
         </dependencySet>
+        <!--<dependencySet>-->
+            <!--<outputDirectory>dist</outputDirectory>-->
+            <!--<useProjectArtifact>true</useProjectArtifact>-->
+            <!--<includes>-->
+                <!--<include>*:mash:*:jar:*</include>-->
+            <!--</includes>-->
+            <!--<outputFileNameMapping>${artifact.build.finalName}.${artifact.extension}</outputFileNameMapping>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependencySet>-->
     </dependencySets>
     <!--<fileSets>-->
         <!--<fileSet>-->

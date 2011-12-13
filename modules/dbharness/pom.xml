@@ -10,7 +10,6 @@
     </parent>
     <groupId>org.mash</groupId>
     <artifactId>mash-dbharness</artifactId>
-    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>DB Harness</name>
     <build>

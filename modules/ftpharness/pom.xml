@@ -10,7 +10,6 @@
     </parent>
     <groupId>org.mash</groupId>
     <artifactId>mash-ftpharness</artifactId>
-    <version>${project.version}</version>
     <packaging>jar</packaging>
     <name>FTP Harness</name>
     <build>

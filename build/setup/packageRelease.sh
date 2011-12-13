@@ -17,7 +17,6 @@ rm -rf target
 
 ## BUILD IT ALL
 
-mvn -am -pl org.mash:Mash clean install -Dmaven.test.skip=true -Dversion=$RELEASE_NAME assembly:assembly
-#mvn -am -pl org.mash:Mash clean install -Dmaven.test.skip=true
-#mvn -pl org.mash:Mash -Dversion=$RELEASE_NAME assembly:assembly
+mvn -am -pl org.mash:Mash clean install -Dproject.version=$RELEASE_NAME -Dmaven.test.skip=true
+mvn -pl org.mash:Mash -Dversion=$RELEASE_NAME assembly:single
 
