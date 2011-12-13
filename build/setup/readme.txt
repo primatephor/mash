@@ -1,9 +1,9 @@
 Distribution:
 
-/javadocs: javadocs for both the core and harness frameworks
 /lib: all libraries required by Mash
-/src: all the source for the packaged modules
 /dist: Mash distribution
 
+You can install the mash distribution by running the /dist/install.sh script
+
 To build:
-run build/lib/install.sh to insert
+run build/lib/install.sh to insert non maven hosted libraries into your local repository
