@@ -17,13 +17,14 @@
         <!-- compile for jdk 1.6 (default is 1.5 for maven 3.0.3) -->
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
+        <version>${project.version}</version>
     </properties>
 
     <!-- customize build process -->
 
     <build>
         <!-- modify to work with our non-standard directory layout -->
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <sourceDirectory>src/java</sourceDirectory>
         <resources>
             <resource>
@@ -95,30 +96,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-ear-plugin</artifactId>
-                    <version>2.6</version>
-                    <configuration>
-                        <!-- do not add maven files to META-INF -->
-                        <archive>
-                            <addMavenDescriptor>false</addMavenDescriptor>
-                        </archive>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-ejb-plugin</artifactId>
-                    <version>2.3</version>
-                    <configuration>
-                        <!-- do not add maven files to META-INF -->
-                        <archive>
-                            <addMavenDescriptor>false</addMavenDescriptor>
-                        </archive>
-                        <!-- default is 2.1 which requires ejb-jar.xml -->
-                        <ejbVersion>3.0</ejbVersion>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>2.3.1</version>
                 </plugin>
@@ -127,6 +104,7 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.3.2</version>
                     <configuration>
+                        <forceCreation>true</forceCreation>
                         <!-- do not add maven files to META-INF -->
                         <archive>
                             <addMavenDescriptor>false</addMavenDescriptor>
@@ -175,7 +153,7 @@
       - slf4j-api-1.5.8.jar
       - slf4j-log4j12-1.5.8.jar
 
-      Run:
+      Run (script is build/setup/install.sh):
       mvn install::install-file -Dfile=../build/lib/annovention-0.1.jar -DgroupId=com.impetus -DartifactId=annovention -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/commons-net-ftp-2.0.jar -DgroupId=commons-net-ftp -DartifactId=commons-net-ftp -Dversion=2.0 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/dbunit-2.4.5.jar -DgroupId=dbunit -DartifactId=dbunit -Dversion=2.4.5 -Dpackaging=jar -DcreateChecksum=true
