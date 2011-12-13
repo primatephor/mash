@@ -125,10 +125,10 @@ public class HarnessBuilder
             {
                 harness = Class.forName(className);
             }
-            catch (ClassNotFoundException e)
+            catch (NoClassDefFoundError e)
             {
                 log.debug(e);
-                log.info("Not adding " + className + " as library not found (you may not be using it).  " +
+                log.info("Not adding " + className + " as a library was not found (you may not be using it).  " +
                                  "Use debug to see full stack");
             }
             if (harness != null)
