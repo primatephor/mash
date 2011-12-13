@@ -86,7 +86,7 @@ public class HarnessBuilder
     {
         Harness result;
         //load up the types
-        if (types == null)
+        if (types == null || types.size() == 0)
         {
             Discoverer discoverer = new ClasspathDiscoverer();
             // Register class annotation listener
@@ -106,7 +106,7 @@ public class HarnessBuilder
             }
             catch (ClassNotFoundException e)
             {
-                throw new HarnessException("Unable to create class "+harnessDefinition.getType(), e);
+                throw new HarnessException("Unable to create class " + harnessDefinition.getType(), e);
             }
         }
 
@@ -139,6 +139,7 @@ public class HarnessBuilder
                     throw new HarnessException(
                             "Harness with name already exists! Name:" + key.name + " type: " + key.type.name());
                 }
+                log.info("Adding " + key + " for harness " + harness.getClass().getName());
                 result.put(key, harness);
             }
         }
@@ -208,7 +209,7 @@ public class HarnessBuilder
 
         public void discovered(String clazz, String annotation)
         {
-            log.info("Adding harness named class " + clazz + " annotation:" + annotation);
+            log.info("Found harness named class " + clazz);
             classes.add(clazz);
         }
 
@@ -328,6 +329,17 @@ public class HarnessBuilder
             int result = name != null ? name.hashCode() : 0;
             result = 31 * result + (type != null ? type.hashCode() : 0);
             return result;
+        }
+
+        @Override
+        public String toString()
+        {
+            String typeStr= "";
+            if(type != null)
+            {
+                typeStr = type.name();
+            }
+            return name+"=>"+typeStr;
         }
     }
 }
