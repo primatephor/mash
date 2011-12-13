@@ -100,7 +100,14 @@ public class HarnessBuilder
         Class clazz = types.get(key);
         if (clazz == null)
         {
-            clazz = Class.forName(harnessDefinition.getType());
+            try
+            {
+                clazz = Class.forName(harnessDefinition.getType());
+            }
+            catch (ClassNotFoundException e)
+            {
+                throw new HarnessException("Unable to create class "+harnessDefinition.getType(), e);
+            }
         }
 
         log.debug("Building harness " + clazz.getName());
@@ -113,13 +120,27 @@ public class HarnessBuilder
         Map<TypeKey, Class> result = new HashMap<TypeKey, Class>();
         for (String className : classes)
         {
-            Class harness = Class.forName(className);
-            TypeKey key = TypeKey.build(harness);
-            if(result.get(key) != null)
+            Class harness = null;
+            try
             {
-                throw new HarnessException("Harness with name already exists! Name:"+key.name+" type: "+key.type.name());
+                harness = Class.forName(className);
             }
-            result.put(key, harness);
+            catch (ClassNotFoundException e)
+            {
+                log.debug(e);
+                log.info("Not adding " + className + " as library not found (you may not be using it).  " +
+                                 "Use debug to see full stack");
+            }
+            if (harness != null)
+            {
+                TypeKey key = TypeKey.build(harness);
+                if (result.get(key) != null)
+                {
+                    throw new HarnessException(
+                            "Harness with name already exists! Name:" + key.name + " type: " + key.type.name());
+                }
+                result.put(key, harness);
+            }
         }
         return result;
     }
@@ -187,7 +208,7 @@ public class HarnessBuilder
 
         public void discovered(String clazz, String annotation)
         {
-            log.info("Adding harness named class " + clazz);
+            log.info("Adding harness named class " + clazz + " annotation:" + annotation);
             classes.add(clazz);
         }
 
