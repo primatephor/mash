@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+VERSION=$1
 
 FILES=./*.jar
 for f in $FILES
@@ -12,7 +13,12 @@ do
     version_jar=${arr[$len-1]}
 
     versionArr=(${version_jar//./ })
-    version=${versionArr[0]}
+
+    if [ -z $VERSION ]; then
+        version=${versionArr[0]}
+    else
+        version=$VERSION
+    fi
 
     artifact_file=${f/-$version_jar}
     artifact="${artifact_file:2}"

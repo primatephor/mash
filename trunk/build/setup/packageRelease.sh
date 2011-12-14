@@ -33,6 +33,7 @@ done
 cd ..
 
 cp $BUILD_DIR/setup/install.sh Mash-$RELEASE_NAME/dist
+chmod +x Mash-$RELEASE_NAME/dist/install.sh
 
 tar -czf Mash-$RELEASE_NAME.tgz Mash-$RELEASE_NAME
 
