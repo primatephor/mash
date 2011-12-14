@@ -1,0 +1,306 @@
+<!--
+this has been tested as is with a simple pseudo-distributed cluster
+-->
+<ns1:Script xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+    <Tag>hbase</Tag>
+    <Tag>setup</Tag>
+
+    <Setup type="org.mash.harness.db.hbase.DeleteTable" name="clean hbase">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Parameter name="table">
+            <Value>dataset</Value>
+        </Parameter>
+    </Setup>
+    <Setup type="org.mash.harness.db.hbase.CreateTable" name="build dataset">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Parameter name="table">
+            <Value>dataset</Value>
+        </Parameter>
+        <Parameter name="family">
+            <Value>key</Value>
+        </Parameter>
+        <Parameter name="family">
+            <Value>address</Value>
+        </Parameter>
+        <Parameter name="family">
+            <Value>i_zip</Value>
+        </Parameter>
+        <Parameter name="family">
+            <Value>header</Value>
+        </Parameter>
+        <Parameter name="family">
+            <Value>auth</Value>
+        </Parameter>
+        <Parameter name="family">
+            <Value>client</Value>
+        </Parameter>
+    </Setup>
+    <Setup type="org.mash.harness.db.hbase.InsertRow" name="add data 1">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="key">
+            <Value>001</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:firstname=bob</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:lastname=squarepants</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:street1=123 main</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:city=San Francisco</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:state=CA</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:zip=12345</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>i_zip:12345</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>auth:user=bobs</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>client:android</Value>
+        </Parameter>
+    </Setup>
+    <Setup type="org.mash.harness.db.hbase.InsertRow" name="add data 2">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="key">
+            <Value>002</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:firstname=patrick</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:lastname=star</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:street1=321 main</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:city=San Francisco</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:state=CA</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>i_zip:98765</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>address:zip=98765</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>auth:user=pats</Value>
+        </Parameter>
+        <Parameter name="entry">
+            <Value>client:ios</Value>
+        </Parameter>
+    </Setup>
+
+
+    <!--
+    get all columns by rowid
+    -->
+    <Run type="org.mash.harness.db.hbase.ScanTable" name="get by key">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="key">
+            <Value>001</Value>
+        </Parameter>
+    </Run>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="get by key">
+        <Configuration name="expected_size"><Value>1</Value></Configuration>
+        <Configuration name="element_number"><Value>0</Value></Configuration>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
+    </Verify>
+
+
+    <!--
+    get all dataset columns
+    -->
+    <Run type="org.mash.harness.db.hbase.ScanTable" name="get multiple">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="column">
+            <Value>address</Value>
+        </Parameter>
+    </Run>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="verify first">
+        <Configuration name="expected_size"><Value>2</Value></Configuration>
+        <Configuration name="element_number"><Value>0</Value></Configuration>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
+    </Verify>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="verify second">
+        <Configuration name="expected_size"><Value>2</Value></Configuration>
+        <Configuration name="element_number"><Value>1</Value></Configuration>
+        <Parameter name="address:firstname"><Value>patrick</Value></Parameter>
+    </Verify>
+
+
+    <!--
+    Show getting 2 specific columnds from db
+    -->
+    <Run type="org.mash.harness.db.hbase.ScanTable" name="get state">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="column">
+            <Value>address:state</Value>
+        </Parameter>
+        <Parameter name="column">
+            <Value>address:zip</Value>
+        </Parameter>
+    </Run>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="verify first">
+        <Configuration name="expected_size"><Value>2</Value></Configuration>
+        <Configuration name="element_number"><Value>0</Value></Configuration>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>12345</Value></Parameter>
+        <!-- only gets specified column -->
+        <Parameter name="address:firstname"><Value/></Parameter>
+    </Verify>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="verify second">
+        <Configuration name="expected_size"><Value>2</Value></Configuration>
+        <Configuration name="element_number"><Value>1</Value></Configuration>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>98765</Value></Parameter>
+    </Verify>
+
+
+    <!--
+    Show getting all data columns, but specifically from the matching zip
+    -->
+    <Run type="org.mash.harness.db.hbase.ValueFilterScanTable" name="get filtered">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="filter">
+            <Value>address:zip=12345</Value>
+        </Parameter>
+        <Parameter name="column">
+            <Value>address</Value>
+        </Parameter>
+    </Run>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="verify index">
+        <Configuration name="expected_size"><Value>1</Value></Configuration>
+        <Configuration name="element_number"><Value>0</Value></Configuration>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>12345</Value></Parameter>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
+    </Verify>
+
+    <!--
+    Show filtering with comparison operations
+    -->
+    <Run type="org.mash.harness.db.hbase.ValueFilterScanTable" name="get filtered with less than operation">
+        <Configuration name="site_config">
+            <Value>hbase/hbase-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/core-site.xml</Value>
+        </Configuration>
+        <Configuration name="site_config">
+            <Value>hbase/hdfs-site.xml</Value>
+        </Configuration>
+        <Configuration name="table">
+            <Value>dataset</Value>
+        </Configuration>
+        <Parameter name="filter">
+            <Value>address:zip=40000</Value>
+        </Parameter>
+        <Parameter name="compare_operation">
+            <Value>LESS</Value>
+        </Parameter>
+        <Parameter name="column">
+            <Value>address</Value>
+        </Parameter>
+    </Run>
+    <Verify type="org.mash.harness.ListVerifyHarness" name="verify index">
+        <Configuration name="expected_size"><Value>1</Value></Configuration>
+        <Configuration name="element_number"><Value>0</Value></Configuration>
+        <Parameter name="address:state"><Value>CA</Value></Parameter>
+        <Parameter name="address:zip"><Value>12345</Value></Parameter>
+        <Parameter name="address:firstname"><Value>bob</Value></Parameter>
+    </Verify>
+</ns1:Script>

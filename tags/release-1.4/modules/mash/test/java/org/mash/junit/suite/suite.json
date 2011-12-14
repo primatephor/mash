@@ -1,0 +1,56 @@
+{"Suite":{"@name":"The Suite","Script":[
+    {
+        "@file":"dir1\/TestA.xml"
+    },
+    {
+        "@dir":"dir2"
+    },
+    {
+        "@name":"The Test",
+        "Tag":["login","website","myapp"],
+        "Setup":{"@type":"org.mash.harness.db.DBSetupHarness",
+            "Configuration":{"@name":"clean","Value":true},
+            "Parameter":{"@name":"loadfile","@file":"db_load.xml",
+                "Replace":{"@search":"$variable$","Value":"sometext"}}},
+        "Run":{"@type":"org.mash.harness.http.HttpRunHarness","Configuration":[
+            {
+                "@property":"my.url",
+                "@name":"url"
+            },
+            {
+                "@name":"type",
+                "Value":"POST"
+            }
+        ],"Parameter":[
+            {
+                "@name":"username",
+                "Value":"testuser"
+            },
+            {
+                "@name":"password",
+                "Value":"pass"
+            }
+        ]},
+        "Verify":{"@type":"org.mash.harness.http.HttpVerifyHarness","Configuration":[
+            {
+                "@name":"status",
+                "Value":200
+            },
+            {
+                "@name":"title",
+                "Value":"My Page Title"
+            },
+            {
+                "@name":"contains",
+                "Value":"Enter your order number"
+            }
+        ],"Parameter":{"@name":"do_search","Value":1}}
+    }
+],"Parallel":{"Script":[
+    {
+        "@file":"dir3\/TestB.xml"
+    },
+    {
+        "@file":"dir4\/TestC.xml"
+    }
+]}}}
