@@ -14,6 +14,7 @@ package org.mash.harness;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
+import org.mash.loader.harnesssetup.AnnotatedHarness;
 import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 import org.apache.log4j.Logger;
@@ -44,12 +45,14 @@ public class StandardHarnessRunner implements HarnessRunner
     public List<HarnessError> run(ScriptDefinition definition, Harness harness, List<RunHarness> previousRuns)
     {
         List<HarnessError> errors = new ArrayList<HarnessError>();
-        log.info("Running harness " + harness.getDefinition().getName());
+        log.debug("Trying to run harness " + harness.getDefinition().getName());
         try
         {
-            List<Configuration> configs = configurationBuilder.applyParameters(previousRuns, definition, harness.getDefinition());
+            List<Configuration> configs =
+                    configurationBuilder.applyParameters(previousRuns, definition, harness.getDefinition());
             harness.setConfiguration(configs);
-            List<Parameter> params = parameterBuilder.applyParameters(previousRuns, definition, harness.getDefinition());
+            List<Parameter> params =
+                    parameterBuilder.applyParameters(previousRuns, definition, harness.getDefinition());
             harness.setParameters(params);
             if (harness instanceof SetupHarness)
             {
@@ -107,15 +110,30 @@ public class StandardHarnessRunner implements HarnessRunner
         return harness.getErrors();
     }
 
-    private void logMsg(String harnessType,
-                        Harness harness)
+    private void logMsg(String harnessType, Harness harness)
     {
-        String harnessName = harness.getClass().getName();
+        StringBuilder message = new StringBuilder("Doing ");
+        message.append(harnessType).append(" ");
+
+        if (harness instanceof AnnotatedHarness)
+        {
+            AnnotatedHarness annotatedHarness = (AnnotatedHarness) harness;
+            if (annotatedHarness.getWrap() != null)
+            {
+                message.append(annotatedHarness.getWrap().getClass().getName());
+            }
+        }
+        else
+        {
+            message.append(harness.getClass().getName());
+        }
+
         if (harness.getDefinition().getName() != null)
         {
-            harnessName = harness.getDefinition().getName();
+            message.append(", name:");
+            message.append(harness.getDefinition().getName());
         }
-        log.info("Running " + harnessType + " '" + harnessName + "'");
+        log.info(message);
     }
 
     public List<RunHarness> getPreviousRuns()
