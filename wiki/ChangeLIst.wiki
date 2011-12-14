@@ -1,13 +1,11 @@
 #labels Featured
 = List of changes =
 
-==1.5==
+==1.4==
  * {{{HarnessName}}} annotation
   * use name like {{{http}}} to instead of {{{org.mash.harness.http.HttpRunHarness}}}
   * see HarnessImplementations document for name on harness
  * minor JSON support.  Still not working though.
-
-==1.4==
  * File Harnesses
   * copy
   * delete
