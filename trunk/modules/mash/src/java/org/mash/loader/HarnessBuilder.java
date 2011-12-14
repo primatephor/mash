@@ -81,23 +81,13 @@ public class HarnessBuilder
         return harness;
     }
 
-    private Harness createInstance(HarnessDefinition harnessDefinition)
-            throws InstantiationException, IllegalAccessException, ClassNotFoundException, HarnessException
+    private Harness createInstance(HarnessDefinition harnessDefinition) throws HarnessException
     {
         Harness result;
-        //load up the types
-        if (types == null || types.size() == 0)
-        {
-            Discoverer discoverer = new ClasspathDiscoverer();
-            // Register class annotation listener
-            NamedClassDiscover namedClassDiscover = new NamedClassDiscover();
-            discoverer.addAnnotationListener(namedClassDiscover);
-            discoverer.discover();
-            types = buildTypes(namedClassDiscover.classes);
-        }
+
 
         TypeKey key = TypeKey.build(harnessDefinition.getType(), harnessDefinition);
-        Class clazz = types.get(key);
+        Class clazz = getTypes().get(key);
         if (clazz == null)
         {
             try
@@ -111,11 +101,33 @@ public class HarnessBuilder
         }
 
         log.debug("Building harness " + clazz.getName());
-        result = (Harness) clazz.newInstance();
+        try
+        {
+            result = (Harness) clazz.newInstance();
+        }
+        catch (Exception e)
+        {
+            throw new HarnessException("Problem creating class " + harnessDefinition.getType(), e);
+        }
         return result;
     }
 
-    private Map<TypeKey, Class> buildTypes(List<String> classes) throws ClassNotFoundException, HarnessException
+    public Map<TypeKey, Class> getTypes() throws HarnessException
+    {
+        //load up the types
+        if (types == null || types.size() == 0)
+        {
+            Discoverer discoverer = new ClasspathDiscoverer();
+            // Register class annotation listener
+            NamedClassDiscover namedClassDiscover = new NamedClassDiscover();
+            discoverer.addAnnotationListener(namedClassDiscover);
+            discoverer.discover();
+            types = buildTypes(namedClassDiscover.classes);
+        }
+        return types;
+    }
+
+    private Map<TypeKey, Class> buildTypes(List<String> classes) throws HarnessException
     {
         Map<TypeKey, Class> result = new HashMap<TypeKey, Class>();
         for (String className : classes)
@@ -131,6 +143,11 @@ public class HarnessBuilder
                 log.info("Not adding " + className + " as a library was not found (you may not be using it).  " +
                                  "Use debug to see full stack");
             }
+            catch (Exception e)
+            {
+                throw new HarnessException("Problem finding class " + className, e);
+            }
+
             if (harness != null)
             {
                 TypeKey key = TypeKey.build(harness);
@@ -219,7 +236,7 @@ public class HarnessBuilder
         }
     }
 
-    private static class TypeKey
+    public static class TypeKey
     {
         private String name;
         private KeyTypes type;
