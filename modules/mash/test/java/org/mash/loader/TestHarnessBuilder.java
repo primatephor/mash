@@ -15,6 +15,7 @@ import org.mash.loader.harnesssetup.AnnotatedHarness;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -83,5 +84,19 @@ public class TestHarnessBuilder extends TestCase
         definition.setType("list");
         AnnotatedHarness harness= (AnnotatedHarness) builder.buildHarness(definition);
         assertEquals(ListVerifyHarness.class.getName(), harness.getWrap().getClass().getName());
+
+        Map<HarnessBuilder.TypeKey, Class> types = builder.getTypes();
+        assertEquals(4, types.size());
+
+        boolean foundListVerify = false;
+        for (HarnessBuilder.TypeKey typeKey : types.keySet())
+        {
+            if(typeKey.toString().contains("list"))
+            {
+                assertEquals("list=>VERIFY", typeKey.toString());
+                foundListVerify = true;
+            }
+        }
+        assertTrue("Didn't find the list verify type stored in builder", foundListVerify);
     }
 }
