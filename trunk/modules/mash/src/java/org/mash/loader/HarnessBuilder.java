@@ -245,6 +245,11 @@ public class HarnessBuilder
             {
                 result.type = KeyTypes.TEARDOWN;
             }
+            else
+            {
+                log.warn("Unknown harness definition (unable to determin if setup, run, verify, or teardown:" +
+                                 harness.getClass().getName());
+            }
 
             return result;
         }
@@ -270,6 +275,11 @@ public class HarnessBuilder
             else if (TeardownHarness.class.isAssignableFrom(harness))
             {
                 result.type = KeyTypes.TEARDOWN;
+            }
+            else
+            {
+                log.warn("Unknown harness class (unable to determin if setup, run, verify, or teardown:" +
+                                 harness.getName());
             }
 
             return result;
@@ -320,12 +330,12 @@ public class HarnessBuilder
         @Override
         public String toString()
         {
-            String typeStr= "";
-            if(type != null)
+            String typeStr = "";
+            if (type != null)
             {
                 typeStr = type.name();
             }
-            return name+"=>"+typeStr;
+            return name + "=>" + typeStr;
         }
     }
 }
