@@ -2,12 +2,15 @@ package org.mash.loader;
 
 import junit.framework.TestCase;
 import org.mash.config.Configuration;
+import org.mash.config.HarnessDefinition;
 import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Setup;
 import org.mash.config.Suite;
+import org.mash.config.Verify;
 import org.mash.harness.AnnotatedDBSetupHarness;
 import org.mash.harness.Harness;
+import org.mash.harness.ListVerifyHarness;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
 
@@ -73,4 +76,12 @@ public class TestHarnessBuilder extends TestCase
         assertEquals(null, db.getPass());
     }
 
+    public void testFindingHarness() throws HarnessException
+    {
+        HarnessBuilder builder = HarnessBuilder.getInstance();
+        HarnessDefinition definition = new Verify();
+        definition.setType("list");
+        AnnotatedHarness harness= (AnnotatedHarness) builder.buildHarness(definition);
+        assertEquals(ListVerifyHarness.class.getName(), harness.getWrap().getClass().getName());
+    }
 }

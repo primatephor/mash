@@ -139,7 +139,7 @@ public class HarnessBuilder
                     throw new HarnessException(
                             "Harness with name already exists! Name:" + key.name + " type: " + key.type.name());
                 }
-                log.info("Adding " + key + " for harness " + harness.getClass().getName());
+                log.info("Adding " + key + " for harness " + harness.getName());
                 result.put(key, harness);
             }
         }
@@ -255,19 +255,19 @@ public class HarnessBuilder
             HarnessName harnessName = (HarnessName) harness.getAnnotation(HarnessName.class);
             result.name = harnessName.name();
 
-            if (contains(SetupHarness.class, harness.getInterfaces()))
+            if (SetupHarness.class.isAssignableFrom(harness))
             {
                 result.type = KeyTypes.SETUP;
             }
-            else if (contains(RunHarness.class, harness.getInterfaces()))
+            else if (RunHarness.class.isAssignableFrom(harness))
             {
                 result.type = KeyTypes.RUN;
             }
-            else if (contains(VerifyHarness.class, harness.getInterfaces()))
+            else if (VerifyHarness.class.isAssignableFrom(harness))
             {
                 result.type = KeyTypes.VERIFY;
             }
-            else if (contains(TeardownHarness.class, harness.getInterfaces()))
+            else if (TeardownHarness.class.isAssignableFrom(harness))
             {
                 result.type = KeyTypes.TEARDOWN;
             }
@@ -281,20 +281,6 @@ public class HarnessBuilder
             RUN,
             VERIFY,
             TEARDOWN
-        }
-
-        public static boolean contains(Class isEqual, Class[] interfaces)
-        {
-            boolean result = false;
-            for (Class anInterface : interfaces)
-            {
-                if (anInterface.equals(isEqual))
-                {
-                    result = true;
-                    break;
-                }
-            }
-            return result;
         }
 
         @Override
