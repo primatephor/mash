@@ -32,9 +32,5 @@
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-junit</artifactId>
-        </dependency>
     </dependencies>
 </project>

@@ -212,11 +212,6 @@
                 <version>1.7.0</version>
             </dependency>
             <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant-junit</artifactId>
-                <version>1.6.5</version>
-            </dependency>
-            <dependency>
                 <groupId>aopalliance</groupId>
                 <artifactId>aopalliance</artifactId>
                 <version>1.0</version>
