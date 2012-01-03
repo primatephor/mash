@@ -208,6 +208,10 @@ public class StandardScriptRunner implements ScriptRunner
             ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
             if (runner != null)
             {
+                //pass along previous runs and setup
+                runner.getPreviousRuns().addAll(this.getPreviousRuns());
+                runner.getSetupHarnesses().addAll(this.getSetupHarnesses());
+
                 errors = runner.run(subDefinition);
                 if (errors != null && errors.size() > 0)
                 {
@@ -215,9 +219,10 @@ public class StandardScriptRunner implements ScriptRunner
                 }
                 else
                 {
-                    this.getPreviousRuns().addAll(runner.getPreviousRuns());
+                    //retrieve run information
+                    this.previousRuns = runner.getPreviousRuns();
                     this.lastRun = runner.getLastRun();
-                    this.getSetupHarnesses().addAll(runner.getSetupHarnesses());
+                    this.setupHarnesses = runner.getSetupHarnesses();
                 }
             }
         }
