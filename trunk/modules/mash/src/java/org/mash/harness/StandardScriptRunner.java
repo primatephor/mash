@@ -15,6 +15,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -120,15 +121,15 @@ public class StandardScriptRunner implements ScriptRunner
                     for (ScriptDefinition sub : toAdd)
                     {
                         log.info("Loading script " +
-                                StringUtil.cleanNull(sub.getDir()) + "/" +
-                                StringUtil.cleanNull(sub.getFile()));
+                                         StringUtil.cleanNull(sub.getDir()) + "/" +
+                                         StringUtil.cleanNull(sub.getFile()));
                         results.add(sub);
                     }
                 }
                 else
                 {
                     log.warn("Unable to apply configurations to " + current.getClass().getName() +
-                            ", not a HarnessDefinition or ScriptDefinition");
+                                     ", not a HarnessDefinition or ScriptDefinition");
                 }
             }
         }
@@ -197,33 +198,29 @@ public class StandardScriptRunner implements ScriptRunner
     }
 
     protected List<HarnessError> processScriptDefinition(ScriptDefinition currentDefinition,
-                                                         ScriptDefinitionLoader loader,
-                                                         ScriptDefinition toRun) throws Exception
+                                                         ScriptDefinitionLoader loader, ScriptDefinition toRun)
+            throws Exception
     {
         List<HarnessError> errors = Collections.emptyList();
         log.info("Loading script " + toRun.getDir() + "/" + toRun.getFile());
         List<ScriptDefinition> scripts = loader.pullSubDefinitions(toRun, currentDefinition.getPath());
-        for (ScriptDefinition subDefinition : scripts)
+        Iterator<ScriptDefinition> definitions = scripts.iterator();
+        while (definitions.hasNext() && (errors == null || errors.size() == 0))
         {
+            ScriptDefinition subDefinition = definitions.next();
             ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
             if (runner != null)
             {
                 //pass along previous runs and setup
                 runner.getPreviousRuns().addAll(this.getPreviousRuns());
                 runner.getSetupHarnesses().addAll(this.getSetupHarnesses());
-
                 errors = runner.run(subDefinition);
-                if (errors != null && errors.size() > 0)
-                {
-                    break;
-                }
-                else
-                {
-                    //retrieve run information
-                    this.previousRuns = runner.getPreviousRuns();
-                    this.lastRun = runner.getLastRun();
-                    this.setupHarnesses = runner.getSetupHarnesses();
-                }
+
+                log.trace("Resetting context harnesses");
+                //retrieve run information
+                this.previousRuns = runner.getPreviousRuns();
+                this.lastRun = runner.getLastRun();
+                this.setupHarnesses = runner.getSetupHarnesses();
             }
         }
         return errors;
@@ -231,7 +228,7 @@ public class StandardScriptRunner implements ScriptRunner
 
     public HarnessRunner getHarnessRunner() throws InstantiationException
     {
-        if(harnessRunner == null)
+        if (harnessRunner == null)
         {
             harnessRunner = PropertyObjectFactory.getInstance().buildHarnessRunner(getPreviousRuns(),
                                                                                    getSetupHarnesses());
