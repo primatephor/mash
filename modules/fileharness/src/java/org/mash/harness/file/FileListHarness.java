@@ -3,14 +3,13 @@ package org.mash.harness.file;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Perform a file list.
@@ -35,7 +34,7 @@ public class FileListHarness extends BaseHarness implements RunHarness {
     
 	private RunResponse response;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups) {
+    public void run(HarnessContext context) {
     	log.info("Running File List Harness");		
 		response = run();
     }

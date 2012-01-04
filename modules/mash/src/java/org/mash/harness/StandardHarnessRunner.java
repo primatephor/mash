@@ -32,9 +32,7 @@ public class StandardHarnessRunner implements HarnessRunner
     private CalculatingParameterBuilder parameterBuilder;
     private CalculatingConfigBuilder configurationBuilder;
 
-    private List<SetupHarness> setupHarnesses;
-    private RunHarness lastRun;
-    private List<RunHarness> previousRuns;
+    private HarnessContext context;
 
     public StandardHarnessRunner()
     {
@@ -42,17 +40,18 @@ public class StandardHarnessRunner implements HarnessRunner
         configurationBuilder = new CalculatingConfigBuilder();
     }
 
-    public List<HarnessError> run(ScriptDefinition definition, Harness harness, List<RunHarness> previousRuns)
+    public List<HarnessError> run(ScriptDefinition definition, Harness harness, HarnessContext context)
     {
+        this.context = context;
         List<HarnessError> errors = new ArrayList<HarnessError>();
         log.debug("Trying to run harness " + harness.getDefinition().getName());
         try
         {
-            List<Configuration> configs =
-                    configurationBuilder.applyParameters(previousRuns, definition, harness.getDefinition());
+            List<Configuration> configs = configurationBuilder.applyParameters(context.getPreviousRuns(),
+                                                                               definition, harness.getDefinition());
             harness.setConfiguration(configs);
-            List<Parameter> params =
-                    parameterBuilder.applyParameters(previousRuns, definition, harness.getDefinition());
+            List<Parameter> params = parameterBuilder.applyParameters(context.getPreviousRuns(),
+                                                                      definition, harness.getDefinition());
             harness.setParameters(params);
             if (harness instanceof SetupHarness)
             {
@@ -82,23 +81,22 @@ public class StandardHarnessRunner implements HarnessRunner
     protected List<HarnessError> runTeardown(TeardownHarness harness)
     {
         logMsg("teardown", harness);
-        harness.teardown(getSetupHarnesses());
+        harness.teardown(context.getSetupHarnesses());
         return harness.getErrors();
     }
 
     protected List<HarnessError> runVerifyHarness(VerifyHarness harness)
     {
         logMsg("verify", harness);
-        harness.verify(getLastRun(), getSetupHarnesses());
+        harness.verify(context.getLastRun(), context.getSetupHarnesses());
         return harness.getErrors();
     }
 
     protected List<HarnessError> runRunHarness(RunHarness harness)
     {
         logMsg("run", harness);
-        lastRun = harness;
-        getLastRun().run(getPreviousRuns(), getSetupHarnesses());
-        getPreviousRuns().add(getLastRun());
+        harness.run(context);
+        context.add(harness);
         return harness.getErrors();
     }
 
@@ -106,7 +104,7 @@ public class StandardHarnessRunner implements HarnessRunner
     {
         logMsg("setup", harness);
         harness.setup();
-        getSetupHarnesses().add(harness);
+        context.add(harness);
         return harness.getErrors();
     }
 
@@ -136,26 +134,5 @@ public class StandardHarnessRunner implements HarnessRunner
         log.info(message);
     }
 
-    public List<RunHarness> getPreviousRuns()
-    {
-        if (previousRuns == null)
-        {
-            previousRuns = new ArrayList<RunHarness>();
-        }
-        return previousRuns;
-    }
 
-    public List<SetupHarness> getSetupHarnesses()
-    {
-        if (setupHarnesses == null)
-        {
-            setupHarnesses = new ArrayList<SetupHarness>();
-        }
-        return setupHarnesses;
-    }
-
-    public RunHarness getLastRun()
-    {
-        return lastRun;
-    }
 }

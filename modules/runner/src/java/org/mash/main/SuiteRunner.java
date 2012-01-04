@@ -3,6 +3,7 @@ package org.mash.main;
 import org.apache.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.PropertyObjectFactory;
 import org.mash.harness.ScriptRunner;
 import org.mash.loader.ScriptDefinitionLoader;
@@ -62,7 +63,7 @@ public class SuiteRunner
         for (ScriptDefinition script : scripts)
         {
             ScriptRunner scriptRunner = PropertyObjectFactory.getInstance().buildRunner();
-            handler.handleErrors(scriptRunner.run(script), script);
+            handler.handleErrors(scriptRunner.run(script, new HarnessContext()), script);
         }
         
         if(handler.isError())

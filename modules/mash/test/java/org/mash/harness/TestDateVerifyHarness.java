@@ -6,7 +6,6 @@ import org.mash.config.Parameter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  *
@@ -107,7 +106,7 @@ public class TestDateVerifyHarness extends TestCase
     {
         private RunResponse response;
         @Override
-        public void run(List<RunHarness> previous, List<SetupHarness> setups)
+        public void run(HarnessContext context)
         {
             //nada
         }

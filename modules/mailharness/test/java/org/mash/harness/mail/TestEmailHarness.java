@@ -19,11 +19,11 @@ public class TestEmailHarness extends TestCase
         folder.addMessage(buildMessage("subject2", "content2"));
         MyEmailHarness myEmailHarness = new MyEmailHarness(folder);
         myEmailHarness.setMessageNumber("1");
-        myEmailHarness.run(null, null);
+        myEmailHarness.run( null);
         EmailResponse response = (EmailResponse) myEmailHarness.getResponse();
         assertEquals("subject1", response.getSubject());
         myEmailHarness.setMessageNumber("2");
-        myEmailHarness.run(null, null);
+        myEmailHarness.run( null);
         response = (EmailResponse) myEmailHarness.getResponse();
         assertEquals("subject2", response.getSubject());
     }
@@ -40,11 +40,11 @@ public class TestEmailHarness extends TestCase
         MyEmailHarness myEmailHarness = new MyEmailHarness(folder);
         myEmailHarness.setMessageNumber("1");
         myEmailHarness.setAddress("rep3@somewhere.com");
-        myEmailHarness.run(null, null);
+        myEmailHarness.run( null);
         EmailResponse response = (EmailResponse) myEmailHarness.getResponse();
         assertEquals("subject2", response.getSubject());
         myEmailHarness.setMessageNumber("2");
-        myEmailHarness.run(null, null);
+        myEmailHarness.run( null);
         response = (EmailResponse) myEmailHarness.getResponse();
         assertEquals("subject4", response.getSubject());
     }

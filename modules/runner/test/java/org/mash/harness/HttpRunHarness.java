@@ -18,7 +18,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     public Boolean runCalled = false;
     Map<String, String> testResponse = new HashMap<String, String>();
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         runCalled = true;
         if (this.getDefinition() != null &&

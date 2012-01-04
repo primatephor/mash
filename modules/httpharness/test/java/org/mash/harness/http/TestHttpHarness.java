@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author: teastlack
- * @since: Jul 4, 2009
+ * @author teastlack
+ * @since Jul 4, 2009
  */
 public class TestHttpHarness extends TestCase
 {

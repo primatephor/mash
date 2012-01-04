@@ -1,15 +1,13 @@
 package org.mash.harness.wait;
 
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.apache.log4j.Logger;
 import org.mash.loader.HarnessName;
-
-import java.util.List;
 
 /**
  * Configurations:
@@ -27,7 +25,7 @@ public class TimedWaitRunHarness extends BaseHarness implements RunHarness
     private Long waitTime;
     private TimedResponse response;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         if (waitTime != null)
         {

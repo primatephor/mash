@@ -32,7 +32,7 @@ public class TestObjectHarness extends TestCase
         harness.setProviderUrl("theUrl");
         harness.setQueueName(queueName);
 
-        harness.run(null, null);
+        harness.run( null);
 
         //should have failed, as send is invalid for object messages right now
         assertEquals(1, harness.getErrors().size());
@@ -57,7 +57,7 @@ public class TestObjectHarness extends TestCase
         harness.setProviderUrl("theUrl");
         harness.setQueueName(queueName);
 
-        harness.run(null, null);
+        harness.run( null);
         assertEquals("value1", harness.getResponse().getValue("prop1"));
         assertEquals("value2", harness.getResponse().getValue("prop2"));
         assertEquals("child", harness.getResponse().getValue("name"));

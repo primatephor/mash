@@ -1,28 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2010 Ensenda, Inc. All Rights Reserved.
- * This code  is the  sole  property  of  Ensenda Inc.,
- * and is protected  by  copyright  under the  laws of the United
- * States. This program is confidential, proprietary, and a trade
- * secret, not to be disclosed without written authorization from
- * Ensenda Inc.  Any  use, duplication, or  disclosure
- * of  this  program  by other than Ensenda Inc. and its
- * assigned licensees is strictly forbidden by law.
- ******************************************************************************/
 
 package org.mash.harness.db.sql;
 
 import org.apache.log4j.Logger;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
-import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBResult;
 import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
-
-import java.util.List;
 
 /**
  * Run an sql statement against the database, waiting for an expected number of results.  This wait harness ONLY counts
@@ -63,13 +50,12 @@ public class DBWaitHarness extends PollingWaitHarness
 
     private SQLRunHarness run;
 
-    @Override
-    protected boolean poll(List<RunHarness> previous, List<SetupHarness> setups)
+    protected boolean poll(HarnessContext context)
     {
         boolean result = false;
 
         run = buildHarness();
-        run.run(previous, setups);
+        run.run(context);
         DBResult response = run.getResponse();
 
         if (response != null)

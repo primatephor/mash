@@ -1,7 +1,5 @@
 package org.mash.harness;
 
-import java.util.List;
-
 /**
  * Running a test happens here.  After setup harnesses are run, one or more run harnesses are invoked.  A run harness
  * could be run after some verify harnesses have been run.
@@ -18,10 +16,9 @@ public interface RunHarness extends Harness
      * authentication information is a result.  The next run would retrieve and save that information for use in
      * navigation throughout a website.
      *
-     * @param previous test
-     * @param setups   for the test
+     * @param context harness contextual information
      */
-    void run(List<RunHarness> previous, List<SetupHarness> setups);
+    void run(HarnessContext context);
 
     /**
      * After a run, there should be some response available to other harnesses for examination.

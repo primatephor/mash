@@ -13,7 +13,6 @@ import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,7 +46,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     protected HttpClient client;
     protected RunResponse response;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         log.debug("Running Http Invocation");
         if (clean != null && Boolean.valueOf(clean))

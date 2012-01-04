@@ -2,11 +2,11 @@ package org.mash.harness.file;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RawResponse;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
@@ -52,24 +52,24 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 
 	private RunResponse response;
 
-	public void run(List<RunHarness> previous, List<SetupHarness> setups) {
+	public void run(HarnessContext context) {
 		log.info("Running File List Harness");
 				
 		if (filename != null) {
 			log.info("Getting file: " + filename);
-			response = retrieve(filename);
+			response = retrieve(filename, context);
 		} else if (path != null) {
 			if (fileContents != null) {
 				log.info("Looking for file in path: " + path + " containing: " + fileContents);
-				response = retrieveResponseContainment(path);
+				response = retrieveResponseContainment(path, context);
 			} else if (fileIndex != null) {
 				log.info("Retriving file in: " + path + " at index: " + fileIndex);
-				response = retrieveIndexedResponse(path);
+				response = retrieveIndexedResponse(path, context);
 			}
 		}
 	}
 
-	protected RunResponse retrieve(String path) {
+	protected RunResponse retrieve(String path, HarnessContext context) {
 		RunResponse result = null;
 		RandomAccessFile inFile;
 		try {
@@ -88,8 +88,8 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 				FileCopyHarness copyHarness = new FileCopyHarness();
 				copyHarness.setTargetFile(output_file);
 				copyHarness.setTargetFile(path);
-				copyHarness.run(null, null);
-				result = (FileCopyResponse) copyHarness.getResponse();
+				copyHarness.run(context);
+				result = copyHarness.getResponse();
 			}
 			inFile.close();
 		} catch (FileNotFoundException e) {
@@ -100,7 +100,7 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 		return result;
 	}
 
-	private RunResponse retrieveResponseContainment(String path) {
+	private RunResponse retrieveResponseContainment(String path, HarnessContext context) {
 		RunResponse response = null;
 		FileListHarness listHarness = new FileListHarness();
 		listHarness.setPath(path);
@@ -111,7 +111,7 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 		for (File file : files.values()) {
 			String filename = path + "/" + file.getName();
 			log.info("Retrieving file " + filename);
-			RunResponse result = retrieve(filename);
+			RunResponse result = retrieve(filename, context);
 			String toCheck = result.getString();
 
 			boolean allContentFound = true;
@@ -130,7 +130,7 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 		return response;
 	}
 
-	private RunResponse retrieveIndexedResponse(String path) {
+	private RunResponse retrieveIndexedResponse(String path, HarnessContext context) {
 		RunResponse response = null;
 		FileListHarness listHarness = new FileListHarness();
 		listHarness.setPath(path);
@@ -145,7 +145,7 @@ public class FileGetHarness extends BaseHarness implements RunHarness {
 			File toRetrieve = fileList.get(fileIndex);
 			String filename = path + "/" + toRetrieve.getName();
 			log.info("Retrieving file " + filename);
-			response = retrieve(filename);
+			response = retrieve(filename, context);
 		}
 		return response;
 	}

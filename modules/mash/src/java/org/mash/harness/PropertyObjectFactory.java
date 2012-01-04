@@ -3,8 +3,6 @@ package org.mash.harness;
 import org.mash.loader.JSONSuiteMarshaller;
 import org.mash.loader.SuiteMarshaller;
 
-import java.util.List;
-
 /**
  * Build objects from common property values.  This is mostly a convenience class, but should help clean up and
  * centralize some of these properties.
@@ -47,24 +45,10 @@ public class PropertyObjectFactory
         return result;
     }
 
-    public Object buildProperty(String propertyName) throws InstantiationException
-    {
-        return buildProperty(System.getProperty(propertyName), null);
-    }
-
-    public Object buildProperty(String propertyName, String defaultValue) throws InstantiationException
-    {
-        return buildObject(System.getProperty(propertyName, defaultValue));
-    }
-
     //helper methods for dealing with existing known properties
-    public HarnessRunner buildHarnessRunner(List<RunHarness> previousRuns,
-                                            List<SetupHarness> setupHarnesses) throws InstantiationException
+    public HarnessRunner buildHarnessRunner() throws InstantiationException
     {
-        HarnessRunner harnessRunner = (HarnessRunner) buildObject(HARNESS_RUNNER);
-        harnessRunner.getPreviousRuns().addAll(previousRuns);
-        harnessRunner.getSetupHarnesses().addAll(setupHarnesses);
-        return harnessRunner;
+        return (HarnessRunner) buildObject(HARNESS_RUNNER);
     }
 
     public ScriptRunner buildRunner() throws InstantiationException

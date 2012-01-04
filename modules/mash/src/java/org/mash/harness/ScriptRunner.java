@@ -11,13 +11,14 @@ import java.util.List;
  * <p/>
  * User: teastlack Date: Jul 7, 2009 Time: 3:51:16 PM
  */
-public interface ScriptRunner extends Runner
+public interface ScriptRunner
 {
     /**
      * Run the definition and return any errors
      * @param definition to run
+     * @param context of tests run
      * @return errors generated
      * @throws Exception when something odd happens
      */
-    List<HarnessError> run(ScriptDefinition definition) throws Exception;
+    List<HarnessError> run(ScriptDefinition definition, HarnessContext context) throws Exception;
 }

@@ -1,7 +1,7 @@
 package org.mash.harness.db.hbase;
 
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.RunResponse;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
@@ -36,8 +36,8 @@ import java.io.IOException;
  * <li>column (family and/or qualifier to retrieve).  Format 'family:qualifier'</li>
  * </ul>
  *
- * @author: teastlack
- * @since: Dec 5, 2010
+ * @author teastlack
+ * @since Dec 5, 2010
  */
 @HarnessName(name = "hbase_scan")
 public class ScanTable extends HBaseHarness implements RunHarness
@@ -52,7 +52,7 @@ public class ScanTable extends HBaseHarness implements RunHarness
     private RunResponse response;
     private List<Result> scannedResults;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         HBaseAdmin admin = getAdmin();
         ResultScanner scanner = null;

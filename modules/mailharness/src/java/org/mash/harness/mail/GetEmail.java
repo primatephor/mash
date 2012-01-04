@@ -1,10 +1,10 @@
 package org.mash.harness.mail;
 
 import org.apache.log4j.Logger;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
@@ -12,7 +12,6 @@ import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import java.util.List;
 
 /**
  * Configurations:
@@ -46,8 +45,7 @@ public class GetEmail extends BaseEmailHarness implements RunHarness
     private String subject;
     private EmailResponse response;
 
-    public void run(List<RunHarness> previous,
-                    List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         log.info("Running GetEmail");
         try
