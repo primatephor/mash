@@ -3,6 +3,7 @@ package org.mash.junit;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.mash.config.ScriptDefinition;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.PropertyObjectFactory;
 import org.mash.harness.ScriptRunner;
@@ -53,7 +54,7 @@ public class StandardTestCase extends TestCase
     {
         log.info("\n********************************************************************************************\n" +
                  "Running Test '" + this.getName() + "'");
-        List<HarnessError> errors = this.scriptRunner.run(this.scriptDefinition);
+        List<HarnessError> errors = this.scriptRunner.run(this.scriptDefinition, new HarnessContext());
         handler.handleErrors(errors, this.scriptDefinition);
     }
 

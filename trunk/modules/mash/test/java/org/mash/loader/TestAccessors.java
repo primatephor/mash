@@ -78,7 +78,7 @@ public class TestAccessors extends TestCase
         run.setDefinition(definition);
         List<RunHarness> runs = new ArrayList<RunHarness>();
         runs.add(run);
-        run.run(null, null);
+        run.run(null);
         ResponseAccessor accessor = new ResponseAccessor(runs);
         assertEquals("somevalue", accessor.accessContent(param, null));
         assertEquals("somevalue", accessor.accessContent(param, param.getValue()));
@@ -132,7 +132,7 @@ public class TestAccessors extends TestCase
         run.setDefinition(definition);
         List<RunHarness> runs = new ArrayList<RunHarness>();
         runs.add(run);
-        run.run(null, null);
+        run.run(null);
         ResponseAccessor accessor = new ResponseAccessor(runs);
         chain.add(accessor);
         assertEquals("somevalue", chain.access(param));

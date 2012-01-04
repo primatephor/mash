@@ -17,7 +17,7 @@ public class TestWaitHarness extends TestCase
         TimedWaitRunHarness timedWait = new TimedWaitRunHarness();
         timedWait.setWaitTime("1000");
         Date start = new Date();
-        timedWait.run(null, null);
+        timedWait.run(null);
         Date end = new Date();
         assertTrue("End is not 1000ms after start", (end.getTime() - start.getTime()) >= 1000);
         assertEquals("1000", timedWait.getResponse().getString());

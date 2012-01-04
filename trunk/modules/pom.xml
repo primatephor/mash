@@ -217,14 +217,19 @@
                 <version>1.0</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>2.1.6</version>
+                <groupId>com.google.code.google-collections</groupId>
+                <artifactId>google-collect</artifactId>
+                <version>snapshot-20080530</version>
             </dependency>
             <dependency>
                 <groupId>com.impetus</groupId>
                 <artifactId>annovention</artifactId>
                 <version>0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>2.1.6</version>
             </dependency>
             <dependency>
                 <groupId>commons-codec</groupId>

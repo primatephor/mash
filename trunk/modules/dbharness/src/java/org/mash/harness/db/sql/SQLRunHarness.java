@@ -3,6 +3,7 @@ package org.mash.harness.db.sql;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
@@ -52,7 +53,7 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
 
     private DBResult result;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         DBConnector connection = getConnector();
         if (sql != null)

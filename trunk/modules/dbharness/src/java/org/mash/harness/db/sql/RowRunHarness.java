@@ -1,14 +1,12 @@
 package org.mash.harness.db.sql;
 
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.db.DBConnector;
 import org.mash.harness.db.DBResult;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
-
-import java.util.List;
 
 /**
  * Retrieve a row from a table, given the column name and value.  String values should be quoted!
@@ -42,7 +40,7 @@ public class RowRunHarness extends SQLRunHarness implements RunHarness
     private String columnName;
     private String columnValue;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         DBConnector connection = getConnector();
 

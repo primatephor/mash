@@ -33,7 +33,7 @@ public class TestFTPWaitHarness extends TestCase
         responseFiles[0].setName("theFile");
 
         long start = new Date().getTime();
-        wait.run(null, null);
+        wait.run( null);
         long end = new Date().getTime();
         long difference = end - start;
         //more than 10 seconds, 1st poll has no wait and increases count
@@ -57,7 +57,7 @@ public class TestFTPWaitHarness extends TestCase
         responseFiles[0].setName("theFile");
 
         long start = new Date().getTime();
-        wait.run(null, null);
+        wait.run( null);
         long end = new Date().getTime();
         long difference = end - start;
         //more than 10 seconds, 1st poll has no wait and increases count

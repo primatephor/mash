@@ -10,6 +10,7 @@ import org.mash.config.Setup;
 import org.mash.config.Teardown;
 import org.mash.config.Verify;
 import org.mash.harness.Harness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
@@ -183,9 +184,9 @@ public class HarnessBuilder
             super(wrap);
         }
 
-        public void run(List<RunHarness> previous, List<SetupHarness> setups)
+        public void run(HarnessContext context)
         {
-            ((RunHarness) getWrap()).run(previous, setups);
+            ((RunHarness) getWrap()).run(context);
         }
 
         public RunResponse getResponse()

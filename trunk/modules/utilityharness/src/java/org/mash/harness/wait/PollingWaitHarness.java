@@ -13,6 +13,7 @@ package org.mash.harness.wait;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
@@ -33,15 +34,14 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
     //poll every 5 seconds by default
     private Integer pollMillis = 5 * 1000;
 
-    @Override
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         long current = timeoutMillis;
         long timeToWait = pollMillis;
         boolean isComplete = false;
         while (current > 0 && !isComplete)
         {
-            isComplete = poll(previous, setups);
+            isComplete = poll(context);
             if (!isComplete)
             {
                 try
@@ -76,11 +76,10 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
     /**
      * Poll the specified resource and return a boolean value indicating success.
      *
-     * @param previous list of runs
-     * @param setups list of setup steps
      * @return true if polling found what it was looking for
+     * @param context of test run
      */
-    protected abstract boolean poll(List<RunHarness> previous, List<SetupHarness> setups);
+    protected abstract boolean poll(HarnessContext context);
 
     public void setTimeoutMillis(String timeoutMillis)
     {

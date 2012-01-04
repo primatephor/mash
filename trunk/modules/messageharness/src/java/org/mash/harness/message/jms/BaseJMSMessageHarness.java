@@ -1,14 +1,10 @@
 package org.mash.harness.message.jms;
 
+import org.mash.harness.HarnessContext;
 import org.mash.harness.message.BaseMessageHarness;
-import org.mash.harness.RunHarness;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 import org.apache.log4j.Logger;
-import org.mash.loader.HarnessName;
-
-import java.util.List;
 
 /**
  * Configurations:
@@ -27,7 +23,7 @@ public abstract class BaseJMSMessageHarness extends BaseMessageHarness
     private String providerUrl;
     private String queueName;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         log.info("Connection provider:" + providerUrl + ", Queue:" + queueName);
         if (getErrors().size() == 0)
@@ -42,7 +38,7 @@ public abstract class BaseJMSMessageHarness extends BaseMessageHarness
             }
         }
 
-        super.run(previous, setups);
+        super.run(context);
     }
 
     @HarnessConfiguration(name = "provider_url")

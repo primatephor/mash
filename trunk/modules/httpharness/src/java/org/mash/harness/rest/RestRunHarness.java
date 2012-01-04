@@ -3,9 +3,8 @@ package org.mash.harness.rest;
 import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
-import org.mash.harness.RunHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.http.HttpClient;
 import org.mash.harness.http.HttpRunHarness;
 import org.mash.harness.http.Method;
@@ -37,7 +36,7 @@ public class RestRunHarness extends HttpRunHarness
     public static String DEFAULT_CONTENT_TYPE = "text/xml";
     private RunResponse xmlResponse;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         LOG.debug("Running restful harness");
         String type = getConfigurationValue("type");
@@ -50,7 +49,7 @@ public class RestRunHarness extends HttpRunHarness
                 throw new IllegalArgumentException("'body' parameter is required for 'CREATE' or 'UPDATE' requests");
             }
         }
-        super.run(previous, setups);
+        super.run(context);
     }
 
     public RunResponse getResponse()

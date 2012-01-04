@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
@@ -47,7 +46,7 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 	
 	private int bufferSize = 1024;
 	
-	public void run(List<RunHarness> previous, List<SetupHarness> setups) {
+	public void run(HarnessContext context) {
 		log.info("Running File Copy Harness");		
 		if(null != targetFileNameBaseDir && targetFileNameBaseDir.trim().length() > 0 ) {
 			targetFileName = targetFileNameBaseDir + targetFileName; 

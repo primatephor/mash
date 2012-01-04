@@ -1,14 +1,13 @@
 package org.mash.harness.message;
 
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
 import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -42,7 +41,7 @@ public abstract class BaseMessageHarness extends BaseHarness implements RunHarne
         RECEIVE
     }
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         if (getErrors().size() == 0)
         {

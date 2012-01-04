@@ -2,6 +2,7 @@ package org.mash.harness.ftp;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
@@ -24,7 +25,7 @@ public class BogusFTPRun extends BaseHarness implements RunHarness
         this.cannedResponse = cannedResponse;
     }
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         log.info("Run called");
     }

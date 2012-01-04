@@ -36,7 +36,7 @@ public class TestXmlHarness extends TestCase
         harness.setProviderUrl("theUrl");
         harness.setQueueName(queueName);
 
-        harness.run(null, null);
+        harness.run( null);
         ConfigProducer prod = (ConfigProducer) session.getSender();
         assertEquals("value1", prod.getMessage().getStringProperty("prop1"));
         assertEquals("value2", prod.getMessage().getStringProperty("prop2"));
@@ -70,7 +70,7 @@ public class TestXmlHarness extends TestCase
         harness.setProviderUrl("theUrl");
         harness.setQueueName(queueName);
 
-        harness.run(null, null);
+        harness.run( null);
         assertEquals("value1", harness.getResponse().getValue("prop1"));
         assertEquals("value2", harness.getResponse().getValue("prop2"));
         assertEquals("<base>  <child>data1</child>  <child2>data2</child2></base>", harness.getResponse().getString());

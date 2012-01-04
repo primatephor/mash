@@ -28,7 +28,7 @@ public class TestStandardScriptRunner extends TestCase
         DBSetupHarness.reset();
         HttpRunHarness.reset();
         ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
-        runner.run(definition);
+        runner.run(definition, new HarnessContext());
 
         StandardScriptRunner standardScriptRunner = (StandardScriptRunner) runner;
         assertEquals(4, standardScriptRunner.getHarnesses().size());
@@ -67,7 +67,7 @@ public class TestStandardScriptRunner extends TestCase
         DBSetupHarness.reset();
         HttpRunHarness.reset();
         ScriptRunner runner = PropertyObjectFactory.getInstance().buildRunner();
-        runner.run(definition);
+        runner.run(definition, new HarnessContext());
 
         StandardScriptRunner standardScriptRunner = (StandardScriptRunner) runner;
         AnnotatedHarness harness;

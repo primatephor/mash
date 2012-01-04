@@ -59,10 +59,10 @@ public class JMSSetupHarness extends BaseHarness implements SetupHarness
             textHarness.setProviderUrl(providerUrl);
             textHarness.setQueueName(queueName);
 
-            textHarness.run(null, null);
+            textHarness.run( null);
             while (textHarness.getMessage() != null)
             {
-                textHarness.run(null, null);
+                textHarness.run( null);
             }
             getErrors().addAll(textHarness.getErrors());
         }

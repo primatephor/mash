@@ -2,10 +2,9 @@ package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.log4j.Logger;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
-import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.wait.PollingWaitHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
@@ -58,10 +57,10 @@ public class FTPWaitHarness extends PollingWaitHarness
 
     private FTPRunHarness run;
 
-    public boolean poll(List<RunHarness> previous, List<SetupHarness> setups)
+    public boolean poll(HarnessContext context)
     {
         run = buildRunHarness();
-        run.run(previous, setups);
+        run.run(context);
         boolean result = false;
         RunResponse runResponse = getResponse();
         if (runResponse != null)

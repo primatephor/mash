@@ -4,16 +4,14 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RawResponse;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
-import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
-
-import java.util.List;
 
 /**
  * Perform generic FTP operations on a server, based on whatever parameters are passed via the ftp_params param.
@@ -49,7 +47,7 @@ public class FTPRunHarness extends BaseHarness implements RunHarness
 
     private RunResponse response;
 
-    public void run(List<RunHarness> previous, List<SetupHarness> setups)
+    public void run(HarnessContext context)
     {
         FTPClient client = buildClient();
         try

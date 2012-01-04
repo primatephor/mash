@@ -1,6 +1,7 @@
 package org.mash.harness.mail;
 
 import junit.framework.TestCase;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.RunResponse;
@@ -104,7 +105,7 @@ public class TestEmailVerify extends TestCase
             this.run = run;
         }
 
-        public void run(List<RunHarness> previous, List<SetupHarness> setups)
+        public void run(HarnessContext context)
         {
         }
 

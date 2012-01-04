@@ -3,6 +3,7 @@ package org.mash.harness.rest;
 import junit.framework.TestCase;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
+import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.harness.SetupHarness;
@@ -96,7 +97,7 @@ public class TestRestResponse extends TestCase
             this.response = response;
         }
 
-        public void run(List<RunHarness> previous, List<SetupHarness> setups)
+        public void run(HarnessContext context)
         {
             //To change body of implemented methods use File | Settings | File Templates.
         }
