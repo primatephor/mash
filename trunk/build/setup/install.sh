@@ -11,8 +11,9 @@ do
     len=${#arr[@]}
 
     version_jar=${arr[$len-1]}
+    #echo "JAR: $version_jar"
 
-    versionArr=(${version_jar//./ })
+    versionArr=(${version_jar//.jar/ })
 
     if [ -z $VERSION ]; then
         version=${versionArr[0]}
