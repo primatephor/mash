@@ -71,8 +71,10 @@ public class ResponseAccessor implements ContentAccessor
     private RunHarness getRun(String runName, List<RunHarness> previousRun)
     {
         RunHarness result = null;
-        for (RunHarness runHarness : previousRun)
+        //start looking from the end, as we want the most recent
+        for (int i = previousRun.size()-1; i >= 0; i--)
         {
+            RunHarness runHarness = previousRun.get(i);
             if (runName != null && runName.equals(runHarness.getDefinition().getName()))
             {
                 result = runHarness;
