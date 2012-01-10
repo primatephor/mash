@@ -14,7 +14,7 @@ import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 
 
-@HarnessName(name = "verify_cli")
+@HarnessName(name = "cli")
 public class CommandExecutorVerifyHarness extends BaseHarness implements VerifyHarness {
 	
 	private static final Logger log = Logger.getLogger(CommandExecutorVerifyHarness.class.getName());
