@@ -82,7 +82,7 @@ This is the list of supplied harnesses.  To build your own, check out Developing
 || *Harness* || *type attribute* || *Description* ||
 || TimedWaitRunHarness || wait || wait some amount of time ||
 || CommandExecutorHarness || cli || execute a command on command line ||
-|| CommandExecuterVerifyHarness || verify_cli || verify the output of a command ||
+|| CommandExecuterVerifyHarness || cli || verify the output of a command ||
 
 = Teardown =
 no teardown implementations yet
