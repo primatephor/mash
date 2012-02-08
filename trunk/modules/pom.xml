@@ -201,7 +201,6 @@
         <module>mailharness</module>
         <module>messageharness</module>
         <module>seleniumharness</module>
-        <module>mashconfig</module>
         <module>../build</module>
     </modules>
 
