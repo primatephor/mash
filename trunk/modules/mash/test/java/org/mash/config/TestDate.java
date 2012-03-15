@@ -10,6 +10,9 @@ import java.util.Calendar;
  */
 public class TestDate extends TestCase
 {
+    //1247170000000  =  2009/07/09 13:06:40
+    java.util.Date now = new java.util.Date(1247170000000l);
+
     public void testDefault() throws ConfigurationException
     {
         java.util.Date now = new java.util.Date();
@@ -17,10 +20,8 @@ public class TestDate extends TestCase
         assertTrue("new date too old", now.getTime() <= current.asDate().getTime());
     }
 
-    //1247170000000  =  2009/07/09 13:06:40
     public void testDefaultFormatting() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         assertEquals("2009/07/09 13:06:40", configDate.asFormat());
@@ -36,7 +37,6 @@ public class TestDate extends TestCase
 
     public void testSeconds() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setSecOffset(5);
@@ -45,7 +45,6 @@ public class TestDate extends TestCase
 
     public void testMinutes() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setMinOffset(5);
@@ -54,7 +53,6 @@ public class TestDate extends TestCase
 
     public void testHours() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setHourOffset(5);
@@ -63,7 +61,6 @@ public class TestDate extends TestCase
 
     public void testDay() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setDayOffset(5);
@@ -72,7 +69,6 @@ public class TestDate extends TestCase
 
     public void testMonth() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setMonthOffset(5);
@@ -81,7 +77,6 @@ public class TestDate extends TestCase
 
     public void testYear() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setYearOffset(5);
@@ -90,7 +85,6 @@ public class TestDate extends TestCase
 
     public void testZone() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setZone("EST");
@@ -101,11 +95,19 @@ public class TestDate extends TestCase
 
     public void testFormatAndOffest() throws ConfigurationException
     {
-        java.util.Date now = new java.util.Date(1247170000000l);
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy-MM-dd kk:mm:ss.S");
         configDate.setDayOffset(-6);
         assertEquals("2009-07-03 13:06:40.0", configDate.asFormat());
+    }
+
+    public void testDST() throws ConfigurationException
+    {
+        Date configDate = new MyDate(now);
+        configDate.setFormat("yyyy/MM/dd HH:mm:ss");
+        configDate.setHourOffset(5);
+        configDate.setApplyDST(true);
+        assertEquals("2009/07/09 19:06:40", configDate.asFormat());
     }
 
     private class MyDate extends Date
