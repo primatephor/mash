@@ -39,6 +39,8 @@ public class Date
     protected Integer yearOffset;
     @XmlAttribute
     protected String zone;
+    @XmlAttribute
+    protected Boolean applyDST;
 
     protected Calendar theDate;
     private DateFormat formatter;
@@ -86,6 +88,19 @@ public class Date
         if (this.yearOffset != null)
         {
             theDate.add(Calendar.YEAR, this.yearOffset);
+        }
+        if(this.applyDST != null && this.applyDST)
+        {
+            TimeZone zone = theDate.getTimeZone();
+            if(this.zone != null)
+            {
+                zone = TimeZone.getTimeZone(this.zone);
+            }
+
+            if(zone != null && zone.inDaylightTime(theDate.getTime()))
+            {
+                theDate.add(Calendar.HOUR_OF_DAY, 1);
+            }
         }
 
         return theDate.getTime();
@@ -206,5 +221,15 @@ public class Date
     public void setZone(String zone)
     {
         this.zone = zone;
+    }
+
+    public Boolean getApplyDST()
+    {
+        return applyDST;
+    }
+
+    public void setApplyDST(Boolean applyDST)
+    {
+        this.applyDST = applyDST;
     }
 }
