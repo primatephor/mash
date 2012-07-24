@@ -1,6 +1,14 @@
 #labels Featured
 = List of changes =
 
+==1.4.1==
+ * give subscripts all parent script invocations for parameters. 
+ * minor cleanup and refactoring
+ * prioritize response retrieval from previous harnesses to get most recent first
+  * if you have 2 harnesses with the same name, and want to get a response value, the most recent one will be retrieved
+ * DST flag for date verification allows dates to change but still be verified
+ * ThreadLocal bug fix to allow parallel system tests
+
 ==1.4==
  * {{{HarnessName}}} annotation
   * use name like {{{http}}} to instead of {{{org.mash.harness.http.HttpRunHarness}}}
