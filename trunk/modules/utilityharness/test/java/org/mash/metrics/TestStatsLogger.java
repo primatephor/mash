@@ -1,10 +1,13 @@
 package org.mash.metrics;
 
 import junit.framework.TestCase;
+import org.apache.log4j.Logger;
 import org.mash.metrics.formatter.BaseFormatter;
 import org.mash.metrics.formatter.PrettyFormatter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author teastlack
@@ -12,9 +15,22 @@ import java.math.BigDecimal;
  */
 public class TestStatsLogger extends TestCase
 {
+    private MetricsLogger logger;
+
+    @Override
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+        Configuration.getInstance().setSnapshot(Boolean.FALSE);
+        if(logger != null)
+        {
+            logger.stop();
+        }
+    }
+
     public void testLogging() throws InterruptedException
     {
-        MetricsLogger logger = new MetricsLogger(1000l, "basic", "stats");
+        logger = new MetricsLogger(1000l, "basic", "stats");
         MetricsManager.reset();
         
         Metrics stats1 = MetricsManager.start("testLogging1");
@@ -80,7 +96,7 @@ public class TestStatsLogger extends TestCase
 
     public void testManyAdds() throws InterruptedException
     {
-        MetricsLogger logger = new MetricsLogger(5000l, "pretty", "stats");
+        logger = new MetricsLogger(5000l, "pretty", "stats");
         MetricsManager.reset();
 
         Metrics stats1 = MetricsManager.start("testManyAdds1");
@@ -138,6 +154,81 @@ public class TestStatsLogger extends TestCase
         assertTrue("too large "+min, min <=1100l);
         assertTrue("too small", min >=900l);
 
+    }
+
+    public void testLogSnapshot() throws InterruptedException
+    {
+        Configuration.getInstance().setSnapshot(Boolean.TRUE);
+        MetricsManager.reset();
+
+        logger = new MyMetLogger(2000l, "basic", "stats");
+
+        Metrics stats1 = MetricsManager.start("testSnapLogging1");
+        Thread.sleep(1000l);
+        stats1.end();
+
+        Metrics stats2 = MetricsManager.start("testSnapLogging2");
+        Thread.sleep(1000l);
+        stats2.end();
+
+        Metrics stats3 = MetricsManager.start("testSnapLogging1");
+        Thread.sleep(2000l);
+        stats3.end();
+
+        Thread.sleep(2000l);
+
+        MyLogger myLogger = (MyLogger) logger.getLogger();
+        for (Object o : myLogger.getLoggedItems())
+        {
+            System.out.println(o);
+        }
+        int size = myLogger.getLoggedItems().size();
+
+        //notice that calculations are based on single entry
+        assertContains(",1,0m 2.0s,0m 2.0s,100.00,0m 2.0s,0m 2.0s\n", (String) myLogger.getLoggedItems().get(size - 1));
+        assertEquals("Gathering Snapshot Metrics", myLogger.getLoggedItems().get(size-3));
+    }
+
+    private class MyMetLogger extends MetricsLogger
+    {
+        private MyLogger logger = new MyLogger();
+
+        public MyMetLogger(long period, String format, String logName)
+        {
+            super(period, format, logName);
+        }
+
+        @Override
+        public Logger getLogger()
+        {
+            return logger;
+        }
+    }
+
+    private class MyLogger extends Logger
+    {
+        private List loggedItems = new ArrayList();
+        private MyLogger()
+        {
+            super("mash-test-logger");
+        }
+
+        @Override
+        public void debug(Object message)
+        {
+            loggedItems.add(message);
+        }
+
+        @Override
+        public void info(Object message)
+        {
+            loggedItems.add(message);
+        }
+
+        public List getLoggedItems()
+        {
+            return loggedItems;
+        }
     }
 
     public void assertContains(String toCheck, String value)
