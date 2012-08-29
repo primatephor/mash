@@ -1,6 +1,9 @@
 #labels Featured
 = List of changes =
 
+==1.4.2==
+ * Add snapshot view for metrics utility 
+
 ==1.4.1==
  * give subscripts all parent script invocations for parameters. 
  * minor cleanup and refactoring
