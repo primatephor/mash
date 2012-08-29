@@ -10,14 +10,14 @@ import java.util.TimerTask;
 /**
  * Log the statistics to a log file.  You must specify a log file name, and can control this through a reloadable
  * properties file or environment variables.
- *
+ * <p/>
  * Variables for the property file or environment:
  * metrics.logger.name (the name of the log4j logger to retrieve with Logger.getLogger())
  * metrics.running (true/false.  can turn off logging of metrics via properties file this way)
  * metrics.format (basic/pretty.  Basic is comma separated for spreadsheets, pretty adds spaces for readability)
- *
+ * <p/>
  * These properties may be used in the constructor also, so there's no need to have them present
- * 
+ *
  * @author teastlack
  * @since Feb 17, 2011 4:41:59 PM
  */
@@ -53,15 +53,29 @@ public class MetricsLogger
      */
     public void start(long period)
     {
-        this.log = Logger.getLogger(Configuration.getLogName());
         Configuration.active();
+        stop();
+        timer = new Timer();
+        this.timer.scheduleAtFixedRate(new LogTask(), new Date(), period);
+    }
+
+    public void stop()
+    {
         if (timer != null)
         {
             timer.cancel();
             timer = null;
         }
-        timer = new Timer();
-        this.timer.scheduleAtFixedRate(new LogTask(), new Date(), period);
+    }
+
+    //for easy override
+    public Logger getLogger()
+    {
+        if (this.log == null)
+        {
+            this.log = Logger.getLogger(Configuration.getLogName());
+        }
+        return this.log;
     }
 
     public LoggerLine logStats(Metrics statistics, Map<String, Metrics> stats)
@@ -91,7 +105,7 @@ public class MetricsLogger
         Long totalCPU = getTotalCPU(stats);
         for (String entity : stats.keySet())
         {
-            log.debug("Adding key '"+entity+"' to output");
+            getLogger().debug("Adding key '" + entity + "' to output");
             Metrics statistics = stats.get(entity);
             LoggerLine line = logStats(totalCPU, statistics);
             formatter.addLine(line);
@@ -102,11 +116,47 @@ public class MetricsLogger
         {
             buffer.append("\n");
             buffer.append(formatter.format());
-            log.info(buffer.toString());
+            getLogger().info(buffer.toString());
         }
         else
         {
-            log.warn("No lines were added to the formatter!");
+            getLogger().warn("No lines were added to the formatter!");
+        }
+    }
+
+    public void writeToLog()
+    {
+        try
+        {
+            String snapshotMsg = "";
+            if (Configuration.isSnapshot())
+            {
+                snapshotMsg = "Snapshot ";
+            }
+
+            if (!running)
+            {
+                running = true;
+                if (MetricsManager.getRegular().size() > 0)
+                {
+                    getLogger().info("Gathering " + snapshotMsg + "Metrics");
+                    logStats(MetricsManager.getRegular());
+                }
+
+                if (MetricsManager.getBad().size() > 0)
+                {
+                    getLogger().info("Gathering " + snapshotMsg + "Outliers and Bad Data");
+                    logStats(MetricsManager.getBad());
+                }
+            }
+        }
+        finally
+        {
+            if (Configuration.isSnapshot())
+            {
+                MetricsManager.reset();
+            }
+            running = false;
         }
     }
 
@@ -115,28 +165,7 @@ public class MetricsLogger
         @Override
         public void run()
         {
-            try
-            {
-                if (!running)
-                {
-                    running = true;
-                    if (MetricsManager.getRegular().size() > 0)
-                    {
-                        log.info("Gathering Metrics");
-                        logStats(MetricsManager.getRegular());
-                    }
-
-                    if (MetricsManager.getBad().size() > 0)
-                    {
-                        log.info("Gathering Outliers and Bad Data");
-                        logStats(MetricsManager.getBad());
-                    }
-                }
-            }
-            finally
-            {
-                running = false;
-            }
+            writeToLog();
         }
     }
 }

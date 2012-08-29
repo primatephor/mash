@@ -26,6 +26,7 @@ public class Configuration
     public static final String METRICS_LOGGER_NAME = "metrics.logger.name";
     public static final String METRICS_RUNNING = "metrics.running";
     public static final String METRICS_FORMAT = "metrics.format";
+    public static final String METRICS_SNAPSHOT = "metrics.snapshot";
 
     public static Configuration getInstance()
     {
@@ -61,6 +62,7 @@ public class Configuration
         log.info("Starting metrics");
         log.info("Logger:"+getLogName());
         log.info("Format:"+getFormat());
+        log.info("Snapshot mode:"+getFormat());
         return getInstance().state = Configuration.State.ACTIVE;
     }
 
@@ -69,14 +71,19 @@ public class Configuration
         return Configuration.State.ACTIVE.equals(getInstance().state) && runMetrics();
     }
 
-    private static boolean runMetrics()
+    public static boolean runMetrics()
     {
         return Boolean.valueOf(getInstance().getProperty(METRICS_RUNNING, "true"));
     }
 
-    private static String getFormat()
+    public static String getFormat()
     {
         return getInstance().getProperty(METRICS_FORMAT, "basic");
+    }
+
+    public static Boolean isSnapshot()
+    {
+        return Boolean.valueOf(getInstance().getProperty(METRICS_SNAPSHOT, "false"));
     }
 
     public void setLogName(String logName)
@@ -87,6 +94,11 @@ public class Configuration
     public void setFormat(String format)
     {
         System.getProperties().put(METRICS_FORMAT, format);
+    }
+
+    public void setSnapshot(Boolean snapshot)
+    {
+        System.getProperties().put(METRICS_SNAPSHOT, snapshot.toString());
     }
 
     public void setPropertyFileName(String propertyFileName)
