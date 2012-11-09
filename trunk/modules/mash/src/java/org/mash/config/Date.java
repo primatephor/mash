@@ -39,6 +39,11 @@ public class Date
     protected Integer yearOffset;
     @XmlAttribute
     protected String zone;
+
+    /**
+     * The purpose of the dst flag is to address dates that change with tests that run over the course of the year.
+     * Use a non DST data, and if you specify 'true', it'll add an hour to make up for it.
+     */
     @XmlAttribute
     protected Boolean applyDST;
 

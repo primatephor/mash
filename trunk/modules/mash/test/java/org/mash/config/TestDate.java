@@ -101,13 +101,35 @@ public class TestDate extends TestCase
         assertEquals("2009-07-03 13:06:40.0", configDate.asFormat());
     }
 
+    /**
+     * The purpose of the dst flag is to address dates that change with tests that run over the course of the year.
+     * Use a non DST data, and if you specify 'true', it'll add an hour to make up for it.
+     */
     public void testDST() throws ConfigurationException
     {
         Date configDate = new MyDate(now);
         configDate.setFormat("yyyy/MM/dd HH:mm:ss");
         configDate.setHourOffset(5);
+        configDate.setApplyDST(false);
+        assertEquals("2009/07/09 18:06:40", configDate.asFormat());
+
+        configDate = new MyDate(now);
+        configDate.setFormat("yyyy/MM/dd HH:mm:ss");
+        configDate.setHourOffset(5);
         configDate.setApplyDST(true);
         assertEquals("2009/07/09 19:06:40", configDate.asFormat());
+
+        Date dstDate = new MyDate(new java.util.Date(1258280000000l));
+        dstDate.setFormat("yyyy/MM/dd HH:mm:ss");
+        dstDate.setHourOffset(5);
+        dstDate.setApplyDST(false);
+        assertEquals("2009/11/15 07:13:20", dstDate.asFormat());
+
+        dstDate = new MyDate(new java.util.Date(1258280000000l));
+        dstDate.setFormat("yyyy/MM/dd HH:mm:ss");
+        dstDate.setHourOffset(5);
+        dstDate.setApplyDST(true);
+        assertEquals("2009/11/15 07:13:20", dstDate.asFormat());
     }
 
     private class MyDate extends Date
