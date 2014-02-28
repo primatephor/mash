@@ -1,0 +1,4 @@
+<ns1:Suite name="The Suite" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+    <Script file="script1.xml"/>
+    <Script file="script3.xml"/>
+</ns1:Suite>
