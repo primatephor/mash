@@ -76,7 +76,7 @@ public class TestStatsLogger extends TestCase
         BaseFormatter formatter = new BaseFormatter();
         String lineString = formatter.formatData(logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular()));
         assertContains("testLogging2", lineString);
-        assertContains("1,0m 1.0s,0m 1.0s,25.00,0m 1.0s,0m 1.0s", lineString);
+        assertContains("1,0m 1.000s,0m 1.000s,25.00,0m 1.000s,0m 1.000s", lineString);
 
         //check pretty formatting
         formatter = new PrettyFormatter();
@@ -86,8 +86,8 @@ public class TestStatsLogger extends TestCase
         //HAVE TO IGNORE START TIMES
         assertContains("Entity      ,", colString);
         assertContains("testLogging2,", lineString);
-        assertContains(", # of Calls, Average, Total  , % of CPU, Max Time, Min Time", colString);
-        assertContains(", 1         , 0m 1.0s, 0m 1.0s, 25.00   , 0m 1.0s , 0m 1.0s", lineString);
+        assertContains(", # of Calls, Average  , Total    , % of CPU, Max Time , Min Time", colString);
+        assertContains(", 1         , 0m 1.000s, 0m 1.000s, 25.00   , 0m 1.000s, 0m 1.000s", lineString);
 
         logline = logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular());
         percent =  logline.getPercent(); //25%
@@ -185,7 +185,7 @@ public class TestStatsLogger extends TestCase
         int size = myLogger.getLoggedItems().size();
 
         //notice that calculations are based on single entry
-        assertContains(",1,0m 2.0s,0m 2.0s,100.00,0m 2.0s,0m 2.0s\n", (String) myLogger.getLoggedItems().get(size - 1));
+        assertContains(",1,0m 2.000s,0m 2.000s,100.00,0m 2.000s,0m 2.000s\n", (String) myLogger.getLoggedItems().get(size - 1));
         assertEquals("Gathering Snapshot Metrics", myLogger.getLoggedItems().get(size-3));
     }
 
