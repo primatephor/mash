@@ -117,14 +117,15 @@ public class BaseFormatter implements Formatter
         String result = "0m 0s";
         if (value != null)
         {
-            String tenth = String.valueOf(value / 100);
-            if (tenth != null && tenth.length() > 0)
+            //for padding in case the value is very small
+            String decimal = "000"+ String.valueOf(value);
+            if (decimal.length() > 3)
             {
-                tenth = tenth.substring(tenth.length() - 1);
+                decimal = decimal.substring(decimal.length() - 3);
             }
             Long minutes = TimeUnit.MILLISECONDS.toMinutes(value);
             Long seconds = TimeUnit.MILLISECONDS.toSeconds(value);
-            result = minutes + "m " + (seconds - TimeUnit.MINUTES.toSeconds(minutes)) + "." + tenth + "s";
+            result = minutes + "m " + (seconds - TimeUnit.MINUTES.toSeconds(minutes)) + "." + decimal + "s";
         }
         return result;
     }

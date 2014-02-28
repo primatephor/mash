@@ -24,7 +24,7 @@ public class StringUtil
 
     public static String toString(Iterator<String> iter)
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         if (iter != null)
         {
             while (iter.hasNext())
@@ -59,7 +59,7 @@ public class StringUtil
                           int length,
                           char character)
     {
-        StringBuffer result = new StringBuffer(padString(toPad, length, character));
+        StringBuilder result = new StringBuilder(padString(toPad, length, character));
         toPad = cleanNull(toPad);
         return result.append(toPad).toString();
     }
@@ -68,7 +68,7 @@ public class StringUtil
                            int length,
                            char character)
     {
-        StringBuffer result = new StringBuffer(cleanNull(toPad));
+        StringBuilder result = new StringBuilder(cleanNull(toPad));
         return result.append(padString(toPad, length, character)).toString();
     }
 
@@ -77,7 +77,7 @@ public class StringUtil
                             char character)
     {
         toPad = cleanNull(toPad);
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         while ((result.length() + toPad.length()) < length)
         {
             result.append(character);
