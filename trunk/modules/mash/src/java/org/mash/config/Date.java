@@ -114,21 +114,42 @@ public class Date
     public String asFormat() throws ConfigurationException
     {
         java.util.Date date = asDate();
-        DateFormat formatter = getFormatter();
+        //check for special xml format
+        boolean xmlFormat = false;
+        String theFormat = this.format;
+        if (theFormat != null && theFormat.endsWith("X"))
+        {
+            xmlFormat = true;
+            theFormat = theFormat.substring(0, theFormat.length()-1)+"Z";
+        }
+        DateFormat formatter = getFormatter(theFormat);
         if (this.zone != null)
         {
             formatter.setTimeZone(TimeZone.getTimeZone(this.zone));
         }
-        return formatter.format(date);
+        String result = formatter.format(date);
+        if(xmlFormat)
+        {
+            if(result!= null && result.endsWith("00"))
+            {
+                result = result.substring(0, result.lastIndexOf("00"))+":00";
+            }
+        }
+        return result;
     }
 
     private DateFormat getFormatter()
+    {
+        return this.getFormatter(this.format);
+    }
+
+    private DateFormat getFormatter(String format)
     {
         if (formatter == null)
         {
             if (format != null)
             {
-                formatter = new SimpleDateFormat(this.format);
+                formatter = new SimpleDateFormat(format);
             }
             else
             {
