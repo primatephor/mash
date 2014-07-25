@@ -1,0 +1,11 @@
+<ns1:Script name="script5" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+    <Setup type="org.mash.harness.DBSetupHarness" name="s5_db">
+        <Configuration name="clean">true</Configuration>
+    </Setup>
+    <Run type="org.mash.harness.HttpRunHarness" name="s5_post">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="type">POST</Configuration>
+        <Parameter name="username">testuser</Parameter>
+        <Parameter name="password">pass</Parameter>
+    </Run>
+</ns1:Script>

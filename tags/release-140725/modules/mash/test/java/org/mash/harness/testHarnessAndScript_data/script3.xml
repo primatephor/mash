@@ -1,0 +1,14 @@
+<ns1:Script name="The Subdir Test" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+    <Setup type="org.mash.harness.DBSetupHarness" name="s3_dbsetup">
+        <Configuration name="clean">true</Configuration>
+    </Setup>
+    <Script dir="subdir">
+        <Parameter name="someparam"><Value>thevalue</Value></Parameter>
+    </Script>
+    <Run type="org.mash.harness.HttpRunHarness" name="s3_post">
+        <Configuration name="url" property="my.url"/>
+        <Configuration name="type">POST</Configuration>
+        <Parameter name="username">testuser</Parameter>
+        <Parameter name="password">pass</Parameter>
+    </Run>
+</ns1:Script>
