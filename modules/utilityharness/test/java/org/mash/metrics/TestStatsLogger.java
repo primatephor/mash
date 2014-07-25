@@ -185,6 +185,7 @@ public class TestStatsLogger extends TestCase
         int size = myLogger.getLoggedItems().size();
 
         //notice that calculations are based on single entry
+        //need to break this down better to test, COMMENT IF NECESSARY
         assertContains(",1,0m 2.000s,0m 2.000s,100.00,0m 2.000s,0m 2.000s\n", (String) myLogger.getLoggedItems().get(size - 1));
         assertEquals("Gathering Snapshot Metrics", myLogger.getLoggedItems().get(size-3));
     }
