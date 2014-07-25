@@ -52,6 +52,7 @@ public class XmlAccessor
         ByteArrayInputStream inputStream = null;
         try
         {
+            log.debug("Building document from xml for accessing");
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             docFactory.setNamespaceAware(true);
             docFactory.setValidating(false);
@@ -121,6 +122,7 @@ public class XmlAccessor
                     for (int index = 0; index < result.length; index++)
                     {
                         result[index] = nodes.item(index).getTextContent();
+                        log.trace("Found:"+result[index]);
                     }
                 }
                 catch (XPathExpressionException e)
