@@ -93,6 +93,16 @@ public class TestDate extends TestCase
         assertEquals("2009/07/09 13:06:40", configDate.asFormat());
     }
 
+    public void testZoneXmlFormat() throws ConfigurationException
+    {
+        Date configDate = new MyDate(now);
+        configDate.setFormat("yyyy/MM/dd HH:mm:ssX");
+        configDate.setZone("EST");
+        assertEquals("2009/07/09 15:06:40-05:00", configDate.asFormat());
+        configDate.setZone("PST");
+        assertEquals("2009/07/09 13:06:40-07:00", configDate.asFormat());
+    }
+
     public void testFormatAndOffest() throws ConfigurationException
     {
         Date configDate = new MyDate(now);
