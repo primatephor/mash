@@ -189,9 +189,16 @@ public class HttpResponse implements RunResponse
     @Override
     public String toString()
     {
-        StringBuffer result = new StringBuffer();
-        result.append("Status:").append(this.webPage.getWebResponse().getStatusCode()).append("\n");
-        result.append("Content:").append(this.webPage.getTextContent()).append("\n");
+        StringBuilder result = new StringBuilder();
+        result.append("Status:").append(this.webPage.getWebResponse().getStatusCode());
+        if(this.webPage.getFirstChild() != null)
+        {
+            result.append(": Start:\n").append(this.webPage.getFirstChild().asXml()).append("\n");
+        }
+        if(this.webPage.getTextContent() != null)
+        {
+            result.append(": Content:\n").append(this.webPage.getTextContent()).append("\n");
+        }
         return result.toString();
     }
 }

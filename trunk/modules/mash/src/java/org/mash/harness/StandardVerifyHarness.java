@@ -73,7 +73,6 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         {
             for (Parameter parameter : parameters)
             {
-                log.debug("Checking that '" + parameter.getName() + "' equals '" + parameter.getValue() + "'");
                 String responseValue = response.getValue(parameter.getName());
                 if (parameter.getValue() != null)
                 {
@@ -83,6 +82,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                         responseValue = responseValue.replaceAll("\\s+", "");
                         checkValue = checkValue.replaceAll("\\s+", "");
                     }
+                    log.info("Checking search '" + parameter.getName() + "' expected:'" + checkValue + "' actual:'"+responseValue+"'");
 
                     if (checkValue != null && checkValue.length() > 0)
                     {
@@ -100,6 +100,10 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
                             addError(parameter.getName(), null, responseValue);
                         }
                     }
+                }
+                else
+                {
+                    log.info("No value specified to check for '"+parameter.getName()+"'");
                 }
             }
         }

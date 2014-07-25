@@ -123,10 +123,12 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         {
             if (result instanceof XmlPage)
             {
+                log.debug("XML result, using rest response");
                 response = new RestResponse(result);
             }
             else
             {
+                log.debug("HTML result, using http response");
                 response = new HttpResponse(result, getCookies());
             }
         }
