@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 26, 2009
  */
 public class TestRestResponse extends TestCase

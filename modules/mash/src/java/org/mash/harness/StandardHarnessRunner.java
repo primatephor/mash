@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * @author teastlack
+ * @author
  * @since Jun 13, 2011
  */
 public class StandardHarnessRunner implements HarnessRunner

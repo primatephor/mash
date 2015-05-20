@@ -9,7 +9,7 @@ import org.mash.loader.SuiteMarshaller;
  *
  * This is NOT built for efficiency.  If that's what you'd like, don't use this.
  *
- * @author teastlack
+ * @author
  * @since Sep 19, 2009
  */
 public class PropertyObjectFactory

@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * User: teastlack Date: Jul 2, 2009 Time: 3:35:08 PM
+ *  Date: Jul 2, 2009 Time: 3:35:08 PM
  */
 public interface ScriptDefinition
 {

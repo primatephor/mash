@@ -5,7 +5,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import java.lang.reflect.Method;
 
 /**
- * @author teastlack
+ * @author
  * @since Feb 22, 2011 8:57:22 AM
  */
 public class MetricsInterceptor implements org.aopalliance.intercept.MethodInterceptor

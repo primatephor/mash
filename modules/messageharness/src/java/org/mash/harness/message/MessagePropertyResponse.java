@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * provides access to message properties for verification
  * 
- * @author teastlack
+ * @author
  * @since Jan 29, 2010 3:19:20 PM
  *
  */

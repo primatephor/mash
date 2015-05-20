@@ -6,7 +6,7 @@ import org.mash.loader.HarnessName;
 import java.util.List;
 
 /**
- * @author teastlack
+ * @author
  * @since Jun 9, 2010 4:43:07 PM
  */
 @HarnessName(name = "list")

@@ -18,7 +18,7 @@ import org.mash.loader.HarnessName;
  * <li> 'action' CLEAN </li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Feb 1, 2010 7:18:26 PM
  *
  */

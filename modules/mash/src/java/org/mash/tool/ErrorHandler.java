@@ -11,7 +11,7 @@ import java.util.List;
  * Objects that run the scripts will deal with errors differently.  This base class allows for logging, and other
  * entities would extend or do other work.
  *
- * @author teastlack
+ * @author
  * @since Sep 8, 2010 10:03:55 AM
  */
 public class ErrorHandler

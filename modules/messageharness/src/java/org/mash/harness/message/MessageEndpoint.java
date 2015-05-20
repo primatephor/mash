@@ -3,7 +3,7 @@ package org.mash.harness.message;
 /**
  * A message endpoint does the work of reading and sending messages.  These may be emails, queues, IM, whatever.
  *
- * @author teastlack
+ * @author
  * @since Feb 5, 2010 9:07:06 AM
  *
  */

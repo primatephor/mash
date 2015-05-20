@@ -12,7 +12,7 @@ import javax.jms.Topic;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jan 29, 2010 4:00:29 PM
  *
  */

@@ -2,7 +2,7 @@ package org.mash.config;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jul 9, 2009 2:43:32 PM
  *
  */

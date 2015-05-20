@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 1:57:54 PM
  */
 public class EmailResponse extends RawResponse

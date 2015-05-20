@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author teastlack
+ * @author
  * @since Mar 18, 2011 12:34:15 PM
  */
 public class BaseFormatter implements Formatter

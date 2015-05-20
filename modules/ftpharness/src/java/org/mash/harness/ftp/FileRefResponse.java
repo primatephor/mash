@@ -6,7 +6,7 @@ import java.io.File;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 3:43:00 PM
  *
  */

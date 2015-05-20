@@ -25,7 +25,7 @@ import java.util.List;
  * @see org.mash.harness.PropertyObjectFactory
  *      <p/>
  *
- * @author teastlack
+ * @author
  * @since Jul 1, 2009 Time: 3:15:38 PM
  */
 public class StandardTestCase extends TestCase

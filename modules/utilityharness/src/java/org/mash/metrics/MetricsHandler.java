@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * @author teastlack
+ * @author
  * @since Feb 22, 2011 9:03:08 AM
  */
 public class MetricsHandler implements InvocationHandler

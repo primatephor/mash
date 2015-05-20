@@ -6,7 +6,7 @@ import org.mash.config.Parameter;
 import java.util.List;
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 6:38:00 PM
+ *  Date: Jul 1, 2009 Time: 6:38:00 PM
  */
 public class HttpVerifyHarness extends BaseHarness implements VerifyHarness
 {

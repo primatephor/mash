@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * @author teastlack
+ * @author
  * @since Sep 28, 2009 12:17:46 PM
  */
 public class TimedResponse implements RunResponse

@@ -5,7 +5,7 @@ import org.mash.loader.HarnessParameter;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 17, 2009 1:44:33 PM
  *
  */

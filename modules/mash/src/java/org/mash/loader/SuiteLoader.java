@@ -8,7 +8,7 @@ import java.io.File;
 import java.net.URL;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 3, 2009
  */
 public class SuiteLoader

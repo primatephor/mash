@@ -10,7 +10,7 @@ import org.mash.loader.ContentAccessor;
  * accessor, you can add more specific urls by having the value set to something like '/my/more/specific/url'
  * The end result: 'http://my.test.system/url/my/more/specific/url'
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 11:06:55 AM
  *
  */

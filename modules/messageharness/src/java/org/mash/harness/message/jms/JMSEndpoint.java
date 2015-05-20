@@ -12,7 +12,7 @@ import javax.jms.Message;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jan 22, 2010 9:51:58 AM
  *
  */

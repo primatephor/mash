@@ -6,7 +6,7 @@ import org.mash.harness.StandardScriptRunner;
 import java.util.List;
 
 /**
- * User: teastlack Date: Jul 7, 2009 Time: 4:02:30 PM
+ *  Date: Jul 7, 2009 Time: 4:02:30 PM
  */
 public class MyScriptRunner extends StandardScriptRunner
 {

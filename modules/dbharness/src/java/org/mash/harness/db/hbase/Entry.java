@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
  * Column families, qualifiers, and values are needed enough to warrant breaking out a class to
  * handle that work.  Follows the format 'family:qualifier=value'
  *
- * @author: teastlack
+ * @author:
  * @since: Dec 5, 2010
  */
 public class Entry

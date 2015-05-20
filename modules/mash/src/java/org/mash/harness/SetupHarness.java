@@ -7,7 +7,7 @@ package org.mash.harness;
  * For example, an web run harness may get an http setup harness, allowing access to specific web related setup
  * information.
  * <p/>
- * User: teastlack Date: Jun 30, 2009 Time: 3:53:40 PM
+ *  Date: Jun 30, 2009 Time: 3:53:40 PM
  */
 public interface SetupHarness extends Harness
 {

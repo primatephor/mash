@@ -7,7 +7,7 @@ import org.mash.loader.HarnessName;
 /**
  * This will start up the selenium server for your tests to run
  *
- * @author teastlack
+ * @author
  * @since 12/13/11 4:53 PM
  */
 @HarnessName(name = "selenium")

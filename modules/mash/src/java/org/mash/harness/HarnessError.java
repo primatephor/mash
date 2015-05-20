@@ -3,7 +3,7 @@ package org.mash.harness;
 import org.apache.log4j.Logger;
 
 /**
- * User: teastlack Date: Jul 7, 2009 Time: 10:59:24 AM
+ *  Date: Jul 7, 2009 Time: 10:59:24 AM
  */
 public class HarnessError
 {

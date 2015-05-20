@@ -10,7 +10,7 @@ import org.mash.loader.SuiteLoader;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 
 /**
- * @author teastlack
+ * @author
  * @since Sep 19, 2009
  */
 public class TestStandardScriptRunner extends TestCase

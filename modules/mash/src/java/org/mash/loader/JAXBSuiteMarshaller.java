@@ -17,7 +17,7 @@ import java.io.StringWriter;
  * implementations need to work with the supplied objects in the xml package however, as that's what the framework works
  * with.
  * <p/>
- * User: teastlack Date: Jul 1, 2009 Time: 11:13:09 AM
+ *  Date: Jul 1, 2009 Time: 11:13:09 AM
  */
 public class JAXBSuiteMarshaller implements SuiteMarshaller
 {

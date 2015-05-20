@@ -31,7 +31,7 @@ import java.util.Set;
  * will instead submit this as an input stream </li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Jul 5, 2009
  */
 @HarnessName(name = "http")

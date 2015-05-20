@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author teastlack
+ * @author
  * @since Dec 5, 2011 1:26:57 PM
  */
 public class JSONSuiteMarshaller extends JAXBSuiteMarshaller

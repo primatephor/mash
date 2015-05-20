@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * Builds the standard POST, GET, PUT, DELETE Httpunit WebRequest object.  Will marshall any parameters submitted.
  *
- * @author: teastlack
+ * @author:
  * @since: Jul 26, 2009
  */
 public class StandardRequestFactory implements WebRequestFactory

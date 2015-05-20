@@ -7,7 +7,7 @@ import java.util.Collection;
  * verification utilities may have to cast to the run harness implementation to retrieve some response value, however
  * this should be avoided.
  * <p/>
- * User: teastlack Date: Jul 1, 2009 Time: 9:23:44 AM
+ *  Date: Jul 1, 2009 Time: 9:23:44 AM
  */
 public interface RunResponse
 {

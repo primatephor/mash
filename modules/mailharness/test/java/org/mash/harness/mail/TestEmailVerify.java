@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 3:00:42 PM
  */
 public class TestEmailVerify extends TestCase

@@ -18,7 +18,7 @@ import java.util.List;
  * <p/>
  * To change the marshaller (you can build your own, no need for xml) set the system property "suite.marshaller"
  * <p/>
- * @author teastlack 
+ * @author
  * @since Jun 30, 2009 Time: 2:19:25 PM
  */
 public class SystemTest extends SuiteRunner

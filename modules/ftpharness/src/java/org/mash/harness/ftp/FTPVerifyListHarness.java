@@ -27,7 +27,7 @@ import java.util.List;
  * <li> 'list_size' # of files expected </li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 12:02:24 PM
  *
  */

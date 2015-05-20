@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * DB results analyze the result set of the db invocation.  This only works with supplied column names.
  *
- * @author teastlack
+ * @author
  * @since Jan 8, 2010 3:24:50 PM
  *
  */

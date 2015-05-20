@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jan 29, 2010 4:00:48 PM
  *
  */

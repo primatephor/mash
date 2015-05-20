@@ -16,7 +16,7 @@ import java.util.List;
  * With some harnesses, this isn't possible.  For example, a db setup harness needs to insert data directly into the db
  * and therefore has access to a central point in the system.
  * <p/>
- * User: teastlack Date: Jul 1, 2009 Time: 10:02:30 AM
+ *  Date: Jul 1, 2009 Time: 10:02:30 AM
  */
 public interface Harness
 {

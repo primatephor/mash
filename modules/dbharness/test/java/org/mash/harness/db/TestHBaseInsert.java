@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.mash.harness.db.hbase.InsertRow;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Sep 30, 2010
  */
 public class TestHBaseInsert extends TestCase

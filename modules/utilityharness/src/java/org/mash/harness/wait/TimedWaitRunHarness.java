@@ -15,7 +15,7 @@ import org.mash.loader.HarnessName;
  * <li>wait_time: Time in milliseconds to sleep</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Sep 28, 2009 11:34:45 AM
  */
 @HarnessName(name = "wait")

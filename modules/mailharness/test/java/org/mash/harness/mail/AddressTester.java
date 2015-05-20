@@ -3,7 +3,7 @@ package org.mash.harness.mail;
 import javax.mail.Address;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 3:11:42 PM
  */
 public class AddressTester extends Address

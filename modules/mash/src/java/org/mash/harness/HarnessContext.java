@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Contains and manages all the information about previous runs, setups, etc
  *
- * @author teastlack
+ * @author
  * @since 1/4/12 2:36 PM
  */
 public class HarnessContext

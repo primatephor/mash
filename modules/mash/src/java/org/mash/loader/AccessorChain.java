@@ -10,7 +10,7 @@ import java.util.List;
  * and each one is processed with the previous accessor result.  This allows some accessors to just retrieve data and
  * rely on another to process that data (like replace text strings). 
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 10:50:36 AM
  *
  */

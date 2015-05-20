@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 9, 2009 4:24:20 PM
  */
 public class TestParameterBuilder extends TestCase

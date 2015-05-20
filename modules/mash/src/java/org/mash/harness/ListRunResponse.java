@@ -7,7 +7,7 @@ package org.mash.harness;
  * A common example is validating some database data.  You may run 'select * from table' and get back many rows, so you
  * validate each row by setting the element number here.  Your result set should know how to traverse this array. 
  *
- * @author teastlack
+ * @author
  * @since Jun 9, 2010 5:49:51 PM
  */
 public interface ListRunResponse extends RunResponse

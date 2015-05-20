@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @author teastlack
+ * @author
  * @since Feb 16, 2011 6:20:49 PM
  */
 public class BaseMetrics implements Metrics

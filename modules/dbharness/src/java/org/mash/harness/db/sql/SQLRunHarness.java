@@ -35,7 +35,7 @@ import java.util.List;
  * <li>sql (any sql to run)</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Jan 8, 2010 3:22:30 PM
  */
 @HarnessName(name = "sql")

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author teastlack
+ * @author
  * @since Mar 18, 2011 1:19:46 PM
  */
 public class PrettyFormatter extends BaseFormatter

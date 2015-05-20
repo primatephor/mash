@@ -6,7 +6,7 @@ import org.mash.harness.HarnessError;
 import java.util.List;
 
 /**
- * User: teastlack Date: Jul 7, 2009 Time: 2:26:44 PM
+ *  Date: Jul 7, 2009 Time: 2:26:44 PM
  */
 public class ErrorFormatter
 {

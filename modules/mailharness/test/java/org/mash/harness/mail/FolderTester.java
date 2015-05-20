@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 3:35:35 PM
  */
 public class FolderTester extends Folder

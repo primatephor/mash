@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import java.util.Calendar;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 9, 2009 11:17:13 AM
  */
 public class TestDate extends TestCase

@@ -10,7 +10,7 @@ import java.util.Collection;
  * The rest response retrieves values from the response differently than the standard http response in that the name is
  * an xpath expression, so the response is expected to be an XML.
  *
- * @author: teastlack
+ * @author:
  * @since: Jul 26, 2009
  */
 public class XmlResponse implements RunResponse

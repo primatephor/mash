@@ -5,7 +5,7 @@ import org.mash.file.FileReaderException;
 import org.mash.file.TextFileReader;
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 11:32:31 AM
+ *  Date: Jul 1, 2009 Time: 11:32:31 AM
  */
 public class TestFileReader extends TestCase
 {

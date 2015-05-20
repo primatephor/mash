@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 27, 2010 11:43:26 AM
  */
 public class TestDateVerifyHarness extends TestCase

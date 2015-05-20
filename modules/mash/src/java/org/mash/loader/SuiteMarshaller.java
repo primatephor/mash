@@ -7,7 +7,7 @@ package org.mash.loader;
  * A System test need only retrieve the marshaller in question and read that file data to create the appropriate suite
  * objects for the framework.
  * <p/>
- * User: teastlack Date: Jul 1, 2009 Time: 11:21:00 AM
+ *  Date: Jul 1, 2009 Time: 11:21:00 AM
  */
 public interface SuiteMarshaller
 {

@@ -4,7 +4,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.apache.log4j.Logger;
 
 /**
- * User: teastlack Date: Jul 7, 2009 Time: 6:09:15 PM
+ *  Date: Jul 7, 2009 Time: 6:09:15 PM
  */
 public enum DBOperation
 {

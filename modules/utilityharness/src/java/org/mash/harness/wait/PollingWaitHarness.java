@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 23, 2010 10:32:44 AM
  */
 public abstract class PollingWaitHarness extends BaseHarness implements RunHarness

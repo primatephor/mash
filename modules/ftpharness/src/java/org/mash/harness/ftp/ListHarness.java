@@ -25,7 +25,7 @@ import java.io.IOException;
  * <li> 'path' is the path to run a list on</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Dec 4, 2009 10:46:30 AM
  *
  */

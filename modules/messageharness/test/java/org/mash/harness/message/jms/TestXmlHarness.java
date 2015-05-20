@@ -11,7 +11,7 @@ import org.jboss.mq.SpyTextMessage;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jan 29, 2010 3:39:07 PM
  *
  */

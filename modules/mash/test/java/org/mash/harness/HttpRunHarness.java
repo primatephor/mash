@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 6:36:21 PM
+ *  Date: Jul 1, 2009 Time: 6:36:21 PM
  */
 @HarnessName(name = "http")
 public class HttpRunHarness extends BaseHarness implements RunHarness

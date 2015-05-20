@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Stop the selenium server
  *
- * @author teastlack
+ * @author
  * @since 12/13/11 4:55 PM
  */
 @HarnessName(name = "selenium")

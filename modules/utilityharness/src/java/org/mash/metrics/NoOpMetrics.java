@@ -3,7 +3,7 @@ package org.mash.metrics;
 import java.util.Date;
 
 /**
- * @author teastlack
+ * @author
  * @since Feb 18, 2011 10:11:09 AM
  */
 public class NoOpMetrics implements Metrics

@@ -8,7 +8,7 @@ import java.util.Date;
  * This contains the base level information shown in a logger's line.  Formatters use this data
  * to display as they see fit.
  *
- * @author teastlack
+ * @author
  * @since Feb 18, 2011 10:32:36 AM
  */
 public class LoggerLine

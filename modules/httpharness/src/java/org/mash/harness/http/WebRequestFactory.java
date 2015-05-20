@@ -5,7 +5,7 @@ import com.gargoylesoftware.htmlunit.WebRequestSettings;
 import java.util.Map;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 26, 2009
  */
 public interface WebRequestFactory

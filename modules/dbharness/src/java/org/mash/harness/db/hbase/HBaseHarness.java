@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Extending classes then use this data to retrieve the relevant HBaseAdmin, allowing specific work
  * to take over.
  *
- * @author: teastlack
+ * @author:
  * @since: Sep 26, 2010
  */
 public class HBaseHarness extends BaseHarness

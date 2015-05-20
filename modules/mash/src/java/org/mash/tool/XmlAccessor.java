@@ -12,7 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
- * @author teastlack
+ * @author
  * @since Sep 17, 2009 6:07:28 PM
  */
 public class XmlAccessor

@@ -7,7 +7,7 @@ import org.mash.config.Suite;
 import java.util.List;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 3, 2009
  */
 public class TestScriptLoaderProxy extends TestCase

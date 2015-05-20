@@ -36,7 +36,7 @@ import java.io.IOException;
  * <li>column (family and/or qualifier to retrieve).  Format 'family:qualifier'</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Dec 5, 2010
  */
 @HarnessName(name = "hbase_scan")

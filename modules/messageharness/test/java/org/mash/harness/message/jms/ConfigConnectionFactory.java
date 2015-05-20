@@ -6,7 +6,7 @@ import javax.jms.JMSException;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jan 29, 2010 3:59:56 PM
  *
  */

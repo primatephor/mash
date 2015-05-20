@@ -3,7 +3,7 @@ package org.mash.harness.http;
 import com.gargoylesoftware.htmlunit.HttpMethod;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 4, 2009
  */
 public enum Method

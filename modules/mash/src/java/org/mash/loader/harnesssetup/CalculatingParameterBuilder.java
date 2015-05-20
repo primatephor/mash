@@ -31,7 +31,7 @@ import java.util.List;
  * </ul>
  * <p/>
  *
- * @author: teastlack
+ * @author:
  * @since: Jul 4, 2009
  */
 public class CalculatingParameterBuilder extends ParameterBuilder<Parameter>

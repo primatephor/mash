@@ -4,7 +4,7 @@ package org.mash.harness;
  * Running a test happens here.  After setup harnesses are run, one or more run harnesses are invoked.  A run harness
  * could be run after some verify harnesses have been run.
  * <p/>
- * User: teastlack Date: Jul 1, 2009 Time: 9:19:24 AM
+ *  Date: Jul 1, 2009 Time: 9:19:24 AM
  */
 public interface RunHarness extends Harness
 {

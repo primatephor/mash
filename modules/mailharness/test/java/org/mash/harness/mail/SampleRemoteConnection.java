@@ -12,7 +12,7 @@ import javax.mail.Flags;
 import java.util.Properties;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 11:29:45 AM
  */
 public class SampleRemoteConnection extends TestCase

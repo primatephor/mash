@@ -21,7 +21,7 @@ import java.util.List;
  * While this necessarily results in tests being loaded twice, they're not fully maintained in memory whilst the suite
  * is being run or tags are analyzed.
  * <p/>
- * User: teastlack Date: Jul 2, 2009 Time: 3:32:58 PM
+ *  Date: Jul 2, 2009 Time: 3:32:58 PM
  */
 public class ScriptLoaderProxy implements ScriptDefinition
 {

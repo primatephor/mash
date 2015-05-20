@@ -7,7 +7,7 @@ package org.mash.metrics;
  * Lines are added after they're pulled from the manager and added to the formatter to deal with.
  * Column names and the lines are formatted separately.
  *
- * @author: teastlack
+ * @author:
  * @since: Mar 21, 2011
  */
 public interface Formatter

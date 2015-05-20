@@ -9,7 +9,7 @@ import org.mash.loader.JSONSuiteMarshaller;
 import org.mash.loader.SuiteMarshallerException;
 
 /**
- * @author teastlack
+ * @author
  * @since Dec 5, 2011 2:44:56 PM
  */
 public class TestJSONMarshaller extends TestCase

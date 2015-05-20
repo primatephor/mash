@@ -1,7 +1,7 @@
 package org.mash.loader;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 4, 2009
  */
 public class HarnessException extends Exception

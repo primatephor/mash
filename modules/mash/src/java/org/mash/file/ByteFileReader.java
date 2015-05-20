@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 3:10:38 PM
  *
  */

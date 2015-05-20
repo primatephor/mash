@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 9, 2009 10:59:40 AM
  */
 @XmlAccessorType(XmlAccessType.NONE)

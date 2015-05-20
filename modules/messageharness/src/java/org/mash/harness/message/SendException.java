@@ -2,7 +2,7 @@ package org.mash.harness.message;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Jan 22, 2010 1:43:21 PM
  *
  */

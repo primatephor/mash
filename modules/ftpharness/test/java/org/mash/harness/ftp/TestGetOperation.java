@@ -8,7 +8,7 @@ import java.io.File;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 4:34:19 PM
  *
  */

@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 28, 2009 12:24:42 PM
  *
  */

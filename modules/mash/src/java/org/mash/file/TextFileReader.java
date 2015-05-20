@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 /**
  * The entire text file is read into memory, so play nice.
  * <p/>
- * User: teastlack Date: Jul 1, 2009 Time: 10:56:54 AM
+ *  Date: Jul 1, 2009 Time: 10:56:54 AM
  */
 public class TextFileReader extends FileContentReader
 {

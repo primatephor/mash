@@ -2,7 +2,7 @@ package org.mash.harness.ftp;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 2:46:30 PM
  *
  */

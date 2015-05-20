@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriverBackedSelenium;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
- * @author teastlack
+ * @author
  * @since 12/13/11 4:56 PM
  */
 public class TestServerSample extends TestCase

@@ -31,7 +31,7 @@ import java.io.IOException;
  * <li>entry (a column value).  Has the format 'family:qualifier=value'</li>
  * </ul>
  *
- * @author: teastlack
+ * @author:
  * @since: Sep 26, 2010
  */
 @HarnessName(name = "hbase_insert")

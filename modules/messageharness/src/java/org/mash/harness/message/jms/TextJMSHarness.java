@@ -23,7 +23,7 @@ import org.mash.loader.HarnessParameter;
  * <code><Parameter name="property"><Value>myprop=somevalue</Value></Parameter></code>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Jan 28, 2010 6:23:21 PM
  *
  */

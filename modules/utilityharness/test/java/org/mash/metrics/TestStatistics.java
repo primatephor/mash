@@ -3,7 +3,7 @@ package org.mash.metrics;
 import junit.framework.TestCase;
 
 /**
- * @author teastlack
+ * @author
  * @since Feb 16, 2011 6:24:25 PM
  */
 public class TestStatistics extends TestCase

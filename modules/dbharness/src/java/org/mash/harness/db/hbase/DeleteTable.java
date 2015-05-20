@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * <li>table (name of table to delete)</li>
  * </ul>
  *
- * @author: teastlack
+ * @author:
  * @since: Sep 11, 2010
  */
 @HarnessName(name = "hbase_delete")

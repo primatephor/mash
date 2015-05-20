@@ -17,7 +17,7 @@ import java.util.List;
  * This allows tests to be loaded relative to the test suite definition file, or have absolute paths definied within the
  * test files themselves.
  *
- * @author teastlack
+ * @author
  * @since Jul 3, 2009
  */
 public class ScriptDefinitionLoader

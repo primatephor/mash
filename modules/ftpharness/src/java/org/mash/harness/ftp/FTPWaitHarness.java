@@ -33,7 +33,7 @@ import java.util.List;
  * <li> 'file_size' expected total size of all files</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Oct 29, 2009 9:27:24 AM
  */
 @HarnessName(name = "wait_ftp")

@@ -24,7 +24,7 @@ import java.util.List;
  * Parameters are pulled from the response like the StandardVerifyHarness, and the dates are converted to milliseconds
  * for comparison.
  *
- * @author teastlack
+ * @author
  * @since Sep 27, 2010 10:34:46 AM
  */
 public class DateVerifyHarness extends BaseHarness implements VerifyHarness

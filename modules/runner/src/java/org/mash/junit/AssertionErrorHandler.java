@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * If errors are present, must throw errors
  *
- * @author teastlack
+ * @author
  * @since Sep 8, 2010 10:14:23 AM
  */
 public class AssertionErrorHandler extends ErrorHandler

@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import java.util.Timer;
 
 /**
- * @author teastlack
+ * @author
  * @since Mar 18, 2011 12:47:31 PM
  */
 public class TimerSingleton

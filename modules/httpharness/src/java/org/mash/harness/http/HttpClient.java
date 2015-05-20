@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 4, 2009
  */
 public class HttpClient

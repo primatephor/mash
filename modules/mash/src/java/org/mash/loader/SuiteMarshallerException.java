@@ -1,7 +1,7 @@
 package org.mash.loader;
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 11:15:32 AM
+ *  Date: Jul 1, 2009 Time: 11:15:32 AM
  */
 public class SuiteMarshallerException extends Exception
 {

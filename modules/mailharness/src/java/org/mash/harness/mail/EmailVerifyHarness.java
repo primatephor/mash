@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * <li> count (total number of messages in the folder) </li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 2:25:19 PM
  */
 @HarnessName(name = "email")

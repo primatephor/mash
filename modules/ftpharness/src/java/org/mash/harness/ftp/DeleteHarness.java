@@ -26,7 +26,7 @@ import java.util.Collection;
  * <li> 'path' is the directory or file to delete</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Dec 4, 2009 11:10:59 AM
  *
  */

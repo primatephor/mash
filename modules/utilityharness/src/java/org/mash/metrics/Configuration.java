@@ -10,7 +10,7 @@ import org.mash.metrics.formatter.PrettyFormatter;
  * Encapsulate the configuration of the logger and metrics gathering.  This will search for a properties file containing
  * the metrics names, or look for system environment variables.
  *
- * @author teastlack
+ * @author
  * @since Feb 18, 2011 9:59:00 AM
  */
 public class Configuration

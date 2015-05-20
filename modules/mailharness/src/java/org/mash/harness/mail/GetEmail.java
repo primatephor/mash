@@ -32,7 +32,7 @@ import javax.mail.MessagingException;
  * Message number is defaulted to 1.  If an address is specified, then the email retrieved is the first message
  * for that address.  If no address is specified, then the first email found is retrieved.
  *
- * @author teastlack
+ * @author
  * @since Jul 23, 2010 5:09:07 PM
  */
 @HarnessName(name = "email")

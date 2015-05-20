@@ -7,7 +7,7 @@ import org.dbunit.IDatabaseTester;
 import org.apache.log4j.Logger;
 
 /**
- * @author teastlack
+ * @author
  * @since Sep 9, 2010
  */
 public class DBUnitConnector extends DBConnector

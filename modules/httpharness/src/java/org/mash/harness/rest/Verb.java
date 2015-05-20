@@ -3,7 +3,7 @@ package org.mash.harness.rest;
 import org.mash.harness.http.Method;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Aug 1, 2009
  */
 public enum Verb

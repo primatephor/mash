@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author teastlack
+ * @author
  * @since Feb 17, 2011 4:55:50 PM
  */
 public class TestStatsLogger extends TestCase

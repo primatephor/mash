@@ -5,7 +5,7 @@ import org.mash.tool.XmlAccessor;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Oct 1, 2009 1:02:23 PM
  *
  */

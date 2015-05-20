@@ -7,7 +7,7 @@ import org.mash.config.BaseParameter;
  * BaseParameter.  Extensions of the BaseParameter can then have their own ContentAccessor to retrieve their specific
  * content should that change.
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 10:25:12 AM
  *
  */

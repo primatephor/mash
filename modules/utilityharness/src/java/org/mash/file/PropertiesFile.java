@@ -14,7 +14,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @author teastlack
+ * @author
  * @since Mar 22, 2011 9:39:49 AM
  */
 public class PropertiesFile extends Observable

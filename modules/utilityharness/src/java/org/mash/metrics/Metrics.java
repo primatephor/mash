@@ -14,7 +14,7 @@ import java.util.Date;
  * All times are CPU time.  If you have multiple cores running (say 4 cores) and the same method
  * runs on each for 1 second, then you'll have 4 total seconds.
  *
- * @author teastlack
+ * @author
  * @since Feb 18, 2011 10:05:09 AM
  */
 public interface Metrics

@@ -56,7 +56,7 @@ import java.io.IOException;
  * Here every family of 'data' with a 'data:zip' less than 40000 will be returned, and updated to
  * 40001
  *
- * @author: teastlack
+ * @author:
  * @since: Dec 28, 2010
  */
 @HarnessName(name = "hbase_update")

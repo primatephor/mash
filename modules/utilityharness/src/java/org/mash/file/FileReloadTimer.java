@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.Date;
 
 /**
- * @author teastlack
+ * @author
  * @since Mar 22, 2011 9:40:46 AM
  */
 public class FileReloadTimer

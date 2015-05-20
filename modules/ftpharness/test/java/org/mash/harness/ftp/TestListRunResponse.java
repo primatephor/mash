@@ -7,7 +7,7 @@ import java.util.Collection;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 12:25:52 PM
  *
  */

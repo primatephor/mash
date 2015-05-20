@@ -12,7 +12,7 @@ import java.io.File;
  * todo: make configuration appropriate to server for startup
  * todo: file loading per mash
  *
- * @author teastlack
+ * @author
  * @since 12/13/11 5:00 PM
  */
 public class NonExitingSeleniumServer extends SeleniumServer

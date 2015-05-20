@@ -29,7 +29,7 @@ import java.io.InputStream;
  * <li> 'file_name' is the local filename to put</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Dec 4, 2009 11:20:37 AM
  */
 @HarnessName(name = "put_ftp")

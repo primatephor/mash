@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  * <li> 'queue' is the queue name</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Feb 5, 2010 9:20:18 AM
  *
  */

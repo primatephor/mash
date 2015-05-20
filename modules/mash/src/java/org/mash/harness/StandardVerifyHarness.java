@@ -23,7 +23,7 @@ import java.util.List;
  * <li> 'validate_spaces' any spaces that come back can be validated too (default is false)</li>
  * </ul>
  *
- * @author: teastlack
+ * @author:
  * @since: Jul 5, 2009
  */
 @HarnessName(name = "standard")

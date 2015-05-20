@@ -7,7 +7,7 @@ import javax.mail.Folder;
 import javax.mail.MessagingException;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 3:29:01 PM
  */
 public class TestIMAPSetup extends TestCase

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 3:03:09 PM
  */
 public class MessageTester extends Message

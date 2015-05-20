@@ -3,7 +3,7 @@ package org.mash.harness;
 import java.util.List;
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 9:21:08 AM
+ *  Date: Jul 1, 2009 Time: 9:21:08 AM
  */
 public interface VerifyHarness extends Harness
 {

@@ -8,7 +8,7 @@ import org.mash.loader.AccessorChain;
 import org.mash.loader.ContentAccessor;
 
 /**
- * @author teastlack
+ * @author
  * @since Jun 13, 2011 4:31:03 PM
  */
 public class ScriptParameterAccessor implements ContentAccessor

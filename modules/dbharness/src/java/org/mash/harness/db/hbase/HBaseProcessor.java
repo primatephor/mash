@@ -4,7 +4,7 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Sep 11, 2010
  */
 public interface HBaseProcessor

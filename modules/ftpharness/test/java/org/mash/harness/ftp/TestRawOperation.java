@@ -5,7 +5,7 @@ import org.mash.harness.RunResponse;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 30, 2009 8:05:20 PM
  *
  */

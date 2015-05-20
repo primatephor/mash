@@ -7,7 +7,7 @@ import javax.jms.Message;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Feb 1, 2010 9:37:45 AM
  *
  */

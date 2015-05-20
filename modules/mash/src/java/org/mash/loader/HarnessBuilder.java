@@ -28,7 +28,7 @@ import java.util.Map;
  * harnesses.
  * <p/>
  *
- * @author teastlack
+ * @author
  * @since Jul 4, 2009
  */
 public class HarnessBuilder

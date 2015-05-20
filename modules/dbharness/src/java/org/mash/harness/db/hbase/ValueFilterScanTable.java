@@ -48,7 +48,7 @@ import org.mash.loader.HarnessParameter;
  * </pre>
  * Here every family of 'data' with a 'data:zip' less than 40000 will be returned
  *
- * @author: teastlack
+ * @author:
  * @since: Dec 13, 2010
  */
 @HarnessName(name = "hbase_value_scan")

@@ -32,7 +32,7 @@ import org.mash.loader.HarnessParameter;
  * <li> 'size' number of items to wait for in sql results (default is 1)</li>
  * </ul>
  *
- * @author teastlack
+ * @author
  * @since Sep 23, 2010 10:24:06 AM
  */
 @HarnessName(name = "db_wait")

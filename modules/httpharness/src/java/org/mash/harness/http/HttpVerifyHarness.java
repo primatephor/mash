@@ -31,7 +31,7 @@ import java.util.List;
  * So when names or ids of elements are present, this will use those.  If nothing is found, then an xpath
  * expression is run on the html using the parameter name.
  *
- * @author teastlack
+ * @author
  * @since Jul 5, 2009
  */
 @HarnessName(name = "http")

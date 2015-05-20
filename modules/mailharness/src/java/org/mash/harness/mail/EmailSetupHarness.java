@@ -29,7 +29,7 @@ import javax.mail.MessagingException;
  * </ul>
  * <p/>
  *
- * @author teastlack
+ * @author
  * @since Jul 23, 2010 5:09:47 PM
  */
 @HarnessName(name = "email")

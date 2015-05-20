@@ -28,7 +28,7 @@ import java.io.IOException;
  * <li>family (families to be added to the table).  More than one family is allowed.</li>
  * </ul>
  *
- * @author: teastlack
+ * @author:
  * @since: Sep 11, 2010
  */
 @HarnessName(name = "hbase_create")

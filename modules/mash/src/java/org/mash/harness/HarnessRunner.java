@@ -6,7 +6,7 @@ import org.mash.config.ScriptDefinition;
 import java.util.List;
 
 /**
- * @author teastlack
+ * @author
  * @since Jun 13, 2011
  */
 public interface HarnessRunner

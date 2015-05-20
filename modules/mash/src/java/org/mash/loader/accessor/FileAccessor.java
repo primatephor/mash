@@ -11,7 +11,7 @@ import java.io.File;
  * Reads the contents of a file and returns the results.  This ignores any current content (replaces it).  This assumes
  * that content is STRING only, so this couldn't be used for binary files nicely.
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 12:23:08 PM
  *
  */

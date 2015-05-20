@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 3, 2009
  */
 public class TestScriptDefinitionLoader extends TestCase

@@ -16,7 +16,7 @@ import java.util.List;
  * For example, if there is a run with the name 'login' that contains the value 'session' that we want to use, the
  * Response configuration would look like <Response name='login'>session</Response>
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 1:04:56 PM
  */
 public class ResponseAccessor implements ContentAccessor

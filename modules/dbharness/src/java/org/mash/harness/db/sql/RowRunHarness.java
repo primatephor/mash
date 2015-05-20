@@ -30,7 +30,7 @@ import org.mash.loader.HarnessParameter;
  * 'select * from table_name where column_name=column_value'.
  * Keep in mind: if column_value is a string, surround with ' (e.g. 'somevalue').
  *
- * @author teastlack
+ * @author
  * @since Sep 9, 2010
  */
 @HarnessName(name = "db_row")

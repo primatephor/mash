@@ -18,7 +18,7 @@ import java.util.TimerTask;
  * <p/>
  * These properties may be used in the constructor also, so there's no need to have them present
  *
- * @author teastlack
+ * @author
  * @since Feb 17, 2011 4:41:59 PM
  */
 public class MetricsLogger

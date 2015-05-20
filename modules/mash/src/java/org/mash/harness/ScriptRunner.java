@@ -9,7 +9,7 @@ import java.util.List;
  * appropriately.  A more likely usage will be to extends the StandardHarnessRunner and modify the invocation of either
  * the setup, run, verify, or teardown harness invocation.
  * <p/>
- * User: teastlack Date: Jul 7, 2009 Time: 3:51:16 PM
+ *  Date: Jul 7, 2009 Time: 3:51:16 PM
  */
 public interface ScriptRunner
 {

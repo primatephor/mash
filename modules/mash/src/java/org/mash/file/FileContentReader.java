@@ -10,7 +10,7 @@ import java.io.InputStream;
  * Retrieve a file using a uri or java File object. Attempts first to retrieve the file url using the classloader, then
  * will attempt to open the file directly using the submitted url if that doesn't work.
  *
- * @author teastlack
+ * @author
  * @since Sep 22, 2009 3:05:39 PM
  *
  */

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * @author teastlack
+ * @author
  * @since Nov 22, 2009
  */
 public class RestResponse extends HttpResponse implements RunResponse

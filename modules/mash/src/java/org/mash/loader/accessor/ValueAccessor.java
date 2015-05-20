@@ -7,7 +7,7 @@ import org.mash.loader.ContentAccessor;
  * The basic and simple accessor, just retrieve the value of the parameter.  If there is previous content, current
  * value of this parameter is appended to it.
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 10:34:56 AM
  *
  */

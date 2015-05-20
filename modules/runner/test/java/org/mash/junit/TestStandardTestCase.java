@@ -14,7 +14,7 @@ import org.mash.loader.harnesssetup.AnnotatedHarness;
 import java.util.List;
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 6:29:25 PM
+ *  Date: Jul 1, 2009 Time: 6:29:25 PM
  */
 public class TestStandardTestCase extends TestCase
 {

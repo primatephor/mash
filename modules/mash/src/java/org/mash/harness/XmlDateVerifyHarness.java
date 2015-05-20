@@ -15,7 +15,7 @@ import org.mash.loader.HarnessConfiguration;
 
 /**
  *
- * @author teastlack
+ * @author
  * @since Sep 27, 2010 11:01:51 AM
  */
 public class XmlDateVerifyHarness extends DateVerifyHarness

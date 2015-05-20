@@ -23,7 +23,7 @@ import java.util.Properties;
  * </ul>
  * <p/>
  *
- * @author teastlack
+ * @author
  * @since Jul 23, 2010 5:10:33 PM
  */
 public class BaseEmailHarness extends BaseHarness

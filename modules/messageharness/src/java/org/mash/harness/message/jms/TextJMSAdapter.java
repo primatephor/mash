@@ -9,7 +9,7 @@ import javax.jms.JMSException;
 /**
  * This converts a jms text message.  Other converters will come up over time.
  *
- * @author teastlack
+ * @author
  * @since Jan 22, 2010 2:46:17 PM
  *
  */

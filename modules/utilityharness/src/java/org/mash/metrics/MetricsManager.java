@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * due to a timeout, it's added to the 'bad' group, to prevent the regular group from being weighted
  * with improper runs.
  *
- * @author teastlack
+ * @author
  * @since Feb 17, 2011 2:21:10 PM
  */
 public class MetricsManager

@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
  *
- * @author teastlack
+ * @author
  * @since Jul 5, 2009
  */
 public class HttpResponse implements RunResponse

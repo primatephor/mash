@@ -7,7 +7,7 @@ import javax.mail.Folder;
 import javax.mail.MessagingException;
 
 /**
- * @author teastlack
+ * @author
  * @since Jul 26, 2010 3:59:50 PM
  */
 public class TestEmailHarness extends TestCase

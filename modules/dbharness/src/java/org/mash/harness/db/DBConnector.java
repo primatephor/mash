@@ -7,7 +7,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 
 /**
- * User: teastlack Date: Jul 7, 2009 Time: 6:35:29 PM
+ *  Date: Jul 7, 2009 Time: 6:35:29 PM
  */
 public class DBConnector
 {

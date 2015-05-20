@@ -44,7 +44,7 @@ import java.io.StringReader;
  * the db with each load, and may wipe out previously loaded tables.
  * <p/>
  *
- * @author teastlack
+ * @author
  * @since Jul 7, 2009 5:20:41 PM
  */
 @HarnessName(name = "db")

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: teastlack
+ * @author:
  * @since: Jul 5, 2009
  */
 public class BaseHarness implements Harness

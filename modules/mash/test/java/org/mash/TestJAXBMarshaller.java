@@ -17,7 +17,7 @@ import org.mash.loader.SuiteMarshallerException;
 
 
 /**
- * User: teastlack Date: Jul 1, 2009 Time: 11:41:53 AM
+ *  Date: Jul 1, 2009 Time: 11:41:53 AM
  */
 public class TestJAXBMarshaller extends TestCase
 {

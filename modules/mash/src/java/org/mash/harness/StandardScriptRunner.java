@@ -26,7 +26,7 @@ import java.util.List;
  * The setup, run, verify, and teardown are invoked separately.  A runner could be extended to modify how these are
  * invoked here.
  * <p/>
- * User: teastlack Date: Jul 7, 2009 Time: 3:23:20 PM
+ *  Date: Jul 7, 2009 Time: 3:23:20 PM
  */
 public class StandardScriptRunner implements ScriptRunner
 {

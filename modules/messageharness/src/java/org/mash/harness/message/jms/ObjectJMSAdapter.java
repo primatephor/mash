@@ -9,7 +9,7 @@ import javax.jms.ObjectMessage;
 /**
  * Transform a Message entity into a jms object message.
  * 
- * @author teastlack
+ * @author
  * @since Jan 26, 2010 5:23:19 PM
  *
  */

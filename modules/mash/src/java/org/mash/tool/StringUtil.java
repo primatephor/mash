@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * Some simple utilities
  *
- * @author teastlack
+ * @author
  * @since Sep 9, 2010 10:26:21 AM
  */
 public class StringUtil

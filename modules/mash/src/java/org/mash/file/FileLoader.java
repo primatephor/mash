@@ -10,7 +10,7 @@ import java.net.URL;
 /**
  * Finds a file on the filesystem, returning a File object or Stream
  *
- * @author: teastlack
+ * @author:
  * @since: Jul 5, 2009
  */
 public class FileLoader

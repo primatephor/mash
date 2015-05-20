@@ -17,7 +17,7 @@ import org.mash.loader.ContentAccessor;
  * accessor should come at the END of an accessor chain.  Replace accessors should not contain other replace accessors,
  * could get ugly.
  *
- * @author teastlack
+ * @author
  * @since Jul 10, 2009 1:32:30 PM
  */
 public class ReplaceAccessor implements ContentAccessor
