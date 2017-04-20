@@ -1,5 +1,6 @@
 package org.mash.harness;
 
+import org.mash.config.BaseParameter;
 import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.Parameter;
@@ -8,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author:
- * @since: Jul 5, 2009
+ * Hold parameters and configuration for harnesses
  */
 public class BaseHarness implements Harness
 {
@@ -56,56 +56,29 @@ public class BaseHarness implements Harness
         this.definition = definition;
     }
 
-    public String getConfigurationValue(String key)
+    protected String getBaseParameterValue(String key, List<? extends BaseParameter> params)
     {
         String result = null;
-        Configuration config = getConfiguration(key);
-        if (config != null)
+        for (BaseParameter param: params)
         {
-            result = config.getValue();
-        }
-        return result;
-    }
-
-    public Configuration getConfiguration(String key)
-    {
-        Configuration result = null;
-        for (Configuration configuration : getConfiguration())
-        {
-            if (configuration.getName() != null &&
-                configuration.getName().equals(key))
+            if (param.getName() != null &&
+                param.getName().equals(key))
             {
-                result = configuration;
+                result = param.getValue();
                 break;
             }
         }
         return result;
+    }
+
+    public String getConfigurationValue(String key)
+    {
+        return getBaseParameterValue(key, getConfiguration());
     }
 
     public String getParameterValue(String key)
     {
-        String result = null;
-        Parameter param = getParameter(key);
-        if (param != null)
-        {
-            result = param.getValue();
-        }
-        return result;
-    }
-
-    public Parameter getParameter(String key)
-    {
-        Parameter result = null;
-        for (Parameter parameter : getParameters())
-        {
-            if (parameter.getName() != null &&
-                parameter.getName().equals(key))
-            {
-                result = parameter;
-                break;
-            }
-        }
-        return result;
+        return getBaseParameterValue(key, getParameters());
     }
 
     public String getName()
@@ -118,6 +91,21 @@ public class BaseHarness implements Harness
         }
         return result;
     }
+
+    public boolean hasParameter(String key)
+    {
+        boolean result = false;
+        for (Parameter parameter : getParameters())
+        {
+            if(parameter.getName() != null && parameter.getName().equals(key))
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
 
     public List<HarnessError> getErrors()
     {

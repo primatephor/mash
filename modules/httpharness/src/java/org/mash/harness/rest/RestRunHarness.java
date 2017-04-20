@@ -2,7 +2,6 @@ package org.mash.harness.rest;
 
 import org.apache.log4j.Logger;
 import org.mash.config.Configuration;
-import org.mash.config.Parameter;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.RunResponse;
 import org.mash.harness.http.HttpClient;
@@ -43,8 +42,7 @@ public class RestRunHarness extends HttpRunHarness
         if (Method.POST.name().equalsIgnoreCase(type) ||
             Method.PUT.name().equalsIgnoreCase(type))
         {
-            Parameter param = getParameter(StandardRequestFactory.BODY);
-            if (param == null)
+            if (hasParameter(StandardRequestFactory.BODY))
             {
                 throw new IllegalArgumentException("'body' parameter is required for 'CREATE' or 'UPDATE' requests");
             }
