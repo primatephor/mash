@@ -16,14 +16,33 @@ public class BaseParameter
     @XmlElement(name = "Date")
     protected Date date;
 
+    /**
+     *  path to a file for loading as parameter
+     */
     @XmlAttribute
     protected String file;
+    /**
+     * The name of the parameter
+     */
     @XmlAttribute
     protected String name;
+    /**
+     * The property name set during invocation to use as parameter
+     */
     @XmlAttribute
     protected String property;
+    /**
+     * Change supply parameters when invoking sub scripts
+     */
     @XmlAttribute
     protected String scriptParameter;
+    /**
+     * A run harness might take many parameters, but some with different contexts. For instance
+     * when making an http call, you could specify a Form, Query, or Header parameter when making
+     * a call. This would let the run harness know which value you intended.
+     */
+    @XmlAttribute
+    protected String context;
 
     public BaseParameter()
     {
@@ -140,5 +159,15 @@ public class BaseParameter
     public void setScriptParameter(String scriptParameter)
     {
         this.scriptParameter = scriptParameter;
+    }
+
+    public String getContext()
+    {
+        return context;
+    }
+
+    public void setContext(String context)
+    {
+        this.context = context;
     }
 }

@@ -38,6 +38,7 @@ import java.util.Set;
 public class HttpRunHarness extends BaseHarness implements RunHarness
 {
     private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());
+    public static final String CONTEXT_HEADER="header";
     private String url;
     private String type;
     private String clean;
@@ -66,7 +67,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
 
             try
             {
-                client.submit(url, params);
+                client.submit(url, params, getParameters(CONTEXT_HEADER));
                 if (log.isTraceEnabled())
                 {
                     RunResponse response = getResponse();

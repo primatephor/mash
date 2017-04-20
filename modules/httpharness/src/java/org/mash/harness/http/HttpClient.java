@@ -2,7 +2,9 @@ package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.*;
 import org.apache.log4j.Logger;
+import org.mash.config.Parameter;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,7 +51,7 @@ public class HttpClient
         this(factory, null);
     }
 
-    public void submit(String uri, Map<String, String> contents) throws Exception
+    public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
         client = WebConversationHolder.getInstance();
         client.setJavaScriptEnabled(false);
@@ -70,6 +72,13 @@ public class HttpClient
             log.trace("Using default content type");
             client.removeRequestHeader("Accept");
             client.removeRequestHeader("Content-Type");
+        }
+        if(headers != null && headers.size() > 0)
+        {
+            for (Parameter header : headers)
+            {
+                client.addRequestHeader(header.getName(), header.getValue());
+            }
         }
         webRequest = factory.createRequest(methodType, uri, contents);
         client.setThrowExceptionOnFailingStatusCode(false);

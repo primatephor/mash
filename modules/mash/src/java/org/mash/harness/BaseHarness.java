@@ -41,6 +41,26 @@ public class BaseHarness implements Harness
         return parameters;
     }
 
+    public List<Parameter> getParameters(String context)
+    {
+        List<Parameter> results = new ArrayList<Parameter>();
+        if(context == null)
+        {
+            results = getParameters();
+        }
+        else
+        {
+            for (Parameter parameter : getParameters())
+            {
+                if(context.equals(parameter.getContext()))
+                {
+                    results.add(parameter);
+                }
+            }
+        }
+        return results;
+    }
+
     public void setParameters(List<Parameter> parameters)
     {
         this.parameters = parameters;

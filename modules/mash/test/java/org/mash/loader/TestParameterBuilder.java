@@ -127,6 +127,42 @@ public class TestParameterBuilder extends TestCase
         assertEquals("this_will_be_named", configName);
     }
 
+    public void testContext() throws Exception
+    {
+        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"http://code.google.com/p/mash/schema/V1\">\n" +
+                "    <Tag>fasttrack</Tag>\n" +
+                "    <Tag>website</Tag>\n" +
+                "    <Setup type=\"org.mash.harness.DBSetupHarness\">\n" +
+                "        <Configuration name=\"type\">DELETE</Configuration>\n" +
+                "        <Configuration name=\"url\" property=\"jdbc.url\"/>\n" +
+                "        <Configuration context=\"header\" name=\"key\">123546</Configuration>\n" +
+                "        <Configuration name=\"user\">mydbuser</Configuration>\n" +
+                "        <Configuration name=\"password\">dbpass</Configuration>\n" +
+                "        <Configuration>" +
+                "             <ParamName>" +
+                "                 <Value>this_will_be_{replaced}</Value>" +
+                "                 <Replace search=\"{replaced}\"><Value>named</Value></Replace>" +
+                "             </ParamName>" +
+                "        </Configuration>\n" +
+                "        <Parameter name=\"loadfile\">\n" +
+                "<Value>replace {accepted.date} and {another.date} and {accepted.date} again</Value>" +
+                "            <Replace search=\"{accepted.date}\"><Date format=\"yyyy-MM-dd kk:mm:ss.S\" dayOffset=\"-6\"/></Replace>\n" +
+                "            <Replace search=\"{another.date}\"><Date format=\"yyyy-MM-dd kk:mm:ss.S\" dayOffset=\"-5\"/></Replace>\n" +
+                "        </Parameter>\n" +
+                "    </Setup>\n" +
+                "</ns1:Script>";
+
+        JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();
+        Script result = (Script) marshaller.unmarshal(contents);
+        Harness toCheck = new HarnessBuilder().buildHarness((HarnessDefinition) result.getHarnesses().get(0));
+        List<Configuration> appliedParams = new CalculatingConfigBuilder().applyParameters(null, null, toCheck.getDefinition());
+        assertEquals(6, appliedParams.size());
+        String configName = appliedParams.get(2).getName();
+        assertEquals("key", configName);
+        String context = appliedParams.get(2).getContext();
+        assertEquals("header", context);
+    }
+
     private class MyDate extends Date
     {
         private MyDate(Date parent, java.util.Date toSet)

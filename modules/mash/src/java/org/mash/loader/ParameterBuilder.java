@@ -50,6 +50,16 @@ public abstract class ParameterBuilder<T extends BaseParameter>
     private static final Logger log = Logger.getLogger(ParameterBuilder.class.getName());
     private AccessorChain accessChain;
 
+    /**
+     * Take the incoming configuration parameters and make them real. For instance, if you're specifying a file,
+     * gather it's contents and make it a parameter like the others. Likewise for property values, etc.
+     *
+     * @param previousRun to gather information from other harnesses
+     * @param scriptDefinition
+     * @param harnessDefinition
+     * @return
+     * @throws Exception
+     */
     public List<T> applyParameters(List<RunHarness> previousRun,
                                    ScriptDefinition scriptDefinition,
                                    HarnessDefinition harnessDefinition) throws Exception
@@ -83,6 +93,7 @@ public abstract class ParameterBuilder<T extends BaseParameter>
             toAdd.setName(name);
             toAdd.setFile(parameter.getFile());
             toAdd.setValue(contents);
+            toAdd.setContext(parameter.getContext());
             appliedParameters.add(toAdd);
         }
 

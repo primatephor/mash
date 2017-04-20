@@ -76,7 +76,8 @@ public class TestStatsLogger extends TestCase
         BaseFormatter formatter = new BaseFormatter();
         String lineString = formatter.formatData(logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular()));
         assertContains("testLogging2", lineString);
-        assertContains("1,0m 1.000s,0m 1.000s,25.00,0m 1.000s,0m 1.000s", lineString);
+        //assertContains("1,0m 1.000s,0m 1.000s,25.00,0m 1.000s,0m 1.000s", lineString);
+        compareTimes("0m 1.000s,0m 1.000s,25.00,0m 1.000s,0m 1.000s", lineString);
 
         //check pretty formatting
         formatter = new PrettyFormatter();
@@ -87,7 +88,7 @@ public class TestStatsLogger extends TestCase
         assertContains("Entity      ,", colString);
         assertContains("testLogging2,", lineString);
         assertContains(", # of Calls, Average  , Total    , % of CPU, Max Time , Min Time", colString);
-        assertContains(", 1         , 0m 1.000s, 0m 1.000s, 25.00   , 0m 1.000s, 0m 1.000s", lineString);
+        compareTimes("0m 1.000s, 0m 1.000s, 25.00   , 0m 1.000s, 0m 1.000s", lineString);
 
         logline = logger.logStats(MetricsManager.getRegular().get("testLogging2"), MetricsManager.getRegular());
         percent =  logline.getPercent(); //25%
@@ -186,8 +187,8 @@ public class TestStatsLogger extends TestCase
 
         //notice that calculations are based on single entry
         //need to break this down better to test, COMMENT IF NECESSARY
-        assertContains(",1,0m 2.000s,0m 2.000s,100.00,0m 2.000s,0m 2.000s\n", (String) myLogger.getLoggedItems().get(size - 1));
-        assertEquals("Gathering Snapshot Metrics", myLogger.getLoggedItems().get(size-3));
+        compareTimes("0m 2.000s,0m 2.000s,100.00,0m 2.000s,0m 2.000s", (String) myLogger.getLoggedItems().get(size - 1));
+        assertEquals("Gathering Snapshot Metrics", myLogger.getLoggedItems().get(size - 3));
     }
 
     private class MyMetLogger extends MetricsLogger
@@ -229,6 +230,47 @@ public class TestStatsLogger extends TestCase
         public List getLoggedItems()
         {
             return loggedItems;
+        }
+    }
+
+    private void compareTimes(String expected, String actual)
+    {
+        if(actual.startsWith("\nEntity"))
+        {
+            actual = actual.split("\n")[2];
+        }
+        System.out.println("Comparing expected "+expected+" with "+actual);
+        //break out expected times
+        String[] expectedTimes = expected.split(",");
+        //get actual values first
+        String[] actuals = actual.split(",");
+        compareTime(expectedTimes[0], actuals[3]);
+        compareTime(expectedTimes[1], actuals[4]);
+        assertEquals(expectedTimes[2].trim(), actuals[5].trim());
+        compareTime(expectedTimes[3], actuals[6]);
+        compareTime(expectedTimes[4], actuals[7]);
+    }
+
+    private void compareTime(String expectedTime, String actual)
+    {
+        expectedTime =expectedTime.trim();
+        actual = actual.trim();
+        System.out.println("Comparing expected "+expectedTime+" with "+actual);
+        boolean found = false;
+        //need to look for time within 10ms (because of slowness running tests
+        for (int i = 0; i < 11; i++)
+        {
+            String testValue = actual.substring(0, actual.length()-2);
+            testValue  = testValue+i+"s";
+            if(expectedTime.equals(testValue))
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found)
+        {
+            throw new AssertionError("expected "+expectedTime+" but got "+actual);
         }
     }
 

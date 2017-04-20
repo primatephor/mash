@@ -27,6 +27,14 @@ public class TestDate extends TestCase
         assertEquals("2009/07/09 13:06:40", configDate.asFormat());
     }
 
+    public void testUTCFormatting() throws ConfigurationException
+    {
+        Date configDate = new MyDate(now);
+        configDate.setFormat("yyyy/MM/dd HH:mm:ss");
+        configDate.setUtc(Boolean.TRUE);
+        assertEquals("1247170000000", configDate.asFormat());
+    }
+
     public void testSetDate() throws ConfigurationException
     {
         Date configDate = new Date();

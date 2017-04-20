@@ -26,6 +26,8 @@ public class Date
     @XmlAttribute
     protected String format;
     @XmlAttribute
+    protected Boolean utc;
+    @XmlAttribute
     protected Integer secOffset;
     @XmlAttribute
     protected Integer minOffset;
@@ -114,25 +116,33 @@ public class Date
     public String asFormat() throws ConfigurationException
     {
         java.util.Date date = asDate();
-        //check for special xml format
-        boolean xmlFormat = false;
-        String theFormat = this.format;
-        if (theFormat != null && theFormat.endsWith("X"))
+        String result;
+        if(getUtc() != null && getUtc())
         {
-            xmlFormat = true;
-            theFormat = theFormat.substring(0, theFormat.length()-1)+"Z";
+            result = String.valueOf(date.getTime());
         }
-        DateFormat formatter = getFormatter(theFormat);
-        if (this.zone != null)
+        else
         {
-            formatter.setTimeZone(TimeZone.getTimeZone(this.zone));
-        }
-        String result = formatter.format(date);
-        if(xmlFormat)
-        {
-            if(result!= null && result.endsWith("00"))
+            //check for special xml format
+            boolean xmlFormat = false;
+            String theFormat = this.format;
+            if (theFormat != null && theFormat.endsWith("X"))
             {
-                result = result.substring(0, result.lastIndexOf("00"))+":00";
+                xmlFormat = true;
+                theFormat = theFormat.substring(0, theFormat.length()-1)+"Z";
+            }
+            DateFormat formatter = getFormatter(theFormat);
+            if (this.zone != null)
+            {
+                formatter.setTimeZone(TimeZone.getTimeZone(this.zone));
+            }
+            result = formatter.format(date);
+            if(xmlFormat)
+            {
+                if(result!= null && result.endsWith("00"))
+                {
+                    result = result.substring(0, result.lastIndexOf("00"))+":00";
+                }
             }
         }
         return result;
@@ -167,6 +177,16 @@ public class Date
     public void setFormat(String format)
     {
         this.format = format;
+    }
+
+    public Boolean getUtc()
+    {
+        return utc;
+    }
+
+    public void setUtc(Boolean utc)
+    {
+        this.utc = utc;
     }
 
     public Integer getYearOffset()

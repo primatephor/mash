@@ -34,7 +34,7 @@ public class TestHttpHarness extends TestCase
         params.put("rls", "org.mozilla:en-US:official");
         params.put("client", "firefox-a");
 
-        client.submit("http://www.google.com/search", params);
+        client.submit("http://www.google.com/search", params, null);
         HtmlPage response = (HtmlPage) client.getWebResponse();
         assertEquals("System Test - Google Search", response.getTitleText());
     }
