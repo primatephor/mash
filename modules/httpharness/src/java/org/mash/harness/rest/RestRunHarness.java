@@ -42,7 +42,7 @@ public class RestRunHarness extends HttpRunHarness
         if (Method.POST.name().equalsIgnoreCase(type) ||
             Method.PUT.name().equalsIgnoreCase(type))
         {
-            if (hasParameter(StandardRequestFactory.BODY))
+            if (!hasParameter(StandardRequestFactory.BODY))
             {
                 throw new IllegalArgumentException("'body' parameter is required for 'CREATE' or 'UPDATE' requests");
             }
