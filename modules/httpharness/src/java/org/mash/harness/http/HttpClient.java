@@ -82,6 +82,7 @@ public class HttpClient
         }
         webRequest = factory.createRequest(methodType, uri, contents);
         client.setThrowExceptionOnFailingStatusCode(false);
+        log.info("Invoking client for "+webRequest.getUrl().toString());
         Page page = client.getPage(webRequest);
         if (page instanceof SgmlPage)
         {

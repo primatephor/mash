@@ -14,9 +14,6 @@ import java.util.Set;
 
 /**
  * Builds the standard POST, GET, PUT, DELETE Httpunit WebRequest object.  Will marshall any parameters submitted.
- *
- * @author:
- * @since: Jul 26, 2009
  */
 public class StandardRequestFactory implements WebRequestFactory
 {
@@ -27,7 +24,7 @@ public class StandardRequestFactory implements WebRequestFactory
     {
         WebRequestSettings settings = null;
         String body = null;
-        if (contents.get(BODY) != null)
+        if (contents != null && contents.get(BODY) != null)
         {
             body = contents.get(BODY);
         }
@@ -57,23 +54,26 @@ public class StandardRequestFactory implements WebRequestFactory
 
     protected void populateRequestParameters(Map<String, String> contents, WebRequestSettings request)
     {
-        Set<String> keys = contents.keySet();
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        for (String key : keys)
+        if(contents != null)
         {
-            if (!BODY.equals(key))
+            Set<String> keys = contents.keySet();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            for (String key : keys)
             {
-                log.info("Adding parameter '" + key + "' as:" + contents.get(key));
-                NameValuePair pair = new NameValuePair();
-                pair.setName(key);
-                pair.setValue(contents.get(key));
-                params.add(pair);
+                if (!BODY.equals(key))
+                {
+                    log.info("Adding parameter '" + key + "' as:" + contents.get(key));
+                    NameValuePair pair = new NameValuePair();
+                    pair.setName(key);
+                    pair.setValue(contents.get(key));
+                    params.add(pair);
+                }
             }
-        }
 
-        if (params.size() > 0)
-        {
-            request.setRequestParameters(params);
+            if (params.size() > 0)
+            {
+                request.setRequestParameters(params);
+            }
         }
     }
 }
