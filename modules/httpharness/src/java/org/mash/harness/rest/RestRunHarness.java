@@ -8,6 +8,7 @@ import org.mash.harness.http.HttpClient;
 import org.mash.harness.http.HttpRunHarness;
 import org.mash.harness.http.Method;
 import org.mash.harness.http.StandardRequestFactory;
+import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class RestRunHarness extends HttpRunHarness
     private static final Logger LOG = Logger.getLogger(RestRunHarness.class.getName());
     public static String DEFAULT_CONTENT_TYPE = "text/xml";
     private RunResponse xmlResponse;
+
+    private String contentType = DEFAULT_CONTENT_TYPE;
 
     public void run(HarnessContext context)
     {
@@ -69,7 +72,7 @@ public class RestRunHarness extends HttpRunHarness
         String contentType = getParameterValue("content_type");
         if (null == contentType)
         {
-            contentType = DEFAULT_CONTENT_TYPE;
+            contentType = this.contentType;
         }
         return new HttpClient(new StandardRequestFactory(), clientType, username, password, contentType);
     }
@@ -100,4 +103,11 @@ public class RestRunHarness extends HttpRunHarness
         }
         super.setConfiguration(configuration);
     }
+
+    @HarnessConfiguration(name = "contentType")
+    public void setContentType(String contentType)
+    {
+        this.contentType = contentType;
+    }
+
 }
