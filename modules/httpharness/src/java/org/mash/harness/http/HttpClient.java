@@ -59,14 +59,19 @@ public class HttpClient
             credentials.addCredentials(username, password);
             client.setCredentialsProvider(credentials);
         }
-
-        webRequest = factory.createRequest(methodType, uri, contents);
         if (null != contentType)
         {
             log.trace("Setting content type to " + contentType);
-            webRequest.setAdditionalHeader("Accept", contentType);
-            webRequest.setAdditionalHeader("Content-Type", contentType);
+            client.addRequestHeader("Accept", contentType);
+            client.addRequestHeader("Content-Type", contentType);
         }
+        else
+        {
+            log.trace("Using default content type");
+            client.removeRequestHeader("Accept");
+            client.removeRequestHeader("Content-Type");
+        }
+        webRequest = factory.createRequest(methodType, uri, contents);
 
         if(headers != null && headers.size() > 0)
         {
