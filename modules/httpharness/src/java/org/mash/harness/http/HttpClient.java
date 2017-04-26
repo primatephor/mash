@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author:
- * @since: Jul 4, 2009
  */
 public class HttpClient
 {
@@ -73,14 +71,16 @@ public class HttpClient
             client.removeRequestHeader("Accept");
             client.removeRequestHeader("Content-Type");
         }
+        webRequest = factory.createRequest(methodType, uri, contents);
+
         if(headers != null && headers.size() > 0)
         {
             for (Parameter header : headers)
             {
-                client.addRequestHeader(header.getName(), header.getValue());
+                webRequest.setAdditionalHeader(header.getName(), header.getValue());
+                //client.addRequestHeader(header.getName(), header.getValue());
             }
         }
-        webRequest = factory.createRequest(methodType, uri, contents);
         client.setThrowExceptionOnFailingStatusCode(false);
         log.info("Invoking client for "+webRequest.getUrl().toString());
         Page page = client.getPage(webRequest);
