@@ -1,19 +1,20 @@
 # Introduction #
 
-The `RowRunHarness` really just runs a "select `*` from table where column\_name=column\_value".  When combined with a standard verify harness, you can turn the table to a name / value pair and verify a row.
+The `RowRunHarness` really just runs a "select `*` from table where column\_name=column\_value". 
+When combined with a standard verify harness, you can turn the table to a name / value pair and verify a row.
 
 
 # Configuration #
 Configuration parameters:
-  * 'url' = url of the database
-  * 'user' = user to log into the db
-  * 'password' = user's password
-  * 'driver' = jdbc driver class
+  * `url` = url of the database
+  * `user` = user to log into the db
+  * `password` = user's password
+  * `driver` = jdbc driver class
 
 # Parameter #
-  * 'table\_name' = name of the table to run a select on
-  * 'column\_name' = column to perform "where" on
-  * 'column\_value' = value of the "where"
+  * `table_name` = name of the table to run a select on
+  * `column_name` = column to perform "where" on
+  * `column_value` = value of the "where"
 
 # Sample Usage #
 ```
@@ -39,4 +40,6 @@ Configuration parameters:
     </Verify>
 ```
 
-Here the select run is: select `*` from my\_table where last\_name = 'squarepants'.  The verify just takes the mapped results and does a name/value check.  You can supply any column name in the verify to check the results.
+Here the select run is: `select * from my_table where last_name = 'squarepants'`. 
+The verify just takes the mapped results and does a name/value check. 
+You can supply any column name in the verify to check the results.

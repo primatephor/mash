@@ -1,5 +1,6 @@
 # Details #
-The RestResponse differs from the standard response in that the calls for retrieving the value is done with an XPath.  This means that the when verifying the results, use XPath expressions instead of simple name/value pairings.
+The RestResponse differs from the standard response in that the calls for retrieving the value is done with an XPath. 
+This means that the when verifying the results, use XPath expressions instead of simple name/value pairings.
 
 # Sample Usage #
 ```
@@ -14,7 +15,9 @@ The RestResponse differs from the standard response in that the calls for retrie
     </Verify>
 ```
 
-Here the HttpVerifyHarness is used to validate a resource status.  The parameter is named very differently here, as an XPath expression.  This particular path works for the following xml returned by this resource:
+Here the HttpVerifyHarness is used to validate a resource status.  The parameter is named very differently here, as an 
+XPath expression. 
+This particular path works for the following xml returned by this resource:
 ```
 <SomeEntity>
       <Firstname>Joe</Firstname>

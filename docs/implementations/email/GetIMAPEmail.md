@@ -4,16 +4,16 @@ Invoke an email client for retrieving messages from an IMAP server.
 
 # Configuration #
 Configuration values:
-  * 'mail\_server' = url of the email server
-  * 'user' = user (usually an admin user) to log into server with
-  * 'password' = password of user
-  * 'folder' = optional folder to specify (default is INBOX)
-  * 'protocol' = imap by default.  see [java Session api](http://docs.oracle.com/javaee/5/api/javax/mail/Session.html)
+  * `mail_server` = url of the email server
+  * `user` = user (usually an admin user) to log into server with
+  * `password` = password of user
+  * `folder` = optional folder to specify (default is INBOX)
+  * `protocol` = imap by default.  see [java Session api](http://docs.oracle.com/javaee/5/api/javax/mail/Session.html)
 
 # Parameter #
-  * 'message\_number' = The message to retrieve from the list on the server
-  * 'address' = The recipient of the email to retrieve
-  * 'subject' = subject of message(s) to retrieve
+  * `message\_number` = The message to retrieve from the list on the server
+  * `address` = The recipient of the email to retrieve
+  * `subject` = subject of message(s) to retrieve
 
 # Sample Usage #
 ```
@@ -33,4 +33,6 @@ Configuration values:
    </Verify>
 ```
 
-Here the first email for the recipient 'developer@somewhere.com' is retrieved from the default 'INBOX'.  Validation looks to ensure that there are 10 total emails in the INBOX, and the message retrieved has a subject 'Some job' and contains the text 'dev email data' and 'Store 300 invoice'.
+Here the first email for the recipient `developer@somewhere.com` is retrieved from the default `INBOX`. 
+Validation looks to ensure that there are 10 total emails in the INBOX, and the message retrieved has a subject 
+`Some job` and contains the text `dev email data` and `Store 300 invoice`.

@@ -1,5 +1,8 @@
 # List of changes #
 
+## 2.0 ##
+  * In progress, upgrade to java 8
+
 ## 1.4.2 ##
   * Add snapshot view for metrics utility
 

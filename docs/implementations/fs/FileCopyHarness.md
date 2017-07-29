@@ -1,5 +1,6 @@
 # Introduction #
-Copy a file from one location to another.  The user can either pass the name of the original file to be copied or the desired content of the new file.
+Copy a file from one location to another. 
+The user can either pass the name of the original file to be copied or the desired content of the new file.
 
 # Configuration #
 Configuration values:
@@ -7,10 +8,10 @@ Configuration values:
 
 # Parameter #
 Parameters for Copying:
-  * 'sourceFileName' = the name of the original file that should be copied.  Not used if 'targetFileContent' is provided.
-  * 'targetFileNameBaseDir' = the name of a directory that should be prepended to 'targetFileName'.  Optional.
-  * 'targetFileName' = the desired name of the newly created file.
-  * 'targetFileContent' = the desired content that should be saved in the newly created file.
+  * `sourceFileName` = the name of the original file that should be copied.  Not used if `targetFileContent` is provided.
+  * `argetFileNameBaseDir` = the name of a directory that should be prepended to `targetFileName`.  Optional.
+  * `targetFileName` = the desired name of the newly created file.
+  * `targetFileContent` = the desired content that should be saved in the newly created file.
 
 # Sample Usages #
 ## Case One ##
@@ -24,7 +25,8 @@ Parameters for Copying:
         </Parameter>        
     </Run>
 ```
-Mash will create a new file named '/usr/local/testProject/config/testSetup.prop' and copy the content from '/usr/local/myProject/config/mySetup.prop' into the new file.
+Mash will create a new file named `/usr/local/testProject/config/testSetup.prop` and copy the content from 
+`/usr/local/myProject/config/mySetup.prop` into the new file.
 
 ## Case Two ##
 
@@ -36,4 +38,5 @@ Mash will create a new file named '/usr/local/testProject/config/testSetup.prop'
         </Parameter>        
     </Run>
 ```
-This will read the contents of the file /usr/local/myProject/config/mySetup.prop, send the content to the FileCopyHarness, and save the content in a file named /usr/local/testProject/config/testSetup.prop
+This will read the contents of the file `/usr/local/myProject/config/mySetup.prop`, send the content to the 
+`FileCopyHarness`, and save the content in a file named `/usr/local/testProject/config/testSetup.prop`

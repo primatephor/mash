@@ -1,16 +1,16 @@
 # Introduction #
 
-Run an ftp 'ls' operation, retrieving a file list from the specified path.
+Run an ftp `ls` operation, retrieving a file list from the specified path.
 
 # Configuration #
 Configuration values:
-  * 'url' = url of the resource
-  * 'user' = user to login as
-  * 'password' = password of user
+  * `url` = url of the resource
+  * `user` = user to login as
+  * `password` = password of user
 
 # Parameter #
 These parameters should be grouped:
-  * 'path' = directory to list contents
+  * `path` = directory to list contents
 
 To retrieve list of files:
 ```

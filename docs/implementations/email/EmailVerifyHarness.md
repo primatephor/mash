@@ -4,17 +4,17 @@ Verify email information retrieved by [GetEmail](GetIMAPEmail.md)
 
 # Configuration #
 Configuration values:
-  * 'mail\_server' = url of the email server
-  * 'user' = user (usually an admin user) to log into server with
-  * 'password' = password of user
-  * 'folder' = optional folder to specify (default is INBOX)
-  * 'protocol' = imap by default (smtp, pop, imap).  see [java Session api](http://docs.oracle.com/javaee/5/api/javax/mail/Session.html)
+  * `mail_server` = url of the email server
+  * `user` = user (usually an admin user) to log into server with
+  * `password` = password of user
+  * `folder` = optional folder to specify (default is INBOX)
+  * `protocol` = imap by default (smtp, pop, imap).  see [java Session api](http://docs.oracle.com/javaee/5/api/javax/mail/Session.html)
 
 # Parameter #
-  * 'subject' = verify subject of the message
-  * 'recipient' = verify recipient
-  * 'sender' = verify sender
-  * 'count' = verify number of messages
+  * `subject` = verify subject of the message
+  * `recipient` = verify recipient
+  * `sender` = verify sender
+  * `count` = verify number of messages
 
 # Sample Usage #
 ```
@@ -27,4 +27,5 @@ Configuration values:
    </Verify>
 ```
 
-Here the default 'INBOX' is cleaned out of emails that are sent to 'developer@somewhere.com'.  If no address is specified, all emails are deleted on the server INBOX.
+Here the default `INBOX` is cleaned out of emails that are sent to `developer@somewhere.com`. 
+If no address is specified, all emails are deleted on the server INBOX.

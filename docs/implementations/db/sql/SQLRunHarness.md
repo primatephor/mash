@@ -1,17 +1,18 @@
 # Introduction #
 
-The `SQLRunHarness` runs any sql against a database, and if there are results will supply them for verification (column names are the parameters).
+The `SQLRunHarness` runs any sql against a database, and if there are results will supply them for verification (column 
+names are the parameters).
 
 
 # Configuration #
 Configuration parameters:
-  * 'url' = url of the database
-  * 'user' = user to log into the db
-  * 'password' = user's password
-  * 'driver' = jdbc driver class
+  * `url` = url of the database
+  * `user` = user to log into the db
+  * `password` = user's password
+  * `driver` = jdbc driver class
 
 # Parameter #
-  * 'sql' = the sql to run
+  * `sql` = the sql to run
 
 # Sample Usage #
 ```
@@ -31,6 +32,9 @@ Configuration parameters:
     </Verify>
 ```
 
-Here the select run is: select `*` from my\_table where first\_name = 'bob'.  The verify just takes the mapped results and does a name/value check.  You can supply any column name in the verify to check the results.
+Here the select run is: `select * from my_table where first_name = 'bob'`. 
+The verify just takes the mapped results and does a name/value check. 
+You can supply any column name in the verify to check the results.
 
-Any sql should be valid.  Use the ListVerifyHarness to validate when multiple results are found.
+Any sql should be valid. 
+Use the [ListVerifyHarness](../../ListVerifyHarness.md) to validate when multiple results are found.

@@ -4,13 +4,13 @@ Receive a Java object from the JMS queue.  This harness does not send an object 
 
 # Configuration #
 Configuration values:
-  * 'provider\_url' = url of the JMS provider
-  * 'queue' = the queue to connect to for send / receive
+  * `provider_url` = url of the JMS provider
+  * `queue` = the queue to connect to for send / receive
 
 # Parameter #
 These parameters should be grouped:
-  * 'action' = SEND
-  * 'property' = name / value pair to set as message property (format: name=value)
+  * `action` = SEND
+  * `property` = name / value pair to set as message property (format: name=value)
 
 To receive a message:
 ```
@@ -26,4 +26,6 @@ To receive a message:
     </Verify>
 ```
 
-This pulls the object message off the queue, and does an OGNL lookup.  This particular object has a user object with an address object with a street attribute.  This also verifies the property 'name' on the message is set to 'value'
+This pulls the object message off the queue, and does an OGNL lookup. 
+This particular object has a user object with an address object with a street attribute. 
+This also verifies the property `name` on the message is set to `value`

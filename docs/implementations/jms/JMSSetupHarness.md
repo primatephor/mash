@@ -4,12 +4,12 @@ Clean up a JMS queue by reading all messages (which pulls everything off it)
 
 # Configuration #
 Configuration values:
-  * 'provider\_url' = url of the JMS provider
-  * 'queue' = the queue to connect to for send / receive
+  * `provider_url` = url of the JMS provider
+  * `queue` = the queue to connect to for send / receive
 
 # Parameter #
 These parameters should be grouped:
-  * 'action' = CLEAN (only one right now)
+  * `action` = CLEAN (only one right now)
 
 To receive a message:
 ```
@@ -20,4 +20,5 @@ To receive a message:
     </Run>
 ```
 
-Hook up to the queue, and read everything off of it.  This empties the queue.
+Hook up to the queue, and read everything off of it. 
+This empties the queue.

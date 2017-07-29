@@ -4,13 +4,14 @@ Invoke an ftp request against an ftp server.
 
 # Configuration #
 Configuration values:
-  * 'url' = url of the resource
-  * 'user' = user to login as
-  * 'password' = password of user
+  * `url` = url of the resource
+  * `user` = user to login as
+  * `password` = password of user
 
 # Parameter #
 Parameters for ftping:
-  * 'ftp\_params' = Any string to be applied to the corresponding ftp command.  For a 'put' or 'get', it'd be filename, for an 'ls' or 'delete', a path.
+  * `ftp\_params` = Any string to be applied to the corresponding ftp command.  For a `put` or `get`, it'd be filename, 
+  for an `ls` or `delete`, a path.
 
 # Sample Usage #
 ```
@@ -25,4 +26,5 @@ Parameters for ftping:
     </Run>
 ```
 
-Here a file named 'file.txt' is downloaded by user 'theuser'.  It's contents are then verified to contain 'some file content'.
+Here a file named `file.txt` is downloaded by user `theuser`.  It's contents are then verified to contain `some file 
+content`.

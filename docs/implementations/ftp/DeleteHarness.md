@@ -1,16 +1,16 @@
 # Introduction #
 
-Run an ftp 'delete' operation on the directory or file.
+Run an ftp `delete` operation on the directory or file.
 
 # Configuration #
 Configuration values:
-  * 'url' = url of the resource
-  * 'user' = user to login as
-  * 'password' = password of user
+  * `url` = url of the resource
+  * `user` = user to login as
+  * `password` = password of user
 
 # Parameter #
 These parameters should be grouped:
-  * 'path' = directory or file to remove
+  * `path` = directory or file to remove
 
 To delete:
 ```
@@ -29,4 +29,5 @@ To delete:
     </Run>
 ```
 
-The 'first\_delete' removes a directory, the 'second\_delete' removes the file 'file.txt'.  A list is run afterwards so verification is the same as with a ListHarness.
+The `first_delete` removes a directory, the `second_delete` removes the file `file.txt`.  A list is run afterwards so 
+verification is the same as with a ListHarness.

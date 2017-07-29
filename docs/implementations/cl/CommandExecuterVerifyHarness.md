@@ -4,7 +4,7 @@ Verify already run command
 # Configuration #
 
 # Configuration #
-  * 'output' = expected results of command
+  * `output` = expected results of command
 
 # Sample Usages #
 ```
@@ -15,4 +15,4 @@ Verify already run command
     </Verify>
 ```
 
-This verifies that the result of, for example, 'cat somefile.txt' with contents 'some text' matches results.
+This verifies that the result of, for example, `cat somefile.txt` with contents `some text` matches results.

@@ -4,12 +4,12 @@ Invoke an http request (currently only POST and GET are supported) against a web
 
 # Configuration #
 Configuration values:
-  * 'url' = url of the resource
-  * 'type' = POST or GET
-  * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
+  * `url` = url of the resource
+  * `type` = POST or GET
+  * `clean` = true/false, resets the web conversation accordingly (like closing browser)
 
 # Parameter #
-  * 'body' = Resource body to be submitted as input stream.  very optional, probably won't use it regularly.
+  * `body` = Resource body to be submitted as input stream.  very optional, probably won`t use it regularly.
 
 # Sample Usage #
 ```
@@ -26,4 +26,5 @@ Configuration values:
     </Run>
 ```
 
-Here a login is performed in the first call, then the second call goes to the `/index.html` page (with the 'my.url' system property) with a parameter 'session' (retrieved from the 'login' run).
+Here a login is performed in the first call, then the second call goes to the `/index.html` page (with the `my.url` 
+system property) with a parameter `session` (retrieved from the `login` run).

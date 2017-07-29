@@ -6,13 +6,11 @@ Retrieving a file and validating or saving it somewhere.
 
 # Parameter #
 These parameters should be grouped:
-  * 'path' = directory to look for contents or an index
-  * 'file\_contents' = if path is given, search for a file containing these contents (EXPENSIVE)
-    * 'file\_index'= if path is given, index will sort the file list by data and retrieve the file at the given index.
-
-  * 'file\_name' = path and name of the file to retrieve.  If used, 'path' will be ignored.
-
-  * 'output\_file' = path and filename to store retrieved file to.
+  * `path` = directory to look for contents or an index
+  * `file_contents` = if path is given, search for a file containing these contents (EXPENSIVE)
+  * `file_index`= if path is given, index will sort the file list by data and retrieve the file at the given index.
+  * `file_name` = path and name of the file to retrieve.  If used, `path` will be ignored.
+  * `output_file` = path and filename to store retrieved file to.
 
 # Sample Usages #
 ## Case Two ##
@@ -24,4 +22,4 @@ These parameters should be grouped:
     </Run>
 
 ```
-This retrieves file 'setup.prop', and it's saved to a file in /tmp called 'my\_setup.prop'.
+This retrieves file `setup.prop`, and it's saved to a file in /tmp called `my\_setup.prop`.

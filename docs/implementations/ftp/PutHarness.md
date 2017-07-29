@@ -1,17 +1,17 @@
 # Introduction #
 
-Run an ftp 'put' operation, placing the specified file in the specified directory.
+Run an ftp `put` operation, placing the specified file in the specified directory.
 
 # Configuration #
 Configuration values:
-  * 'url' = url of the resource
-  * 'user' = user to login as
-  * 'password' = password of user
+  * `url` = url of the resource
+  * `user` = user to login as
+  * `password` = password of user
 
 # Parameter #
 These parameters should be grouped:
-  * 'output\_path' = directory to put file to
-  * 'file\_name' = path and name of the file to put.
+  * `output_path` = directory to put file to
+  * `file_name` = path and name of the file to put.
 
 To put a file:
 ```
@@ -28,4 +28,5 @@ To put a file:
     </Verify>
 ```
 
-This puts the file onto, then verifies that the file is placed there.  The verify runs a simple list operation, so you can check that the file made it.
+This puts the file onto, then verifies that the file is placed there.  The verify runs a simple list operation, so you 
+can check that the file made it.

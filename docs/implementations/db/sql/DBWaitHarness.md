@@ -1,20 +1,22 @@
 # Introduction #
 
-The `DBWaitHarness` runs any sql against a database, and if there are no results will continue to do so until the wait either times out or the results are found.  Polling times are defined in the configuration.
+The `DBWaitHarness` runs any sql against a database, and if there are no results will continue to do so until the wait 
+either times out or the results are found. 
+Polling times are defined in the configuration.
 
 
 # Configuration #
 Configuration parameters:
-  * 'url' = url of the database
-  * 'user' = user to log into the db
-  * 'password' = user's password
-  * 'driver' = jdbc driver class
-  * 'polltime' = time in milliseconds between running sql (default every 5 seconds)
-  * 'timeout' = time in milliseconds when polling should stop (default 1 minute)
+  * `url` = url of the database
+  * `user` = user to log into the db
+  * `password` = user's password
+  * `driver` = jdbc driver class
+  * `polltime` = time in milliseconds between running sql (default every 5 seconds)
+  * `timeout` = time in milliseconds when polling should stop (default 1 minute)
 
 # Parameter #
-  * 'sql' = the sql to run
-  * 'size' = number of rows expected (default 1)
+  * `sql` = the sql to run
+  * `size` = number of rows expected (default 1)
 
 # Sample Usage #
 ```
@@ -34,4 +36,5 @@ Configuration parameters:
     </Verify>
 ```
 
-The wait harness runs the above select against the users table every 5 seconds (up to 1 minute) until a result is found.  You may then verify the results in a normal way.
+The wait harness runs the above select against the users table every 5 seconds (up to 1 minute) until a result is found. 
+You may then verify the results in a normal way.

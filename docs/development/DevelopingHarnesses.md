@@ -1,20 +1,24 @@
 # Introduction #
 
-Each harness has it's own specific interface to implement (setup, run, verify, teardown).  However there are common themes for developing a harness that simplify the plumbing.
+Each harness has it's own specific interface to implement (setup, run, verify, teardown). 
+However there are common themes for developing a harness that simplify the plumbing.
 
 Harnesses must implement one of the interfaces:
-  * SetupHarness
-  * RunHarness
-  * VerifyHarness
-  * TeardownHarness
+  * [SetupHarness](SetupHarness.md)
+  * [RunHarness](RunHarness.md)
+  * [VerifyHarness](VerifyHarness.md)
+  * [TeardownHarness](TeardownHarness.md)
 
 
 # `BaseHarness` #
 
-Extending the `BaseHarness` implements many of the methods in the `Harness` interface.  It is advised to use this class to simplify your harness, however if there is special functionality you need you can implement these methods on your own.
+Extending the `BaseHarness` implements many of the methods in the `Harness` interface. 
+It is advised to use this class to simplify your harness, however if there is special functionality you need you can 
+implement these methods on your own.
 
 # Name #
-When using the `type` attribute you can either specify a fully qualified class name, or a shorter name that you specify on your harness.
+When using the `type` attribute you can either specify a fully qualified class name, or a shorter name that you specify 
+on your harness.
 
 To specify a name use the `@HarnessName` annotation on the class.
 
@@ -44,9 +48,12 @@ with the `HarnessName`, your XML may now use this name instead of the class name
 
 
 # Configuration #
-There are two ways of getting configurations into your harness.  One is to parse the `Configuration` list manually and selectively apply them to your harness.
+There are two ways of getting configurations into your harness. 
+One is to parse the `Configuration` list manually and selectively apply them to your harness.
 
-Another (simpler) way of getting configuration data is to use the `@HarnessConfiguration` annotation.  Add this annotation to the method you want invoked with the appropriate `<Configuration>` element.  The 'name' parameter on the `@HarnessConfiguration` annotation is the name of the `<Configuration>` element.
+Another (simpler) way of getting configuration data is to use the `@HarnessConfiguration` annotation.  Add this 
+annotation to the method you want invoked with the appropriate `<Configuration>` element. 
+The 'name' parameter on the `@HarnessConfiguration` annotation is the name of the `<Configuration>` element.
 
 Example:
 ```
@@ -60,7 +67,9 @@ Now your harness will accept a `<Configuration>` element with the name 'url'
 
 
 # Parameter #
-Parameters are configured just like configurations, so you may either parse the parameter list or use the `@HarnessParameter` annotation.  Again, with the `@HarnessParameter` the 'name' parameter is the name of the `<Parameter>` element.
+Parameters are configured just like configurations, so you may either parse the parameter list or use the 
+`@HarnessParameter` annotation. 
+Again, with the `@HarnessParameter` the 'name' parameter is the name of the `<Parameter>` element.
 
 Example:
 ```

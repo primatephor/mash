@@ -1,11 +1,13 @@
 # Introduction #
 
-To run as a system test, the harness runner has a JUnit implementation.  This provides an easy way to inline ant and get the full JUnit reporting functionality.
+To run as a system test, the harness runner has a JUnit implementation. 
+This provides an easy way to inline ant and get the full JUnit reporting functionality.
 
 
 # Details #
 
-JUnit tests are build using the ScriptDefinition and packaged as a JUnit `TestSuite`.  The `ErrorFormatter` formats the HarnessError nicely for the junit report mechanism.
+JUnit tests are build using the ScriptDefinition and packaged as a JUnit `TestSuite`. 
+The `ErrorFormatter` formats the HarnessError nicely for the junit report mechanism.
 
 To invoke with Ant, here's a sample ant project:
 ```
@@ -60,6 +62,9 @@ To invoke with Ant, here's a sample ant project:
 </project>
 ```
 
-Now any continuous integration software can run this system test, using the `src/SystemTest.xml` SuiteDefinition to invoke all the Scripts as a system test.
+Now any continuous integration software can run this system test, using the `src/SystemTest.xml` 
+[SuiteDefinition](SuiteDefinition.md) to invoke all the Scripts as a system test.
 
-To specify which tagged scripts to run, invoke Ant with a comma separated list of tags and the runner will filter based on that.  For instance: "ant -Dtags=user,web" would invoke all tests containing `<Tag>user</Tag>` and `<Tag>web</Tag>`.
+To specify which tagged scripts to run, invoke Ant with a comma separated list of tags and the runner will filter based 
+on that. 
+For instance: `ant -Dtags=user,web` would invoke all tests containing `<Tag>user</Tag>` and `<Tag>web</Tag>`.

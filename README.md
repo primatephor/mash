@@ -10,12 +10,14 @@ See the [ChangeList](docs/ChangeList.md) for what's new.
 
 # Quick Intro #
 There are four main harnesses for client invocation:
-  * SetupHarness (setting up a run)
-  * RunHarness (perform some work)
-  * VerifyHarness (prove that work proceeded as expected)
-  * TeardownHarness (cleanup after running)
+  * [SetupHarness](docs/development/SetupHarness.md) (setting up a run)
+  * [RunHarness](docs/development/RunHarness.md) (perform some work)
+  * [VerifyHarness](docs/development/VerifyHarness.md) (prove that work proceeded as expected)
+  * [TeardownHarness](docs/development/TeardownHarness.md) (cleanup after running)
 
 For more information on the current harness implementations, see the [HarnessImplementations](docs/implementations/HarnessImplementations.md) page
+
+For more information on developing your own harnesses, see [DevelopingHarnesses](docs/development/DevelopingHarnesses.md)
 
 Harness runs (Scripts) are arranged together via a Suite.  Each Script has a series of tags to make running only specific tagged Scripts easy.  This means that if you only want to run scripts with a specific tag, you need only supply that tag and MASH will filter all other scripts.
 

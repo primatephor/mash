@@ -4,14 +4,14 @@ Send and receive and text message on a jms queue.
 
 # Configuration #
 Configuration values:
-  * 'provider\_url' = url of the JMS provider
-  * 'queue' = the queue to connect to for send / receive
+  * `provider_url` = url of the JMS provider
+  * `queue` = the queue to connect to for send / receive
 
 # Parameter #
 These parameters should be grouped:
-  * 'action' = SEND or RECEIVE
-  * 'message' = to be sent
-  * 'property' = name / value pair to set as message property (format: name=value)
+  * `action` = SEND or RECEIVE
+  * `message` = to be sent
+  * `property` = name / value pair to set as message property (format: name=value)
 
 To send a message:
 ```
@@ -24,7 +24,7 @@ To send a message:
     </Run>
 ```
 
-Sending the xml in 'data/toSend.txt' to the jms queue (a text message) on the server 'some.server.com:1099'.
+Sending the xml in `data/toSend.txt` to the jms queue (a text message) on the server `some.server.com:1099`.
 
 To receive a message:
 ```
@@ -39,4 +39,5 @@ To receive a message:
     </Verify>
 ```
 
-This will pick the first message off the queue, and verify it has the property 'name' and contains the text 'some text in the file'
+This will pick the first message off the queue, and verify it has the property `name` and contains the text 
+`some text in the file`

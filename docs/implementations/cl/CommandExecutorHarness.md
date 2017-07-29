@@ -4,9 +4,9 @@ Executes a terminal command
 # Configuration #
 
 # Parameter #
-  * 'command' = any string that will be run as a command.
-  * 'commandHomeDir' = execution path where the command can be found.  Optional.
-  * 'currentWorkingDir' = directory against which the command should be run.  Optional.
+  * `command` = any string that will be run as a command.
+  * `commandHomeDir` = execution path where the command can be found.  Optional.
+  * `currentWorkingDir` = directory against which the command should be run.  Optional.
 
 # Sample Usages #
 ## Case One ##
@@ -21,4 +21,4 @@ Executes a terminal command
     </Run>
 ```
 
-Mash will execute 'myScript.sh' that is found in '/usr/local/bin/'.
+Mash will execute `myScript.sh` that is found in `/usr/local/bin/`.

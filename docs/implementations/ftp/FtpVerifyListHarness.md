@@ -4,10 +4,10 @@ Verify a file and some simple attributes on a server
 
 # Configuration #
 Configuration values:
-  * 'file\_name' = name of file to verify
+  * `file_name` = name of file to verify
 
 # Parameter #
-  * 'size' = size of file on server
+  * `size` = size of file on server
 
 # Sample Usage #
 ```
@@ -25,4 +25,4 @@ Configuration values:
     </Verify>
 ```
 
-Here a file named 'file.txt' attributes are retrieved and it's size is checked to be 1024.
+Here a file named `file.txt` attributes are retrieved and it`s size is checked to be 1024.

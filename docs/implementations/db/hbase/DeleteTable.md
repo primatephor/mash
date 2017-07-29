@@ -4,10 +4,10 @@ Given the supplied configuration resources, delete the table of the specified na
 
 # Configuration #
 Configuration parameters:
-  * 'site\_config' = path to file of site config(s)
+  * `site_config` = path to file of site config(s)
 
 # Parameter #
-  * 'table' = name of the table to delete
+  * `table` = name of the table to delete
 
 # Sample Usage #
 ```

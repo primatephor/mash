@@ -4,7 +4,7 @@ Just wait for the specified time, usually for waiting for asynchronous processes
 
 # Configuration #
 Configuration values:
-  * 'wait\_time' = time in milliseconds to wait
+  * `wait_time` = time in milliseconds to wait
 
 # Sample Usage #
 ```

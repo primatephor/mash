@@ -4,19 +4,20 @@ Scan a table, but apply a filter to bound the results
 
 # Configuration #
 Configuration parameters:
-  * 'site\_config' = path to file of site config(s)
-  * 'table' = name of the table to insert into
+  * `site_config` = path to file of site config(s)
+  * `table` = name of the table to insert into
 
 # Parameter #
-  * 'filter' = the column to filter, with the format 'family:qualifier=value'
-  * 'compare\_operation' = operation to compare value in filter with.  For instance, if value in 'filter' is 40000, and 'compare\_operation' is 'LESS', then every value less than 40000 will be retrieved.  Valid values:
+  * `filter` = the column to filter, with the format `family:qualifier=value`
+  * `compare_operation` = operation to compare value in filter with.  For instance, if value in `filter` is 40000, 
+  and `compare_operation` is `LESS`, then every value less than 40000 will be retrieved.  Valid values:
     * LESS
     * LESS\_OR\_EQUAL
     * EQUAL
     * NOT\_EQUAL
     * GREATER\_OR\_EQUAL
     * GREATER
-  * 'column' =  column to retrieve, with the format 'family:qualifier'
+  * `column` =  column to retrieve, with the format `family:qualifier`
 
 # Sample Usage #
 ```
@@ -86,4 +87,5 @@ Configuration parameters:
     </Verify>
 ```
 
-The first filter scans the table, and only retrieves values where address:zip=12345.  The second filter gets all where zip is less than 40000.
+The first filter scans the table, and only retrieves values where `address:zip=12345`. 
+The second filter gets all where zip is less than `40000`.

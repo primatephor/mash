@@ -4,12 +4,12 @@ Scan a table to retrieve all columns / qualifiers
 
 # Configuration #
 Configuration parameters:
-  * 'site\_config' = path to file of site config(s)
-  * 'table' = name of the table to insert into
+  * `site_config` = path to file of site config(s)
+  * `table` = name of the table to insert into
 
 # Parameter #
-  * 'key' = unique id of the row
-  * 'column' =  column to retrieve, with the format 'family:qualifier'
+  * `key` = unique id of the row
+  * `column` =  column to retrieve, with the format `family:qualifier`
 
 # Sample Usage #
 ```
@@ -72,4 +72,6 @@ Configuration parameters:
     </Verify>
 ```
 
-In the first scan, retrieval of a specific row is retrieved.  Verification shows a single result of multiple entries.  The second scan retrieves all 'address' family columns, getting both rows inserted in this particular table.
+In the first scan, retrieval of a specific row is retrieved. 
+Verification shows a single result of multiple entries. 
+The second scan retrieves all `address` family columns, getting both rows inserted in this particular table.

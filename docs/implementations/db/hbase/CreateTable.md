@@ -4,11 +4,11 @@ Given the supplied configuration resources, create the table of the specified na
 
 # Configuration #
 Configuration parameters:
-  * 'site\_config' = path to file of site config(s)
+  * `site_config` = path to file of site config(s)
 
 # Parameter #
-  * 'table' = name of the table to create
-  * 'family' = family to add to the table
+  * `table` = name of the table to create
+  * `family` = family to add to the table
 
 # Sample Usage #
 ```
@@ -43,4 +43,4 @@ Configuration parameters:
     </Setup>
 ```
 
-This will create an HBase table named 'dataset' with the families: key, address, header, auth, and client.
+This will create an HBase table named `dataset` with the families: key, address, header, auth, and client.
