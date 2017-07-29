@@ -8,10 +8,10 @@ This is the list of supplied harnesses.  To build your own, check out Developing
   
 | **Harness** | **type attribute** | **Description** |
 | --- | --- | --- |
-| [DBSetupHarness](docs/implementations/db/DBSetupHarness.md) | db                 | uses dbunit, runs sql |
-| [DBWaitHarness](docs/implementations/db/DBWaitHarness.md) | db\_wait           | wait for a particular state in the db |
-| [RowRunHarness](docs/implementations/db/RowRunHarness.md) | db\_row            | runs a 'select `*`' on a table |
-| [SQLRunHarness](docs/implementations/db/SQLRunHarness.md) | sql                | run any sql     |
+| [DBSetupHarness](db/sql/DBSetupHarness.md) | db                 | uses dbunit, runs sql |
+| [DBWaitHarness](db/sql/DBWaitHarness.md) | db\_wait           | wait for a particular state in the db |
+| [RowRunHarness](db/sql/RowRunHarness.md) | db\_row            | runs a 'select `*`' on a table |
+| [SQLRunHarness](db/sql/SQLRunHarness.md) | sql                | run any sql     |
 
 # HBase DB #
   * `mash-dbharness.jar`
