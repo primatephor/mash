@@ -1,0 +1,28 @@
+# Introduction #
+
+Invoke a restful http request (CREATE, READ, UPDATE, and DELETE are supported) against a web resource.  Based on the HttpRunHarness.
+
+# Configuration #
+Configuration values:
+  * 'url' = url of the resource
+  * 'verb' = CREATE, READ, UPDATE, DELETE
+  * 'clean' = true/false, resets the web conversation accordingly (like closing browser)
+
+# Parameter #
+Parameters are any form or query string values to be passed along with the web request, as well as the special values:
+  * 'body' = Resource body to be submitted
+  * 'content\_type' = optional type of content to submit (default is text/xml)
+
+# Sample Usage #
+```
+    <Run type="org.mash.harness.rest.RestRunHarness">
+        <Configuration name="url"><Value>http://my.test.system/resource</Value></Configuration>
+        <Configuration name="verb"><Value>UPDATE</Value></Configuration>
+        <Parameter name="body" file="some_submission.xml"/>
+    </Run>
+    <Verify type="org.mash.harness.StandardVerifyHarness">
+        <Parameter name="/User/Name/LastName"><Value>squarepants</Value></Parameter>        
+    </Verify>
+```
+
+The file 'some\_submission.xml' is an xml as specified by the resource at the url 'http://my.test.system/resource'.  This will perform a POST (update) of the data to the url.  The response is verified to contain the last name in the appropriate element.

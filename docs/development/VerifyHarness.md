@@ -1,0 +1,20 @@
+# Introduction #
+
+The VerifyHarness verifies the state of invoked runs and setups.
+
+See DevelopingHarnesses for information on harness development
+
+# Details #
+
+The verify harness interface:
+
+  * `void verify(RunHarness run, List<SetupHarness> setup)`
+
+As with all other harnesses, it accepts
+  * Configurations (see ConfigurationDefinition)
+  * Parameters (see ParameterDefinition)
+  * has a list off errors (see HarnessError)
+
+Extending the supplied base harness will provide most of this functionality, and the developer only needs to implement the verify() method.
+
+The verification should retrieve the response from the run, and pull together any necessary data from the harness or setup list to verify that the run is correct.

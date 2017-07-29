@@ -6,7 +6,7 @@ However MASH could also be used more as a general client invocation infrastructu
 Much of the documentation here will focus on the system testing functionality supplied with the mash build, as this was the original intent and primary usage.  The downloadable `SystemTestDesign.pdf` is the original (and probably out of date) design document for this system.  This is highly recommended reading.
 
 # ANNOUNCEMENT #
-See the [ChangeList](docs/ChangeList.md) for what's new.
+See the [ChangeList](ChangeLIst.md) for what's new.
 
 # Quick Intro #
 There are four main harnesses for client invocation:
@@ -15,7 +15,7 @@ There are four main harnesses for client invocation:
   * VerifyHarness (prove that work proceeded as expected)
   * TeardownHarness (cleanup after running)
 
-For more information on the current harness implementations, see the [HarnessImplementations](docs/implementations/HarnessImplementations.md) page
+For more information on the current harness implementations, see the [HarnessImplementations](HarnessImplementations.md) page
 
 Harness runs (Scripts) are arranged together via a Suite.  Each Script has a series of tags to make running only specific tagged Scripts easy.  This means that if you only want to run scripts with a specific tag, you need only supply that tag and MASH will filter all other scripts.
 
@@ -54,7 +54,7 @@ Here's a sample Script as system test:
 </ns1:Script>
 
 ```
-For more information on Scripts, see the [ScriptDefinition](docs/ScriptDefinition.md) page.
+For more information on Scripts, see the [ScriptDefinition](ScriptDefinition.md) page.
 
 
 This Script would get called through a Suite definition that lists all Scripts or directories containing scripts:
@@ -64,8 +64,8 @@ This Script would get called through a Suite definition that lists all Scripts o
     <Script dir="some_directory"/>
 </ns1:Suite>
 ```
-For more information on Suites, see the [SuiteDefinition](docs/SuiteDefinition.md) page
+For more information on Suites, see the [SuiteDefinition](SuiteDefinition.md) page
 
 You can run these scripts through various means:
-  * Junit through ANT.  See [JunitRunner](docs/JunitRunner.md)
-  * java command line invocation (or within an IDE).  See [JavaRuns](docs/JavaRuns.md)
+  * Junit through ANT.  See [JunitRunner](JunitRunner.md)
+  * java command line invocation (or within an IDE).  See [JavaRuns](JavaRuns.md)
