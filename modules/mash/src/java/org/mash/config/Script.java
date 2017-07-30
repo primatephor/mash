@@ -25,9 +25,9 @@ import java.util.List;
         "tag",
         "parameter",
         "harnesses"
-        }, namespace = "http://code.google.com/p/mash/schema/V1")
+        }, namespace = "https://github.com/primatephor/mash/schema/V1")
 
-@XmlRootElement(name = "Script", namespace = "http://code.google.com/p/mash/schema/V1")
+@XmlRootElement(name = "Script", namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Script implements ScriptDefinition
 {
     @XmlElements({

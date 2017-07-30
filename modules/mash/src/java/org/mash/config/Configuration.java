@@ -14,7 +14,7 @@ import java.util.List;
         "date",
         "response",
         "replace"
-        }, namespace = "http://code.google.com/p/mash/schema/V1")
+        }, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Configuration extends BaseParameter implements Replaceable
 {
     @XmlElement(name = "Replace")

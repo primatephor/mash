@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Response", propOrder = {
         "value"
-}, namespace = "http://code.google.com/p/mash/schema/V1")
+}, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Response
 {
 

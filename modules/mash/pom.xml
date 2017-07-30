@@ -23,7 +23,7 @@
     <dependencies>
         <!-- external dependencies -->
         <dependency>
-            <groupId>com.impetus</groupId>
+            <groupId>tv.cntt</groupId>
             <artifactId>annovention</artifactId>
         </dependency>
         <dependency>
@@ -31,7 +31,7 @@
             <artifactId>activation</artifactId>
         </dependency>
         <dependency>
-            <groupId>javassist</groupId>
+            <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
         </dependency>
         <dependency>
@@ -41,6 +41,10 @@
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jettison</groupId>

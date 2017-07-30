@@ -16,7 +16,6 @@ import java.util.Map;
 
 /**
  *
- * @author
  * @since Sep 17, 2009 1:34:00 PM
  *
  */
@@ -30,8 +29,8 @@ public class AnnotatedHarness implements Harness
     {
         this.wrap = wrap;
         Method[] methods = wrap.getClass().getMethods();
-        paramSetters = new HashMap<String, Method>();
-        configSetters = new HashMap<String, Method>();
+        paramSetters = new HashMap<>();
+        configSetters = new HashMap<>();
         for (Method method : methods)
         {
             HarnessConfiguration config = method.getAnnotation(HarnessConfiguration.class);

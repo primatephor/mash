@@ -23,7 +23,7 @@ public class TestParameterBuilder extends TestCase
 {
     public void testDateReplace() throws Exception
     {
-        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"http://code.google.com/p/mash/schema/V1\">\n" +
+        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"https://github.com/primatephor/mash/schema/V1\">\n" +
                           "    <Tag>fasttrack</Tag>\n" +
                           "    <Tag>website</Tag>\n" +
                           "    <Setup type=\"org.mash.harness.DBSetupHarness\">\n" +
@@ -57,7 +57,7 @@ public class TestParameterBuilder extends TestCase
 
     public void testAnnotation() throws Exception
     {
-        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"http://code.google.com/p/mash/schema/V1\">\n" +
+        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"https://github.com/primatephor/mash/schema/V1\">\n" +
                           "    <Tag>fasttrack</Tag>\n" +
                           "    <Tag>website</Tag>\n" +
                           "    <Setup type=\"org.mash.harness.AnnotatedDBSetupHarness\">\n" +
@@ -92,7 +92,7 @@ public class TestParameterBuilder extends TestCase
 
     public void testNameConfig() throws Exception
     {
-        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"http://code.google.com/p/mash/schema/V1\">\n" +
+        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"https://github.com/primatephor/mash/schema/V1\">\n" +
                           "    <Tag>fasttrack</Tag>\n" +
                           "    <Tag>website</Tag>\n" +
                           "    <Setup type=\"org.mash.harness.DBSetupHarness\">\n" +
@@ -129,7 +129,7 @@ public class TestParameterBuilder extends TestCase
 
     public void testContext() throws Exception
     {
-        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"http://code.google.com/p/mash/schema/V1\">\n" +
+        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"https://github.com/primatephor/mash/schema/V1\">\n" +
                 "    <Tag>fasttrack</Tag>\n" +
                 "    <Tag>website</Tag>\n" +
                 "    <Setup type=\"org.mash.harness.DBSetupHarness\">\n" +

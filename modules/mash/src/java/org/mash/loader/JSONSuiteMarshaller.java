@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author
  * @since Dec 5, 2011 1:26:57 PM
  */
 public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
@@ -74,7 +73,6 @@ public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
                 JSONObject jsonObject = new JSONObject(data);
                 Configuration config = new Configuration();
                 config.setXmlToJsonNamespaces(getNamespaceMapping());
-                config.setImplicitCollections(true);
                 MappedNamespaceConvention con = new MappedNamespaceConvention(config);
 
                 XMLStreamReader xmlStreamReader = new MappedXMLStreamReader(jsonObject, con);
@@ -95,7 +93,7 @@ public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
         {
             namespaceMappings= new HashMap<String, String>();
             namespaceMappings.put("http://www.w3.org/2001/XMLSchema-instance", "schema");
-            namespaceMappings.put("http://code.google.com/p/mash/schema/V1", "");
+            namespaceMappings.put("https://github.com/primatephor/mash/schema/V1", "");
         }
         return namespaceMappings;
     }

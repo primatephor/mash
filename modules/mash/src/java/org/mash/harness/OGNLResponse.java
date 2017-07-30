@@ -1,11 +1,16 @@
 package org.mash.harness;
 
+import ognl.MemberAccess;
 import ognl.Ognl;
+import ognl.OgnlContext;
 import ognl.OgnlException;
 import org.apache.log4j.Logger;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,10 +22,26 @@ public class OGNLResponse implements RunResponse
 {
     private static final Logger log = Logger.getLogger(OGNLResponse.class.getName());
     private Object access;
+    private OgnlContext context;
 
     public OGNLResponse(Object access)
     {
         this.access = access;
+        context = new OgnlContext(null, null, new MemberAccess() {
+            @Override
+            public Object setup(Map context, Object target, Member member, String propertyName) {
+                return target;
+            }
+
+            @Override
+            public void restore(Map context, Object target, Member member, String propertyName, Object state) {
+            }
+
+            @Override
+            public boolean isAccessible(Map context, Object target, Member member, String propertyName) {
+                return true;
+            }
+        });
     }
 
     public String getValue(String name)
@@ -28,7 +49,7 @@ public class OGNLResponse implements RunResponse
         String result = null;
         try
         {
-            Object found = Ognl.getValue(name, access);
+            Object found = Ognl.getValue(name, context, access);
             if (found != null)
             {
                 result = found.toString();
@@ -46,7 +67,7 @@ public class OGNLResponse implements RunResponse
         Collection<String> result = new ArrayList<String>();
         try
         {
-            Object found = Ognl.getValue(name, access);
+            Object found = Ognl.getValue(name, context, access);
             if (found != null && found instanceof Collection)
             {
                 Collection foundResults = (Collection) found;

@@ -1,4 +1,4 @@
-<ns1:Script name="script4" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+<ns1:Script name="script4" xmlns:ns1="https://github.com/primatephor/mash/schema/V1">
     <Setup type="org.mash.harness.DBSetupHarness" name="s4_db">
         <Configuration name="clean">true</Configuration>
     </Setup>

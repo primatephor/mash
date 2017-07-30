@@ -122,7 +122,7 @@ public class HarnessBuilder
             // Register class annotation listener
             NamedClassDiscover namedClassDiscover = new NamedClassDiscover();
             discoverer.addAnnotationListener(namedClassDiscover);
-            discoverer.discover();
+            discoverer.discover(true, false, false, true, false);
             types = buildTypes(namedClassDiscover.classes);
         }
         return types;

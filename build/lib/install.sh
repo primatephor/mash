@@ -1,10 +1,10 @@
 #!/bin/bash
 
-mvn install::install-file -Dfile=annovention-0.1.jar -DgroupId=com.impetus -DartifactId=annovention -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
+mvn install::install-file -Dfile=annovention-1.7.jar -DgroupId=tv.cntt -DartifactId=annovention -Dversion=1.7 -Dpackaging=jar -DcreateChecksum=true
 mvn install::install-file -Dfile=commons-net-ftp-2.0.jar -DgroupId=commons-net-ftp -DartifactId=commons-net-ftp -Dversion=2.0 -Dpackaging=jar -DcreateChecksum=true
 mvn install::install-file -Dfile=dbunit-2.4.5.jar -DgroupId=dbunit -DartifactId=dbunit -Dversion=2.4.5 -Dpackaging=jar -DcreateChecksum=true
-mvn install::install-file -Dfile=hadoop-common-0.21.0.jar -DgroupId=org.apache.hadoop -DartifactId=hadoop-common -Dversion=0.21.0 -Dpackaging=jar -DcreateChecksum=true
-mvn install::install-file -Dfile=hbase-0.20.6.jar -DgroupId=org.apache.hbase -DartifactId=hbase -Dversion=0.20.6 -Dpackaging=jar -DcreateChecksum=true
+mvn install::install-file -Dfile=hadoop-common-2.7.3.jar -DgroupId=org.apache.hadoop -DartifactId=hadoop-common -Dversion=2.7.3 -Dpackaging=jar -DcreateChecksum=true
+mvn install::install-file -Dfile=hbase-client-1.2.5.jar -DgroupId=org.apache.hbase -DartifactId=hbase-client -Dversion=1.2.5 -Dpackaging=jar -DcreateChecksum=true
 mvn install::install-file -Dfile=htmlunit-2.6.jar -DgroupId=net.sourceforge.htmlunit -DartifactId=htmlunit -Dversion=2.6 -Dpackaging=jar -DcreateChecksum=true
 mvn install::install-file -Dfile=htmlunit-core-js-2.6.jar -DgroupId=net.sourceforge.htmlunit -DartifactId=htmlunit-core-js -Dversion=2.6 -Dpackaging=jar -DcreateChecksum=true
 mvn install::install-file -Dfile=jboss-aop-client.jar -DgroupId=jboss -DartifactId=jboss-aop-client -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
