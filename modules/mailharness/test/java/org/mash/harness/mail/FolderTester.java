@@ -1,11 +1,9 @@
 package org.mash.harness.mail;
 
-import javax.mail.Folder;
-import javax.mail.MessagingException;
-import javax.mail.Flags;
-import javax.mail.Message;
+import javax.mail.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  *
@@ -20,7 +18,8 @@ public class FolderTester extends Folder
 
     public FolderTester()
     {
-        super(null);
+        super(new StoreTester());
+        ((StoreTester)getStore()).theFolder = this;
     }
 
     public String getName()

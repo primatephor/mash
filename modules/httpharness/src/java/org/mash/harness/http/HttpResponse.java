@@ -4,7 +4,7 @@ import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import org.apache.commons.httpclient.Cookie;
+import com.gargoylesoftware.htmlunit.util.Cookie;
 import org.apache.log4j.Logger;
 import org.mash.harness.RunResponse;
 import org.xml.sax.SAXException;
@@ -104,7 +104,7 @@ public class HttpResponse implements RunResponse
 
     private void retrieveByElementName(String name, Collection<String> results)
     {
-        Iterable<HtmlElement> iters = webPage.getAllHtmlChildElements();
+        Iterable<HtmlElement> iters = webPage.getHtmlElementDescendants();
         for (HtmlElement iter : iters)
         {
             String value = null;
@@ -154,7 +154,7 @@ public class HttpResponse implements RunResponse
         Collection<String> results = Collections.emptyList();
         try
         {
-            Iterable<HtmlElement> elements = webPage.getAllHtmlChildElements();
+            Iterable<HtmlElement> elements = webPage.getHtmlElementDescendants();
             for (HtmlElement element : elements)
             {
                 results.addAll(getValues(element.getNodeName()));

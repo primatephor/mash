@@ -23,8 +23,8 @@
     <dependencies>
         <!-- external dependencies -->
         <dependency>
-            <groupId>tv.cntt</groupId>
-            <artifactId>annovention</artifactId>
+            <groupId>io.github.lukehutch</groupId>
+            <artifactId>fast-classpath-scanner</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>

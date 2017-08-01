@@ -1,6 +1,6 @@
 package org.mash.harness.http;
 
-import com.gargoylesoftware.htmlunit.WebRequestSettings;
+import com.gargoylesoftware.htmlunit.WebRequest;
 import junit.framework.TestCase;
 
 import java.net.URI;
@@ -22,7 +22,7 @@ public class TestURITweak extends TestCase
     public void testRequest() throws Exception
     {
         StandardRequestFactory requestFactory = new StandardRequestFactory();
-        WebRequestSettings webRequest= requestFactory.createRequest(null, "http://www.myhost.com/test?thisParam=thisValue", null);
+        WebRequest webRequest= requestFactory.createRequest(null, "http://www.myhost.com/test?thisParam=thisValue", null);
         assertEquals("http://www.myhost.com/test?thisParam=thisValue", webRequest.getUrl().toString());
     }
 }

@@ -1,8 +1,8 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.HttpMethod;
-import com.gargoylesoftware.htmlunit.WebRequestSettings;
-import org.apache.commons.httpclient.NameValuePair;
+import com.gargoylesoftware.htmlunit.WebRequest;
+import com.gargoylesoftware.htmlunit.util.NameValuePair;
 import org.apache.log4j.Logger;
 
 import java.net.URI;
@@ -20,9 +20,9 @@ public class StandardRequestFactory implements WebRequestFactory
     private static final Logger log = Logger.getLogger(StandardRequestFactory.class.getName());
     public static String BODY = "body";
 
-    public WebRequestSettings createRequest(String methodType, String url, Map<String, String> contents) throws Exception
+    public WebRequest createRequest(String methodType, String url, Map<String, String> contents) throws Exception
     {
-        WebRequestSettings settings = null;
+        WebRequest settings;
         String body = null;
         if (contents != null && contents.get(BODY) != null)
         {
@@ -35,37 +35,32 @@ public class StandardRequestFactory implements WebRequestFactory
             method = Method.valueOf(methodType.toUpperCase());
         }
 
-        if (method != null)
+        URL theUrl = new URI(url).toURL();
+        HttpMethod httpMethod = method.getMethod();
+        settings = new WebRequest(theUrl, httpMethod);
+        if (body != null)
         {
-            URL theUrl = new URI(url).toURL();
-            HttpMethod httpMethod = method.getMethod();
-            settings = new WebRequestSettings(theUrl, httpMethod);
-            if (body != null)
-            {
-                settings.setRequestBody(body);
-            }
-            else
-            {
-                populateRequestParameters(contents, settings);
-            }
+            settings.setRequestBody(body);
+        }
+        else
+        {
+            populateRequestParameters(contents, settings);
         }
         return settings;
     }
 
-    protected void populateRequestParameters(Map<String, String> contents, WebRequestSettings request)
+    protected void populateRequestParameters(Map<String, String> contents, WebRequest request)
     {
         if(contents != null)
         {
             Set<String> keys = contents.keySet();
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            List<NameValuePair> params = new ArrayList<>();
             for (String key : keys)
             {
                 if (!BODY.equals(key))
                 {
                     log.info("Adding parameter '" + key + "' as:" + contents.get(key));
-                    NameValuePair pair = new NameValuePair();
-                    pair.setName(key);
-                    pair.setValue(contents.get(key));
+                    NameValuePair pair = new NameValuePair(key, contents.get(key));
                     params.add(pair);
                 }
             }

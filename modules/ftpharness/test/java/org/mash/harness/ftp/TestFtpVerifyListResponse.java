@@ -3,14 +3,12 @@ package org.mash.harness.ftp;
 import junit.framework.TestCase;
 import org.apache.commons.net.ftp.FTPFile;
 import org.mash.config.Parameter;
-import org.mash.harness.SetupHarness;
 import org.mash.harness.StandardVerifyHarness;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author
  * @since Sep 22, 2009 12:20:09 PM
  *
  */
@@ -30,7 +28,7 @@ public class TestFtpVerifyListResponse extends TestCase
         verify.getParameters().add(param);
         param = new Parameter("file3", "file3");
         verify.getParameters().add(param);
-        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals("Parameter file3 Expected:'file3' but was 'null'", verify.getErrors().get(0).getDescription());
     }
 
@@ -45,18 +43,19 @@ public class TestFtpVerifyListResponse extends TestCase
 
         FTPVerifyListHarness verify = new FTPVerifyListHarness();
         verify.setFileName("file3");
-        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals("No file size specified while checking size", verify.getErrors().get(0).getDescription());
 
         verify.setFileSize("1000");
         verify.getErrors().clear();
-        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals("File 'file3' Not Found", verify.getErrors().get(0).getDescription());
 
         verify = new FTPVerifyListHarness();
         verify.setFileName("file1");
-        verify.setFileSize("0");
-        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        verify.setFileSize("-1");
+        verify.getErrors().clear();
+        verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals(0, verify.getErrors().size());
     }
 
@@ -75,13 +74,13 @@ public class TestFtpVerifyListResponse extends TestCase
         FTPVerifyListHarness verify = new FTPVerifyListHarness();
         verify.setFileName("file1");
         verify.setFileSize("200");
-        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals("File size is '1000' but expected '200'", verify.getErrors().get(0).getDescription());
 
         verify = new FTPVerifyListHarness();
         verify.setFileName("file2");
         verify.setFileSize("2000");
-        verify.verify(new BogusFTPRun(response), new ArrayList<SetupHarness>());
+        verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals(0, verify.getErrors().size());
     }
 

@@ -29,7 +29,6 @@ import org.mash.loader.HarnessParameter;
  * <li> 'ftp_params' parameters to apply to the operation </li>
  * </ul>
  *
- * @author
  * @since Sep 17, 2009 10:20:40 AM
  *
  */
