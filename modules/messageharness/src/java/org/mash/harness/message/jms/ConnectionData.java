@@ -14,7 +14,6 @@ import javax.jms.JMSException;
 
 /**
  *
- * @author
  * @since Jan 29, 2010 3:31:55 PM
  *
  */

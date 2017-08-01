@@ -12,7 +12,6 @@ import javax.jms.Topic;
 
 /**
  *
- * @author
  * @since Jan 29, 2010 4:00:29 PM
  *
  */
@@ -75,5 +74,29 @@ public class ConfigConnection implements Connection
     public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String s, String s1, ServerSessionPool serverSessionPool, int i) throws JMSException
     {
         throw new UnsupportedOperationException("Method createDurableConnectionConsumer not yet implemented");
+    }
+
+    @Override
+    public Session createSession(int i) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public Session createSession() throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String s, String s1, ServerSessionPool serverSessionPool, int i) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String s, String s1, ServerSessionPool serverSessionPool, int i) throws JMSException
+    {
+        return null;
     }
 }

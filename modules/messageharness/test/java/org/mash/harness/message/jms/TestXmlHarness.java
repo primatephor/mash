@@ -7,11 +7,9 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
 import org.mash.harness.message.SendException;
-import org.jboss.mq.SpyTextMessage;
 
 /**
  *
- * @author
  * @since Jan 29, 2010 3:39:07 PM
  *
  */
@@ -52,7 +50,7 @@ public class TestXmlHarness extends TestCase
                          "  <child>data1</child>" +
                          "  <child2>data2</child2>" +
                          "</base>";
-        SpyTextMessage msg = new SpyTextMessage();
+        TextMessage msg = new TextMessageImpl();
         msg.setText(message);
         msg.setStringProperty("prop1", "value1");
         msg.setStringProperty("prop2", "value2");

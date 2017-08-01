@@ -1,13 +1,9 @@
 package org.mash.harness.message.jms;
 
-import javax.jms.MessageProducer;
-import javax.jms.JMSException;
-import javax.jms.Destination;
-import javax.jms.Message;
+import javax.jms.*;
 
 /**
  *
- * @author
  * @since Feb 1, 2010 9:37:45 AM
  *
  */
@@ -98,5 +94,41 @@ public class ConfigProducer implements MessageProducer
     public void send(Destination destination, Message message, int i, int i1, long l) throws JMSException
     {
         this.message = message;
+    }
+
+    @Override
+    public void setDeliveryDelay(long l) throws JMSException
+    {
+        
+    }
+
+    @Override
+    public long getDeliveryDelay() throws JMSException
+    {
+        return 0;
+    }
+
+    @Override
+    public void send(Message message, CompletionListener completionListener) throws JMSException
+    {
+
+    }
+
+    @Override
+    public void send(Message message, int i, int i1, long l, CompletionListener completionListener) throws JMSException
+    {
+
+    }
+
+    @Override
+    public void send(Destination destination, Message message, CompletionListener completionListener) throws JMSException
+    {
+
+    }
+
+    @Override
+    public void send(Destination destination, Message message, int i, int i1, long l, CompletionListener completionListener) throws JMSException
+    {
+
     }
 }

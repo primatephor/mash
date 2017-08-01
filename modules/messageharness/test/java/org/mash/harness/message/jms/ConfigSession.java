@@ -1,6 +1,5 @@
 package org.mash.harness.message.jms;
 
-import org.jboss.mq.SpyTextMessage;
 
 import javax.jms.Session;
 import javax.jms.BytesMessage;
@@ -24,7 +23,6 @@ import java.io.Serializable;
 
 /**
  *
- * @author
  * @since Jan 29, 2010 4:00:48 PM
  *
  */
@@ -85,12 +83,12 @@ public class ConfigSession implements Session
 
     public TextMessage createTextMessage() throws JMSException
     {
-        return new SpyTextMessage();
+        return new TextMessageImpl();
     }
 
     public TextMessage createTextMessage(String s) throws JMSException
     {
-        SpyTextMessage msg = new SpyTextMessage();
+        TextMessage msg = createTextMessage();
         msg.setText(s);
         return msg;
     }
@@ -200,5 +198,41 @@ public class ConfigSession implements Session
     public void unsubscribe(String s) throws JMSException
     {
         throw new UnsupportedOperationException("Method unsubscribe not yet implemented");
+    }
+
+    @Override
+    public MessageConsumer createSharedConsumer(Topic topic, String s) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public MessageConsumer createSharedConsumer(Topic topic, String s, String s1) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public MessageConsumer createDurableConsumer(Topic topic, String s) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public MessageConsumer createDurableConsumer(Topic topic, String s, String s1, boolean b) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public MessageConsumer createSharedDurableConsumer(Topic topic, String s) throws JMSException
+    {
+        return null;
+    }
+
+    @Override
+    public MessageConsumer createSharedDurableConsumer(Topic topic, String s, String s1) throws JMSException
+    {
+        return null;
     }
 }
