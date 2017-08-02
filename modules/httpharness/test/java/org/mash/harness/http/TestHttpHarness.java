@@ -1,6 +1,5 @@
 package org.mash.harness.http;
 
-import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import junit.framework.TestCase;
 import org.mash.config.Configuration;
@@ -38,18 +37,6 @@ public class TestHttpHarness extends TestCase
         client.submit("http://www.google.com/search", params, null);
         HtmlPage response = (HtmlPage) client.getWebResponse();
         assertEquals("System Test - Google Search", response.getTitleText());
-    }
-
-    public void testEmpty() throws Exception
-    {
-        HttpClient client = new HttpClient(new StandardRequestFactory(), "post");
-
-        //http://www.google.com/search
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("xml", "BOGUS");
-
-        Page page = client.getPage("http://dc1-build01:9000/telle", params, null);
-        assertNotNull("No repsonse page", page.getWebResponse());
     }
 
     public void testRunAndVerify() throws Throwable
