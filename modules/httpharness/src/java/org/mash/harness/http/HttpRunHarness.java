@@ -1,6 +1,7 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.CookieManager;
+import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -85,9 +86,9 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         }
     }
 
-    protected SgmlPage getSgmlPage()
+    protected Page getPage()
     {
-        SgmlPage result = null;
+        Page result = null;
         if (client != null)
         {
             result = client.getWebResponse();
@@ -119,7 +120,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
 
     public RunResponse getResponse()
     {
-        SgmlPage result = getSgmlPage();
+        Page result = getPage();
         if (result != null)
         {
             if (result instanceof XmlPage)

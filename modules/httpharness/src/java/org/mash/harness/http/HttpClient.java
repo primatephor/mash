@@ -15,7 +15,7 @@ public class HttpClient
 
     private WebClient client;
     private WebRequest webRequest;
-    private SgmlPage webResponse;
+    private Page webResponse;
     private WebRequestFactory factory;
     private String methodType;
     private String username;
@@ -51,6 +51,18 @@ public class HttpClient
 
     public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
+        webResponse = getPage(uri, contents, headers);
+    }
+
+    public Page getPage(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
+    {
+        initializeClient(uri, contents, headers);
+        log.info("Invoking client for "+webRequest.getUrl().toString());
+        return client.getPage(webRequest);
+    }
+
+    private void initializeClient(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
+    {
         client = WebConversationHolder.getInstance();
         client.getOptions().setJavaScriptEnabled(false);
         if (null != username && null != password)
@@ -82,16 +94,6 @@ public class HttpClient
             }
         }
         client.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        log.info("Invoking client for "+webRequest.getUrl().toString());
-        Page page = client.getPage(webRequest);
-        if (page instanceof SgmlPage)
-        {
-            webResponse = (SgmlPage) page;
-        }
-        else
-        {
-            log.warn("Unexpected response: " + page.getWebResponse().getContentAsString());
-        }
     }
 
     public WebClient getClient()
@@ -104,7 +106,7 @@ public class HttpClient
         return webRequest;
     }
 
-    public SgmlPage getWebResponse()
+    public Page getWebResponse()
     {
         return webResponse;
     }

@@ -57,10 +57,10 @@ public class RestRunHarness extends HttpRunHarness
     {
         if (xmlResponse == null)
         {
-            if (getSgmlPage() != null)
+            if (getPage() != null)
             {
                 LOG.debug("Pulling rest response");
-                xmlResponse = new RestResponse(getSgmlPage());
+                xmlResponse = new RestResponse(getPage());
             }
         }
         return xmlResponse;
