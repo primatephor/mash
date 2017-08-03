@@ -91,16 +91,6 @@ public class BaseHarness implements Harness
         return result;
     }
 
-    public String getConfigurationValue(String key)
-    {
-        return getBaseParameterValue(key, getConfiguration());
-    }
-
-    public String getParameterValue(String key)
-    {
-        return getBaseParameterValue(key, getParameters());
-    }
-
     public String getName()
     {
         String result = this.getClass().getName();

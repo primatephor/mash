@@ -21,15 +21,7 @@ public class HttpClient
     private String username;
     private String password;
     private String contentType;
-
-    public HttpClient(WebRequestFactory factory, String methodType, String username, String password, String contentType)
-    {
-        this.factory = factory;
-        this.methodType = methodType;
-        this.username = username;
-        this.password = password;
-        this.contentType = contentType;
-    }
+    private String acceptType;
 
     public HttpClient(WebRequestFactory factory, String methodType, String username, String password)
     {
@@ -42,11 +34,6 @@ public class HttpClient
     public HttpClient(WebRequestFactory factory, String methodType)
     {
         this(factory, methodType, null, null);
-    }
-
-    public HttpClient(WebRequestFactory factory)
-    {
-        this(factory, null);
     }
 
     public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
@@ -71,18 +58,9 @@ public class HttpClient
             credentials.addCredentials(username, password);
             client.setCredentialsProvider(credentials);
         }
-        if (null != contentType)
-        {
-            log.trace("Setting content type to " + contentType);
-            client.addRequestHeader("Accept", contentType);
-            client.addRequestHeader("Content-Type", contentType);
-        }
-        else
-        {
-            log.trace("Using default content type");
-            client.removeRequestHeader("Accept");
-            client.removeRequestHeader("Content-Type");
-        }
+
+        modifyRequestHeader("Accept", acceptType);
+        modifyRequestHeader("Content-Type", contentType);
         webRequest = factory.createRequest(methodType, uri, contents);
 
         if(headers != null && headers.size() > 0)
@@ -94,6 +72,27 @@ public class HttpClient
             }
         }
         client.getOptions().setThrowExceptionOnFailingStatusCode(false);
+    }
+
+    private void modifyRequestHeader(String name, String value) {
+        if(value != null)
+        {
+            log.trace("Setting request header "+name+" to "+value);
+            client.addRequestHeader(name, value);
+        }
+        else
+        {
+            log.trace("Removing request header "+name);
+            client.removeRequestHeader(name);
+        }
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public void setAcceptType(String acceptType) {
+        this.acceptType = acceptType;
     }
 
     public WebClient getClient()

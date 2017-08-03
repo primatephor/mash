@@ -1,7 +1,6 @@
 package org.mash.harness.rest;
 
 import org.apache.log4j.Logger;
-import org.mash.config.Configuration;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.RunResponse;
 import org.mash.harness.http.HttpClient;
@@ -11,14 +10,11 @@ import org.mash.harness.http.StandardRequestFactory;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 
-import java.util.List;
-
 /**
  * Configurations:
  * <ul>
  * <li> 'clean' will create a new web conversation </li>
  * <li> 'url' is the resource url </li>
- * <li> 'verb' is the type of rest request ('CREATE', 'READ', 'UPDATE', 'DELETE').  REQUIRED</li>
  * </ul>
  * <p/>
  * <p/>
@@ -37,11 +33,11 @@ public class RestRunHarness extends HttpRunHarness
     private RunResponse xmlResponse;
 
     private String contentType = DEFAULT_CONTENT_TYPE;
+    private String acceptType = DEFAULT_CONTENT_TYPE;
 
     public void run(HarnessContext context)
     {
         LOG.debug("Running restful harness");
-        String type = getConfigurationValue("type");
         if (Method.POST.name().equalsIgnoreCase(type) ||
             Method.PUT.name().equalsIgnoreCase(type))
         {
@@ -69,45 +65,27 @@ public class RestRunHarness extends HttpRunHarness
     @Override
     protected HttpClient getClient(String clientType, String username, String password)
     {
-        String contentType = getParameterValue("content_type");
-        if (null == contentType)
+        HttpClient client = new HttpClient(new StandardRequestFactory(), clientType, username, password);
+        if (null != contentType)
         {
-            contentType = this.contentType;
+            client.setContentType(contentType);
         }
-        return new HttpClient(new StandardRequestFactory(), clientType, username, password, contentType);
+        if (null != acceptType)
+        {
+            client.setAcceptType(acceptType);
+        }
+        return client;
     }
 
-    /**
-     * Replace the CRUD verb specification with the appropriate Http type.
-     *
-     * @param configuration list of configs, including type
-     */
-    public void setConfiguration(List<Configuration> configuration)
-    {
-        boolean typePresent = false;
-        for (Configuration config : configuration)
-        {
-            if ("verb".equals(config.getName()))
-            {
-                String type = config.getValue();
-                Verb verb = Verb.valueOf(type);
-                config.setValue(verb.getMethod().name());
-                config.setName("type");
-                typePresent = true;
-            }
-        }
-
-        if (!typePresent)
-        {
-            throw new IllegalArgumentException("'verb' configuration MUST be present");
-        }
-        super.setConfiguration(configuration);
-    }
-
-    @HarnessConfiguration(name = "contentType")
+    @HarnessConfiguration(name = "content_type")
     public void setContentType(String contentType)
     {
         this.contentType = contentType;
     }
 
+    @HarnessConfiguration(name = "accept_type")
+    public void setAcceptType(String acceptType)
+    {
+        this.acceptType = acceptType;
+    }
 }

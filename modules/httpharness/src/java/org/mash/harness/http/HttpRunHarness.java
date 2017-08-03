@@ -41,7 +41,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());
     public static final String CONTEXT_HEADER="header";
     private String url;
-    private String type;
+    protected String type;
     private String clean;
     private String username;
     private String password;
