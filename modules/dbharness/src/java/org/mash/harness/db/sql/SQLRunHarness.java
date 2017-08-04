@@ -131,15 +131,7 @@ public class SQLRunHarness extends BaseHarness implements RunHarness
         if (statement.execute(sql))
         {
             ResultSet results = statement.getResultSet();
-            if (!results.next())
-            {
-                log.info("No results found for sql ");
-            }
-            else
-            {
-                log.debug("Setting results");
-                result = new DBResult(results);
-            }
+            result = new DBResult(results);
             results.close();
         }
     }

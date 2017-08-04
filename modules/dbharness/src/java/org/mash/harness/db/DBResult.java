@@ -20,7 +20,6 @@ import java.util.Map;
 /**
  * DB results analyze the result set of the db invocation.  This only works with supplied column names.
  *
- * @author
  * @since Jan 8, 2010 3:24:50 PM
  *
  */
@@ -33,13 +32,20 @@ public class DBResult implements ListRunResponse
     public DBResult(ResultSet results) throws Exception
     {
         int count = 0;
-        log.debug("Retrieving row:" + count);
-        getResultSetData().add(addRow(results));
-        while (results.next())
+        if (!results.next())
+        {
+            log.info("No results found for sql ");
+        }
+        else
         {
             log.debug("Retrieving row:" + count);
-            count++;
             getResultSetData().add(addRow(results));
+            while (results.next())
+            {
+                log.debug("Retrieving row:" + count);
+                count++;
+                getResultSetData().add(addRow(results));
+            }
         }
     }
 
@@ -107,7 +113,7 @@ public class DBResult implements ListRunResponse
     {
         if (resultSetData == null)
         {
-            resultSetData = new ArrayList<ResultSetData>();
+            resultSetData = new ArrayList<>();
         }
         return resultSetData;
     }
@@ -151,7 +157,7 @@ public class DBResult implements ListRunResponse
         {
             if (resultSetData == null)
             {
-                resultSetData = new HashMap<String, String>();
+                resultSetData = new HashMap<>();
             }
             return resultSetData;
         }
