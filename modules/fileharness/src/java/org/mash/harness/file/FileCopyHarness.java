@@ -4,6 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
@@ -47,34 +54,63 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 	private int bufferSize = 1024;
 	
 	public void run(HarnessContext context) {
-		log.info("Running File Copy Harness");		
-		if(null != targetFileNameBaseDir && targetFileNameBaseDir.trim().length() > 0 ) {
-			targetFileName = targetFileNameBaseDir + targetFileName; 
+		log.info("Running File Copy Harness");
+		try
+		{
+			if(null != targetFileNameBaseDir && targetFileNameBaseDir.trim().length() > 0 )
+			{
+                targetFileNameBaseDir = targetFileNameBaseDir.trim();
+                if(!targetFileNameBaseDir.endsWith(File.separator))
+                {
+                    targetFileNameBaseDir = targetFileNameBaseDir+File.separator;
+                }
+                Set<PosixFilePermission> perms = new HashSet<>();
+                perms.add(PosixFilePermission.OWNER_READ);
+                perms.add(PosixFilePermission.OWNER_WRITE);
+                perms.add(PosixFilePermission.OWNER_EXECUTE);
+                perms.add(PosixFilePermission.OTHERS_WRITE);
+                perms.add(PosixFilePermission.OTHERS_READ);
+                perms.add(PosixFilePermission.OTHERS_EXECUTE);
+                perms.add(PosixFilePermission.GROUP_READ);
+                perms.add(PosixFilePermission.GROUP_WRITE);
+                perms.add(PosixFilePermission.GROUP_EXECUTE);
+                FileAttribute<Set<PosixFilePermission>> fileAttributes = PosixFilePermissions.asFileAttribute(perms);
+                log.info("Creating directory "+targetFileNameBaseDir);
+                Files.createDirectories(Paths.get(targetFileNameBaseDir), fileAttributes);
+                targetFileName = targetFileNameBaseDir + targetFileName;
+            }
+
+			if( null != targetFileContent && targetFileContent.trim().length() > 0)
+			{
+                writeContent(targetFileContent, targetFileName);
+            } else if(null != sourceFileName && sourceFileName.trim().length() > 0)
+            {
+                copyFile(sourceFileName, targetFileName);
+            }
 		}
-		
-		if( null != targetFileContent && targetFileContent.trim().length() > 0) {
-			writeContent(targetFileContent, targetFileName);
-		} else if(null != sourceFileName && sourceFileName.trim().length() > 0) {
-			copyFile(sourceFileName, targetFileName); 
-		} 		
+		catch (IOException e)
+		{
+			getErrors().add(new HarnessError(this, "File Copy Harness", "Problem copying file: " + e.getMessage()));
+		}
 	}		
 	
 	public void copyFile(String srcFile, String tgtFile) {
 		try {
 			byte[] data = new byte[bufferSize];
-			
-			inputFile = new RandomAccessFile(sourceFileName, "r");
+
+			log.info("Copying file "+srcFile+" to "+tgtFile);
+			inputFile = new RandomAccessFile(srcFile, "r");
 			inputFile.seek(0);
 			
-			outputFile = new RandomAccessFile(targetFileName, "rw");
+			outputFile = new RandomAccessFile(tgtFile, "rw");
 			int bytesRead = inputFile.read(data);
 			while(bytesRead >0 ) {
 				outputFile.write(data, 0, bytesRead);
 				bytesRead = inputFile.read(data);
 			}
 			
-			File testFile = new File(targetFileName);
-			if(testFile.exists() == false) {
+			File testFile = new File(tgtFile);
+			if(!testFile.exists()) {
 				throw new Exception("Output file not created");
 			}
 			
