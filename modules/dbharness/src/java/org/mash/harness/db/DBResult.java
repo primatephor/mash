@@ -9,13 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * DB results analyze the result set of the db invocation.  This only works with supplied column names.
@@ -120,7 +114,12 @@ public class DBResult implements ListRunResponse
 
     public String getValue(String name)
     {
-        return getResultSetData().get(rowNumber).getData().get(name);
+        String result = null;
+        if(getResultSetData().size() >= rowNumber)
+        {
+            result = getResultSetData().get(rowNumber).getData().get(name);
+        }
+        return result;
     }
 
     public Collection<String> getValues(String name)
@@ -130,7 +129,12 @@ public class DBResult implements ListRunResponse
 
     public Collection<String> getValues()
     {
-        return getResultSetData().get(rowNumber).getData().values();
+        Collection<String> result = Collections.emptyList();
+        if(getResultSetData().size() >= rowNumber)
+        {
+            result = getResultSetData().get(rowNumber).getData().values();
+        }
+        return result;
     }
 
     public String getString()
