@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -64,19 +62,9 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
                 {
                     targetFileNameBaseDir = targetFileNameBaseDir+File.separator;
                 }
-                Set<PosixFilePermission> perms = new HashSet<>();
-                perms.add(PosixFilePermission.OWNER_READ);
-                perms.add(PosixFilePermission.OWNER_WRITE);
-                perms.add(PosixFilePermission.OWNER_EXECUTE);
-                perms.add(PosixFilePermission.OTHERS_WRITE);
-                perms.add(PosixFilePermission.OTHERS_READ);
-                perms.add(PosixFilePermission.OTHERS_EXECUTE);
-                perms.add(PosixFilePermission.GROUP_READ);
-                perms.add(PosixFilePermission.GROUP_WRITE);
-                perms.add(PosixFilePermission.GROUP_EXECUTE);
-                FileAttribute<Set<PosixFilePermission>> fileAttributes = PosixFilePermissions.asFileAttribute(perms);
+				Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
                 log.info("Creating directory "+targetFileNameBaseDir);
-                Files.createDirectories(Paths.get(targetFileNameBaseDir), fileAttributes);
+                Files.createDirectories(Paths.get(targetFileNameBaseDir), PosixFilePermissions.asFileAttribute(perms));
                 targetFileName = targetFileNameBaseDir + targetFileName;
             }
 
@@ -110,10 +98,23 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 			}
 			
 			File testFile = new File(tgtFile);
-			if(!testFile.exists()) {
+			if(!testFile.exists())
+			{
 				throw new Exception("Output file not created");
 			}
-			
+			if(!testFile.setWritable(true, false))
+			{
+				throw new Exception("Unable to set file writeable");
+			}
+			if(!testFile.setReadable(true, false))
+			{
+				throw new Exception("Unable to set file readable");
+			}
+			if(!testFile.setExecutable(true, false))
+			{
+				throw new Exception("Unable to set file executable");
+			}
+
 		} catch(FileNotFoundException e) {
 			getErrors().add(new HarnessError(this, "File Copy Harness", "File Not Found Exception: " + e.getMessage()));
 		} catch (IOException e) {
