@@ -50,7 +50,8 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 	private RandomAccessFile outputFile;
 	
 	private int bufferSize = 1024;
-	
+	private Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+
 	public void run(HarnessContext context) {
 		log.info("Running File Copy Harness");
 		try
@@ -62,9 +63,10 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
                 {
                     targetFileNameBaseDir = targetFileNameBaseDir+File.separator;
                 }
-				Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+
                 log.info("Creating directory "+targetFileNameBaseDir);
                 Files.createDirectories(Paths.get(targetFileNameBaseDir), PosixFilePermissions.asFileAttribute(perms));
+                Files.setPosixFilePermissions(Paths.get(targetFileNameBaseDir), perms);
                 targetFileName = targetFileNameBaseDir + targetFileName;
             }
 
@@ -102,18 +104,7 @@ public class FileCopyHarness extends BaseHarness implements RunHarness {
 			{
 				throw new Exception("Output file not created");
 			}
-			if(!testFile.setWritable(true, false))
-			{
-				throw new Exception("Unable to set file writeable");
-			}
-			if(!testFile.setReadable(true, false))
-			{
-				throw new Exception("Unable to set file readable");
-			}
-			if(!testFile.setExecutable(true, false))
-			{
-				throw new Exception("Unable to set file executable");
-			}
+			Files.setPosixFilePermissions(Paths.get(tgtFile), perms);
 
 		} catch(FileNotFoundException e) {
 			getErrors().add(new HarnessError(this, "File Copy Harness", "File Not Found Exception: " + e.getMessage()));
