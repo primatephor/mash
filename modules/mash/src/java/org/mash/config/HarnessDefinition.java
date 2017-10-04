@@ -25,7 +25,7 @@ public class HarnessDefinition
     {
         if (configuration == null)
         {
-            configuration = new ArrayList<Configuration>();
+            configuration = new ArrayList<>();
         }
         return this.configuration;
     }
@@ -34,7 +34,7 @@ public class HarnessDefinition
     {
         if (parameter == null)
         {
-            parameter = new ArrayList<Parameter>();
+            parameter = new ArrayList<>();
         }
         return this.parameter;
     }

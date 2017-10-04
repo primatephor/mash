@@ -27,6 +27,7 @@ public class StandardRequestFactory implements WebRequestFactory
         if (contents != null && contents.get(BODY) != null)
         {
             body = contents.get(BODY);
+            contents.remove(BODY);
         }
 
         Method method = Method.GET;
@@ -44,6 +45,7 @@ public class StandardRequestFactory implements WebRequestFactory
         }
         else
         {
+            //cannot have both body and request parameters
             populateRequestParameters(contents, settings);
         }
         return settings;

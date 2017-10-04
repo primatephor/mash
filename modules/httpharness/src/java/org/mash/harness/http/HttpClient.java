@@ -3,6 +3,7 @@ package org.mash.harness.http;
 import com.gargoylesoftware.htmlunit.*;
 import org.apache.log4j.Logger;
 import org.mash.config.Parameter;
+import org.mash.tool.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -38,17 +39,15 @@ public class HttpClient
 
     public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
-        webResponse = getPage(uri, contents, headers);
-    }
-
-    public Page getPage(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
-    {
-        initializeClient(uri, contents, headers);
+        if(client != null || webRequest == null)
+        {
+            initializeClient(uri, contents, headers);
+        }
         log.info("Invoking client for "+webRequest.getUrl().toString());
-        return client.getPage(webRequest);
+        webResponse = client.getPage(webRequest);
     }
 
-    private void initializeClient(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
+    void initializeClient(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
         client = WebConversationHolder.getInstance();
         client.getOptions().setJavaScriptEnabled(false);
@@ -59,31 +58,30 @@ public class HttpClient
             client.setCredentialsProvider(credentials);
         }
 
+        webRequest = factory.createRequest(methodType, uri, contents);
         modifyRequestHeader("Accept", acceptType);
         modifyRequestHeader("Content-Type", contentType);
-        webRequest = factory.createRequest(methodType, uri, contents);
 
         if(headers != null && headers.size() > 0)
         {
             for (Parameter header : headers)
             {
-                webRequest.setAdditionalHeader(header.getName(), header.getValue());
-                //client.addRequestHeader(header.getName(), header.getValue());
+                modifyRequestHeader(header.getName(), header.getValue());
             }
         }
         client.getOptions().setThrowExceptionOnFailingStatusCode(false);
     }
 
     private void modifyRequestHeader(String name, String value) {
-        if(value != null)
+        if(!StringUtil.isEmpty(value))
         {
             log.trace("Setting request header "+name+" to "+value);
-            client.addRequestHeader(name, value);
+            webRequest.setAdditionalHeader(name, value);
         }
         else
         {
             log.trace("Removing request header "+name);
-            client.removeRequestHeader(name);
+            webRequest.removeAdditionalHeader(name);
         }
     }
 
@@ -95,17 +93,17 @@ public class HttpClient
         this.acceptType = acceptType;
     }
 
-    public WebClient getClient()
+    WebClient getClient()
     {
         return client;
     }
 
-    public WebRequest getWebRequestSettings()
+    WebRequest getWebRequestSettings()
     {
         return webRequest;
     }
 
-    public Page getWebResponse()
+    Page getWebResponse()
     {
         return webResponse;
     }

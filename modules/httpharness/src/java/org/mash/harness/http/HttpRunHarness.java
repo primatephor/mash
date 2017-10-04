@@ -61,7 +61,8 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         if (client != null)
         {
             Map<String, String> params = new HashMap<String, String>();
-            for (Parameter parameter : getParameters())
+            //only get parameters with no context
+            for (Parameter parameter : getParameters(null))
             {
                 params.put(parameter.getName(), parameter.getValue());
             }
