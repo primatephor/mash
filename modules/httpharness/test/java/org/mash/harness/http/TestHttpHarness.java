@@ -148,6 +148,7 @@ public class TestHttpHarness extends TestCase
         AnnotatedHarness annotatedHarness = (AnnotatedHarness) runner.getHarnesses().get(0);
         HttpRunHarness httpRunHarness = (HttpRunHarness) annotatedHarness.getWrap();
         WebRequest request = httpRunHarness.client.getWebRequestSettings();
+        assertEquals("q=Test", request.getUrl().getQuery());
 
 //        for (NameValuePair nameValuePair : request.getRequestParameters()) {
 //            System.out.println("PARAM "+nameValuePair.getName()+": "+nameValuePair.getValue());
