@@ -54,7 +54,7 @@ public class XmlAccessor
         {
             log.debug("Building document from xml for accessing");
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            docFactory.setNamespaceAware(true);
+            docFactory.setNamespaceAware(false);
             docFactory.setValidating(false);
             DocumentBuilder builder = docFactory.newDocumentBuilder();
             inputStream = new ByteArrayInputStream(xml.getBytes("UTF-8"));
