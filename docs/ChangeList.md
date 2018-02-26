@@ -3,6 +3,7 @@
 ## 2.1 ## 
   * Library upgrades 
   * Drop default polling time to 1 second
+  * java 1.8 compile
 
 ## 2.0 ##
   * Upgrade to java 8
