@@ -1,6 +1,7 @@
 package org.mash.tool;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.harness.HarnessError;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class ErrorHandler
 {
-    private static final Logger log = Logger.getLogger(ErrorHandler.class.getName());
+    private static final Logger log = LogManager.getLogger(ErrorHandler.class.getName());
 
     private ErrorFormatter formatter;
     private List<String> formattedErrors;

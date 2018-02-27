@@ -1,13 +1,11 @@
 package org.mash.metrics;
 
+import org.apache.logging.log4j.Logger;
 import junit.framework.TestCase;
-import org.apache.log4j.Logger;
 import org.mash.metrics.formatter.BaseFormatter;
 import org.mash.metrics.formatter.PrettyFormatter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author
@@ -178,7 +176,7 @@ public class TestStatsLogger extends TestCase
 
         Thread.sleep(2000l);
 
-        MyLogger myLogger = (MyLogger) logger.getLogger();
+        LoggerTester myLogger = (LoggerTester) logger.getLogger();
         for (Object o : myLogger.getLoggedItems())
         {
             System.out.println(o);
@@ -193,7 +191,7 @@ public class TestStatsLogger extends TestCase
 
     private class MyMetLogger extends MetricsLogger
     {
-        private MyLogger logger = new MyLogger();
+        private LoggerTester logger = new LoggerTester();
 
         public MyMetLogger(long period, String format, String logName)
         {
@@ -207,31 +205,6 @@ public class TestStatsLogger extends TestCase
         }
     }
 
-    private class MyLogger extends Logger
-    {
-        private List loggedItems = new ArrayList();
-        private MyLogger()
-        {
-            super("mash-test-logger");
-        }
-
-        @Override
-        public void debug(Object message)
-        {
-            loggedItems.add(message);
-        }
-
-        @Override
-        public void info(Object message)
-        {
-            loggedItems.add(message);
-        }
-
-        public List getLoggedItems()
-        {
-            return loggedItems;
-        }
-    }
 
     private void compareTimes(String expected, String actual)
     {

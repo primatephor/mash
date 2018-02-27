@@ -1,7 +1,8 @@
 package org.mash.harness.db.dbunit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dbunit.operation.DatabaseOperation;
-import org.apache.log4j.Logger;
 
 /**
  *  Date: Jul 7, 2009 Time: 6:09:15 PM
@@ -16,7 +17,7 @@ public enum DBOperation
     TRUNCATE(DatabaseOperation.TRUNCATE_TABLE),
     UPDATE(DatabaseOperation.UPDATE);
 
-    private static final Logger LOG = Logger.getLogger(DBOperation.class.getName());
+    private static final Logger LOG = LogManager.getLogger(DBOperation.class.getName());
     private DatabaseOperation operation;
 
     DBOperation(DatabaseOperation operation)

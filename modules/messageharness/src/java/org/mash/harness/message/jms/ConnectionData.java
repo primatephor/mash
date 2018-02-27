@@ -1,7 +1,8 @@
 package org.mash.harness.message.jms;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.message.SendException;
-import org.apache.log4j.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -20,8 +21,7 @@ import javax.jms.JMSException;
  */
 public class ConnectionData
 {
-    private static final Logger log = Logger.getLogger(ConnectionData.class.getName());
-
+    private static final Logger log = LogManager.getLogger(ConnectionData.class.getName());
     private Context initialContext;
     private ConnectionFactory connectionFactory;
     private Queue queue;

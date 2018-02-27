@@ -1,6 +1,8 @@
 package org.mash.file;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +18,7 @@ import java.io.InputStream;
  */
 public abstract class FileContentReader
 {
-    private static final Logger log = Logger.getLogger(TextFileReader.class.getName());
+    private static final Logger log = LogManager.getLogger(FileContentReader.class.getName());
     private FileLoader loader = new FileLoader();
 
     /**

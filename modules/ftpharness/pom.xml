@@ -37,9 +37,5 @@
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
         </dependency>
-        <dependency>
-            <groupId>commons-net-ftp</groupId>
-            <artifactId>commons-net-ftp</artifactId>
-        </dependency>
     </dependencies>
 </project>

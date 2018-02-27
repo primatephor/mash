@@ -1,11 +1,12 @@
 package org.mash.harness.db.hbase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -62,7 +63,7 @@ import java.io.IOException;
 @HarnessName(name = "hbase_update")
 public class UpdateRows extends ValueFilterScanTable
 {
-    private static final Logger log = Logger.getLogger(UpdateRows.class.getName());
+    private static final Logger log = LogManager.getLogger(UpdateRows.class.getName());
     private String entryString;
     private Entry entry;
 

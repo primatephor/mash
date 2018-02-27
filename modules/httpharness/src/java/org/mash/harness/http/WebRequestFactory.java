@@ -1,6 +1,6 @@
 package org.mash.harness.http;
 
-import com.gargoylesoftware.htmlunit.WebRequestSettings;
+import com.gargoylesoftware.htmlunit.WebRequest;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface WebRequestFactory
 {
-    WebRequestSettings createRequest(String methodType,
-                                     String url,
-                                     Map<String, String> contents) throws Exception;
+    WebRequest createRequest(String methodType,
+                             String url,
+                             Map<String, String> contents) throws Exception;
 }

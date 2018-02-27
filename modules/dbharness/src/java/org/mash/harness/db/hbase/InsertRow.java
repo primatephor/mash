@@ -1,5 +1,7 @@
 package org.mash.harness.db.hbase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
@@ -8,7 +10,6 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import java.io.IOException;
 @HarnessName(name = "hbase_insert")
 public class InsertRow extends HBaseHarness implements SetupHarness
 {
-    private static final Logger log = Logger.getLogger(InsertRow.class.getName());
+    private static final Logger log = LogManager.getLogger(InsertRow.class.getName());
     private String key;
     private List<Entry> entries;
 

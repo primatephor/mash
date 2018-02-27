@@ -1,6 +1,7 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,7 +14,7 @@ import java.util.TimerTask;
  */
 public class TimedMetrics extends BaseMetrics
 {
-    private static final Logger log = Logger.getLogger(TimedMetrics.class.getName());
+    private static final Logger log = LogManager.getLogger(TimedMetrics.class.getName());
     private boolean ended = false;
     public static long CULL_TIME = 600000; // 10 minutes maximum run time
     private MetricsManager manager;

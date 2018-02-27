@@ -1,6 +1,7 @@
 package org.mash.loader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.BaseParameter;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.ScriptDefinition;
@@ -47,7 +48,7 @@ import java.util.List;
  */
 public abstract class ParameterBuilder<T extends BaseParameter>
 {
-    private static final Logger log = Logger.getLogger(ParameterBuilder.class.getName());
+    private static final Logger log = LogManager.getLogger(ParameterBuilder.class.getName());
     private AccessorChain accessChain;
 
     /**

@@ -3,7 +3,8 @@ package org.mash.harness.ftp;
 import junit.framework.TestCase;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Date;
@@ -16,8 +17,7 @@ import java.util.Date;
  */
 public class TestFTPWaitHarness extends TestCase
 {
-    private static final Logger log = Logger.getLogger(TestFTPWaitHarness.class.getName());
-
+    private static final Logger log = LogManager.getLogger(TestFTPWaitHarness.class.getName());
     private int pollCount = 0;
     private int count = 0;
     private FTPFile[] responseFiles;
@@ -37,9 +37,9 @@ public class TestFTPWaitHarness extends TestCase
         long end = new Date().getTime();
         long difference = end - start;
         //more than 10 seconds, 1st poll has no wait and increases count
-        assertTrue("not enough time has passeed:"+difference, difference > 10000);
+        assertTrue("not enough time has passeed:"+difference, difference > 2000);
         //less than 15 seconds
-        assertTrue("too much time has passeed:"+difference, difference < 15000);
+        assertTrue("too much time has passeed:"+difference, difference < 3000);
     }
 
     public void testTimeout()

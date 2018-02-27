@@ -4,7 +4,8 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.loader.HarnessParameter;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.harness.BaseHarness;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  */
 public class HBaseHarness extends BaseHarness
 {
-    private static final Logger log = Logger.getLogger(HBaseHarness.class.getName());
+    private static final Logger log = LogManager.getLogger(HBaseHarness.class.getName());
     private String tableName;
     private List<String> siteConfigs;
 

@@ -1,6 +1,7 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class MetricsLogger
     {
         if (this.log == null)
         {
-            this.log = Logger.getLogger(Configuration.getLogName());
+            this.log = LogManager.getLogger(Configuration.getLogName());
         }
         return this.log;
     }

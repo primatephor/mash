@@ -1,6 +1,7 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.file.PropertiesFile;
 import org.mash.metrics.formatter.BaseFormatter;
 import org.mash.metrics.formatter.PrettyFormatter;
@@ -15,7 +16,7 @@ import org.mash.metrics.formatter.PrettyFormatter;
  */
 public class Configuration
 {
-    private static final Logger log = Logger.getLogger(Configuration.class.getName());
+    private static final Logger log = LogManager.getLogger(Configuration.class.getName());
     private static Configuration ourInstance = new Configuration();
 
     private State state = Configuration.State.INACTIVE;

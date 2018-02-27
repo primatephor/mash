@@ -5,7 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
@@ -32,8 +33,7 @@ import org.mash.loader.HarnessParameter;
  */
 @HarnessName(name = "copy_file")
 public class FileCopyHarness extends BaseHarness implements RunHarness {
-	private static final Logger log = Logger.getLogger(FileCopyHarness.class.getName());
-
+	private static final Logger log = LogManager.getLogger(FileCopyHarness.class.getName());
 	private String sourceFileName;
 	private String targetFileNameBaseDir;
 	private String targetFileName;

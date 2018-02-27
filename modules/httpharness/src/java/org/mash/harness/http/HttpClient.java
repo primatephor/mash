@@ -1,7 +1,8 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.Parameter;
 
 import java.util.List;
@@ -11,10 +12,9 @@ import java.util.Map;
  */
 public class HttpClient
 {
-    private static final Logger log = Logger.getLogger(HttpClient.class.getName());
-
+    private static final Logger log = LogManager.getLogger(HttpClient.class.getName());
     private WebClient client;
-    private WebRequestSettings webRequest;
+    private WebRequest webRequest;
     private SgmlPage webResponse;
     private WebRequestFactory factory;
     private String methodType;
@@ -52,7 +52,7 @@ public class HttpClient
     public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
         client = WebConversationHolder.getInstance();
-        client.setJavaScriptEnabled(false);
+        client.getOptions().setJavaScriptEnabled(false);
         if (null != username && null != password)
         {
             DefaultCredentialsProvider credentials = new DefaultCredentialsProvider();
@@ -81,7 +81,7 @@ public class HttpClient
                 //client.addRequestHeader(header.getName(), header.getValue());
             }
         }
-        client.setThrowExceptionOnFailingStatusCode(false);
+        client.getOptions().setThrowExceptionOnFailingStatusCode(false);
         log.info("Invoking client for "+webRequest.getUrl().toString());
         Page page = client.getPage(webRequest);
         if (page instanceof SgmlPage)
@@ -99,7 +99,7 @@ public class HttpClient
         return client;
     }
 
-    public WebRequestSettings getWebRequestSettings()
+    public WebRequest getWebRequestSettings()
     {
         return webRequest;
     }

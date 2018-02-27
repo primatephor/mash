@@ -1,13 +1,15 @@
 package org.mash.harness;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *  Date: Jul 7, 2009 Time: 10:59:24 AM
  */
 public class HarnessError
 {
-    private static final Logger log = Logger.getLogger(HarnessError.class.getName());
+    private static final Logger log = LogManager.getLogger(HarnessError.class.getName());
     private String harnessName;
     private String value;
     private String description;

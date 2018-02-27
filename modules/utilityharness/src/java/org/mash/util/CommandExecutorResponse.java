@@ -3,12 +3,12 @@ package org.mash.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.RunResponse;
 
 public class CommandExecutorResponse implements RunResponse {
-	private static final Logger log = Logger.getLogger(CommandExecutorResponse.class);
-
+	private static final Logger log = LogManager.getLogger(CommandExecutorResponse.class.getName());
 	String output;
 
 	public CommandExecutorResponse(String output) {

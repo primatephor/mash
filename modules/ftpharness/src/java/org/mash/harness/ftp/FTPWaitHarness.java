@@ -1,7 +1,8 @@
 package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunResponse;
@@ -39,8 +40,7 @@ import java.util.List;
 @HarnessName(name = "wait_ftp")
 public class FTPWaitHarness extends PollingWaitHarness
 {
-    private static final Logger log = Logger.getLogger(FTPWaitHarness.class.getName());
-
+    private static final Logger log = LogManager.getLogger(FTPWaitHarness.class.getName());
     private String user;
     private String password;
     private String url;

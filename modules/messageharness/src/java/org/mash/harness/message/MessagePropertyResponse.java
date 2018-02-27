@@ -1,6 +1,7 @@
 package org.mash.harness.message;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.RunResponse;
 
 import java.util.Collection;
@@ -16,8 +17,7 @@ import java.util.HashMap;
  */
 public class MessagePropertyResponse implements RunResponse
 {
-    private static final Logger log = Logger.getLogger(MessagePropertyResponse.class.getName());
-
+    private static final Logger log = LogManager.getLogger(MessagePropertyResponse.class.getName());
     private RunResponse target;
     private Map<String, String> properties;
 

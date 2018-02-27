@@ -1,6 +1,8 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 import java.util.concurrent.locks.Lock;
@@ -12,8 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class BaseMetrics implements Metrics
 {
-    private static final Logger log = Logger.getLogger(BaseMetrics.class.getName());
-
+    private static final Logger log = LogManager.getLogger(BaseMetrics.class.getName());
     private String entity;
     private Date start;
     private Long total;

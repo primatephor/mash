@@ -1,12 +1,13 @@
 package org.mash.harness.message;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessParameter;
-import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ import java.util.HashMap;
  */
 public abstract class BaseMessageHarness extends BaseHarness implements RunHarness
 {
-    private static final Logger log = Logger.getLogger(BaseMessageHarness.class.getName());
+    private static final Logger log = LogManager.getLogger(BaseMessageHarness.class.getName());
     private ActionType action;
     private Map<String, String> properties = new HashMap<String, String>();
 

@@ -1,6 +1,7 @@
 package org.mash.main;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 import org.mash.harness.HarnessContext;
@@ -29,8 +30,7 @@ import java.util.List;
  */
 public class SuiteRunner
 {
-    private static final Logger log = Logger.getLogger(SuiteRunner.class.getName());
-
+    private static final Logger log = LogManager.getLogger(SuiteRunner.class.getName());
     protected static String TAGS = System.getProperty("suite.tags", "");
 
     private ErrorHandler handler;

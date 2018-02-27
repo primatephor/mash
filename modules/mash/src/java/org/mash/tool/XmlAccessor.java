@@ -1,6 +1,7 @@
 package org.mash.tool;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
@@ -17,7 +18,7 @@ import java.io.IOException;
  */
 public class XmlAccessor
 {
-    private static final Logger log = Logger.getLogger(XmlAccessor.class.getName());
+    private static final Logger log = LogManager.getLogger(XmlAccessor.class.getName());
     private String xml;
     private Document document;
 

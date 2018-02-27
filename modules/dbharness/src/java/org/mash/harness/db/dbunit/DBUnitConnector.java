@@ -1,10 +1,11 @@
 package org.mash.harness.db.dbunit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.db.DBConnector;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.IDatabaseTester;
-import org.apache.log4j.Logger;
 
 /**
  * @author
@@ -12,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class DBUnitConnector extends DBConnector
 {
-    private static final Logger log = Logger.getLogger(DBUnitConnector.class.getName());
+    private static final Logger log = LogManager.getLogger(DBUnitConnector.class.getName());
     private IDatabaseTester databaseTester;
 
     public DBUnitConnector(String url, String user, String password, String driver)

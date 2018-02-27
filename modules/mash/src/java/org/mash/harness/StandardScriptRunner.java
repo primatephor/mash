@@ -1,6 +1,7 @@
 package org.mash.harness;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
@@ -30,8 +31,7 @@ import java.util.List;
  */
 public class StandardScriptRunner implements ScriptRunner
 {
-    private static final Logger log = Logger.getLogger(StandardScriptRunner.class.getName());
-
+    private static final Logger log = LogManager.getLogger(StandardScriptRunner.class.getName());
     protected List harnesses;
     private HarnessContext context;
 

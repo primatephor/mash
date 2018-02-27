@@ -1,6 +1,8 @@
 package org.mash.harness.db.hbase;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Column families, qualifiers, and values are needed enough to warrant breaking out a class to
@@ -11,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class Entry
 {
-    private static final Logger log = Logger.getLogger(Entry.class.getName());
+    private static final Logger log = LogManager.getLogger(Entry.class.getName());
     private String family;
     private String column;
     private String value;

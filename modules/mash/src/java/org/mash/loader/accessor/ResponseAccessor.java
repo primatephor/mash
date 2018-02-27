@@ -1,6 +1,7 @@
 package org.mash.loader.accessor;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.BaseParameter;
 import org.mash.config.Response;
 import org.mash.harness.RunHarness;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class ResponseAccessor implements ContentAccessor
 {
-    private static final Logger log = Logger.getLogger(ResponseAccessor.class.getName());
+    private static final Logger log = LogManager.getLogger(ResponseAccessor.class.getName());
     private List<RunHarness> previousRun;
 
     public ResponseAccessor(List<RunHarness> previousRun)

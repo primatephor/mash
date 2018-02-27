@@ -1,6 +1,7 @@
 package org.mash.loader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.config.Script;
 import org.mash.config.ScriptDefinition;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 public class ScriptLoaderProxy implements ScriptDefinition
 {
-    private static final Logger log = Logger.getLogger(ScriptLoaderProxy.class.getName());
+    private static final Logger log = LogManager.getLogger(ScriptLoaderProxy.class.getName());
     private String filename;
     private String dir;
     private String name;

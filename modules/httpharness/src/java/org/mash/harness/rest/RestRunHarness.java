@@ -1,6 +1,7 @@
 package org.mash.harness.rest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.Configuration;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.RunResponse;
@@ -32,7 +33,7 @@ import java.util.List;
 @HarnessName(name = "rest")
 public class RestRunHarness extends HttpRunHarness
 {
-    private static final Logger LOG = Logger.getLogger(RestRunHarness.class.getName());
+    private static final Logger LOG = LogManager.getLogger(RestRunHarness.class.getName());
     public static String DEFAULT_CONTENT_TYPE = "text/xml";
     private RunResponse xmlResponse;
 

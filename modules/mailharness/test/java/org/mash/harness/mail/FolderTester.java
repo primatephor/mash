@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  *
- * @author
  * @since Jul 26, 2010 3:35:35 PM
  */
 public class FolderTester extends Folder
@@ -20,7 +19,7 @@ public class FolderTester extends Folder
 
     public FolderTester()
     {
-        super(null);
+        super(new StoreTester());
     }
 
     public String getName()
@@ -141,4 +140,5 @@ public class FolderTester extends Folder
         results.toArray(msgs);
         return msgs;
     }
+
 }

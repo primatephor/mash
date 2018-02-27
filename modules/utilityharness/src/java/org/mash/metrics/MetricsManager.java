@@ -1,6 +1,7 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class MetricsManager
 {
-    private static final Logger log = Logger.getLogger(MetricsManager.class.getName());
+    private static final Logger log = LogManager.getLogger(MetricsManager.class.getName());
     private static MetricsManager ourInstance = new MetricsManager();
 
     private Map<String, Metrics> regularMetrics = new HashMap<String, Metrics>();

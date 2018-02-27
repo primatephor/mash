@@ -1,10 +1,11 @@
 package org.mash.harness.message.jms;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.message.BaseMessageHarness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
-import org.apache.log4j.Logger;
 
 /**
  * Configurations:
@@ -19,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class BaseJMSMessageHarness extends BaseMessageHarness
 {
-    private static final Logger log = Logger.getLogger(BaseJMSMessageHarness.class.getName());
+    private static final Logger log = LogManager.getLogger(BaseJMSMessageHarness.class.getName());
     private String providerUrl;
     private String queueName;
 

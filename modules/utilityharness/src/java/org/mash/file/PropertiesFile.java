@@ -1,6 +1,8 @@
 package org.mash.file;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,8 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class PropertiesFile extends Observable
 {
-    private static final Logger log = Logger.getLogger(PropertiesFile.class.getName());
-
+    private static final Logger log = LogManager.getLogger(PropertiesFile.class.getName());
     private URL url;
     private Properties properties;
     private String propertiesFileName;

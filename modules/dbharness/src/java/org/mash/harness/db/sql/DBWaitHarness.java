@@ -1,7 +1,8 @@
 
 package org.mash.harness.db.sql;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunResponse;
@@ -32,14 +33,12 @@ import org.mash.loader.HarnessParameter;
  * <li> 'size' number of items to wait for in sql results (default is 1)</li>
  * </ul>
  *
- * @author
  * @since Sep 23, 2010 10:24:06 AM
  */
 @HarnessName(name = "db_wait")
 public class DBWaitHarness extends PollingWaitHarness
 {
-    private static final Logger log = Logger.getLogger(DBWaitHarness.class.getName());
-
+    private static final Logger log = LogManager.getLogger(DBWaitHarness.class.getName());
     private String url;
     private String user;
     private String password;

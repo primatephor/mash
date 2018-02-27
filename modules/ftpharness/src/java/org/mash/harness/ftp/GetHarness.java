@@ -3,7 +3,8 @@ package org.mash.harness.ftp;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.file.ByteFileReader;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RawResponse;
@@ -55,8 +56,7 @@ import java.util.Map;
 @HarnessName(name = "get_ftp")
 public class GetHarness extends FTPRunHarness
 {
-    private static final Logger log = Logger.getLogger(GetHarness.class.getName());
-
+    private static final Logger log = LogManager.getLogger(GetHarness.class.getName());
     private String output_file;
     private int transferMode = FTP.ASCII_FILE_TYPE;
 

@@ -1,6 +1,7 @@
 package org.mash.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Timer;
 
@@ -10,7 +11,7 @@ import java.util.Timer;
  */
 public class TimerSingleton
 {
-    private static final Logger log = Logger.getLogger(TimerSingleton.class.getName());
+    private static final Logger log = LogManager.getLogger(TimerSingleton.class.getName());
     private static TimerSingleton ourInstance = new TimerSingleton();
     private static boolean shutdown = false;
     private Timer timer;
