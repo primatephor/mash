@@ -76,6 +76,26 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <!--Dump maven libraries listed below into build/target/dependency-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -147,13 +167,8 @@
 
     <!--
      note: maven repos do not contain
-      - annovention-0.1.jar
-      - commons-net-ftp-2.0.jar
-      - dbunit-2.4.5.jar
       - hadoop-common-0.21.0.jar
       - hbase-0.20.6.jar
-      - htmlunit-2.6.jar
-      - htmlunit-core-js-2.6.jar
       - jboss-aop-client.jar
       - jboss-common-core.jar
       - jboss-javaee.jar
@@ -163,17 +178,10 @@
       - jboss-remoting.jar
       - jboss-serialization.jar
       - jbossall-client.jar
-      - slf4j-api-1.5.8.jar
-      - slf4j-log4j12-1.5.8.jar
 
       Run (script is build/setup/install.sh):
-      mvn install::install-file -Dfile=../build/lib/annovention-0.1.jar -DgroupId=com.impetus -DartifactId=annovention -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/commons-net-ftp-2.0.jar -DgroupId=commons-net-ftp -DartifactId=commons-net-ftp -Dversion=2.0 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/dbunit-2.4.5.jar -DgroupId=dbunit -DartifactId=dbunit -Dversion=2.4.5 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/hadoop-common-0.21.0.jar -DgroupId=org.apache.hadoop -DartifactId=hadoop-common -Dversion=0.21.0 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/hbase-0.20.6.jar -DgroupId=org.apache.hbase -DartifactId=hbase -Dversion=0.20.6 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/htmlunit-2.6.jar -DgroupId=net.sourceforge.htmlunit -DartifactId=htmlunit -Dversion=2.6 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/htmlunit-core-js-2.6.jar -DgroupId=net.sourceforge.htmlunit -DartifactId=htmlunit-core-js -Dversion=2.6 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-aop-client.jar -DgroupId=jboss -DartifactId=jboss-aop-client -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-common-core.jar -DgroupId=jboss -DartifactId=jboss-common-core -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-javaee.jar -DgroupId=jboss -DartifactId=jboss-javaee -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
@@ -183,8 +191,6 @@
       mvn install::install-file -Dfile=../build/lib/jboss-remoting.jar -DgroupId=jboss -DartifactId=jboss-remoting -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-serialization.jar -DgroupId=jboss -DartifactId=jboss-serialization -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jbossall-client.jar -DgroupId=jboss -DartifactId=jbossall-client -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/slf4j-api-1.5.8.jar -DgroupId=slf4j -DartifactId=slf4j-api -Dversion=1.5.8 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/slf4j-log4j12-1.5.8.jar -DgroupId=slf4j -DartifactId=slf4j-log4j12 -Dversion=1.5.8 -Dpackaging=jar -DcreateChecksum=true
      -->
 
     <!-- list of child modules -->
