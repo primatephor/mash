@@ -1,7 +1,7 @@
 <!--
 this has been tested as is with a simple pseudo-distributed cluster
 -->
-<ns1:Script xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+<ns1:Script xmlns:ns1="https://github.com/primatephor/mash/schema/V1">
     <Tag>hbase</Tag>
     <Tag>setup</Tag>
 

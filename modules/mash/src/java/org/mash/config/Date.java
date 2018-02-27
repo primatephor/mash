@@ -18,7 +18,7 @@ import java.util.TimeZone;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "Date", propOrder = {
         "value"
-        }, namespace = "http://code.google.com/p/mash/schema/V1")
+        }, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Date
 {
     @XmlValue

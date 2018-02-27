@@ -37,7 +37,7 @@ import java.util.List;
 @XmlType(name = "", propOrder = {
         "scriptOrParallel"
         })
-@XmlRootElement(name = "Suite", namespace = "http://code.google.com/p/mash/schema/V1")
+@XmlRootElement(name = "Suite", namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Suite
 {
 

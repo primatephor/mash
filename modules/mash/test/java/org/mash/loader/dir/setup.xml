@@ -1,4 +1,4 @@
-<ns1:Script name="Sample Setup" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+<ns1:Script name="Sample Setup" xmlns:ns1="https://github.com/primatephor/mash/schema/V1">
     <Setup type="org.mash.harness.DBSetupHarness">
         <Configuration name="type">
             <Value>DELETE</Value>

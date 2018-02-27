@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Teardown", propOrder = {
         "configuration",
         "parameter"
-        }, namespace = "http://code.google.com/p/mash/schema/V1")
+        }, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Teardown extends HarnessDefinition
 {
 }

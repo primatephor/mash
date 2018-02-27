@@ -97,7 +97,7 @@ public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
         {
             namespaceMappings= new HashMap<String, String>();
             namespaceMappings.put("http://www.w3.org/2001/XMLSchema-instance", "schema");
-            namespaceMappings.put("http://code.google.com/p/mash/schema/V1", "");
+            namespaceMappings.put("https://github.com/primatephor/mash/schema/V1", "");
         }
         return namespaceMappings;
     }

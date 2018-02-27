@@ -1,4 +1,4 @@
-<ns1:Suite name="The Suite" xmlns:ns1="http://code.google.com/p/mash/schema/V1">
+<ns1:Suite name="The Suite" xmlns:ns1="https://github.com/primatephor/mash/schema/V1">
     <Script file="dir1/TestA.xml"/>
     <Script dir="dir2"/>
     <Parallel>
