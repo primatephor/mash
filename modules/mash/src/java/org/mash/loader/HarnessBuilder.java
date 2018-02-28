@@ -1,8 +1,7 @@
 package org.mash.loader;
 
-import com.impetus.annovention.ClasspathDiscoverer;
-import com.impetus.annovention.Discoverer;
-import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.lukehutch.fastclasspathscanner.matchprocessor.ClassAnnotationMatchProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mash.config.HarnessDefinition;
@@ -29,7 +28,6 @@ import java.util.Map;
  * harnesses.
  * <p/>
  *
- * @author
  * @since Jul 4, 2009
  */
 public class HarnessBuilder
@@ -38,7 +36,7 @@ public class HarnessBuilder
     private static HarnessBuilder instance;
     private Map<TypeKey, Class> types;
 
-    public HarnessBuilder()
+    HarnessBuilder()
     {
     }
 
@@ -114,16 +112,16 @@ public class HarnessBuilder
         return result;
     }
 
-    public Map<TypeKey, Class> getTypes() throws HarnessException
+    Map<TypeKey, Class> getTypes() throws HarnessException
     {
         //load up the types
         if (types == null || types.size() == 0)
         {
-            Discoverer discoverer = new ClasspathDiscoverer();
-            // Register class annotation listener
+            log.info("matching up classes to types listed on harnesses");
+            FastClasspathScanner scanner = new FastClasspathScanner();
             NamedClassDiscover namedClassDiscover = new NamedClassDiscover();
-            discoverer.addAnnotationListener(namedClassDiscover);
-            discoverer.discover();
+            scanner.matchClassesWithAnnotation(HarnessName.class, namedClassDiscover);
+            scanner.scan();
             types = buildTypes(namedClassDiscover.classes);
         }
         return types;
@@ -131,7 +129,7 @@ public class HarnessBuilder
 
     private Map<TypeKey, Class> buildTypes(List<String> classes) throws HarnessException
     {
-        Map<TypeKey, Class> result = new HashMap<TypeKey, Class>();
+        Map<TypeKey, Class> result = new HashMap<>();
         for (String className : classes)
         {
             Class harness = null;
@@ -222,19 +220,14 @@ public class HarnessBuilder
         }
     }
 
-    private class NamedClassDiscover implements ClassAnnotationDiscoveryListener
+    private class NamedClassDiscover implements ClassAnnotationMatchProcessor
     {
-        List<String> classes = new ArrayList<String>();
+        List<String> classes = new ArrayList<>();
 
-        public void discovered(String clazz, String annotation)
-        {
-            log.info("Found harness named class " + clazz);
-            classes.add(clazz);
-        }
-
-        public String[] supportedAnnotations()
-        {
-            return new String[]{HarnessName.class.getName()};
+        @Override
+        public void processMatch(Class<?> aClass) {
+            log.info("Found harness named class " + aClass);
+            classes.add(aClass.getName());
         }
     }
 

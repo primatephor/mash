@@ -72,7 +72,7 @@ This is the list of supplied harnesses.  To build your own, check out Developing
   
 | **Harness** | **type attribute** | **Description** |
 | --- | --- | --- |
-| [RestRunHarness](http/RestRunHarness) | rest               | invokes http requests in a restful manner.  Uses [RestResponse](http/RestResponse.md) for xpath |
+| [RestRunHarness](http/RestRunHarness.md) | rest               | invokes http requests in a restful manner.  Uses [RestResponse](http/RestResponse.md) for xpath |
 
 # Messaging #
   * `mash_messageharness.jar`

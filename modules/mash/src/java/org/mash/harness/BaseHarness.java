@@ -36,26 +36,20 @@ public class BaseHarness implements Harness
     {
         if (parameters == null)
         {
-            parameters = new ArrayList<Parameter>();
+            parameters = new ArrayList<>();
         }
         return parameters;
     }
 
     public List<Parameter> getParameters(String context)
     {
-        List<Parameter> results = new ArrayList<Parameter>();
-        if(context == null)
+        List<Parameter> results = new ArrayList<>();
+        for (Parameter parameter : getParameters())
         {
-            results = getParameters();
-        }
-        else
-        {
-            for (Parameter parameter : getParameters())
+            if((context == null && parameter.getContext() == null) ||
+               (context != null && context.equals(parameter.getContext())))
             {
-                if(context.equals(parameter.getContext()))
-                {
-                    results.add(parameter);
-                }
+                results.add(parameter);
             }
         }
         return results;
@@ -89,16 +83,6 @@ public class BaseHarness implements Harness
             }
         }
         return result;
-    }
-
-    public String getConfigurationValue(String key)
-    {
-        return getBaseParameterValue(key, getConfiguration());
-    }
-
-    public String getParameterValue(String key)
-    {
-        return getBaseParameterValue(key, getParameters());
     }
 
     public String getName()
@@ -145,7 +129,7 @@ public class BaseHarness implements Harness
     {
         getErrors().add(new HarnessError(this, message, description));
     }
-        
+
     public Boolean hasErrors()
     {
         return getErrors().size() > 0;

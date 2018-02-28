@@ -2,17 +2,16 @@ package org.mash.harness.message.jms;
 
 import junit.framework.TestCase;
 
+import javax.jms.ObjectMessage;
 import javax.naming.NamingException;
 import javax.jms.JMSException;
 
 import org.mash.harness.message.SendException;
-import org.jboss.mq.SpyObjectMessage;
 
 import java.io.Serializable;
 
 /**
  *
- * @author
  * @since Feb 1, 2010 10:33:39 AM
  *
  */
@@ -42,7 +41,7 @@ public class TestObjectHarness extends TestCase
     public void testReceive() throws NamingException, SendException, JMSException
     {
         Serializable message = new MyObjectMessage("child","data1");
-        SpyObjectMessage msg = new SpyObjectMessage();
+        ObjectMessage msg = new ObjectMessageImpl();
         msg.setObject(message);
         msg.setStringProperty("prop1", "value1");
         msg.setStringProperty("prop2", "value2");

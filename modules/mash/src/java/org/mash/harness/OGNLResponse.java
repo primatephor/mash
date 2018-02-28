@@ -1,5 +1,6 @@
 package org.mash.harness;
 
+import ognl.MemberAccess;
 import ognl.Ognl;
 import ognl.OgnlContext;
 import ognl.OgnlException;
@@ -7,8 +8,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mash.tool.DefaultMemberAccess;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -25,7 +29,21 @@ public class OGNLResponse implements RunResponse
     public OGNLResponse(Object access)
     {
         this.access = access;
-        context = new OgnlContext(null, null, new DefaultMemberAccess(true));
+        context = new OgnlContext(null, null, new MemberAccess() {
+            @Override
+            public Object setup(Map context, Object target, Member member, String propertyName) {
+                return target;
+            }
+
+            @Override
+            public void restore(Map context, Object target, Member member, String propertyName, Object state) {
+            }
+
+            @Override
+            public boolean isAccessible(Map context, Object target, Member member, String propertyName) {
+                return true;
+            }
+        });
     }
 
     public String getValue(String name)

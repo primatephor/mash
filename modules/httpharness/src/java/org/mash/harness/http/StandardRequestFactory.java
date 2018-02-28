@@ -20,11 +20,13 @@ public class StandardRequestFactory implements WebRequestFactory {
     private static final Logger log = LogManager.getLogger(StandardRequestFactory.class.getName());
     public static String BODY = "body";
 
-    public WebRequest createRequest(String methodType, String url, Map<String, String> contents) throws Exception {
+    public WebRequest createRequest(String methodType, String url, Map<String, String> contents) throws Exception
+    {
         WebRequest settings;
         String body = null;
         if (contents != null && contents.get(BODY) != null) {
             body = contents.get(BODY);
+            contents.remove(BODY);
         }
 
         Method method = Method.GET;
@@ -35,21 +37,29 @@ public class StandardRequestFactory implements WebRequestFactory {
         URL theUrl = new URI(url).toURL();
         HttpMethod httpMethod = method.getMethod();
         settings = new WebRequest(theUrl, httpMethod);
-        if (body != null) {
+        if (body != null)
+        {
             settings.setRequestBody(body);
-        } else {
+        }
+        else
+        {
+            //cannot have both body and request parameters
             populateRequestParameters(contents, settings);
         }
 
         return settings;
     }
 
-    private void populateRequestParameters(Map<String, String> contents, WebRequest request) {
-        if (contents != null) {
+    protected void populateRequestParameters(Map<String, String> contents, WebRequest request)
+    {
+        if(contents != null)
+        {
             Set<String> keys = contents.keySet();
             List<NameValuePair> params = new ArrayList<>();
-            for (String key : keys) {
-                if (!BODY.equals(key)) {
+            for (String key : keys)
+            {
+                if (!BODY.equals(key))
+                {
                     log.info("Adding parameter '" + key + "' as:" + contents.get(key));
                     NameValuePair pair = new NameValuePair(key, contents.get(key));
                     params.add(pair);

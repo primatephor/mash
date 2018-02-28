@@ -1,7 +1,7 @@
 package org.mash.harness.db.hbase;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.logging.log4j.LogManager;
@@ -35,18 +35,18 @@ public class HBaseHarness extends BaseHarness
 
     private HBaseAdmin admin;
     private HTable table;
-    HBaseConfiguration config;
+    Configuration config;
 
     public String getTableName()
     {
         return tableName;
     }
 
-    public HBaseConfiguration getConfig()
+    public Configuration getConfig()
     {
         if (config == null)
         {
-            config = new HBaseConfiguration();
+            config = HBaseConfiguration.create();
             FileLoader loader = new FileLoader();
             try
             {
@@ -73,7 +73,7 @@ public class HBaseHarness extends BaseHarness
             {
                 admin = new HBaseAdmin(getConfig());
             }
-            catch (MasterNotRunningException e)
+            catch (Exception e)
             {
                 addError("Unable to connect admin tool to HBase, master not running", e);
             }

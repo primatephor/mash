@@ -1,6 +1,7 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.CookieManager;
+import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.util.Cookie;
@@ -41,7 +42,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
     private static final Logger log = LogManager.getLogger(HttpRunHarness.class.getName());
     public static final String CONTEXT_HEADER="header";
     private String url;
-    private String type;
+    protected String type;
     private String clean;
     private String username;
     private String password;
@@ -61,7 +62,8 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         if (client != null)
         {
             Map<String, String> params = new HashMap<String, String>();
-            for (Parameter parameter : getParameters())
+            //only get parameters with no context
+            for (Parameter parameter : getParameters(null))
             {
                 params.put(parameter.getName(), parameter.getValue());
             }
@@ -86,9 +88,9 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
         }
     }
 
-    protected SgmlPage getSgmlPage()
+    protected Page getPage()
     {
-        SgmlPage result = null;
+        Page result = null;
         if (client != null)
         {
             result = client.getWebResponse();
@@ -120,7 +122,7 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
 
     public RunResponse getResponse()
     {
-        SgmlPage result = getSgmlPage();
+        Page result = getPage();
         if (result != null)
         {
             if (result instanceof XmlPage)

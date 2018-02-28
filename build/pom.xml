@@ -8,7 +8,7 @@
         <version>Latest</version>
         <relativePath>../modules</relativePath>
     </parent>
-    <artifactId>Mash</artifactId>
+    <artifactId>mash</artifactId>
     <packaging>pom</packaging>
     <name>Mash Assembly</name>
     <dependencies>

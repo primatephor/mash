@@ -10,18 +10,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * DB results analyze the result set of the db invocation.  This only works with supplied column names.
  *
- * @author
  * @since Jan 8, 2010 3:24:50 PM
  *
  */
@@ -34,13 +27,20 @@ public class DBResult implements ListRunResponse
     public DBResult(ResultSet results) throws Exception
     {
         int count = 0;
-        log.debug("Retrieving row:" + count);
-        getResultSetData().add(addRow(results));
-        while (results.next())
+        if (!results.next())
+        {
+            log.info("No results found for sql ");
+        }
+        else
         {
             log.debug("Retrieving row:" + count);
-            count++;
             getResultSetData().add(addRow(results));
+            while (results.next())
+            {
+                log.debug("Retrieving row:" + count);
+                count++;
+                getResultSetData().add(addRow(results));
+            }
         }
     }
 
@@ -108,14 +108,19 @@ public class DBResult implements ListRunResponse
     {
         if (resultSetData == null)
         {
-            resultSetData = new ArrayList<ResultSetData>();
+            resultSetData = new ArrayList<>();
         }
         return resultSetData;
     }
 
     public String getValue(String name)
     {
-        return getResultSetData().get(rowNumber).getData().get(name);
+        String result = null;
+        if(getResultSetData().size() >= rowNumber)
+        {
+            result = getResultSetData().get(rowNumber).getData().get(name);
+        }
+        return result;
     }
 
     public Collection<String> getValues(String name)
@@ -125,7 +130,12 @@ public class DBResult implements ListRunResponse
 
     public Collection<String> getValues()
     {
-        return getResultSetData().get(rowNumber).getData().values();
+        Collection<String> result = Collections.emptyList();
+        if(getResultSetData().size() >= rowNumber)
+        {
+            result = getResultSetData().get(rowNumber).getData().values();
+        }
+        return result;
     }
 
     public String getString()
@@ -152,7 +162,7 @@ public class DBResult implements ListRunResponse
         {
             if (resultSetData == null)
             {
-                resultSetData = new HashMap<String, String>();
+                resultSetData = new HashMap<>();
             }
             return resultSetData;
         }

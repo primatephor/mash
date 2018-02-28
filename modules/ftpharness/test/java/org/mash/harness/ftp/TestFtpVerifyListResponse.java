@@ -37,8 +37,6 @@ public class TestFtpVerifyListResponse extends TestCase
         FTPFile[] files = new FTPFile[2];
         files[0] = new FTPFile();
         files[0].setName("file1");
-        files[0].setSize(0); //this changed with library upgrade
-
         files[1] = new FTPFile();
         files[1].setName("file2");
         ListRunResponse response = new ListRunResponse(files);
@@ -55,7 +53,8 @@ public class TestFtpVerifyListResponse extends TestCase
 
         verify = new FTPVerifyListHarness();
         verify.setFileName("file1");
-        verify.setFileSize("0");
+        verify.setFileSize("-1");
+        verify.getErrors().clear();
         verify.verify(new BogusFTPRun(response), new ArrayList<>());
         assertEquals(0, verify.getErrors().size());
     }

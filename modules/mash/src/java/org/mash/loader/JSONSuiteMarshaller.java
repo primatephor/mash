@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author
  * @since Dec 5, 2011 1:26:57 PM
  */
 public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
@@ -75,8 +74,6 @@ public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
                 JSONObject jsonObject = new JSONObject(data);
                 Configuration config = new Configuration();
                 config.setXmlToJsonNamespaces(getNamespaceMapping());
-                //todo: this might be needed!
-                //config.setImplicitCollections(true);
                 MappedNamespaceConvention con = new MappedNamespaceConvention(config);
 
                 XMLStreamReader xmlStreamReader = new MappedXMLStreamReader(jsonObject, con);

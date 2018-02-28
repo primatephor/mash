@@ -32,7 +32,11 @@ public class ListVerifyHarness extends StandardVerifyHarness
             }
         }
 
-        super.verify(run, setup);
+        //is there something to verify?
+        if(expectedSize != 0)
+        {
+            super.verify(run, setup);
+        }
     }
 
     public int getElementNumber()

@@ -4,6 +4,7 @@ import com.gargoylesoftware.htmlunit.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mash.config.Parameter;
+import org.mash.tool.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -15,21 +16,13 @@ public class HttpClient
     private static final Logger log = LogManager.getLogger(HttpClient.class.getName());
     private WebClient client;
     private WebRequest webRequest;
-    private SgmlPage webResponse;
+    private Page webResponse;
     private WebRequestFactory factory;
     private String methodType;
     private String username;
     private String password;
     private String contentType;
-
-    public HttpClient(WebRequestFactory factory, String methodType, String username, String password, String contentType)
-    {
-        this.factory = factory;
-        this.methodType = methodType;
-        this.username = username;
-        this.password = password;
-        this.contentType = contentType;
-    }
+    private String acceptType;
 
     public HttpClient(WebRequestFactory factory, String methodType, String username, String password)
     {
@@ -44,12 +37,17 @@ public class HttpClient
         this(factory, methodType, null, null);
     }
 
-    public HttpClient(WebRequestFactory factory)
+    public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
-        this(factory, null);
+        if(client != null || webRequest == null)
+        {
+            initializeClient(uri, contents, headers);
+        }
+        log.info("Invoking client for "+webRequest.getUrl().toString());
+        webResponse = client.getPage(webRequest);
     }
 
-    public void submit(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
+    void initializeClient(String uri, Map<String, String> contents, List<Parameter> headers) throws Exception
     {
         client = WebConversationHolder.getInstance();
         client.getOptions().setJavaScriptEnabled(false);
@@ -59,52 +57,53 @@ public class HttpClient
             credentials.addCredentials(username, password);
             client.setCredentialsProvider(credentials);
         }
-        if (null != contentType)
-        {
-            log.trace("Setting content type to " + contentType);
-            client.addRequestHeader("Accept", contentType);
-            client.addRequestHeader("Content-Type", contentType);
-        }
-        else
-        {
-            log.trace("Using default content type");
-            client.removeRequestHeader("Accept");
-            client.removeRequestHeader("Content-Type");
-        }
+
         webRequest = factory.createRequest(methodType, uri, contents);
+        modifyRequestHeader("Accept", acceptType);
+        modifyRequestHeader("Content-Type", contentType);
 
         if(headers != null && headers.size() > 0)
         {
             for (Parameter header : headers)
             {
-                webRequest.setAdditionalHeader(header.getName(), header.getValue());
-                //client.addRequestHeader(header.getName(), header.getValue());
+                modifyRequestHeader(header.getName(), header.getValue());
             }
         }
         client.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        log.info("Invoking client for "+webRequest.getUrl().toString());
-        Page page = client.getPage(webRequest);
-        if (page instanceof SgmlPage)
+    }
+
+    private void modifyRequestHeader(String name, String value) {
+        if(!StringUtil.isEmpty(value))
         {
-            webResponse = (SgmlPage) page;
+            log.trace("Setting request header "+name+" to "+value);
+            webRequest.setAdditionalHeader(name, value);
         }
         else
         {
-            log.warn("Unexpected response: " + page.getWebResponse().getContentAsString());
+            log.trace("Removing request header "+name);
+            webRequest.removeAdditionalHeader(name);
         }
     }
 
-    public WebClient getClient()
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public void setAcceptType(String acceptType) {
+        this.acceptType = acceptType;
+    }
+
+    WebClient getClient()
     {
         return client;
     }
 
-    public WebRequest getWebRequestSettings()
+    WebRequest getWebRequestSettings()
     {
         return webRequest;
     }
 
-    public SgmlPage getWebResponse()
+    Page getWebResponse()
     {
         return webResponse;
     }

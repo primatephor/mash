@@ -37,7 +37,6 @@ import java.io.IOException;
  * <li>column (family and/or qualifier to retrieve).  Format 'family:qualifier'</li>
  * </ul>
  *
- * @author
  * @since Dec 5, 2010
  */
 @HarnessName(name = "hbase_scan")
@@ -76,12 +75,19 @@ public class ScanTable extends HBaseHarness implements RunHarness
                         for (String column : columns)
                         {
                             log.info("Searching for " + column);
-                            s.addColumn(Bytes.toBytes(column));
+                            String[] familyAndColumn = column.split(":");
+                            if(familyAndColumn.length == 2) {
+                                s.addColumn(Bytes.toBytes(familyAndColumn[0]), Bytes.toBytes(familyAndColumn[1]));
+                            }
+                            else
+                            {
+                                log.warn("Invalid family:column format for requested column:"+column);
+                            }
                         }
                         scanner = table.getScanner(s);
                         try
                         {
-                            scannedResults = new ArrayList<Result>();
+                            scannedResults = new ArrayList<>();
                             for (Result scanResult : scanner)
                             {
                                 log.debug("Found row:" + scanResult);

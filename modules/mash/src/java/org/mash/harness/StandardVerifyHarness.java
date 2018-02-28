@@ -40,7 +40,7 @@ public class StandardVerifyHarness extends BaseHarness implements VerifyHarness
         RunResponse response = run.getResponse();
         if (log.isDebugEnabled())
         {
-            log.debug("Verifying response :" + response.toString());
+            log.debug("Verifying response :" + (response != null? response.toString():null));
         }
 
         if (response != null)

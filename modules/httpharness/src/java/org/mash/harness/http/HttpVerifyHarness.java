@@ -69,7 +69,7 @@ public class HttpVerifyHarness extends StandardVerifyHarness
                         log.debug("Verifying status is " + status);
                         if (response.getWebPage() != null)
                         {
-                            int expectedStatus = response.getWebPage().getWebResponse().getStatusCode();
+                            int expectedStatus = response.getStatusCode();
                             if (Integer.valueOf(status) != expectedStatus)
                             {
                                 getErrors().add(new HarnessError(this, "Verify Status",

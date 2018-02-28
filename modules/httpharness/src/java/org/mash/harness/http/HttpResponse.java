@@ -1,5 +1,6 @@
 package org.mash.harness.http;
 
+import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.DomNode;
@@ -15,24 +16,42 @@ import java.util.*;
 /**
  * Wrap a WebResponse for parsing by verifiers.  To retrieve special
  *
- * @author
  * @since Jul 5, 2009
  */
 public class HttpResponse implements RunResponse
 {
     private static final Logger log = LogManager.getLogger(HttpResponse.class.getName());
-    private SgmlPage webPage;
+    private String statusMessage;
+    private int statusCode;
+    private Page webPage;
+    private SgmlPage sgmlPage;
     private Set<Cookie> cookies;
 
-    public HttpResponse(SgmlPage webPage)
+    public HttpResponse(Page webPage)
     {
         this(webPage, null);
     }
 
-    public HttpResponse(final SgmlPage webPage, final Set<Cookie> cookies)
+    public HttpResponse(final Page webPage, final Set<Cookie> cookies)
     {
         this.webPage = webPage;
+        if(webPage instanceof SgmlPage)
+        {
+            sgmlPage = (SgmlPage) webPage;
+        }
+        this.statusMessage = webPage.getWebResponse().getStatusMessage();
+        this.statusCode = webPage.getWebResponse().getStatusCode();
         this.cookies = cookies;
+    }
+
+    public String getStatusMessage()
+    {
+        return statusMessage;
+    }
+
+    public int getStatusCode()
+    {
+        return statusCode;
     }
 
     public String getValue(String name)
@@ -85,53 +104,59 @@ public class HttpResponse implements RunResponse
 
     private void retrieveByXpath(String name, Collection<String> results)
     {
-        List<?> paths = webPage.getByXPath(name);
-        for (Object path : paths)
+        if(sgmlPage != null)
         {
-            if (path instanceof DomAttr)
+            List<?> paths = sgmlPage.getByXPath(name);
+            for (Object path : paths)
             {
-                DomAttr attr = (DomAttr) path;
-                log.debug("Found " + attr.getValue());
-                results.add(attr.getValue());
-            }
-            else if (path instanceof DomNode)
-            {
-                DomNode node = (DomNode) path;
-                log.debug("Found " + node.asText());
-                results.add(node.asText());
+                if (path instanceof DomAttr)
+                {
+                    DomAttr attr = (DomAttr) path;
+                    log.debug("Found " + attr.getValue());
+                    results.add(attr.getValue());
+                }
+                else if (path instanceof DomNode)
+                {
+                    DomNode node = (DomNode) path;
+                    log.debug("Found " + node.asText());
+                    results.add(node.asText());
+                }
             }
         }
     }
 
     private void retrieveByElementName(String name, Collection<String> results)
     {
-        Iterable<HtmlElement> iters = webPage.getHtmlElementDescendants();
-        for (HtmlElement iter : iters)
+        if(sgmlPage != null)
         {
-            String value = null;
-            String elementName = iter.getAttribute("name");
-            if (elementName == null || elementName.length() == 0)
+            Iterable<HtmlElement> iters = sgmlPage.getHtmlElementDescendants();
+            for (HtmlElement iter : iters)
             {
-                elementName = iter.getAttribute("id");
-            }
+                String value = null;
+                String elementName = iter.getAttribute("name");
+                if (elementName == null || elementName.length() == 0)
+                {
+                    elementName = iter.getAttribute("id");
+                }
 
-            if (elementName != null && elementName.equals(name))
-            {
-                log.debug("Found element node :" + elementName);
-                value = iter.getAttribute("value");
-                if (value == null || value.length() == 0)
+                if (elementName != null && elementName.equals(name))
                 {
-                    value = iter.getNodeValue();
+                    log.debug("Found element node :" + elementName);
+                    value = iter.getAttribute("value");
+                    if (value == null || value.length() == 0)
+                    {
+                        value = iter.getNodeValue();
+                    }
+                    if (value == null || value.length() == 0)
+                    {
+                        value = iter.getTextContent();
+                    }
                 }
-                if (value == null || value.length() == 0)
+                if (value != null && value.length() > 0)
                 {
-                    value = iter.getTextContent();
+                    log.debug("SETTING '" + elementName + "' to value:" + value);
+                    results.add(value);
                 }
-            }
-            if (value != null && value.length() > 0)
-            {
-                log.debug("SETTING '" + elementName + "' to value:" + value);
-                results.add(value);
             }
         }
     }
@@ -155,10 +180,13 @@ public class HttpResponse implements RunResponse
         Collection<String> results = Collections.emptyList();
         try
         {
-            Iterable<HtmlElement> elements = webPage.getHtmlElementDescendants();
-            for (HtmlElement element : elements)
+            if(sgmlPage != null)
             {
-                results.addAll(getValues(element.getNodeName()));
+                Iterable<HtmlElement> elements = sgmlPage.getHtmlElementDescendants();
+                for (HtmlElement element : elements)
+                {
+                    results.addAll(getValues(element.getNodeName()));
+                }
             }
         }
         catch (Exception e)
@@ -182,7 +210,7 @@ public class HttpResponse implements RunResponse
         return result;
     }
 
-    public SgmlPage getWebPage()
+    public Page getWebPage()
     {
         return webPage;
     }
@@ -192,13 +220,16 @@ public class HttpResponse implements RunResponse
     {
         StringBuilder result = new StringBuilder();
         result.append("Status:").append(this.webPage.getWebResponse().getStatusCode());
-        if(this.webPage.getFirstChild() != null)
+        if(sgmlPage != null)
         {
-            result.append(": Start:\n").append(this.webPage.getFirstChild().asXml()).append("\n");
-        }
-        if(this.webPage.getTextContent() != null)
-        {
-            result.append(": Content:\n").append(this.webPage.getTextContent()).append("\n");
+            if (this.sgmlPage.getFirstChild() != null)
+            {
+                result.append(": Start:\n").append(this.sgmlPage.getFirstChild().asXml()).append("\n");
+            }
+            if (this.sgmlPage.getTextContent() != null)
+            {
+                result.append(": Content:\n").append(this.sgmlPage.getTextContent()).append("\n");
+            }
         }
         return result.toString();
     }
