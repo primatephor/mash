@@ -1,6 +1,7 @@
 package org.mash.loader.accessor;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.BaseParameter;
 import org.mash.config.Replace;
 import org.mash.config.Replaceable;
@@ -22,7 +23,7 @@ import org.mash.loader.ContentAccessor;
  */
 public class ReplaceAccessor implements ContentAccessor
 {
-    private static final Logger log = Logger.getLogger(ReplaceAccessor.class.getName());
+    private static final Logger log = LogManager.getLogger(ReplaceAccessor.class.getName());
     private AccessorChain accessorChain;
 
     public ReplaceAccessor(AccessorChain accessorChain)

@@ -1,11 +1,11 @@
 package org.mash.harness.mail;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.StandardVerifyHarness;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
 import org.mash.harness.HarnessError;
-import org.mash.loader.HarnessConfiguration;
-import org.apache.log4j.Logger;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 @HarnessName(name = "email")
 public class EmailVerifyHarness extends StandardVerifyHarness
 {
-    private static final Logger log = Logger.getLogger(EmailVerifyHarness.class.getName());
+    private static final Logger log = LogManager.getLogger(EmailVerifyHarness.class.getName());
     private String subject;
     private List<String> recipients = new ArrayList<String>();
     private List<String> senders = new ArrayList<String>();

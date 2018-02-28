@@ -1,5 +1,7 @@
 package org.mash.harness.db.hbase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
@@ -13,7 +15,6 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import java.io.IOException;
 @HarnessName(name = "hbase_scan")
 public class ScanTable extends HBaseHarness implements RunHarness
 {
-    private static final Logger log = Logger.getLogger(ScanTable.class.getName());
+    private static final Logger log = LogManager.getLogger(ScanTable.class.getName());
     //retrieve by key
     private String key;
 

@@ -1,6 +1,7 @@
 package org.mash.harness.db;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.ListRunResponse;
 import org.mash.tool.StringUtil;
 
@@ -19,7 +20,7 @@ import java.util.*;
  */
 public class DBResult implements ListRunResponse
 {
-    private static final Logger log = Logger.getLogger(DBResult.class.getName());
+    private static final Logger log = LogManager.getLogger(DBResult.class.getName());
     private List<ResultSetData> resultSetData;
     private int rowNumber = 0;
 

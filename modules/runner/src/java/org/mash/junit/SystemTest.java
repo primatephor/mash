@@ -2,7 +2,8 @@ package org.mash.junit;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Suite;
 import org.mash.loader.SuiteLoader;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class SystemTest extends SuiteRunner
 {
-    private static final Logger log = Logger.getLogger(SystemTest.class);
+    private static final Logger log = LogManager.getLogger(SystemTest.class.getName());
     protected static String SUITE = System.getProperty("suite.file", "SystemTest.xml");
 
     public SystemTest() throws Exception

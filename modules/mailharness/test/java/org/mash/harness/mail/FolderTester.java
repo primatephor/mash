@@ -140,4 +140,5 @@ public class FolderTester extends Folder
         results.toArray(msgs);
         return msgs;
     }
+
 }

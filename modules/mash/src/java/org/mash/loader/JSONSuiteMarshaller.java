@@ -1,6 +1,7 @@
 package org.mash.loader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.jettison.json.JSONObject;
 import org.codehaus.jettison.mapped.Configuration;
 import org.codehaus.jettison.mapped.MappedNamespaceConvention;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 public class JSONSuiteMarshaller extends JAXBSuiteMarshaller
 {
-    private static final Logger log = Logger.getLogger(JSONSuiteMarshaller.class.getName());
+    private static final Logger log = LogManager.getLogger(JSONSuiteMarshaller.class.getName());
     private Map<String, String> namespaceMappings;
 
     public JSONSuiteMarshaller()

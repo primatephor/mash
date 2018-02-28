@@ -4,7 +4,9 @@ import ognl.MemberAccess;
 import ognl.Ognl;
 import ognl.OgnlContext;
 import ognl.OgnlException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mash.tool.DefaultMemberAccess;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.Map;
  */
 public class OGNLResponse implements RunResponse
 {
-    private static final Logger log = Logger.getLogger(OGNLResponse.class.getName());
+    private static final Logger log = LogManager.getLogger(OGNLResponse.class.getName());
     private Object access;
     private OgnlContext context;
 

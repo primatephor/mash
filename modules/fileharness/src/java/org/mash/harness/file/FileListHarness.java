@@ -1,7 +1,8 @@
 package org.mash.harness.file;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.RunHarness;
@@ -28,8 +29,7 @@ import java.io.File;
  */
 @HarnessName(name = "list_file")
 public class FileListHarness extends BaseHarness implements RunHarness {
-
-    private static final Logger log = Logger.getLogger(FileListHarness.class.getName());
+	private static final Logger log = LogManager.getLogger(FileListHarness.class.getName());
     private String path;
     
 	private RunResponse response;

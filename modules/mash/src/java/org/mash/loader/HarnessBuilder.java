@@ -2,7 +2,8 @@ package org.mash.loader;
 
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import io.github.lukehutch.fastclasspathscanner.matchprocessor.ClassAnnotationMatchProcessor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.Run;
 import org.mash.config.Setup;
@@ -31,7 +32,7 @@ import java.util.Map;
  */
 public class HarnessBuilder
 {
-    private static final Logger log = Logger.getLogger(HarnessBuilder.class.getName());
+    private static final Logger log = LogManager.getLogger(HarnessBuilder.class.getName());
     private static HarnessBuilder instance;
     private Map<TypeKey, Class> types;
 

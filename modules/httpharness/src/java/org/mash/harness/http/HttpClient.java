@@ -1,7 +1,8 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.tool.StringUtil;
 
@@ -12,8 +13,7 @@ import java.util.Map;
  */
 public class HttpClient
 {
-    private static final Logger log = Logger.getLogger(HttpClient.class.getName());
-
+    private static final Logger log = LogManager.getLogger(HttpClient.class.getName());
     private WebClient client;
     private WebRequest webRequest;
     private Page webResponse;

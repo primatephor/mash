@@ -1,6 +1,5 @@
 package org.mash.harness.mail;
 
-import org.apache.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.loader.HarnessConfiguration;
 

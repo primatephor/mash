@@ -6,7 +6,8 @@ import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.*;
 import org.mash.harness.rest.RestResponse;
@@ -38,7 +39,7 @@ import java.util.Set;
 @HarnessName(name = "http")
 public class HttpRunHarness extends BaseHarness implements RunHarness
 {
-    private static final Logger log = Logger.getLogger(HttpRunHarness.class.getName());
+    private static final Logger log = LogManager.getLogger(HttpRunHarness.class.getName());
     public static final String CONTEXT_HEADER="header";
     private String url;
     protected String type;

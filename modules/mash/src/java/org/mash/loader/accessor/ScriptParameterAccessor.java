@@ -1,6 +1,7 @@
 package org.mash.loader.accessor;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.BaseParameter;
 import org.mash.config.Parameter;
 import org.mash.config.ScriptDefinition;
@@ -13,7 +14,7 @@ import org.mash.loader.ContentAccessor;
  */
 public class ScriptParameterAccessor implements ContentAccessor
 {
-    private static final Logger log = Logger.getLogger(ScriptParameterAccessor.class.getName());
+    private static final Logger log = LogManager.getLogger(ScriptParameterAccessor.class.getName());
     private ScriptDefinition scriptDefinition;
     private AccessorChain accessorChain;
 

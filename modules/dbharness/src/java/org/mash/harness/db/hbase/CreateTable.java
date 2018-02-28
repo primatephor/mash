@@ -3,7 +3,8 @@ package org.mash.harness.db.hbase;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 import org.mash.harness.SetupHarness;
@@ -34,7 +35,7 @@ import java.io.IOException;
 @HarnessName(name = "hbase_create")
 public class CreateTable extends HBaseHarness implements SetupHarness
 {
-    private static final Logger log = Logger.getLogger(CreateTable.class.getName());
+    private static final Logger log = LogManager.getLogger(CreateTable.class.getName());
     private List<String> families;
 
     public CreateTable()

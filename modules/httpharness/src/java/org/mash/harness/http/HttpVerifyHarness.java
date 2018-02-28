@@ -1,8 +1,9 @@
 package org.mash.harness.http;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.SetupHarness;
@@ -37,8 +38,7 @@ import java.util.List;
 @HarnessName(name = "http")
 public class HttpVerifyHarness extends StandardVerifyHarness
 {
-    private static final Logger log = Logger.getLogger(HttpVerifyHarness.class);
-
+    private static final Logger log = LogManager.getLogger(HttpVerifyHarness.class.getName());
     private String title;
     private String status;
 
@@ -112,7 +112,7 @@ public class HttpVerifyHarness extends StandardVerifyHarness
     @HarnessConfiguration(name = "contains")
     public void setContainment(String text)
     {
-        text = StringEscapeUtils.unescapeHtml(text);
+        text = StringEscapeUtils.unescapeHtml4(text);
         log.debug("Unescaped:" + text);
         super.setContainment(text);
     }

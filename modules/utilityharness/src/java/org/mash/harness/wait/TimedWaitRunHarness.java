@@ -1,12 +1,13 @@
 package org.mash.harness.wait;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessContext;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
 import org.mash.harness.RunResponse;
 import org.mash.loader.HarnessConfiguration;
-import org.apache.log4j.Logger;
 import org.mash.loader.HarnessName;
 
 /**
@@ -21,7 +22,7 @@ import org.mash.loader.HarnessName;
 @HarnessName(name = "wait")
 public class TimedWaitRunHarness extends BaseHarness implements RunHarness
 {
-    private static final Logger LOG = Logger.getLogger(TimedWaitRunHarness.class.getName());
+    private static final Logger LOG = LogManager.getLogger(TimedWaitRunHarness.class.getName());
     private Long waitTime;
     private TimedResponse response;
 

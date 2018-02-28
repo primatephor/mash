@@ -11,13 +11,14 @@
 
 package org.mash.harness;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.ScriptDefinition;
 import org.mash.config.Configuration;
 import org.mash.config.Parameter;
 import org.mash.loader.harnesssetup.AnnotatedHarness;
 import org.mash.loader.harnesssetup.CalculatingParameterBuilder;
 import org.mash.loader.harnesssetup.CalculatingConfigBuilder;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  */
 public class StandardHarnessRunner implements HarnessRunner
 {
-    private static final Logger log = Logger.getLogger(StandardHarnessRunner.class.getName());
+    private static final Logger log = LogManager.getLogger(StandardHarnessRunner.class.getName());
     private CalculatingParameterBuilder parameterBuilder;
     private CalculatingConfigBuilder configurationBuilder;
 

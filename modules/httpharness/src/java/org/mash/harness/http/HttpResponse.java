@@ -6,7 +6,8 @@ import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.util.Cookie;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.RunResponse;
 import org.xml.sax.SAXException;
 
@@ -19,7 +20,7 @@ import java.util.*;
  */
 public class HttpResponse implements RunResponse
 {
-    private static final Logger log = Logger.getLogger(HttpResponse.class);
+    private static final Logger log = LogManager.getLogger(HttpResponse.class.getName());
     private String statusMessage;
     private int statusCode;
     private Page webPage;

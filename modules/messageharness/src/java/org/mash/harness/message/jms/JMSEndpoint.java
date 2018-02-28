@@ -1,6 +1,7 @@
 package org.mash.harness.message.jms;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.message.SendException;
 
 import javax.jms.Connection;
@@ -18,7 +19,7 @@ import javax.jms.Message;
  */
 public class JMSEndpoint
 {
-    private static final Logger log = Logger.getLogger(JMSEndpoint.class.getName());
+    private static final Logger log = LogManager.getLogger(JMSEndpoint.class.getName());
     private ConnectionData connectionData;
     private long timeout = 10000l;
 

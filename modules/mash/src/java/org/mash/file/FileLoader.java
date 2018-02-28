@@ -1,6 +1,8 @@
 package org.mash.file;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +17,7 @@ import java.net.URL;
  */
 public class FileLoader
 {
-    private static final Logger log = Logger.getLogger(FileLoader.class.getName());
+    private static final Logger log = LogManager.getLogger(FileLoader.class.getName());
 
     public File findFile(String filename, File base) throws FileReaderException
     {

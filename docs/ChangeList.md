@@ -1,7 +1,12 @@
 # List of changes #
 
+## 2.1 ## 
+  * Library upgrades 
+  * Drop default polling time to 1 second
+  * java 1.8 compile
+
 ## 2.0 ##
-  * In progress, upgrade to java 8
+  * Upgrade to java 8
 
 ## 1.4.2 ##
   * Add snapshot view for metrics utility

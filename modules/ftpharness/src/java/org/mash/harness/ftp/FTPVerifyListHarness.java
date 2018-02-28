@@ -1,7 +1,8 @@
 package org.mash.harness.ftp;
 
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
 import org.mash.harness.RunHarness;
@@ -27,14 +28,13 @@ import java.util.List;
  * <li> 'list_size' # of files expected </li>
  * </ul>
  *
- * @author
  * @since Sep 22, 2009 12:02:24 PM
  *
  */
 @HarnessName(name = "list_ftp")
 public class FTPVerifyListHarness extends BaseHarness implements VerifyHarness
 {
-    private static final Logger log = Logger.getLogger(FTPVerifyListHarness.class.getName());
+    private static final Logger log = LogManager.getLogger(FTPVerifyListHarness.class.getName());
     private String fileName;
     private String fileSize;
     private Integer listSize;

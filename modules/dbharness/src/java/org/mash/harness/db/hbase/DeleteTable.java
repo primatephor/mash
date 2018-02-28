@@ -2,7 +2,8 @@ package org.mash.harness.db.hbase;
 
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.TableNotFoundException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.harness.SetupHarness;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 @HarnessName(name = "hbase_delete")
 public class DeleteTable extends HBaseHarness implements SetupHarness
 {
-    private static final Logger log = Logger.getLogger(DeleteTable.class.getName());
+    private static final Logger log = LogManager.getLogger(DeleteTable.class.getName());
     private List<String> tables;
 
     public void setup()

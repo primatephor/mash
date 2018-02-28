@@ -6,8 +6,8 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mash.config.Parameter;
 import org.mash.harness.BaseHarness;
 import org.mash.harness.HarnessError;
@@ -19,8 +19,7 @@ import org.mash.loader.HarnessName;
 
 @HarnessName(name = "file")
 public class FileVerifyHarness extends BaseHarness implements VerifyHarness {
-	private static final Logger log = Logger.getLogger(FileVerifyHarness.class.getName());
-	
+	private static final Logger log = LogManager.getLogger(FileVerifyHarness.class.getName());
 	private String expected;
 	private boolean StringsMatch = false;
 	
