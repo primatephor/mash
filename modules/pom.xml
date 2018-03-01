@@ -166,8 +166,6 @@
 
     <!--
      note: maven repos do not contain
-      - hadoop-common-0.21.0.jar
-      - hbase-0.20.6.jar
       - jboss-aop-client.jar
       - jboss-common-core.jar
       - jboss-javaee.jar
@@ -179,8 +177,6 @@
       - jbossall-client.jar
 
       Run (script is build/setup/install.sh):
-      mvn install::install-file -Dfile=../build/lib/hadoop-common-0.21.0.jar -DgroupId=org.apache.hadoop -DartifactId=hadoop-common -Dversion=0.21.0 -Dpackaging=jar -DcreateChecksum=true
-      mvn install::install-file -Dfile=../build/lib/hbase-0.20.6.jar -DgroupId=org.apache.hbase -DartifactId=hbase -Dversion=0.20.6 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-aop-client.jar -DgroupId=jboss -DartifactId=jboss-aop-client -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-common-core.jar -DgroupId=jboss -DartifactId=jboss-common-core -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
       mvn install::install-file -Dfile=../build/lib/jboss-javaee.jar -DgroupId=jboss -DartifactId=jboss-javaee -Dversion=0.1 -Dpackaging=jar -DcreateChecksum=true
@@ -399,16 +395,6 @@
                         <artifactId>javassist</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-common</artifactId>
-                <version>2.7.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.hbase</groupId>
-                <artifactId>hbase-client</artifactId>
-                <version>1.2.5</version>
             </dependency>
             <dependency>
                 <groupId>xalan</groupId>

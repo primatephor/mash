@@ -56,13 +56,17 @@ public class DeleteHarness extends FTPRunHarness
             //need to move to directory we just listed
             if (isDirectory(files, path))
             {
-                client.changeWorkingDirectory(path);
+                if(!client.changeWorkingDirectory(path)){
+                    throw new OperationException("Unable to move to directory "+path);
+                }
             }
 
             for (FTPFile file : files)
             {
                 log.info("Deleting " + file.getName());
-                client.deleteFile(file.getName());
+                if(!client.deleteFile(file.getName())){
+                    throw new OperationException("Unable to delete file "+path+"/"+file.getName());
+                }
             }
             result = list.list(client);
         }
