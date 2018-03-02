@@ -1,6 +1,8 @@
 package org.mash.harness.file;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,8 +58,15 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
         return deleteFile(tFile);
     }
 
-    private boolean deleteFile(File badFile) {
-        return badFile.delete();
+    private boolean deleteFile(File toRemove) {
+        boolean result = false;
+        try {
+            Files.delete(toRemove.toPath());
+            result = true;
+        } catch (IOException e) {
+            addError("File Delete Harness", e);
+        }
+        return result;
     }
 
     public boolean deleteFolderRecursive(File dir) {
