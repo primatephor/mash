@@ -37,10 +37,15 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
             successful = this.deleteFolder(deleteMe);
 
             if(removeFolder && successful){
-                deleteFile(deleteMe);
+                successful = deleteFile(deleteMe);
             }
         }
 
+        //reporting
+        if(folderName == null && fileName == null){
+            log.error("No file or folder was specified to delete");
+            successful = false;
+        }
         log.info("Deletion status:"+successful);
     }
 
