@@ -3,6 +3,7 @@ package org.mash.harness.file;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,6 +66,21 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
             result = true;
         } catch (IOException e) {
             addError("File Delete Harness", e);
+            Path toRemovePath = toRemove.toPath();
+            //dump some output
+            boolean isReg = Files.isRegularFile(toRemovePath);
+            boolean isHid = false;
+            try {
+                 isHid = Files.isHidden(toRemovePath);
+            } catch (IOException e1) {
+                log.error("error getting hidden file information");
+            }
+            boolean isRead = Files.isReadable(toRemovePath);
+            boolean isExec = Files.isExecutable(toRemovePath);
+            boolean isWrite = Files.isWritable(toRemovePath);
+            log.error("Properties of file "+toRemove.getPath()+
+                    "\n regular? "+isReg+", hidden? "+isHid+
+                    ", isReadable? "+isRead+", isExec? "+isExec+", isWritable? "+isWrite);
         }
         return result;
     }
