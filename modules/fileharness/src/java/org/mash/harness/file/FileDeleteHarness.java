@@ -1,9 +1,6 @@
 package org.mash.harness.file;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,8 +14,7 @@ import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 
 @HarnessName(name = "delete_file")
-public class FileDeleteHarness extends BaseHarness implements RunHarness
-{
+public class FileDeleteHarness extends BaseHarness implements RunHarness {
     private static final Logger log = LogManager.getLogger(FileDeleteHarness.class.getName());
     private String fileName;
     private String folderName;
@@ -26,137 +22,100 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness
     private RunResponse response;
 
     boolean successful = true;
-    boolean deleteOnlyContent = false;
+    boolean removeFolder = false;
 
-    public void run(HarnessContext context)
-    {
+    public void run(HarnessContext context) {
         log.info("Running File Delete Harness");
 
-        if (null != fileName)
-        {
-            if (deleteOnlyContent)
-            {
-                successful = deleteFileContent(fileName);
-            }
-            else
-            {
-                successful = deleteFile(fileName);
-            }
+        if (null != fileName) {
+            log.info("Deleting file " + fileName);
+            successful = deleteFile(fileName);
         }
-        if (null != folderName && successful)
-        {
+        if (null != folderName && successful) {
             File deleteMe = new File(folderName);
-            if (deleteOnlyContent)
-            {
-                successful = this.deleteFolderContents(deleteMe);
-            }
-            else
-            {
-                successful = this.deleteFolder(deleteMe);
+            log.info("Deleting folder " + folderName);
+            successful = this.deleteFolder(deleteMe);
+
+            if(removeFolder && successful){
+                deleteFile(deleteMe);
             }
         }
+
+        log.info("Deletion status:"+successful);
     }
 
-    public boolean deleteFileContent(String fName)
-    {
-        boolean result = true;
-        try
-        {
-            RandomAccessFile badFile = new RandomAccessFile(fName, "rw");
-            badFile.setLength(0);
-            badFile.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            this.getErrors()
-                    .add(new HarnessError(this, "File Not Found Exception", "Couldn't find file to delete: " + fName));
-            result = false;
-        }
-        catch (IOException e)
-        {
-            this.getErrors().add(new HarnessError(this, "IO Exception", "Couldn't delete content of file: " + fName));
-            result = false;
-        }
-        return result;
-    }
 
-    public boolean deleteFile(String fName)
-    {
+    private boolean deleteFile(String fName) {
         File tFile = new File(fName);
         return deleteFile(tFile);
     }
 
-    public boolean deleteFile(File badFile)
-    {
+    private boolean deleteFile(File badFile) {
         return badFile.delete();
     }
 
-    public boolean deleteFolderContents(File dir)
-    {
-        boolean result = false;
-        if (dir.isDirectory())
-        {
+    public boolean deleteFolderRecursive(File dir) {
+        boolean result = true;
+        if (dir.isDirectory()) {
             String[] content = dir.list();
-            for (int i = 0; i < content.length; i++)
-            {
-                File tempFile = new File(dir, content[i]);
-                if (tempFile.isFile())
-                {
-                    deleteFile(tempFile);
+            if (content != null) {
+                log.info("Deleting " + content.length + " files");
+                for (int i = 0; i < content.length && result; i++) {
+                    String aContent = content[i];
+                    File tempFile = new File(dir, aContent);
+                    if (tempFile.isFile()) {
+                        result = deleteFile(tempFile);
+                    }
+                    if (tempFile.isDirectory()) {
+                        result = deleteFolder(tempFile);
+                    }
                 }
-                if (tempFile.isDirectory())
-                {
-                    deleteFolder(tempFile);
-                }
+            } else {
+                log.info("No contents to delete");
             }
-        }
-        else if (dir.isFile())
-        {
+        } else if (dir.isFile()) {
             result = deleteFile(dir);
         }
         return result;
     }
 
-    public boolean deleteFolder(File dir)
-    {
-        if (dir.isDirectory())
-        {
-            String[] content = dir.list();
-            for (int i = 0; i < content.length; i++)
-            {
-                boolean success = deleteFolder(new File(dir, content[i]));
-                if (!success)
-                {
-                    this.getErrors().add(new HarnessError(this, "Folder Deletion Exception",
-                                                          "Couldn't delete content of file: " + content[i]));
-                    return false;
-                }
+    public boolean deleteFolder(File dir) {
+        boolean success = false;
+        if (dir.isDirectory()) {
+            success = deleteFolderRecursive(dir);
+            if (!success) {
+                log.warn("Unable to delete directory "+dir.getAbsolutePath());
+                this.getErrors().add(new HarnessError(this, "Folder Deletion Exception",
+                        "Couldn't delete directory: " + dir));
+                return false;
             }
+            else{
+                log.debug("Removed directory "+dir.getAbsolutePath());
+            }
+        } else {
+            log.info(dir.getAbsoluteFile()+" is not a directory");
         }
-        return dir.delete();
+        return success;
     }
 
-    public RunResponse getResponse()
-    {
+    public RunResponse getResponse() {
         response = new RawResponse(Boolean.toString(successful));
         return response;
     }
 
     @HarnessConfiguration(name = "fileName")
-    public void setFileName(String fileName)
-    {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
     @HarnessConfiguration(name = "folderName")
-    public void setFolderName(String folderName)
-    {
+    public void setFolderName(String folderName) {
         this.folderName = folderName;
     }
 
-    @HarnessConfiguration(name = "justDeleteContent")
-    public void setDeleteOnlyContent(String deleteContent)
+    @HarnessConfiguration(name = "removeFolder")
+    public void setRemoveFolder(String deleteContent)
     {
-        this.deleteOnlyContent = Boolean.parseBoolean(deleteContent);
+        this.removeFolder = Boolean.parseBoolean(deleteContent);
     }
 }
