@@ -19,36 +19,37 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
     private String fileName;
     private String folderName;
 
-    private RunResponse response;
-
-    boolean successful = true;
-    boolean removeFolder = false;
+    private boolean removeFolder = false;
 
     public void run(HarnessContext context) {
         log.info("Running File Delete Harness");
 
         if (null != fileName) {
             log.info("Deleting file " + fileName);
-            successful = deleteFile(fileName);
+            if(!deleteFile(fileName)){
+                addError("File Delete Harness", "Unable to delete file "+fileName);
+            }
         }
-        if (null != folderName && successful) {
+        if (null != folderName && !hasErrors()) {
             File deleteMe = new File(folderName);
             log.info("Deleting folder " + folderName);
-            successful = this.deleteFolder(deleteMe);
-
-            if(removeFolder && successful){
-                successful = deleteFile(deleteMe);
+            if(!this.deleteFolder(deleteMe)){
+                addError("File Delete Harness", "Unable to delete contents of folder "+folderName);
+            }
+            else{
+                if(removeFolder){
+                    if(!deleteFile(deleteMe)){
+                        addError("File Delete Harness", "Unable to delete contents of folder "+folderName);
+                    }
+                }
             }
         }
 
         //reporting
         if(folderName == null && fileName == null){
-            log.error("No file or folder was specified to delete");
-            successful = false;
+            addError("File Delete Harness", "No file or folder was specified to delete");
         }
-        log.info("Deletion status:"+successful);
     }
-
 
     private boolean deleteFile(String fName) {
         File tFile = new File(fName);
@@ -104,8 +105,7 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
     }
 
     public RunResponse getResponse() {
-        response = new RawResponse(Boolean.toString(successful));
-        return response;
+        return new RawResponse(Boolean.toString(!hasErrors()));
     }
 
     @HarnessConfiguration(name = "fileName")
