@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,7 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
     private String folderName;
 
     private boolean removeFolder = false;
+    private boolean force = false;
 
     public void run(HarnessContext context) {
         log.info("Running File Delete Harness");
@@ -61,12 +63,17 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
 
     private boolean deleteFile(File toRemove) {
         boolean result = false;
+        Path toRemovePath = toRemove.toPath();
         try {
-            Files.delete(toRemove.toPath());
+            String os = System.getProperty("os.name");
+            if(force && !os.equalsIgnoreCase("windows"))
+            {
+                Files.setPosixFilePermissions(toRemovePath, PosixFilePermissions.fromString("rwxrwxrwx"));
+            }
+            Files.delete(toRemovePath);
             result = true;
         } catch (IOException e) {
             addError("File Delete Harness", e);
-            Path toRemovePath = toRemove.toPath();
             //dump some output
             boolean isReg = Files.isRegularFile(toRemovePath);
             boolean isHid = false;
@@ -148,4 +155,11 @@ public class FileDeleteHarness extends BaseHarness implements RunHarness {
     {
         this.removeFolder = Boolean.parseBoolean(deleteContent);
     }
+
+    @HarnessConfiguration(name = "force")
+    public void setForce(String forceDelete)
+    {
+        this.force = Boolean.parseBoolean(forceDelete);
+    }
+
 }
