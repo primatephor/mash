@@ -14,6 +14,8 @@ import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 import org.mash.loader.HarnessParameter;
 
+import java.io.IOException;
+
 /**
  * Perform generic FTP operations on a server, based on whatever parameters are passed via the ftp_params param.
  * <p>
@@ -47,48 +49,60 @@ public class FTPRunHarness extends BaseHarness implements RunHarness {
 
     public void run(HarnessContext context) {
         FTPClient client = buildClient();
-        try {
-            //5 minutes
-            client.setConnectTimeout(5 * 60 * 1000);
+        if(url == null){
+            log.error("Unable to connect, no url configured");
+            this.getErrors().add(new HarnessError(this, "Connection", "No URL configured for FTP"));
+        }
+        else {
             log.info("Attempting connect to " + url);
-            int port = 22;
-            if (url.contains(":")) {
-                int portIdx = url.indexOf(":");
-                port = Integer.valueOf(url.substring(portIdx + 1));
-                url = url.substring(0, portIdx);
-            }
-            client.connect(url, port);
-            int reply = client.getReplyCode();
-            log.info("Connection status: " + reply);
-
-            // After connection attempt, you should check the reply code to verify success.
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                client.disconnect();
-                log.error("FTP connection refused");
-                this.getErrors().add(new HarnessError(this, "Connection", "FTP connection refused"));
-            }
-
-            if (!hasErrors()) {
-                if (!client.login(user, password)) {
-                    this.getErrors().add(new HarnessError(this, "Authentication", "Unable to login with user " + user));
-                } else {
-                    response = runOperation(client);
+            try {
+                //5 minutes
+                client.setConnectTimeout(5 * 60 * 1000);
+                int port = 22;
+                if (url.contains(":")) {
+                    int portIdx = url.indexOf(":");
+                    port = Integer.valueOf(url.substring(portIdx + 1));
+                    url = url.substring(0, portIdx);
                 }
-                if (response != null && log.isTraceEnabled()) {
-                    log.trace("Response:" + response.getString());
-                }
-                client.logout();
-            }
-        } catch (Exception e) {
-            log.error("Unexpected error ftping server", e);
-            this.getErrors().add(new HarnessError(this.getClass().getName(),
-                    "Unexpected error ftping server", e.getMessage()));
-        } finally {
-            if (client.isConnected()) {
-                try {
+                client.connect(url, port);
+                int reply = client.getReplyCode();
+                log.info("Connection status: " + reply);
+
+                // After connection attempt, you should check the reply code to verify success.
+                if (!FTPReply.isPositiveCompletion(reply)) {
                     client.disconnect();
-                } catch (Exception ioe) {
-                    log.error("Unexpected error closing connection to ftp server", ioe);
+                    log.error("FTP connection refused");
+                    this.getErrors().add(new HarnessError(this, "Connection", "FTP connection refused"));
+                }
+
+                if (!hasErrors()) {
+                    if (!client.login(user, password)) {
+                        this.getErrors().add(new HarnessError(this, "Authentication", "Unable to login with user " + user));
+                    } else {
+                        response = runOperation(client);
+                    }
+                    if (response != null && log.isTraceEnabled()) {
+                        log.trace("Response:" + response.getString());
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Unexpected error ftping server", e);
+                this.getErrors().add(new HarnessError(this.getClass().getName(),
+                        "Unexpected error ftping server", e.getMessage()));
+            } finally {
+
+                try {
+                    client.logout();
+                } catch (IOException e) {
+                    log.error("Unexpected error logging out", e);
+                }
+
+                if (client.isConnected()) {
+                    try {
+                        client.disconnect();
+                    } catch (Exception ioe) {
+                        log.error("Unexpected error closing connection to ftp server", ioe);
+                    }
                 }
             }
         }

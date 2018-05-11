@@ -11,8 +11,6 @@ import java.util.Date;
 
 /**
  *
- * @author
- * @since Oct 29, 2009 10:48:27 AM
  *
  */
 public class TestFTPWaitHarness extends TestCase
@@ -25,6 +23,7 @@ public class TestFTPWaitHarness extends TestCase
     public void testSimple()
     {
         MyFTPWaitHarness wait = new MyFTPWaitHarness();
+        wait.setUrl("bogusurl");
         //should response after 3 polls
         pollCount = 2;
         //return one file
@@ -45,6 +44,7 @@ public class TestFTPWaitHarness extends TestCase
     public void testTimeout()
     {
         MyFTPWaitHarness wait = new MyFTPWaitHarness();
+        wait.setUrl("bogusurl");
         wait.setPath("theFile");
         wait.setTimeoutMillis("30000");
         //should still poll 2 times
@@ -70,9 +70,18 @@ public class TestFTPWaitHarness extends TestCase
 
     private class MyFTPWaitHarness extends FTPWaitHarness
     {
+        private String url;
+        @Override
+        public void setUrl(String url) {
+            super.setUrl(url);
+            this.url = url;
+        }
+
         protected ListHarness buildRunHarness()
         {
-            return new MyFTPRunHarness();
+            MyFTPRunHarness run = new MyFTPRunHarness();
+            run.setUrl(url);
+            return run;
         }
     }
 
@@ -80,6 +89,7 @@ public class TestFTPWaitHarness extends TestCase
     {
         protected FTPClient buildClient()
         {
+            log.info("Building mock client");
             return new MyClient();
         }
     }
@@ -106,9 +116,10 @@ public class TestFTPWaitHarness extends TestCase
             return results;
         }
 
-        public void connect(String url) throws IOException
+        public void connect(String url, int port) throws IOException
         {
             //don't try to connect, we're overriding this
+            log.info("Connecting to mock server");
         }
 
         public int getReplyCode()
