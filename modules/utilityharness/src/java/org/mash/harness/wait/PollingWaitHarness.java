@@ -21,17 +21,18 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
 
     public void run(HarnessContext context)
     {
-        long current = timeoutMillis;
+        long remainingTime = timeoutMillis;
+        long startTime = System.currentTimeMillis();
         long timeToWait = pollMillis;
         boolean isComplete = false;
-        while (current > 0 && !isComplete)
+        while (remainingTime > 0 && !isComplete)
         {
             isComplete = poll(context);
             if (!isComplete)
             {
                 try
                 {
-                    log.info("didn't find what I wanted, waiting:" + timeToWait+", remaining:"+current);
+                    log.info("didn't find what I wanted, waiting:" + timeToWait+", remaining:"+remainingTime);
                     Thread.sleep(timeToWait);
                 }
                 catch (InterruptedException e)
@@ -39,11 +40,15 @@ public abstract class PollingWaitHarness extends BaseHarness implements RunHarne
                     this.getErrors().add(new HarnessError(this, "Problem waiting for next polling", e));
                 }
             }
-            current -= timeToWait;
+
+            //this should count down as we poll more, but we need actual time because
+            //the above polling run could take a long time. So we need the difference
+            //between now and when we started, and subtract that from the timeout time
+            remainingTime = timeoutMillis - (System.currentTimeMillis() - startTime);
             //don't wait longer than what's remaining
-            if(timeToWait > current)
+            if(timeToWait > remainingTime)
             {
-                timeToWait = current;
+                timeToWait = remainingTime;
             }
         }
 

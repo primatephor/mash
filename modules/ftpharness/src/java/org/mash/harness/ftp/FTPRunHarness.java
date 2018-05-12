@@ -59,12 +59,13 @@ public class FTPRunHarness extends BaseHarness implements RunHarness {
                 //5 minutes
                 client.setConnectTimeout(5 * 60 * 1000);
                 int port = 22;
+                String urlWithoutPort = url;
                 if (url.contains(":")) {
                     int portIdx = url.indexOf(":");
                     port = Integer.valueOf(url.substring(portIdx + 1));
-                    url = url.substring(0, portIdx);
+                    urlWithoutPort = url.substring(0, portIdx);
                 }
-                client.connect(url, port);
+                client.connect(urlWithoutPort, port);
                 int reply = client.getReplyCode();
                 log.info("Connection status: " + reply);
 
