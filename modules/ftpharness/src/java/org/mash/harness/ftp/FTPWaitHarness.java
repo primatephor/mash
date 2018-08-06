@@ -23,6 +23,7 @@ import java.util.List;
  * <li> 'url' is the url to submit to </li>
  * <li> 'user' is the user to connect with</li>
  * <li> 'password' is the user's password </li>
+ * <li> 'passive_mode' is the FTP client local passive mode (this is on my default)</li>
  * <li> 'timeout' optional time in milliseconds to stop polling (default timeout = 1 minute) </li>
  * <li> 'polltime' optional time in milliseconds to poll remote server (default poll time is 5 seconds) </li>
  * </ul>
@@ -45,6 +46,7 @@ public class FTPWaitHarness extends PollingWaitHarness
     private String password;
     private String url;
     private String path;
+    private Boolean passiveMode = Boolean.TRUE;
 
     //for lists
     private Long fileSize;
@@ -108,6 +110,7 @@ public class FTPWaitHarness extends PollingWaitHarness
                 getHarness.setUrl(url);
                 getHarness.setUser(user);
                 getHarness.setPassword(password);
+                getHarness.setPassiveMode(passiveMode.toString());
                 getHarness.setPath(path);
                 getHarness.setFileContents(fileContents);
                 if (fileIndex != null)
@@ -124,6 +127,7 @@ public class FTPWaitHarness extends PollingWaitHarness
                 listHarness.setPassword(password);
                 listHarness.setUser(user);
                 listHarness.setPath(path);
+                listHarness.setPassiveMode(passiveMode.toString());
                 run = listHarness;
             }
         }
@@ -215,6 +219,11 @@ public class FTPWaitHarness extends PollingWaitHarness
     public void setUrl(String url)
     {
         this.url = url;
+    }
+
+    @HarnessConfiguration(name = "passive_mode")
+    public void setPassiveMode(String passiveMode) {
+        this.passiveMode= Boolean.valueOf(passiveMode);
     }
 
     @HarnessParameter(name = "path")

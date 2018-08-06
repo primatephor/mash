@@ -24,6 +24,7 @@ import java.io.IOException;
  * <li> 'url' is the url to submit to </li>
  * <li> 'user' is the user to connect with</li>
  * <li> 'password' is the user's password </li>
+ * <li> 'passive_mode' is the FTP client local passive mode (this is on my default)</li>
  * </ul>
  * <p/>
  * <p/>
@@ -41,6 +42,7 @@ public class FTPRunHarness extends BaseHarness implements RunHarness {
     private String url;
     private String user;
     private String password;
+    private Boolean passiveMode = Boolean.TRUE;
 
     //params
     private String ftpParams;
@@ -74,6 +76,14 @@ public class FTPRunHarness extends BaseHarness implements RunHarness {
                     client.disconnect();
                     log.error("FTP connection refused");
                     this.getErrors().add(new HarnessError(this, "Connection", "FTP connection refused"));
+                }
+
+                //default is TRUE (initialized above)
+                if(passiveMode){
+                    client.enterLocalPassiveMode();
+                }
+                else{
+                    client.enterLocalActiveMode();
                 }
 
                 if (!hasErrors()) {
@@ -149,6 +159,11 @@ public class FTPRunHarness extends BaseHarness implements RunHarness {
     @HarnessConfiguration(name = "password")
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @HarnessConfiguration(name = "passive_mode")
+    public void setPassiveMode(String passiveMode) {
+        this.passiveMode= Boolean.valueOf(passiveMode);
     }
 
     @HarnessParameter(name = "ftp_params")
