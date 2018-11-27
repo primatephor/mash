@@ -47,6 +47,7 @@ public class FTPWaitHarness extends PollingWaitHarness
     private String url;
     private String path;
     private Boolean passiveMode = Boolean.TRUE;
+    private String filenamePattern;
 
     //for lists
     private Long fileSize;
@@ -118,6 +119,7 @@ public class FTPWaitHarness extends PollingWaitHarness
                     getHarness.setFileIndex(String.valueOf(fileIndex));
                 }
                 getHarness.setFilename(filename);
+                getHarness.setFilenamePattern(filenamePattern);
                 run = getHarness;
             }
             else
@@ -128,6 +130,7 @@ public class FTPWaitHarness extends PollingWaitHarness
                 listHarness.setUser(user);
                 listHarness.setPath(path);
                 listHarness.setPassiveMode(passiveMode.toString());
+                listHarness.setFilenamePattern(filenamePattern);
                 run = listHarness;
             }
         }
@@ -264,6 +267,11 @@ public class FTPWaitHarness extends PollingWaitHarness
     public void setFilename(String filename)
     {
         this.filename = filename;
+    }
+
+    @HarnessParameter(name = "filename_pattern")
+    public void setFilenamePattern(String filenamePattern) {
+        this.filenamePattern = filenamePattern;
     }
 
 }

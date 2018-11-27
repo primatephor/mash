@@ -36,6 +36,7 @@ public class DeleteHarness extends FTPRunHarness
 {
     private static final Logger log = LogManager.getLogger(DeleteHarness.class.getName());
     private String path;
+    private String filenamePattern;
 
     protected RunResponse runOperation(FTPClient client) throws OperationException
     {
@@ -50,6 +51,7 @@ public class DeleteHarness extends FTPRunHarness
         {
             ListHarness list = new ListHarness();
             list.setPath(path);
+            list.setFilenamePattern(filenamePattern);
             ListRunResponse response = (ListRunResponse) list.list(client);
             Collection<FTPFile> files = response.getFiles().values();
 
@@ -103,5 +105,10 @@ public class DeleteHarness extends FTPRunHarness
     public void setPath(String path)
     {
         this.path = path;
+    }
+
+    @HarnessParameter(name = "filename_pattern")
+    public void setFilenamePattern(String filenamePattern) {
+        this.filenamePattern = filenamePattern;
     }
 }

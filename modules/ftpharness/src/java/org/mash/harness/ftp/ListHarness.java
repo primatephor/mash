@@ -35,6 +35,7 @@ public class ListHarness extends FTPRunHarness
 {
     private static final Logger log = LogManager.getLogger(ListHarness.class.getName());
     private String path;
+    private String filenamePattern;
 
     protected RunResponse runOperation(FTPClient client) throws OperationException
     {
@@ -49,8 +50,9 @@ public class ListHarness extends FTPRunHarness
             FTPFile[] files;
             if (path != null)
             {
-                log.info("List on path "+path);
-                files = client.listFiles(path);
+                log.info("List files on path " + path +
+                        ( filenamePattern != null && ! filenamePattern.isEmpty() ? " matching pattern " + filenamePattern : "" ));
+                files = client.listFiles(path, new RegexFileFilter( filenamePattern ));
             }
             else
             {
@@ -70,5 +72,10 @@ public class ListHarness extends FTPRunHarness
     public void setPath(String path)
     {
         this.path = path;
+    }
+
+    @HarnessParameter(name = "filename_pattern")
+    public void setFilenamePattern(String filenamePattern) {
+        this.filenamePattern = filenamePattern;
     }
 }
