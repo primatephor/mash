@@ -64,6 +64,7 @@ public class GetHarness extends FTPRunHarness
     private List<String> fileContents;
     private String filename;
     private String path;
+    private String filenamePattern;
 
     protected RunResponse runOperation(FTPClient client) throws OperationException
     {
@@ -79,13 +80,15 @@ public class GetHarness extends FTPRunHarness
             {
                 if (fileContents != null)
                 {
-                    log.info("Looking for file in path " + path + " containing " + fileContents);
-                    result = retrieveResponseContainment(client, path);
+                    log.info("Looking for file in path " + path + " containing " + fileContents +
+                            ( filenamePattern != null && ! filenamePattern.isEmpty() ? " matching pattern " + filenamePattern : ""));
+                    result = retrieveResponseContainment(client, path, filenamePattern);
                 }
                 else if (fileIndex != null)
                 {
-                    log.info("Retriving file in " + path + " at index " + fileIndex);
-                    result = retrieveIndexedResponse(client, path);
+                    log.info("Retriving file in " + path + " at index " + fileIndex +
+                            ( filenamePattern != null && ! filenamePattern.isEmpty() ? " matching pattern " + filenamePattern : ""));
+                    result = retrieveIndexedResponse(client, path, filenamePattern);
                 }
             }
         }
@@ -151,11 +154,12 @@ public class GetHarness extends FTPRunHarness
         return result;
     }
 
-    private RunResponse retrieveResponseContainment(FTPClient client, String path) throws OperationException
+    private RunResponse retrieveResponseContainment(FTPClient client, String path, String filenamePattern) throws OperationException
     {
         RunResponse response = null;
         ListHarness listHarness = new ListHarness();
         listHarness.setPath(path);
+        listHarness.setFilenamePattern(filenamePattern);
         ListRunResponse ls = (ListRunResponse) listHarness.list(client);
         Map<String, FTPFile> files = ls.getFiles();
 
@@ -181,16 +185,18 @@ public class GetHarness extends FTPRunHarness
                 log.info("Found " + fileContents);
                 log.debug("Response:" + toCheck);
                 response = result;
+                break;
             }
         }
         return response;
     }
 
-    private RunResponse retrieveIndexedResponse(FTPClient client, String path) throws OperationException
+    private RunResponse retrieveIndexedResponse(FTPClient client, String path, String filenamePattern) throws OperationException
     {
         RunResponse response = null;
         ListHarness listHarness = new ListHarness();
         listHarness.setPath(path);
+        listHarness.setFilenamePattern(filenamePattern);
         ListRunResponse ls = (ListRunResponse) listHarness.list(client);
         Map<String, FTPFile> files = ls.getFiles();
         List<FTPFile> fileList = new ArrayList<FTPFile>(files.values());
@@ -198,7 +204,7 @@ public class GetHarness extends FTPRunHarness
         if (fileList.size() <= fileIndex)
         {
             getErrors().add(new HarnessError(this, "List",
-                                             "Number of conversations found (" + fileList.size() + ") " +
+                                             "Number of files found (" + fileList.size() + ") " +
                                              "is less than desired index (out of bounds) " + fileIndex));
         }
         else
@@ -266,5 +272,10 @@ public class GetHarness extends FTPRunHarness
         {
             return o1.getTimestamp().compareTo(o2.getTimestamp());
         }
+    }
+
+    @HarnessParameter(name = "filename_pattern")
+    public void setFilenamePattern(String filenamePattern) {
+        this.filenamePattern = filenamePattern;
     }
 }
