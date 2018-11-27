@@ -76,13 +76,18 @@ public class TestStandardScriptRunner extends TestCase
         assertTrue("DB setup not invoked", ((DBSetupHarness) harness.getWrap()).setupCalled);
 
         //sub script
-        ScriptLoaderProxy subScript = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(1);
-        assertEquals("script4", subScript.getName());
-        assertEquals("someparam", subScript.getParameter().get(0).getName());
+        //because a directory was called, scripts may come in any order in that directory
+        ScriptLoaderProxy subScript1 = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(1);
+        ScriptLoaderProxy subScript2 = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(2);
+        if(!"script4".equals(subScript1.getName())){
+            subScript1 = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(2);
+            subScript2 = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(1);
+        }
+        assertEquals("script4", subScript1.getName());
+        assertEquals("someparam", subScript1.getParameter().get(0).getName());
 
-        subScript = (ScriptLoaderProxy) standardScriptRunner.getHarnesses().get(2);
-        assertEquals("script5", subScript.getName());
-        assertEquals("someparam", subScript.getParameter().get(0).getName());
+        assertEquals("script5", subScript2.getName());
+        assertEquals("someparam", subScript2.getParameter().get(0).getName());
 
         //back to main script
         harness = (AnnotatedHarness) standardScriptRunner.getHarnesses().get(3);

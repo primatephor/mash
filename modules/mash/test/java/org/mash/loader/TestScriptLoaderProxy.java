@@ -19,13 +19,26 @@ public class TestScriptLoaderProxy extends TestCase
 
         assertEquals(2, suite.getScriptOrParallel().size());
         List<ScriptDefinition> scripts = new ScriptDefinitionLoader().pullDir("suite", suite);
-        ScriptLoaderProxy proxy = (ScriptLoaderProxy) scripts.get(0);
-        assertFalse(proxy.isTestLoaded());
-        assertEquals(3, proxy.getTag().size());
-        assertFalse(proxy.isTestLoaded());
-        assertEquals("The Test", proxy.getName());
-        assertFalse(proxy.isTestLoaded());
-        assertEquals(3, proxy.getHarnesses().size());
-        assertTrue(proxy.isTestLoaded());
+        ScriptLoaderProxy firstTest = (ScriptLoaderProxy) scripts.get(0);
+        ScriptLoaderProxy secondTest = (ScriptLoaderProxy) scripts.get(1);
+        if(!"The Test".equals(firstTest.getName())) {
+            firstTest = secondTest;
+            secondTest = (ScriptLoaderProxy) scripts.get(0);
+        }
+        assertFalse(firstTest.isTestLoaded());
+        assertEquals(3, firstTest.getTag().size());
+        assertFalse(firstTest.isTestLoaded());
+        assertEquals("The Test", firstTest.getName());
+        assertFalse(firstTest.isTestLoaded());
+        assertEquals(3, firstTest.getHarnesses().size());
+        assertTrue(firstTest.isTestLoaded());
+
+        assertFalse(secondTest.isTestLoaded());
+        assertEquals(2, secondTest.getTag().size());
+        assertFalse(secondTest.isTestLoaded());
+        assertEquals("The Second Test", secondTest.getName());
+        assertFalse(secondTest.isTestLoaded());
+        assertEquals(3, secondTest.getHarnesses().size());
+        assertTrue(secondTest.isTestLoaded());
     }
 }
