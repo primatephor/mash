@@ -17,6 +17,9 @@ public class Replace extends BaseParameter
     @XmlAttribute
     protected String search;
 
+    @XmlAttribute
+    protected String trim;
+
     public Replace()
     {
     }
@@ -45,5 +48,18 @@ public class Replace extends BaseParameter
     public void setSearch(String value)
     {
         this.search = value;
+    }
+
+    public String getTrim() {
+        return trim;
+    }
+
+    public void setTrim(String trim) {
+        this.trim = trim;
+    }
+
+    public boolean shouldTrim()
+    {
+        return Boolean.valueOf(getTrim());
     }
 }

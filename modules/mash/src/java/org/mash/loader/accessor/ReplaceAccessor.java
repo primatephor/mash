@@ -47,6 +47,10 @@ public class ReplaceAccessor implements ContentAccessor
                     for (Replace replace : replaceable.getReplace())
                     {
                         String value = accessorChain.access(replace);
+                        if( replace.shouldTrim() && value != null )
+                        {
+                            value = value.trim();
+                        }
                         log.debug("Replacing '" + replace.getSearch() + "' with '" + value + "'");
                         result = result.replace(replace.getSearch(), value);
                     }

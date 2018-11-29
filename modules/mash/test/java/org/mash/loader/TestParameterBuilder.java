@@ -163,6 +163,32 @@ public class TestParameterBuilder extends TestCase
         assertEquals("header", context);
     }
 
+    public void testTrimReplace() throws Exception
+    {
+        String contents = "<ns1:Script name=\"Sample Fastrack Test\" xmlns:ns1=\"https://github.com/primatephor/mash/schema/V1\">\n" +
+                "    <Setup type=\"org.mash.harness.DBSetupHarness\">\n" +
+                "        <Configuration>" +
+                "             <ParamName>" +
+                "                 <Value>this_will_be_{replaced}</Value>" +
+                "                 <Replace search=\"{replaced}\" trim=\"true\"><Value>     named     </Value></Replace>" +
+                "             </ParamName>" +
+                "        </Configuration>\n" +
+                "    </Setup>\n" +
+                "</ns1:Script>";
+
+        JAXBSuiteMarshaller marshaller = new JAXBSuiteMarshaller();
+        Script result = (Script) marshaller.unmarshal(contents);
+        //replace the dates with our date, so we can validate
+        String name = ((HarnessDefinition) result.getHarnesses().get(0)).getConfiguration().get(0).getName();
+
+        assertEquals(null, name);
+        Harness toCheck = new HarnessBuilder().buildHarness((HarnessDefinition) result.getHarnesses().get(0));
+        List<Configuration> appliedParams = new CalculatingConfigBuilder().applyParameters(null, null, toCheck.getDefinition());
+        assertEquals(1, appliedParams.size());
+        String configName = appliedParams.get(0).getName();
+        assertEquals("this_will_be_named", configName);
+    }
+
     private class MyDate extends Date
     {
         private MyDate(Date parent, java.util.Date toSet)
