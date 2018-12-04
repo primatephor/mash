@@ -1,6 +1,7 @@
 package org.mash.harness;
 
 import org.mash.config.Configuration;
+import org.mash.config.File;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.Parameter;
 
@@ -43,6 +44,8 @@ public interface Harness
      */
     void setParameters(List<Parameter> params) throws Exception;
 
+    void setFiles(List<File> file) throws Exception;
+
     /**
      * Supply the test harness definitions for use by the defined harness
      * @return original definition of the harness
@@ -66,6 +69,8 @@ public interface Harness
     List<Configuration> getConfiguration();
 
     List<Parameter> getParameters();
+
+    List<File> getFiles();
 
     String getName();
 }

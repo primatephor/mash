@@ -54,6 +54,7 @@ public class StandardHarnessRunner implements HarnessRunner
             List<Parameter> params = parameterBuilder.applyParameters(context.getPreviousRuns(),
                                                                       definition, harness.getDefinition());
             harness.setParameters(params);
+            harness.setFiles(harness.getDefinition().getFiles());
             if (harness instanceof SetupHarness)
             {
                 errors.addAll(runSetupHarness((SetupHarness) harness));

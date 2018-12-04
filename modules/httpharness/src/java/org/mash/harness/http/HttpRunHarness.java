@@ -61,16 +61,9 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
 
         if (client != null)
         {
-            Map<String, String> params = new HashMap<String, String>();
-            //only get parameters with no context
-            for (Parameter parameter : getParameters(null))
-            {
-                params.put(parameter.getName(), parameter.getValue());
-            }
-
             try
             {
-                client.submit(url, params, getParameters(CONTEXT_HEADER));
+                client.submit(url, getContents(), getParameters(CONTEXT_HEADER));
                 if (log.isTraceEnabled())
                 {
                     RunResponse response = getResponse();
@@ -86,6 +79,17 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
                 this.getErrors().add(new HarnessError(this.getName(), "Unexpected error sending to " + url, e));
             }
         }
+    }
+
+    protected Map<String, String> getContents()
+    {
+        Map<String, String> params = new HashMap<String, String>();
+        //only get parameters with no context
+        for (Parameter parameter : getParameters(null))
+        {
+            params.put(parameter.getName(), parameter.getValue());
+        }
+        return params;
     }
 
     protected Page getPage()

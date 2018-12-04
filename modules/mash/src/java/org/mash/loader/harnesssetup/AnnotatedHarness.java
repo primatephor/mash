@@ -1,9 +1,6 @@
 package org.mash.loader.harnesssetup;
 
-import org.mash.config.BaseParameter;
-import org.mash.config.Configuration;
-import org.mash.config.HarnessDefinition;
-import org.mash.config.Parameter;
+import org.mash.config.*;
 import org.mash.harness.Harness;
 import org.mash.harness.HarnessError;
 import org.mash.loader.HarnessConfiguration;
@@ -44,6 +41,16 @@ public class AnnotatedHarness implements Harness
                 paramSetters.put(param.name(), method);
             }
         }
+    }
+
+    public void setFiles(List<File> files) throws Exception
+    {
+        this.wrap.setFiles(files);
+    }
+
+    public List<File> getFiles()
+    {
+        return this.wrap.getFiles();
     }
 
     public void setConfiguration(List<Configuration> configs) throws Exception

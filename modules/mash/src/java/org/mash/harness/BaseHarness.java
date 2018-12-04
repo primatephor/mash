@@ -1,9 +1,6 @@
 package org.mash.harness;
 
-import org.mash.config.BaseParameter;
-import org.mash.config.Configuration;
-import org.mash.config.HarnessDefinition;
-import org.mash.config.Parameter;
+import org.mash.config.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ public class BaseHarness implements Harness
 {
     protected List<Configuration> configuration;
     protected List<Parameter> parameters;
+    protected List<File> files;
     protected HarnessDefinition definition;
     private List<HarnessError> harnessErrors;
 
@@ -30,6 +28,20 @@ public class BaseHarness implements Harness
     public void setConfiguration(List<Configuration> configuration)
     {
         this.configuration = configuration;
+    }
+
+    public void setFiles(List<File> files) throws Exception
+    {
+        this.files = files;
+    }
+
+    public List<File> getFiles()
+    {
+        if (files == null)
+        {
+            files = new ArrayList<File>();
+        }
+        return files;
     }
 
     public List<Parameter> getParameters()

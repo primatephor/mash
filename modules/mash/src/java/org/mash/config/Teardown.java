@@ -26,7 +26,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Teardown", propOrder = {
         "configuration",
-        "parameter"
+        "parameter",
+        "files"
         }, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Teardown extends HarnessDefinition
 {
