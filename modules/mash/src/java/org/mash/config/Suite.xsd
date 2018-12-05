@@ -52,6 +52,7 @@
         <xs:attribute name="property" type="xs:string"/>
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="file" type="xs:string"/>
+        <xs:attribute name="context" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="Attachment">
