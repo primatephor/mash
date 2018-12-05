@@ -52,6 +52,15 @@
         <xs:attribute name="property" type="xs:string"/>
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="file" type="xs:string"/>
+        <xs:attribute name="context" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Attachment">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="contentType" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="Date">
@@ -120,6 +129,7 @@
         <xs:sequence>
             <xs:element name="Configuration" type="tns:Configuration" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="Parameter" type="tns:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Attachment" type="tns:Attachment" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string"/>
         <xs:attribute name="type" type="xs:string"/>

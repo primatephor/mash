@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Run", propOrder = {
         "configuration",
-        "parameter"
+        "parameter",
+        "attachments"
         }, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Run extends HarnessDefinition
 {

@@ -13,6 +13,8 @@ public class HarnessDefinition
     protected List<Configuration> configuration;
     @XmlElement(name = "Parameter")
     protected List<Parameter> parameter;
+    @XmlElement(name = "Attachment")
+    protected List<Attachment> attachments;
     @XmlAttribute
     protected String type;
     @XmlAttribute
@@ -20,6 +22,15 @@ public class HarnessDefinition
     //not part of xml
     @XmlTransient
     private ScriptDefinition scriptDefinition;
+
+    public List<Attachment> getAttachments()
+    {
+        if (attachments == null)
+        {
+            attachments = new ArrayList<>();
+        }
+        return this.attachments;
+    }
 
     public List<Configuration> getConfiguration()
     {

@@ -6,14 +6,26 @@ import com.gargoylesoftware.htmlunit.SgmlPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mash.config.Attachment;
 import org.mash.config.Parameter;
+import org.mash.file.FileLoader;
+import org.mash.file.FileReaderException;
 import org.mash.harness.*;
 import org.mash.harness.rest.RestResponse;
 import org.mash.loader.HarnessConfiguration;
 import org.mash.loader.HarnessName;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -61,16 +73,11 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
 
         if (client != null)
         {
-            Map<String, String> params = new HashMap<String, String>();
-            //only get parameters with no context
-            for (Parameter parameter : getParameters(null))
-            {
-                params.put(parameter.getName(), parameter.getValue());
-            }
-
             try
             {
-                client.submit(url, params, getParameters(CONTEXT_HEADER));
+                Map<String, String> contents = buildContents();
+
+                client.submit(url, contents, getParameters(CONTEXT_HEADER));
                 if (log.isTraceEnabled())
                 {
                     RunResponse response = getResponse();
@@ -86,6 +93,111 @@ public class HttpRunHarness extends BaseHarness implements RunHarness
                 this.getErrors().add(new HarnessError(this.getName(), "Unexpected error sending to " + url, e));
             }
         }
+    }
+
+    protected Map<String, String> buildContents()
+    {
+        if( getAttachments() != null && getAttachments().size() > 0 )
+        {
+            return buildMultipartContents();
+        }
+        else
+        {
+            Map<String, String> params = new HashMap<String, String>();
+            //only get parameters with no context
+            for (Parameter parameter : getParameters(null))
+            {
+                params.put(parameter.getName(), parameter.getValue());
+            }
+            return params;
+        }
+    }
+
+    protected Map<String, String> buildMultipartContents()
+    {
+        Map<String,String> result = new HashMap<String,String>();
+
+        File basePath = null;
+        if( this.getDefinition() != null && this.getDefinition().getScriptDefinition() != null )
+        {
+            basePath = this.getDefinition().getScriptDefinition().getPath();
+        }
+        log.debug( "basePath=" + basePath.getAbsolutePath());
+
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE).setCharset(Charset.forName("UTF-8"));
+
+        FileLoader fileLoader = new FileLoader();
+        int fileCount = 1;
+
+        for( Attachment attachment : getAttachments())
+        {
+            String filename = attachment.getValue();
+
+            ContentType contentType = ContentType.APPLICATION_OCTET_STREAM;
+            if( attachment.getContentType() != null && ! attachment.getContentType().isEmpty())
+            {
+                contentType = ContentType.getByMimeType( attachment.getContentType() ) != null ?
+                        ContentType.getByMimeType( attachment.getContentType() ) :
+                        ContentType.create( attachment.getContentType() );
+            }
+            log.debug( "Using content type " + contentType + " for attachment " + filename );
+
+            try
+            {
+                File file = fileLoader.findFile(filename, basePath);
+                if( file.canRead())
+                {
+                    log.debug( "Adding attachment " + file.getAbsolutePath());
+                    builder.addPart("attachment" + (fileCount++), new FileBody(file, contentType));
+                }
+                else
+                {
+                    log.error( "Ignoring unreadable attachment " + filename);
+                }
+            }
+            catch( FileReaderException fre )
+            {
+                log.error( "Cannot read attachment " + filename, fre );
+            }
+
+        }
+
+        for( Parameter param: super.getParameters(null))
+        {
+            log.debug( "Adding text parameter " + param.getName() + " with value " + param.getValue());
+            builder.addTextBody(param.getName(), param.getValue());
+        }
+
+        HttpEntity httpEntity = builder.build();
+        String contentType = httpEntity.getContentType().getValue();
+        log.debug( "Content-Type is " + httpEntity.getContentType().toString());
+        if( contentType != null && ! contentType.isEmpty())
+        {
+            Parameter param = new Parameter( "Content-Type", contentType);
+            param.setContext(CONTEXT_HEADER);
+            getParameters().add(param);
+        }
+
+        try
+        {
+            String content = null;
+
+            ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+            httpEntity.writeTo(outstream);
+            outstream.flush();
+            content = outstream.toString();
+
+            log.trace( "Body content:\n" + content);
+
+            result.put( StandardRequestFactory.BODY, content );
+        }
+        catch( IOException ioe )
+        {
+            log.error( "Error while building content", ioe );
+        }
+
+        return result;
     }
 
     protected Page getPage()

@@ -1,5 +1,6 @@
 package org.mash.harness;
 
+import org.mash.config.Attachment;
 import org.mash.config.Configuration;
 import org.mash.config.HarnessDefinition;
 import org.mash.config.Parameter;
@@ -44,6 +45,15 @@ public interface Harness
     void setParameters(List<Parameter> params) throws Exception;
 
     /**
+     * Provide attachments to to the harness.  Attachments are files.  The use of attachments is harness implementation
+     * specific but they could be used, for example, in HTTP mime/multipart file uploads, in email harnesses as email
+     * attachments, etc.
+     *
+     * @param attachments for the harness implementation
+     */
+    void setAttachments(List<Attachment> attachments) throws Exception;
+
+    /**
      * Supply the test harness definitions for use by the defined harness
      * @return original definition of the harness
      */
@@ -66,6 +76,8 @@ public interface Harness
     List<Configuration> getConfiguration();
 
     List<Parameter> getParameters();
+
+    List<Attachment> getAttachments();
 
     String getName();
 }
