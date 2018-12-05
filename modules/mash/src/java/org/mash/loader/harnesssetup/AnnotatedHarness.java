@@ -43,14 +43,14 @@ public class AnnotatedHarness implements Harness
         }
     }
 
-    public void setFiles(List<File> files) throws Exception
+    public void setAttachments(List<Attachment> attachments) throws Exception
     {
-        this.wrap.setFiles(files);
+        this.wrap.setAttachments(attachments);
     }
 
-    public List<File> getFiles()
+    public List<Attachment> getAttachments()
     {
-        return this.wrap.getFiles();
+        return this.wrap.getAttachments();
     }
 
     public void setConfiguration(List<Configuration> configs) throws Exception

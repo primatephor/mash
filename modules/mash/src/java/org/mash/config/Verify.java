@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Verify", propOrder = {
         "configuration",
         "parameter",
-        "files"
+        "attachments"
         }, namespace = "https://github.com/primatephor/mash/schema/V1")
 public class Verify extends HarnessDefinition
 {

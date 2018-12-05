@@ -13,8 +13,8 @@ public class HarnessDefinition
     protected List<Configuration> configuration;
     @XmlElement(name = "Parameter")
     protected List<Parameter> parameter;
-    @XmlElement(name = "File")
-    protected List<File> files;
+    @XmlElement(name = "Attachment")
+    protected List<Attachment> attachments;
     @XmlAttribute
     protected String type;
     @XmlAttribute
@@ -23,13 +23,13 @@ public class HarnessDefinition
     @XmlTransient
     private ScriptDefinition scriptDefinition;
 
-    public List<File> getFiles()
+    public List<Attachment> getAttachments()
     {
-        if (files == null)
+        if (attachments == null)
         {
-            files = new ArrayList<>();
+            attachments = new ArrayList<>();
         }
-        return this.files;
+        return this.attachments;
     }
 
     public List<Configuration> getConfiguration()

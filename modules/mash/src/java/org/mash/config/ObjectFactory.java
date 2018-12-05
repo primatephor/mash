@@ -98,6 +98,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Attachment }
+     * 
+     */
+    public Attachment createAttachment() {
+        return new Attachment();
+    }
+
+    /**
      * Create an instance of {@link Run }
      * 
      */
@@ -119,14 +127,6 @@ public class ObjectFactory {
      */
     public Verify createVerify() {
         return new Verify();
-    }
-
-    /**
-     * Create an instance of {@link File }
-     * 
-     */
-    public File createFile() {
-        return new File();
     }
 
     /**

@@ -9,12 +9,12 @@ import javax.xml.bind.annotation.XmlValue;
 
 
 /**
- * <p>Java class for File complex type.
+ * <p>Java class for Attachment complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="File">
+ * &lt;complexType name="Attachment">
  *   &lt;simpleContent>
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
  *       &lt;attribute name="contentType" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "File", namespace = "https://github.com/primatephor/mash/schema/V1", propOrder = {
+@XmlType(name = "Attachment", namespace = "https://github.com/primatephor/mash/schema/V1", propOrder = {
     "value"
 })
-public class File {
+public class Attachment {
 
     @XmlValue
     protected String value;

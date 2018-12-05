@@ -12,7 +12,7 @@ public class BaseHarness implements Harness
 {
     protected List<Configuration> configuration;
     protected List<Parameter> parameters;
-    protected List<File> files;
+    protected List<Attachment> attachments;
     protected HarnessDefinition definition;
     private List<HarnessError> harnessErrors;
 
@@ -30,18 +30,18 @@ public class BaseHarness implements Harness
         this.configuration = configuration;
     }
 
-    public void setFiles(List<File> files) throws Exception
+    public void setAttachments(List<Attachment> attachments) throws Exception
     {
-        this.files = files;
+        this.attachments = attachments;
     }
 
-    public List<File> getFiles()
+    public List<Attachment> getAttachments()
     {
-        if (files == null)
+        if (attachments == null)
         {
-            files = new ArrayList<File>();
+            attachments = new ArrayList<Attachment>();
         }
-        return files;
+        return attachments;
     }
 
     public List<Parameter> getParameters()
